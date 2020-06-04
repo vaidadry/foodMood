@@ -1,0 +1,119 @@
+[
+  {
+    "id": 2,
+    "date": "2020-04-27 11:05:10.126058",
+    "title": "green curry",
+    "comfortFood": false,
+    "fish": false,
+    "meal": "dinner",
+    "recipe": "https://www.pickuplimes.com/single-post/2019/04/12/Thai-Sweet-Potato-Chickpea-Green-Curry"
+  },
+  {
+    "id": 3,
+    "date": "2020-04-27 11:05:38.894975",
+    "title": "mango curry",
+    "comfortFood": false,
+    "fish": false,
+    "meal": "dinner",
+    "recipe": "https://www.instagram.com/p/B89NeffgkbE/"
+  },
+  {
+    "id": 4,
+    "date": "2020-04-27 11:07:47.098955",
+    "title": "salmon pasta",
+    "comfortFood": false,
+    "fish": true,
+    "meal": "dinner",
+    "recipe": "https://www.kitchenstories.com/en/recipes/tagliatelle-with-salmon-spinach-cream-sauce"
+  },
+  {
+    "id": 5,
+    "date": "2020-04-27 11:08:14.799137",
+    "title": "salmon poke bowl (kamikadze)",
+    "comfortFood": false,
+    "fish": true,
+    "meal": "dinner",
+    "recipe": "https://www.simplyrecipes.com/recipes/salmon_avocado_poke_bowl/"
+  },
+  {
+    "id": 6,
+    "date": "2020-04-27 11:08:35.487424",
+    "title": "tuna pie",
+    "comfortFood": false,
+    "fish": true,
+    "meal": "dinner",
+    "recipe": "https://www.sauletavirtuve.lt/paprastas-tuno-pyragas/"
+  },
+  {
+    "id": 7,
+    "date": "2020-04-27 11:09:03.146072",
+    "title": "tuna stew",
+    "comfortFood": false,
+    "fish": true,
+    "meal": "dinner",
+    "recipe": "https://www.instagram.com/p/BtRGPXZnhZ1/"
+  },
+  {
+    "id": 8,
+    "date": "2020-04-27 11:10:41.274022",
+    "title": "cheezy buckwheat",
+    "comfortFood": true,
+    "fish": false,
+    "meal": "lunch",
+    "recipe": "https://www.sulieknek.lt/r/nekepintu-grikiu-kose-su-suriu/"
+  },
+  {
+    "id": 9,
+    "date": "2020-04-27 11:11:10.343237",
+    "title": "couscous stir-fry",
+    "comfortFood": false,
+    "fish": false,
+    "meal": "lunch",
+    "recipe": "https://www.cearaskitchen.com/spring-vegetable-couscous-stir-fry/"
+  },
+  {
+    "id": 10,
+    "date": "2020-04-27 11:11:30.971271",
+    "title": "classic falafels",
+    "comfortFood": false,
+    "fish": false,
+    "meal": "dinner",
+    "recipe": "https://downshiftology.com/recipes/falafel/Classic"
+  },
+  {
+    "id": 11,
+    "date": "2020-04-27 11:11:47.566794",
+    "title": "sweet healthy waffles",
+    "comfortFood": false,
+    "fish": false,
+    "meal": "breakfast",
+    "recipe": "https://www.instagram.com/p/B9ENeE6HvvR/?utm_source=ig_web_copy_link"
+  },
+  {
+    "id": 12,
+    "date": "2020-04-27 11:12:01.999327",
+    "title": "savory cheddar waffles",
+    "comfortFood": false,
+    "fish": true,
+    "meal": "breakfast",
+    "recipe": "https://umamigirl.com/savory-waffles-with-cheddar-and-chives/"
+  },
+  {
+    "id": 13,
+    "date": "2020-04-27 11:15:36.892414",
+    "title": "internet average pancakes",
+    "comfortFood": false,
+    "fish": false,
+    "meal": "breakfast",
+    "recipe": "https://static.cookingforgeeks.com/blog-content/2015/11/Cooking-for-Geeks-Internet-Average-Pancakes.jpg"
+  },
+  {
+    "id": 14,
+    "date": "2020-04-27 11:17:29.472785",
+    "title": "baked camembert",
+    "comfortFood": true,
+    "fish": false,
+    "meal": "dinner",
+    "recipe": "https://www.thepetitecook.com/how-to-make-baked-camembert/"
+  }
+]

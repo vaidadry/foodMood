@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">foodMood</string>
+    <string name="grab_idea_textView">Grab cool food idea!</string>
+    <string name="home_nav_button_text">Home</string>
+    <string name="all_nav_button_text">Recipe book</string>
+    <string name="random_button">generate!</string>
+    <string name="gradient_background">gradientBackground</string>
+    <string name="show_me_how_button">show me how</string>
+    <string name="check_again_button">check again</string>
+    <string name="suggestion_for_meal_text">suggestion for \n %s:</string>
+    <string name="suggestion">%s</string>
+    <string name="content_description_favorite">content description drag handle</string>
+    <string name="content_description_meal_image">content description meal image</string>
+    <string name="submit">submit</string>
+    <string name="add_recipe">Add recipe</string>
+    <string name="title">Title</string>
+    <string name="url">URL</string>
+    <string name="meal_selection">Choose a meal</string>
+    <string name="comfort_food_checkbox">comfort food</string>
+    <string name="fish_craving_checkbox">fish craving</string>
+    <string name="no_recipe_available_toast">No recipes in the collection, please add</string>
+    <string-array name="meals">
+        <item>Breakfast</item>
+        <item>Brunch</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+        <item>Sweets</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="splash_logo_content_description">splashLogo</string>
+    <string name="background_dark">content_description_background_dark</string>
+</resources>

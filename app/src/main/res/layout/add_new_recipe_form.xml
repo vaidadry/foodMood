@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/gradientBackground"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:contentDescription="@string/gradient_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/horizontalGuidelineTop2"
+            app:srcCompat="@drawable/rounded_background" />
+
+        <TextView
+            android:id="@+id/addRecipeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dosis_medium"
+            android:gravity="center_horizontal"
+            android:text="@string/add_recipe"
+            android:textSize="@dimen/generate_random_meal_text_size"
+            app:layout_constraintBottom_toTopOf="@id/horizontalGuidelineTop"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/titleInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/verticalGuidelineRight"
+            app:layout_constraintStart_toStartOf="@id/verticalGuidelineLeft"
+            app:layout_constraintTop_toBottomOf="@id/addRecipeTextView"
+            app:layout_constraintBottom_toTopOf="@id/urlInputLayout"
+            app:layout_constraintVertical_chainStyle="spread">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/titleInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/Text"
+                android:fontFamily="@font/dosis_medium"
+                android:textSize="@dimen/list_item_text_size"
+                android:backgroundTint="@color/Text"
+                android:textColorHint="@color/colorSecondaryDark"
+                android:hint="@string/title"
+                android:inputType="text"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/urlInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/verticalGuidelineRight"
+            app:layout_constraintStart_toStartOf="@id/verticalGuidelineLeft"
+            app:layout_constraintTop_toBottomOf="@id/titleInputLayout"
+            app:layout_constraintBottom_toTopOf="@id/spinnerMealTypeSelection"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/urlInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/Text"
+                android:fontFamily="@font/dosis_medium"
+                android:textSize="@dimen/list_item_text_size"
+                android:backgroundTint="@color/Text"
+                android:textColorHint="@color/colorSecondaryDark"
+                android:hint="@string/url"
+                android:inputType="textUri"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+    <!--    needs adapter to add customized style-->
+        <Spinner
+            android:id="@+id/spinnerMealTypeSelection"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/list_item_text_size"
+            android:dropDownSelector="@color/colorSecondaryDark"
+            android:textColor="@color/Text"
+            android:popupBackground="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="@id/verticalGuidelineRight"
+            app:layout_constraintStart_toStartOf="@id/verticalGuidelineLeft"
+            app:layout_constraintTop_toBottomOf="@id/urlInputLayout"
+            app:layout_constraintBottom_toTopOf="@id/fishCheckbox"
+            style="@style/SpinnerStyle"
+            android:spinnerMode="dropdown"
+            android:entries="@array/meals"
+            android:prompt="@string/meal_selection" />
+
+        <CheckBox
+            android:id="@+id/fishCheckbox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/list_item_text_size"
+            app:layout_constraintEnd_toStartOf="@id/comfortFoodCheckbox"
+            app:layout_constraintStart_toStartOf="@id/verticalGuidelineLeft"
+            app:layout_constraintTop_toBottomOf="@id/spinnerMealTypeSelection"
+            app:layout_constraintBottom_toTopOf="@id/submitRecipeBtn"
+            android:textColor="@color/Text"
+            android:fontFamily="@font/dosis_medium"
+            android:textSize="@dimen/checkbox_text_size"
+            android:text="@string/fish_craving_checkbox" />
+
+        <CheckBox
+            android:id="@+id/comfortFoodCheckbox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/list_item_text_size"
+            app:layout_constraintEnd_toEndOf="@id/verticalGuidelineRight"
+            app:layout_constraintStart_toEndOf="@id/fishCheckbox"
+            app:layout_constraintTop_toBottomOf="@id/spinnerMealTypeSelection"
+            app:layout_constraintBottom_toTopOf="@id/submitRecipeBtn"
+            android:textColor="@color/Text"
+            android:fontFamily="@font/dosis_medium"
+            android:textSize="@dimen/checkbox_text_size"
+            android:text="@string/comfort_food_checkbox" />
+
+
+
+        <Button
+            android:id="@+id/submitRecipeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button_solid"
+            android:fontFamily="@font/robotomono_bold"
+            android:text="@string/submit"
+            android:textSize="@dimen/button_text_size"
+            app:layout_constraintTop_toBottomOf="@id/horizontalGuidelineBottom"
+            app:layout_constraintBottom_toTopOf="@id/horizontalGuidelineBottomNav"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/verticalGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontalGuidelineTop2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.125" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontalGuidelineTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.25" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontalGuidelineMiddle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontalGuidelineBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.75" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontalGuidelineBottomNav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.93" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/verticalGuidelineLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/verticalGuidelineRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.9" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

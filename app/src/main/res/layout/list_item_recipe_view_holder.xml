@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/listItemContainer"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height_with_divider">
+
+    <ImageView
+        android:id="@+id/mealIcon"
+        android:layout_width="@dimen/list_item_icon_size"
+        android:layout_height="@dimen/list_item_icon_size"
+        android:contentDescription="@string/content_description_meal_image"
+        android:padding="@dimen/half_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_dinner"/>
+
+    <TextView
+        android:id="@+id/recipeTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/normal_padding"
+        android:fontFamily="@font/dosis_medium"
+        android:textAlignment="viewStart"
+        android:textColor="@color/Text"
+        android:textSize="@dimen/list_item_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/favorite"
+        app:layout_constraintStart_toEndOf="@+id/mealIcon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="RecipeTitle" />
+
+    <ImageView
+        android:id="@+id/favorite"
+        android:layout_width="@dimen/favorite_icon_size"
+        android:layout_height="@dimen/favorite_icon_size"
+        android:layout_marginEnd="@dimen/normal_padding"
+        android:contentDescription="@string/content_description_favorite"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/recipeTitle"
+        app:srcCompat="@drawable/ic_heart_empty" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
