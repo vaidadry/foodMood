@@ -11,6 +11,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             tools:context=".ui.recipeList.RecipeListFragment">
 
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recipe_list_recyclerview"
                     android:layout_width="0dp"

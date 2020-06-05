@@ -1,19 +1,19 @@
-package vaida.dryzaite.foodmood.ui
+package vaida.dryzaite.foodmood.ui.recipeList
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Spinner
-import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.fragment_add_recipe.*
-
 import vaida.dryzaite.foodmood.R
+import vaida.dryzaite.foodmood.ui.main.MainActivity
 
-class AddRecipeFragment : Fragment() {
+class AddRecipeFragment : Fragment(){
+
+
 
     private val INPUT_TAG = "INPUT_TAG"
 
@@ -25,8 +25,21 @@ class AddRecipeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add_recipe, container, false)
     }
 
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as MainActivity).hideBottomNavigation()
+    }
+
+    override fun onDetach() {
+        (activity as MainActivity).showBottomNavigation()
+        super.onDetach()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
 
 //        val titleEt = findViewById<TextInputEditText>(R.id.titleInput)
 //        val urlEt = findViewById<TextInputEditText>(R.id.urlInput)
@@ -44,18 +57,16 @@ class AddRecipeFragment : Fragment() {
             val fish = fishCheckbox
             val comfortFood = comfortFoodCheckbox
             Log.i(INPUT_TAG, "data collected: title: $title, url: $url, meal: $mealTypeSelection")
-/*
-            // collecting form data
-            val intent = Intent(this, ThankYouActivity::class.java)
-            intent.putExtra("Title", title)
-            intent.putExtra("Url", url)
-//            intent.putExtra("MealTypeSelection", mealTypeSelection)
-//            intent.putExtra("Fish", fish)
-//            intent.putExtra("comfortFood", comfortFood)
-            startActivity(intent)
-            */
 
         }
     }
+//
+//    override fun onClick(v: View?) {
+//        when (v!!.id) {
+//            //save to DB
+//            //add new entry to recipe list
+//            R.id.submitRecipeBtn -> navController!!.navigate(R.id.action_addRecipeFragment_to_recipeListFragment)
+//        }
+//    }
 
 }

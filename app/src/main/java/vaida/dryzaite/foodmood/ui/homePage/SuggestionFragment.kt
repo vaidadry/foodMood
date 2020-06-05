@@ -1,15 +1,15 @@
 package vaida.dryzaite.foodmood.ui.homePage
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentTransaction
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_home.*
+import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_suggestion.*
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.model.RecipeBook
@@ -17,8 +17,12 @@ import vaida.dryzaite.foodmood.ui.main.MainActivity
 
 class SuggestionFragment : Fragment() {
 
-    var id: Int? = 0
+    private var suggestionId = 0
     private var meal = ""
+
+    companion object {
+        const val TAG = "RANDOM_MEAL"
+    }
 
 
     override fun onCreateView(
@@ -29,28 +33,47 @@ class SuggestionFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_suggestion, container, false)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as MainActivity).hideBottomNavigation()
+    }
+
+    override fun onDetach() {
+        (activity as MainActivity).showBottomNavigation()
+        super.onDetach()
+    }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        nav_view.visibility = View.INVISIBLE   -- kaip daryti kad nesulūžtų??
-
-        val (suggestionTitle, selectedMealType, url) = receiveIntent()
-
+        generateRandomEntry()
+        val (suggestionTitle, selectedMealType, url) = collectData()
         suggestionTextView.text = suggestionTitle
-
         meal = getString(R.string.suggestion_for_meal_text, selectedMealType)
         suggestionForMealTextView.text = meal
+
 
         showMeHowButton.setOnClickListener {
             redirectToRecipeUrl(url)
         }
     }
 
-    // converting random entry data to text fields for activity
-    private fun receiveIntent(): Triple<String?, String?, String?> {
-        id = arguments?.getInt("random_id")
+        private fun generateRandomEntry() {
+        val recipeList = RecipeBook.getRecipes()
+        if (recipeList.isNotEmpty()) {
+            val recipeEntry = recipeList.random()
+            suggestionId = recipeEntry.id
+            Log.v(TAG, "meal generated: $suggestionId")
+        } else {
+            Toast.makeText(context, getString(R.string.no_recipe_available_toast), Toast.LENGTH_SHORT)
+                .show()
+        }
+    }
 
-        val entry = id?.let { RecipeBook.getRecipeEntryById(it) }
+    // gather textview data for random entry
+    private fun collectData(): Triple<String?, String?, String?> {
+        val entry = suggestionId.let { RecipeBook.getRecipeEntryById(it) }
         val suggestionTitle = entry?.title
         val selectedMealType = entry?.meal
         val url = entry?.recipe
