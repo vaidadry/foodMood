@@ -13,7 +13,7 @@
         tools:context=".ui.homePage.HomeFragment">
 
 
-<!--        android:fontFamily="@font/robotomono_bold"-->
+            <!--        android:fontFamily="@font/robotomono_bold"-->
         <TextView
             android:id="@+id/generateRandomMealText"
             android:layout_width="wrap_content"
