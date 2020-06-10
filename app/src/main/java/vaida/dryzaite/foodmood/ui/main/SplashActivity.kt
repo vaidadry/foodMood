@@ -8,9 +8,10 @@ import vaida.dryzaite.foodmood.R
 
 class SplashActivity : AppCompatActivity() {
 
-    private val SPLASH_TIME_OUT: Long =  1500
+    private val SPLASH_TIME_OUT: Long =  500
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 

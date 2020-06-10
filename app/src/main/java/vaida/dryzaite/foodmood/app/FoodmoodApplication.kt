@@ -1,12 +1,19 @@
 package vaida.dryzaite.foodmood.app
 
 import android.app.Application
-import vaida.dryzaite.foodmood.model.RecipeBook
+import androidx.room.Room
+import vaida.dryzaite.foodmood.model.room.RecipeDatabase
 
 class FoodmoodApplication: Application() {
 
+    companion object {
+       lateinit var database: RecipeDatabase
+    }
+
     override fun onCreate() {
         super.onCreate()
-        RecipeBook.loadRecipes(this)
+//        RecipeStore.loadRecipes(this)
+
+        database = Room.databaseBuilder(this, RecipeDatabase::class.java, "recipe_database").build()
     }
 }

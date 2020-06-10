@@ -20,6 +20,7 @@
     <string name="fish_craving_checkbox">fish craving</string>
     <string name="no_recipe_available_toast">No recipes in the collection, please add</string>
     <string-array name="meals">
+        <item>Select meal</item>
         <item>Breakfast</item>
         <item>Brunch</item>
         <item>Lunch</item>
@@ -31,4 +32,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="splash_logo_content_description">splashLogo</string>
     <string name="background_dark">content_description_background_dark</string>
+    <string name="please_select_meal_error">Please select a meal</string>
+    <string name="saved_successfully">Recipe saved successfully</string>
+    <string name="error_saving_recipe">Error saving recipe</string>
+
 </resources>

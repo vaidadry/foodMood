@@ -13,7 +13,7 @@ class RecipeListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(recipe: RecipeEntry) {
         this.recipe = recipe
         val context = itemView.context
-        itemView.mealIcon.setImageResource(context.resources.getIdentifier(recipe.thumbnail, null, context.packageName))
+        itemView.mealIcon.setImageResource(context.resources.getIdentifier(recipe.thumbnail(recipe.meal), null, context.packageName))
         itemView.recipeTitle.text = recipe.title
     }
 }

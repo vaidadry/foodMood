@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import vaida.dryzaite.foodmood.R
 
 
-class MainActivity : AppCompatActivity() { //, Communicator
+class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +17,6 @@ class MainActivity : AppCompatActivity() { //, Communicator
         setContentView(R.layout.activity_main)
         setupViews()
     }
-
 
 
     fun setupViews() {

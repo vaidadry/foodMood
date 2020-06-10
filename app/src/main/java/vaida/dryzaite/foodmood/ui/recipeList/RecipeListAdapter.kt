@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.model.RecipeEntry
 
-class RecipeListAdapter(private val recipes: List<RecipeEntry>): RecyclerView.Adapter<RecipeListViewHolder>() {
+class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>): RecyclerView.Adapter<RecipeListViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeListViewHolder {
@@ -20,4 +20,14 @@ class RecipeListAdapter(private val recipes: List<RecipeEntry>): RecyclerView.Ad
     override fun onBindViewHolder(holder: RecipeListViewHolder, position: Int) {
         holder.bind(recipes[position])
     }
+
+    fun updateRecipes(recipes: List<RecipeEntry>) {
+        this.recipes.clear()
+        this.recipes.addAll(recipes)
+        notifyDataSetChanged()
+    }
+
 }
+
+
+

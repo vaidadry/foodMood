@@ -5,15 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
 import vaida.dryzaite.foodmood.R
-import vaida.dryzaite.foodmood.model.RecipeBook
+import vaida.dryzaite.foodmood.ui.main.MainActivity
+import vaida.dryzaite.foodmood.viewmodel.RecipeListViewModel
 
 class RecipeListFragment : Fragment() {
 
-    private lateinit var adapter: RecipeListAdapter
+    private lateinit var viewModel: RecipeListViewModel
+
+    private val adapter = RecipeListAdapter(mutableListOf())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,15 +32,27 @@ class RecipeListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
 
+        viewModel = ViewModelProvider(this).get(RecipeListViewModel::class.java)
+
         //setting up a Recyclerview
-        adapter = RecipeListAdapter(RecipeBook.getRecipes())
         recipe_list_recyclerview.layoutManager = LinearLayoutManager(context)
         recipe_list_recyclerview.adapter = adapter
 
+        //updating Live data observer  with ViewModel data
+        viewModel.getAllRecipesLiveData().observe(viewLifecycleOwner, Observer { recipes ->
+            recipes?.let {
+                adapter.updateRecipes(recipes)
+            }
+        })
 
         //adding list divider decorations
         val heightInPixels = resources.getDimensionPixelSize(R.dimen.list_item_divider_height)
         recipe_list_recyclerview.addItemDecoration(DividerItemDecoration(R.color.Text, heightInPixels))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).showBottomNavigation()
     }
 
     fun setupViews() {
@@ -43,5 +60,4 @@ class RecipeListFragment : Fragment() {
             findNavController().navigate(R.id.action_recipeListFragment_to_addRecipeFragment)
         }
     }
-
 }
