@@ -32,7 +32,13 @@
         android:id="@+id/addRecipeFragment"
         android:name="vaida.dryzaite.foodmood.ui.recipeList.AddRecipeFragment"
         android:label="AddRecipeFragment"
-        tools:layout="@layout/fragment_add_recipe"/>
+        tools:layout="@layout/fragment_add_recipe">
+        <action
+            android:id="@+id/action_addRecipeFragment_to_recipeListFragment"
+            app:destination="@id/recipeListFragment"
+            app:exitAnim="@anim/slide_down_anim"
+            app:popEnterAnim="@anim/slide_up_anim" />
+    </fragment>
     <fragment
         android:id="@+id/suggestionFragment"
         android:name="vaida.dryzaite.foodmood.ui.homePage.SuggestionFragment"
