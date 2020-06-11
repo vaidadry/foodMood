@@ -35,5 +35,7 @@
     <string name="please_select_meal_error">Please select a meal</string>
     <string name="saved_successfully">Recipe saved successfully</string>
     <string name="error_saving_recipe">Error saving recipe</string>
+    <string name="error_showing_recipe">Add some recipes, first</string>
+
 
 </resources>

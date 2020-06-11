@@ -60,4 +60,6 @@ class RecipeListFragment : Fragment() {
             findNavController().navigate(R.id.action_recipeListFragment_to_addRecipeFragment)
         }
     }
+
+
 }

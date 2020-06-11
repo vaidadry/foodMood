@@ -12,37 +12,54 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_add_recipe.*
 import vaida.dryzaite.foodmood.R
+import vaida.dryzaite.foodmood.databinding.FragmentAddRecipeBinding
 import vaida.dryzaite.foodmood.ui.main.MainActivity
 import vaida.dryzaite.foodmood.viewmodel.AddRecipeViewModel
+import java.util.zip.CheckedInputStream
 
 
 class AddRecipeFragment : Fragment(){
 
     private lateinit var viewModel: AddRecipeViewModel
 
+    //adding binding between view and viewmodel
+    lateinit var binding: FragmentAddRecipeBinding
+
+
     private val INPUT_TAG = "INPUT_TAG"
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_recipe, container, false)
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentAddRecipeBinding.inflate(inflater, container, false)
+        return binding.root
     }
+
+
+//    override fun onCreateView(
+//        inflater: LayoutInflater, container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View? {
+//        // Inflate the layout for this fragment
+//        return inflater.inflate(R.layout.fragment_add_recipe, container, false)
+//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(AddRecipeViewModel::class.java)
+        binding.viewmodel = viewModel
 
-        configureEditText()
+//        configureEditText()
         configureSpinner()
         configureSpinnerListener()
-        configureSaveButton()
+        configureCheckbox()
+        configureLiveDataObserver()
     }
 
     override fun onAttach(context: Context) {
@@ -63,7 +80,7 @@ class AddRecipeFragment : Fragment(){
 
 //    HELPERS for adding input data to ViewModel
 
-    //auto-suggestion-syntax
+
     private fun configureSpinner() {
         val mealList = R.array.meals
         val adapter = activity?.applicationContext?.let {
@@ -87,36 +104,29 @@ class AddRecipeFragment : Fragment(){
         }
     }
 
-    private fun configureEditText() {
-        titleInput.addTextChangedListener( object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.title = s.toString()
-            }
-        })
-        urlInput.addTextChangedListener( object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.recipe = s.toString()
-            }
-        })
+
+    private fun configureCheckbox() {
+        comfortFoodCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            viewModel.comfortFood = isChecked
+        }
+        fishCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            viewModel.fish = isChecked
+        }
     }
 
-    private fun configureSaveButton() {
-        submitRecipeBtn.setOnClickListener {
-            viewModel.fish = fishCheckbox.isChecked
-            viewModel.comfortFood = comfortFoodCheckbox.isChecked
-            Log.i(INPUT_TAG, "data collected: title: ${viewModel.title}, url: ${viewModel.recipe}, fish: ${viewModel.fish}, comfortFood: ${viewModel.comfortFood}")
-
-            if (viewModel.saveNewRecipe()) {
+//    since no click listener to save item, observer send Success/error toast
+    private fun configureLiveDataObserver() {
+        viewModel.getSaveLiveData().observe(viewLifecycleOwner, Observer { saved ->
+            saved?.let {
+                if (saved) {
                 Toast.makeText(context, getString(R.string.saved_successfully), Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_addRecipeFragment_to_recipeListFragment)
             } else {
                 Toast.makeText(context, getString(R.string.error_saving_recipe), Toast.LENGTH_SHORT).show()
+                }
             }
-        }
+        })
     }
+
 
 }

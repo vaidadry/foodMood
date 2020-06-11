@@ -12,8 +12,6 @@ class FoodmoodApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
-//        RecipeStore.loadRecipes(this)
-
         database = Room.databaseBuilder(this, RecipeDatabase::class.java, "recipe_database").build()
     }
 }

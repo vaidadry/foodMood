@@ -59,8 +59,8 @@ class RecipeViewModelTest {
         `when` (mockGenerator.generateRecipe(title, comfortFood, fish, meal, recipe)).thenReturn(stubRecipe)
 
 
-        recipeViewModel.title = "kebabas"
-        recipeViewModel.recipe = "www.example.com"
+        recipeViewModel.title.set("kebabas")
+        recipeViewModel.recipe.set("www.example.com")
 
         recipeViewModel.updateEntry()
 
@@ -70,8 +70,8 @@ class RecipeViewModelTest {
     //test prevents of blanks
     @Test
     fun testCantSaveWithBlankTitle() {
-        recipeViewModel.title = ""
-        recipeViewModel.recipe = "www.example.com"
+        recipeViewModel.title.set("")
+        recipeViewModel.recipe.set("")
         recipeViewModel.fish = false
         recipeViewModel.comfortFood = false
         recipeViewModel.meal = "dinner"
@@ -82,8 +82,8 @@ class RecipeViewModelTest {
 
     @Test
     fun testCantSaveWithBlankUrl() {
-        recipeViewModel.title = "kebabas"
-        recipeViewModel.recipe = ""
+        recipeViewModel.title.set("")
+        recipeViewModel.recipe.set("")
         recipeViewModel.fish = false
         recipeViewModel.comfortFood = false
         recipeViewModel.meal = "dinner"
@@ -94,8 +94,8 @@ class RecipeViewModelTest {
 
     @Test
     fun testCantSaveWithBlankMeal() {
-        recipeViewModel.title = "kebabas"
-        recipeViewModel.recipe = "example"
+        recipeViewModel.title.set("")
+        recipeViewModel.recipe.set("")
         recipeViewModel.fish = false
         recipeViewModel.comfortFood = false
         recipeViewModel.meal = ""

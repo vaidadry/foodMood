@@ -17,5 +17,4 @@ interface RecipeDao {
     @Query("SELECT * from recipe_table ORDER BY title ASC")
     fun getAllRecipes(): LiveData<List<RecipeEntry>>
 
-
 }

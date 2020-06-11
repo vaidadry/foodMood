@@ -1,5 +1,8 @@
 package vaida.dryzaite.foodmood.viewmodel
 
+import android.util.Log
+import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import vaida.dryzaite.foodmood.app.Injection
@@ -12,19 +15,24 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
      ) : ViewModel() {
 
     private val repository = Injection.provideRecipeRepository()
-
     private val recipeLiveData = MutableLiveData<RecipeEntry>()
 
-    var title = ""
+
+    //adding custom property with getter func, for databinding to fragment
+    private val saveLiveData = MutableLiveData<Boolean>()
+    fun getSaveLiveData(): LiveData<Boolean> = saveLiveData
+
+
+    var title = ObservableField<String>("")
     var comfortFood = false
     var fish = false
-    var meal = "dinner"
-    var recipe = ""
+    var meal = ""
+    var recipe = ObservableField<String>("")
 
     lateinit var entry: RecipeEntry
 
     fun updateEntry() {
-        entry = generator.generateRecipe(title, comfortFood, fish, meal, recipe)
+        entry = generator.generateRecipe(title.get() ?: "", comfortFood, fish, meal, recipe.get() ?: "")
         recipeLiveData.postValue(entry)
     }
 
@@ -35,15 +43,25 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
     }
 
     fun canSaveRecipe(): Boolean {
-         return title.isNotEmpty() && recipe.isNotEmpty() && meal != "Select-meal"
+        val title = this.title.get()
+        val recipe = this.recipe.get()
+        title?.let {
+            if (recipe != null) {
+                return title.isNotEmpty() && recipe.isNotEmpty() && meal != "Select-meal"
+            }
+        }
+        return false
     }
 
-    fun saveNewRecipe(): Boolean {
+
+    //updated method (to work with data binding, therefore no need of button click listener)
+    fun saveNewRecipe() {
         return if (canSaveRecipe()) {
             repository.saveNewRecipe(entry)
-            true
+            Log.i("Added", "title: $title, recipe: $recipe, comfort: $comfortFood, fish: $fish, meal: $meal")
+            saveLiveData.postValue(true)
         } else {
-            false
+            saveLiveData.postValue(false)
         }
     }
 
