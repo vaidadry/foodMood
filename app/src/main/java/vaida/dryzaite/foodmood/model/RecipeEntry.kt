@@ -12,7 +12,7 @@ data class RecipeEntry(
     @PrimaryKey @NonNull val id: String = UUID.randomUUID().toString(),
     val date: String,
     val title: String,
-    val comfortFood: Boolean,
+    val veggie: Boolean,
     val fish: Boolean,
     val meal: String,
     val recipe: String) {

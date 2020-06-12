@@ -5,10 +5,10 @@ import java.util.*
 
 class RecipeGenerator {
 
-    fun generateRecipe(title: String, comfortFood: Boolean = false, fish: Boolean = false, meal: String, recipe: String): RecipeEntry {
+    fun generateRecipe(title: String, veggie: Boolean = false, fish: Boolean = false, meal: String, recipe: String): RecipeEntry {
         val id = UUID.randomUUID().toString()
         val date = logDateTime()
-        return RecipeEntry(id, date, title, comfortFood, fish, meal, recipe)
+        return RecipeEntry(id, date, title, veggie, fish, meal, recipe)
     }
 
     private fun logDateTime(): String {

@@ -16,7 +16,7 @@
     <string name="title">Title</string>
     <string name="url">URL</string>
     <string name="meal_selection">Choose a meal</string>
-    <string name="comfort_food_checkbox">comfort food</string>
+    <string name="veggie_checkbox">go for veggies</string>
     <string name="fish_craving_checkbox">fish craving</string>
     <string name="no_recipe_available_toast">No recipes in the collection, please add</string>
     <string-array name="meals">
@@ -36,6 +36,7 @@
     <string name="saved_successfully">Recipe saved successfully</string>
     <string name="error_saving_recipe">Error saving recipe</string>
     <string name="error_showing_recipe">Add some recipes, first</string>
+    <string name="error_opening_recipe">Can\'t open the url</string>
 
 
 </resources>

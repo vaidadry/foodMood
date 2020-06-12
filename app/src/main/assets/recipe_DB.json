@@ -3,7 +3,7 @@
     "id": "ca0c5ed0-a72f-11ea-bb37-0242ac130002",
     "date": "2020-04-27 11:05:10.126058",
     "title": "green curry",
-    "comfortFood": false,
+    "veggie": false,
     "fish": false,
     "meal": "dinner",
     "recipe": "https://www.pickuplimes.com/single-post/2019/04/12/Thai-Sweet-Potato-Chickpea-Green-Curry"
@@ -12,7 +12,7 @@
     "id": "ca0c610a-a72f-11ea-bb37-0242ac130002",
     "date": "2020-04-27 11:05:38.894975",
     "title": "mango curry",
-    "comfortFood": false,
+    "veggie": false,
     "fish": false,
     "meal": "dinner",
     "recipe": "https://www.instagram.com/p/B89NeffgkbE/"
@@ -21,7 +21,7 @@
     "id": "ca0c6236-a72f-11ea-bb37-0242ac130002",
     "date": "2020-04-27 11:07:47.098955",
     "title": "salmon pasta",
-    "comfortFood": false,
+    "veggie": false,
     "fish": true,
     "meal": "dinner",
     "recipe": "https://www.kitchenstories.com/en/recipes/tagliatelle-with-salmon-spinach-cream-sauce"
@@ -30,7 +30,7 @@
     "id": "ca0c6326-a72f-11ea-bb37-0242ac130002",
     "date": "2020-04-27 11:08:14.799137",
     "title": "salmon poke bowl (kamikadze)",
-    "comfortFood": false,
+    "veggie": false,
     "fish": true,
     "meal": "dinner",
     "recipe": "https://www.simplyrecipes.com/recipes/salmon_avocado_poke_bowl/"
@@ -39,7 +39,7 @@
     "id": "ca0c640c-a72f-11ea-bb37-0242ac130002",
     "date": "2020-04-27 11:08:35.487424",
     "title": "tuna pie",
-    "comfortFood": false,
+    "veggie": false,
     "fish": true,
     "meal": "dinner",
     "recipe": "https://www.sauletavirtuve.lt/paprastas-tuno-pyragas/"
@@ -48,7 +48,7 @@
     "id": "ca0c64e8-a72f-11ea-bb37-0242ac130002",
     "date": "2020-04-27 11:09:03.146072",
     "title": "tuna stew",
-    "comfortFood": false,
+    "veggie": false,
     "fish": true,
     "meal": "dinner",
     "recipe": "https://www.instagram.com/p/BtRGPXZnhZ1/"
@@ -57,7 +57,7 @@
     "id": "ca0c65ce-a72f-11ea-bb37-0242ac130002",
     "date": "2020-04-27 11:10:41.274022",
     "title": "cheezy buckwheat",
-    "comfortFood": true,
+    "veggie": true,
     "fish": false,
     "meal": "lunch",
     "recipe": "https://www.sulieknek.lt/r/nekepintu-grikiu-kose-su-suriu/"
@@ -66,7 +66,7 @@
     "id": "ca0c66a0-a72f-11ea-bb37-0242ac130002",
     "date": "2020-04-27 11:11:10.343237",
     "title": "couscous stir-fry",
-    "comfortFood": false,
+    "veggie": false,
     "fish": false,
     "meal": "lunch",
     "recipe": "https://www.cearaskitchen.com/spring-vegetable-couscous-stir-fry/"
@@ -75,7 +75,7 @@
     "id": "ca0c6790-a72f-11ea-bb37-0242ac130002",
     "date": "2020-04-27 11:11:30.971271",
     "title": "classic falafels",
-    "comfortFood": false,
+    "veggie": false,
     "fish": false,
     "meal": "dinner",
     "recipe": "https://downshiftology.com/recipes/falafel/Classic"
@@ -84,7 +84,7 @@
     "id": "ca0c6862-a72f-11ea-bb37-0242ac130002",
     "date": "2020-04-27 11:11:47.566794",
     "title": "sweet healthy waffles",
-    "comfortFood": false,
+    "veggie": false,
     "fish": false,
     "meal": "breakfast",
     "recipe": "https://www.instagram.com/p/B9ENeE6HvvR/?utm_source=ig_web_copy_link"
@@ -93,7 +93,7 @@
     "id": "ca0c6934-a72f-11ea-bb37-0242ac130002",
     "date": "2020-04-27 11:12:01.999327",
     "title": "savory cheddar waffles",
-    "comfortFood": false,
+    "veggie": false,
     "fish": true,
     "meal": "breakfast",
     "recipe": "https://umamigirl.com/savory-waffles-with-cheddar-and-chives/"
@@ -102,7 +102,7 @@
     "id": "ca0c69fc-a72f-11ea-bb37-0242ac130002",
     "date": "2020-04-27 11:15:36.892414",
     "title": "internet average pancakes",
-    "comfortFood": false,
+    "veggie": false,
     "fish": false,
     "meal": "breakfast",
     "recipe": "https://static.cookingforgeeks.com/blog-content/2015/11/Cooking-for-Geeks-Internet-Average-Pancakes.jpg"
@@ -111,7 +111,7 @@
     "id": "ca0c9d1e-a72f-11ea-bb37-0242ac130002",
     "date": "2020-04-27 11:17:29.472785",
     "title": "baked camembert",
-    "comfortFood": true,
+    "veggie": true,
     "fish": false,
     "meal": "dinner",
     "recipe": "https://www.thepetitecook.com/how-to-make-baked-camembert/"

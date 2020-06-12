@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.model.RecipeGenerator
+import vaida.dryzaite.foodmood.utilities.isValidUrl
 
 
 class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerator()
@@ -24,7 +25,7 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
 
 
     var title = ObservableField<String>("")
-    var comfortFood = false
+    var veggie = false
     var fish = false
     var meal = ""
     var recipe = ObservableField<String>("")
@@ -32,7 +33,7 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
     lateinit var entry: RecipeEntry
 
     fun updateEntry() {
-        entry = generator.generateRecipe(title.get() ?: "", comfortFood, fish, meal, recipe.get() ?: "")
+        entry = generator.generateRecipe(title.get() ?: "", veggie, fish, meal, recipe.get() ?: "")
         recipeLiveData.postValue(entry)
     }
 
@@ -47,9 +48,10 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
         val recipe = this.recipe.get()
         title?.let {
             if (recipe != null) {
-                return title.isNotEmpty() && recipe.isNotEmpty() && meal != "Select-meal"
+                    return title.isNotEmpty() && recipe.isNotEmpty() && meal != "Select-meal"
+                }
             }
-        }
+
         return false
     }
 
@@ -58,7 +60,7 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
     fun saveNewRecipe() {
         return if (canSaveRecipe()) {
             repository.saveNewRecipe(entry)
-            Log.i("Added", "title: $title, recipe: $recipe, comfort: $comfortFood, fish: $fish, meal: $meal")
+            Log.i("Added", "title: $title, recipe: $recipe, veggie: $veggie, fish: $fish, meal: $meal")
             saveLiveData.postValue(true)
         } else {
             saveLiveData.postValue(false)

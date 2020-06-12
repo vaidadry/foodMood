@@ -50,13 +50,13 @@ class RecipeViewModelTest {
         val id = "0de39ad2-4ad0-4fb4-982c-7030d474c576"
         val date = "2020-06-08  15:53"
         val title = "kebabas"
-        val comfortFood = true
+        val veggie = true
         val fish = false
         val meal = "dinner"
         val recipe = "www.example.com"
 
-        val stubRecipe = RecipeEntry(id, date, title, comfortFood, fish, meal, recipe)
-        `when` (mockGenerator.generateRecipe(title, comfortFood, fish, meal, recipe)).thenReturn(stubRecipe)
+        val stubRecipe = RecipeEntry(id, date, title, veggie, fish, meal, recipe)
+        `when` (mockGenerator.generateRecipe(title, veggie, fish, meal, recipe)).thenReturn(stubRecipe)
 
 
         recipeViewModel.title.set("kebabas")
@@ -73,7 +73,7 @@ class RecipeViewModelTest {
         recipeViewModel.title.set("")
         recipeViewModel.recipe.set("")
         recipeViewModel.fish = false
-        recipeViewModel.comfortFood = false
+        recipeViewModel.veggie = false
         recipeViewModel.meal = "dinner"
 
         val canSaveRecipe = recipeViewModel.canSaveRecipe()
@@ -85,7 +85,7 @@ class RecipeViewModelTest {
         recipeViewModel.title.set("")
         recipeViewModel.recipe.set("")
         recipeViewModel.fish = false
-        recipeViewModel.comfortFood = false
+        recipeViewModel.veggie = false
         recipeViewModel.meal = "dinner"
 
         val canSaveRecipe = recipeViewModel.canSaveRecipe()
@@ -97,7 +97,7 @@ class RecipeViewModelTest {
         recipeViewModel.title.set("")
         recipeViewModel.recipe.set("")
         recipeViewModel.fish = false
-        recipeViewModel.comfortFood = false
+        recipeViewModel.veggie = false
         recipeViewModel.meal = ""
 
         val canSaveRecipe = recipeViewModel.canSaveRecipe()

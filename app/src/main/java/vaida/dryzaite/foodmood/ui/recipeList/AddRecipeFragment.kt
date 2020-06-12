@@ -2,9 +2,6 @@ package vaida.dryzaite.foodmood.ui.recipeList
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -21,18 +17,14 @@ import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentAddRecipeBinding
 import vaida.dryzaite.foodmood.ui.main.MainActivity
 import vaida.dryzaite.foodmood.viewmodel.AddRecipeViewModel
-import java.util.zip.CheckedInputStream
 
 
 class AddRecipeFragment : Fragment(){
 
     private lateinit var viewModel: AddRecipeViewModel
 
-    //adding binding between view and viewmodel
+    //adding binding between view and viewModel
     lateinit var binding: FragmentAddRecipeBinding
-
-
-    private val INPUT_TAG = "INPUT_TAG"
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -40,14 +32,6 @@ class AddRecipeFragment : Fragment(){
         return binding.root
     }
 
-
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_add_recipe, container, false)
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -62,20 +46,20 @@ class AddRecipeFragment : Fragment(){
         configureLiveDataObserver()
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (activity as MainActivity).hideBottomNavigation()
-    }
-
-    override fun onDetach() {
-        (activity as MainActivity).showBottomNavigation()
-        super.onDetach()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).hideBottomNavigation()
-    }
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        (activity as MainActivity).hideBottomNavigation()
+//    }
+//
+//    override fun onDetach() {
+//        (activity as MainActivity).showBottomNavigation()
+//        super.onDetach()
+//    }
+//
+//    override fun onResume() {
+//        super.onResume()
+//        (activity as MainActivity).hideBottomNavigation()
+//    }
 
 
 //    HELPERS for adding input data to ViewModel
@@ -106,15 +90,16 @@ class AddRecipeFragment : Fragment(){
 
 
     private fun configureCheckbox() {
-        comfortFoodCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            viewModel.comfortFood = isChecked
+        veggieCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            viewModel.veggie = isChecked
         }
         fishCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             viewModel.fish = isChecked
         }
     }
 
-//    since no click listener to save item, observer send Success/error toast
+
+//    since no click listener to save item, the observer send Success/error toast
     private fun configureLiveDataObserver() {
         viewModel.getSaveLiveData().observe(viewLifecycleOwner, Observer { saved ->
             saved?.let {
@@ -127,6 +112,7 @@ class AddRecipeFragment : Fragment(){
             }
         })
     }
+
 
 
 }
