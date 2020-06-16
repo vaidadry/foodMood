@@ -33,18 +33,11 @@ class RecipeListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), 
     // implicit intent- links to recipe URL -
     override fun onClick(view: View) {
         val url = recipe.recipe
-        if (url.isValidUrl()) {
-//            Toast.makeText(itemView.context, "valid, way to go", Toast.LENGTH_SHORT).show()
-//        }
-            val guessUrl = URLUtil.guessUrl(url)
-            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(guessUrl))
-            view.context.startActivity(webIntent)
-        }
-        else {
-            Toast.makeText(itemView.context, R.string.error_opening_recipe, Toast.LENGTH_SHORT).show()
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        view.context.startActivity(intent)
         }
 
-    }
+
 
 }
 

@@ -53,10 +53,6 @@ class RecipeListFragment : Fragment() {
         recipe_list_recyclerview.addItemDecoration(DividerItemDecoration(R.color.Text, heightInPixels))
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).showBottomNavigation()
-    }
 
     fun setupViews() {
         fab.setOnClickListener {

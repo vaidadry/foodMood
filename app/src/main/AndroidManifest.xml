@@ -18,7 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.MainActivity">
+        <activity android:name=".ui.main.MainActivity" android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 
                 <action android:name="android.intent.action.VIEW" />
@@ -28,7 +28,6 @@
                 <data android:scheme="http" />
             </intent-filter>
         </activity>
-<!--        <activity android:name=".ui.AddNewRecipeFormActivity" />-->
     </application>
 
 </manifest>
