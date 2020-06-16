@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_suggestion.*
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.model.RecipeEntry
@@ -51,37 +52,19 @@ class SuggestionFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(SuggestionViewModel::class.java)
 
 
-////        generateRandomEntry()
-//        viewModel.generateRandomRecipe()
-//        suggestionTextView.text =  viewModel.title
-//        val selectedMealType = viewModel.meal
-//        val meal = getString(R.string.suggestion_for_meal_text, selectedMealType)
-//        suggestionForMealTextView.text = meal
-//        val url = viewModel.recipe
-//
-//        Log.i(TAG, "generated entry title: ${viewModel.title}, meal: ${viewModel.meal}, url: ${viewModel.recipe} ")
-
-
-//        viewModel.generateRandomRecipe()
-
 
         viewModel.getAllRecipesLiveData().observe(viewLifecycleOwner, Observer { recipes ->
             recipes?.let {
                 if (recipes.isNotEmpty()) {
                     val recipe = recipes.random()
                     Log.i(TAG, "generated entry: $recipe")
-
-
                     setupViews(recipe)
                 } else {
-                    Toast.makeText(context, getString(R.string.error_showing_recipe), Toast.LENGTH_LONG).show()
+                    findNavController().navigate(R.id.action_suggestionFragment_to_homeFragment)
+                    Toast.makeText(context, getString(R.string.error_showing_recipe), Toast.LENGTH_SHORT).show()
                 }
             }
         })
-
-//        showMeHowButton.setOnClickListener {
-//            redirectToRecipeUrl(url)
-//        }
     }
 
     fun setupViews(recipe: RecipeEntry) {
@@ -90,14 +73,20 @@ class SuggestionFragment : Fragment() {
         val meal = getString(R.string.suggestion_for_meal_text, selectedMealType)
         suggestionForMealTextView.text = meal
         val url = recipe.recipe
-
+//        showMeHowButton.setOnClickListener {
+//            redirectToRecipeUrl(url)
+//        }
         Log.i(TAG, "generated entry title: ${recipe.title}, meal: ${recipe.meal}, url: ${recipe.recipe} ")
+
     }
 
 
-    private fun redirectToRecipeUrl(url: String?) {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(url)
-        startActivity(intent)
-    }
+
+//    private fun redirectToRecipeUrl(url: String?) {
+//        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+//        view?.context?.startActivity(intent)
+//        val intent = Intent(Intent.ACTION_VIEW)
+//        intent.data = Uri.parse(url)
+//        startActivity(intent)
+//    }
 }

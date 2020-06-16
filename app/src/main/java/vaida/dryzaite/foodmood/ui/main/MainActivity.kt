@@ -32,23 +32,4 @@ class MainActivity : AppCompatActivity() {
         bottom_nav.visibility = View.GONE
     }
 
-
-
-//
-//    // pass data from one fragment to another
-//    override fun passData(id: Int) {
-//        val bundle = Bundle()
-//        bundle.putInt("random_id", id)
-//        showSuggestion(bundle)
-//    }
-//
-//    private fun showSuggestion(bundle: Bundle) {
-//        val transaction = this.supportFragmentManager.beginTransaction()
-//        val suggestionFragment = SuggestionFragment()
-//        suggestionFragment.arguments = bundle
-//        transaction.setCustomAnimations(R.anim.slide_up_anim, 0, 0, R.anim.slide_down_anim)
-//        transaction.replace(R.id.home_fragment, suggestionFragment)
-//        transaction.addToBackStack(null)
-//        transaction.commit()
-//    }
 }

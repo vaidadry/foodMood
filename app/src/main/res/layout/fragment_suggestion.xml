@@ -32,7 +32,8 @@
             android:textSize="@dimen/generate_random_meal_text_size"
             app:layout_constraintStart_toStartOf="@id/verticalGuidelineLeft"
             app:layout_constraintEnd_toEndOf="@id/verticalGuidelineRight"
-            app:layout_constraintTop_toTopOf="@id/horizontalGuidelineTop" />
+            app:layout_constraintTop_toTopOf="@id/horizontalGuidelineTop"
+            android:visibility="visible"/>
 
         <TextView
             android:id="@+id/suggestionTextView"
@@ -45,7 +46,8 @@
             app:layout_constraintStart_toStartOf="@id/verticalGuidelineLeft"
             app:layout_constraintEnd_toEndOf="@id/verticalGuidelineRight"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="visible"/>
 
         <Button
             android:id="@+id/showMeHowButton"
@@ -59,7 +61,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/horizontalGuidelineBottom"
             app:layout_constraintBottom_toTopOf="@id/horizontalGuidelineBottomNav"
-            app:layout_constraintVertical_chainStyle="spread"/>
+            app:layout_constraintVertical_chainStyle="spread"
+            android:visibility="visible"/>
 
 
         <androidx.constraintlayout.widget.Guideline

@@ -21,7 +21,7 @@ class SuggestionViewModel() : ViewModel() {
 //
 //
 ////    var title = ""
-////    var comfortFood = false
+////    var veggie = false
 ////    var fish = false
 ////    var meal = ""
 ////    var recipe = ""
