@@ -104,7 +104,8 @@
             style="@style/SpinnerStyle"
             android:spinnerMode="dropdown"
             android:entries="@array/meals"
-            android:prompt="@string/meal_selection" />
+            android:prompt="@string/meal_selection"
+            tools:setOnItemSelectedListener="@{viewmodel.clicksListener}"/>
 
         <CheckBox
             android:id="@+id/fishCheckbox"

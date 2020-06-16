@@ -1,7 +1,8 @@
 package vaida.dryzaite.foodmood.viewmodel
 
 import android.util.Log
-import androidx.databinding.ObservableBoolean
+import android.view.View
+import android.widget.AdapterView
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,7 +10,7 @@ import androidx.lifecycle.ViewModel
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.model.RecipeGenerator
-import vaida.dryzaite.foodmood.utilities.isValidUrl
+import java.util.*
 
 
 class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerator()
@@ -20,7 +21,7 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
     private val recipeLiveData = MutableLiveData<RecipeEntry>()
 
 
-    //adding custom property with getter func, for databinding to fragment
+    //adding custom property with getter func, for dataBinding to fragment
     private val saveLiveData = MutableLiveData<Boolean>()
     fun getSaveLiveData(): LiveData<Boolean> = saveLiveData
 
@@ -31,17 +32,22 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
     var meal = ""
     var recipe = ObservableField<String>("")
 
-    lateinit var entry: RecipeEntry
+
+
+    private lateinit var entry: RecipeEntry
 
     fun updateEntry() {
         entry = generator.generateRecipe(title.get() ?: "", veggie.get() ?: false, fish.get() ?: false, meal, recipe.get() ?: "")
         recipeLiveData.postValue(entry)
     }
 
-    fun mealTypeSelected(position: Int){
-        val mealList = listOf<String>("Select-meal", "breakfast", "brunch", "lunch", "dinner", "sweets") //laikinai!!! maybe, enum classes reiks?
-        meal = mealList[position]
-        updateEntry()
+    // tracks spinner choice. cant set up Observable field coz spinner is related to pic choice.
+    val clicksListener = object : AdapterView.OnItemSelectedListener {
+        override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            meal = (parent?.getItemAtPosition(position) as String).toLowerCase(Locale.ROOT)
+        }
     }
 
     fun canSaveRecipe(): Boolean {
@@ -49,10 +55,9 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
         val recipe = this.recipe.get()
         title?.let {
             if (recipe != null) {
-                    return title.isNotEmpty() && recipe.isNotEmpty() && meal != "Select-meal"
+                    return title.isNotEmpty() && recipe.isNotEmpty() && meal != "select meal"
                 }
             }
-
         return false
     }
 
@@ -63,7 +68,6 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
         return if (canSaveRecipe()) {
             Log.i("added", "$entry")
             repository.saveNewRecipe(entry)
-            Log.i("Added", "title: $title, recipe: $recipe, veggie: $veggie, fish: $fish, meal: $meal")
             saveLiveData.postValue(true)
         } else {
             saveLiveData.postValue(false)
