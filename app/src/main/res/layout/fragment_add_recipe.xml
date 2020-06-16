@@ -118,7 +118,8 @@
             android:textColor="@color/Text"
             android:fontFamily="@font/dosis_medium"
             android:textSize="@dimen/checkbox_text_size"
-            android:text="@string/fish_craving_checkbox" />
+            android:text="@string/fish_craving_checkbox"
+            android:checked="@={viewmodel.fish}" />
 
         <CheckBox
             android:id="@+id/veggieCheckbox"
@@ -132,8 +133,8 @@
             android:textColor="@color/Text"
             android:fontFamily="@font/dosis_medium"
             android:textSize="@dimen/checkbox_text_size"
-            android:text="@string/veggie_checkbox" />
-
+            android:text="@string/veggie_checkbox"
+            android:checked="@={viewmodel.veggie}" />
 
         <!--            onClick parameter calls function directly from layout-->
         <Button

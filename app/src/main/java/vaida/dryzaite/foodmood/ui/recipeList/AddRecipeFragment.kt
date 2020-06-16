@@ -1,6 +1,5 @@
 package vaida.dryzaite.foodmood.ui.recipeList
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_add_recipe.*
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentAddRecipeBinding
-import vaida.dryzaite.foodmood.ui.main.MainActivity
 import vaida.dryzaite.foodmood.viewmodel.AddRecipeViewModel
 
 
@@ -39,10 +37,8 @@ class AddRecipeFragment : Fragment(){
         viewModel = ViewModelProvider(this).get(AddRecipeViewModel::class.java)
         binding.viewmodel = viewModel
 
-//        configureEditText()
         configureSpinner()
         configureSpinnerListener()
-        configureCheckbox()
         configureLiveDataObserver()
     }
 
@@ -85,16 +81,6 @@ class AddRecipeFragment : Fragment(){
             ) {
                 viewModel.mealTypeSelected(position)
             }
-        }
-    }
-
-
-    private fun configureCheckbox() {
-        veggieCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            viewModel.veggie = isChecked
-        }
-        fishCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            viewModel.fish = isChecked
         }
     }
 

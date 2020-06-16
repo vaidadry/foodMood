@@ -17,8 +17,6 @@ data class RecipeEntry(
     val meal: String,
     val recipe: String) {
 
-//    val thumbnail: String
-//        get() = "drawable/ic_$meal"
 
     fun thumbnail(meal: String): String {
         return "drawable/ic_$meal"

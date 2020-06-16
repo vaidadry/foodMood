@@ -61,7 +61,7 @@ class SuggestionFragment : Fragment() {
                     setupViews(recipe)
                 } else {
                     findNavController().navigate(R.id.action_suggestionFragment_to_homeFragment)
-                    Toast.makeText(context, getString(R.string.error_showing_recipe), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, getString(R.string.error_showing_recipe), Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -73,18 +73,20 @@ class SuggestionFragment : Fragment() {
         val meal = getString(R.string.suggestion_for_meal_text, selectedMealType)
         suggestionForMealTextView.text = meal
         val url = recipe.recipe
-        showMeHowButton.setOnClickListener {
-            redirectToRecipeUrl(url)
-        }
+//        showMeHowButton.setOnClickListener {
+//            redirectToRecipeUrl(url)
+//        }
         Log.i(TAG, "generated entry title: ${recipe.title}, meal: ${recipe.meal}, url: ${recipe.recipe} ")
 
     }
 
 
 
-    private fun redirectToRecipeUrl(url: String?) {
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = Uri.parse(url)
-        startActivity(intent)
-    }
+//    private fun redirectToRecipeUrl(url: String?) {
+//        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+//        view?.context?.startActivity(intent)
+//        val intent = Intent(Intent.ACTION_VIEW)
+//        intent.data = Uri.parse(url)
+//        startActivity(intent)
+//    }
 }

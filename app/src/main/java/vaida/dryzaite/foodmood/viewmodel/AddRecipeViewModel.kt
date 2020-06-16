@@ -1,6 +1,7 @@
 package vaida.dryzaite.foodmood.viewmodel
 
 import android.util.Log
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,15 +26,15 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
 
 
     var title = ObservableField<String>("")
-    var veggie = false
-    var fish = false
+    var veggie = ObservableField<Boolean>(false)
+    var fish = ObservableField<Boolean>(false)
     var meal = ""
     var recipe = ObservableField<String>("")
 
     lateinit var entry: RecipeEntry
 
     fun updateEntry() {
-        entry = generator.generateRecipe(title.get() ?: "", veggie, fish, meal, recipe.get() ?: "")
+        entry = generator.generateRecipe(title.get() ?: "", veggie.get() ?: false, fish.get() ?: false, meal, recipe.get() ?: "")
         recipeLiveData.postValue(entry)
     }
 
@@ -58,7 +59,9 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
 
     //updated method (to work with data binding, therefore no need of button click listener)
     fun saveNewRecipe() {
+        updateEntry()
         return if (canSaveRecipe()) {
+            Log.i("added", "$entry")
             repository.saveNewRecipe(entry)
             Log.i("Added", "title: $title, recipe: $recipe, veggie: $veggie, fish: $fish, meal: $meal")
             saveLiveData.postValue(true)

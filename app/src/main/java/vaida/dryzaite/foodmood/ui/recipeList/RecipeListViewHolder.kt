@@ -3,6 +3,7 @@ package vaida.dryzaite.foodmood.ui.recipeList
 import android.content.Intent
 import android.net.Uri
 import android.view.View
+import android.webkit.URLUtil
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -33,7 +34,10 @@ class RecipeListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), 
     override fun onClick(view: View) {
         val url = recipe.recipe
         if (url.isValidUrl()) {
-            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(recipe.recipe))
+//            Toast.makeText(itemView.context, "valid, way to go", Toast.LENGTH_SHORT).show()
+//        }
+            val guessUrl = URLUtil.guessUrl(url)
+            val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse(guessUrl))
             view.context.startActivity(webIntent)
         }
         else {

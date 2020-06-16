@@ -71,9 +71,9 @@ class RecipeViewModelTest {
     @Test
     fun testCantSaveWithBlankTitle() {
         recipeViewModel.title.set("")
-        recipeViewModel.recipe.set("")
-        recipeViewModel.fish = false
-        recipeViewModel.veggie = false
+        recipeViewModel.recipe.set("test")
+        recipeViewModel.fish.set(false)
+        recipeViewModel.veggie.set(false)
         recipeViewModel.meal = "dinner"
 
         val canSaveRecipe = recipeViewModel.canSaveRecipe()
@@ -82,10 +82,10 @@ class RecipeViewModelTest {
 
     @Test
     fun testCantSaveWithBlankUrl() {
-        recipeViewModel.title.set("")
+        recipeViewModel.title.set("test")
         recipeViewModel.recipe.set("")
-        recipeViewModel.fish = false
-        recipeViewModel.veggie = false
+        recipeViewModel.fish.set(false)
+        recipeViewModel.veggie.set(false)
         recipeViewModel.meal = "dinner"
 
         val canSaveRecipe = recipeViewModel.canSaveRecipe()
@@ -94,10 +94,10 @@ class RecipeViewModelTest {
 
     @Test
     fun testCantSaveWithBlankMeal() {
-        recipeViewModel.title.set("")
-        recipeViewModel.recipe.set("")
-        recipeViewModel.fish = false
-        recipeViewModel.veggie = false
+        recipeViewModel.title.set("test")
+        recipeViewModel.recipe.set("test")
+        recipeViewModel.fish.set(false)
+        recipeViewModel.veggie.set(false)
         recipeViewModel.meal = ""
 
         val canSaveRecipe = recipeViewModel.canSaveRecipe()

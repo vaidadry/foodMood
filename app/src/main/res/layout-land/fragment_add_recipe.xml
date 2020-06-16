@@ -120,7 +120,8 @@
             app:layout_constraintBottom_toTopOf="@id/submitRecipeBtn"
             app:layout_constraintEnd_toStartOf="@id/veggieCheckbox"
             app:layout_constraintStart_toEndOf="@id/verticalGuideline"
-            app:layout_constraintTop_toBottomOf="@id/spinnerMealTypeSelection" />
+            app:layout_constraintTop_toBottomOf="@id/spinnerMealTypeSelection"
+            android:checked="@={viewmodel.fish}"/>
 
         <CheckBox
             android:id="@+id/veggieCheckbox"
@@ -134,7 +135,8 @@
             android:textColor="@color/Text"
             android:fontFamily="@font/dosis_medium"
             android:textSize="@dimen/checkbox_text_size"
-            android:text="@string/veggie_checkbox" />
+            android:text="@string/veggie_checkbox"
+            android:checked="@={viewmodel.veggie}"/>
 
 
         <!--            onClick parameter calls function directly from layout-->
