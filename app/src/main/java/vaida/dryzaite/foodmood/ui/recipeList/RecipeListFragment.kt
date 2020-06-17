@@ -12,15 +12,16 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
 import vaida.dryzaite.foodmood.R
+import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.ui.main.MainActivity
 import vaida.dryzaite.foodmood.utilities.ItemTouchHelperCallback
 import vaida.dryzaite.foodmood.viewmodel.RecipeListViewModel
 
-class RecipeListFragment : Fragment() {
+class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListener {
 
     private lateinit var viewModel: RecipeListViewModel
 
-    private val adapter = RecipeListAdapter(mutableListOf())
+    private val adapter = RecipeListAdapter(mutableListOf(), this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +47,9 @@ class RecipeListFragment : Fragment() {
             recipes?.let {
                 adapter.updateRecipes(recipes)
             }
+            checkForEmptyState()
         })
+
 
         //adding list divider decorations
         val heightInPixels = resources.getDimensionPixelSize(R.dimen.list_item_divider_height)
@@ -64,6 +67,15 @@ class RecipeListFragment : Fragment() {
     private fun setupItemTouchHelper() {
         val itemTouchHelper = ItemTouchHelper(ItemTouchHelperCallback(adapter))
         itemTouchHelper.attachToRecyclerView(recipe_list_recyclerview)
+    }
+
+    //if no items, empty state text is shown
+    private fun checkForEmptyState() {
+        emptyState.visibility = if (adapter.itemCount == 0) View.VISIBLE else View.INVISIBLE
+    }
+
+    override fun deleteRecipeAtPosition(recipe: RecipeEntry) {
+        viewModel.deleteRecipe(recipe)
     }
 
 

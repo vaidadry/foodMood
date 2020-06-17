@@ -9,7 +9,7 @@ import java.util.*
 // creating entity with db table info, setting primary key to ID, which is Unique
 @Entity(tableName = "recipe_table" )
 data class RecipeEntry(
-    @PrimaryKey @NonNull val id: String = UUID.randomUUID().toString(),
+    @PrimaryKey @NonNull var id: String = UUID.randomUUID().toString(),
     val date: String,
     val title: String,
     val veggie: Boolean,

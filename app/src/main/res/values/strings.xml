@@ -37,6 +37,7 @@
     <string name="error_saving_recipe_not_filled">Please fill required fields</string>
     <string name="error_showing_recipe">Add some recipes, first</string>
     <string name="error_opening_recipe">Can\'t open the url</string>
+    <string name="no_recipes_available">No recipes available.</string>
 
 
 </resources>

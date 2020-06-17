@@ -5,16 +5,18 @@ import android.net.Uri
 import android.view.View
 import android.webkit.URLUtil
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.list_item_recipe_view_holder.view.*
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.ui.main.MainActivity
+import vaida.dryzaite.foodmood.utilities.ItemSelectedListener
 import vaida.dryzaite.foodmood.utilities.isValidUrl
 import java.io.IOException
 
-class RecipeListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+class RecipeListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener, ItemSelectedListener {
 
     private lateinit var recipe: RecipeEntry
 
@@ -37,6 +39,14 @@ class RecipeListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), 
         view.context.startActivity(intent)
         }
 
+    // adding on and off background colors on dragged item
+    override fun onItemSelected() {
+        itemView.listItemContainer.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.colorPrimaryDark))
+    }
+
+    override fun onItemCleared() {
+        itemView.listItemContainer.setBackgroundColor(0)
+    }
 
 
 }

@@ -54,7 +54,7 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
     }
 
 
-    ///unfinished - TOAST about invalid URL
+    ///TODO!!! - TOAST about invalid URL
 
     fun canSaveRecipe(): Boolean {
         val title = this.title.get()
