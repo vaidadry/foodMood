@@ -12,6 +12,8 @@ import org.mockito.MockitoAnnotations
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.model.RecipeGenerator
 import vaida.dryzaite.foodmood.model.RecipeRepository
+import vaida.dryzaite.foodmood.model.room.RecipeDatabase
+import vaida.dryzaite.foodmood.utilities.isValidUrl
 
 //view model and live data test with a mock-up
 //we need to add a test rule that swaps out the background thread executor normally used
@@ -24,7 +26,7 @@ class RecipeViewModelTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
-    //adding property for the mock creature generator fot the viewmodel
+    //adding property for the mock creature generator for the viewmodel
 
     @Mock
     lateinit var mockGenerator: RecipeGenerator
@@ -102,6 +104,13 @@ class RecipeViewModelTest {
 
         val canSaveRecipe = recipeViewModel.canSaveRecipe()
         assertEquals(false, canSaveRecipe)
+    }
+
+    @Test
+    fun testUrlValidator() {
+        val url = recipeViewModel.recipe.set("http://www.google.lt").toString()
+        val isValidUrl = url.isValidUrl()
+        assertEquals(true, isValidUrl)
     }
 
 

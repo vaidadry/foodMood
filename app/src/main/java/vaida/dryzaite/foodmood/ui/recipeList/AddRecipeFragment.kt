@@ -1,5 +1,6 @@
 package vaida.dryzaite.foodmood.ui.recipeList
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentAddRecipeBinding
+import vaida.dryzaite.foodmood.ui.main.MainActivity
 import vaida.dryzaite.foodmood.viewmodel.AddRecipeViewModel
 
 
@@ -37,35 +39,16 @@ class AddRecipeFragment : Fragment(){
         configureLiveDataObserver()
     }
 
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        (activity as MainActivity).hideBottomNavigation()
-//    }
-//
-//    override fun onDetach() {
-//        (activity as MainActivity).showBottomNavigation()
-//        super.onDetach()
-//    }
-//
-//    override fun onResume() {
-//        super.onResume()
-//        (activity as MainActivity).hideBottomNavigation()
-//    }
-
-
-//    HELPERS for adding input data to ViewModel
-
-
 
 //    since no click listener to save item, the observer send Success/error toast
     private fun configureLiveDataObserver() {
         viewModel.getSaveLiveData().observe(viewLifecycleOwner, Observer { saved ->
             saved?.let {
                 if (saved) {
-                Toast.makeText(context, getString(R.string.saved_successfully), Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_addRecipeFragment_to_recipeListFragment)
-            } else {
-                Toast.makeText(context, getString(R.string.error_saving_recipe), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.saved_successfully), Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_addRecipeFragment_to_recipeListFragment)
+                } else {
+                    Toast.makeText(context, getString(R.string.error_saving_recipe_not_filled), Toast.LENGTH_SHORT).show()
                 }
             }
         })

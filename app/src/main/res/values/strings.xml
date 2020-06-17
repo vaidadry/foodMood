@@ -34,9 +34,10 @@
     <string name="background_dark">content_description_background_dark</string>
     <string name="please_select_meal_error">Please select a meal</string>
     <string name="saved_successfully">Recipe saved successfully</string>
-    <string name="error_saving_recipe">Error saving recipe</string>
+    <string name="error_saving_recipe_not_filled">Please fill required fields</string>
     <string name="error_showing_recipe">Add some recipes, first</string>
     <string name="error_opening_recipe">Can\'t open the url</string>
+    <string name="no_recipes_available">No recipes available.</string>
 
 
 </resources>

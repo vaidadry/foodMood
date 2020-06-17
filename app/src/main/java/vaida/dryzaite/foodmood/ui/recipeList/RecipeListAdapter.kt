@@ -2,13 +2,16 @@ package vaida.dryzaite.foodmood.ui.recipeList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.utilities.ItemTouchHelperListener
+import vaida.dryzaite.foodmood.utilities.RecipeDiffCallback
 import java.util.*
 
-class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>): RecyclerView.Adapter<RecipeListViewHolder>(), ItemTouchHelperListener {
+class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>, private val listener: RecipeListAdapterListener)
+    : RecyclerView.Adapter<RecipeListViewHolder>(), ItemTouchHelperListener {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeListViewHolder {
@@ -24,9 +27,20 @@ class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>): Recycler
     }
 
     fun updateRecipes(recipes: List<RecipeEntry>) {
+        //implementing diff callback to calculate differences and send updates to adapter
+        val diffCallback = RecipeDiffCallback(this.recipes, recipes)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+
         this.recipes.clear()
         this.recipes.addAll(recipes)
-        notifyDataSetChanged()
+
+        diffResult.dispatchUpdatesTo(this)
+    }
+
+    override fun onItemDismiss(viewHolder: RecyclerView.ViewHolder, position: Int) {
+        listener.deleteRecipeAtPosition(recipes[position])
+//        recipes.removeAt(position)
+//        notifyItemRemoved(position)
     }
 
 
@@ -45,7 +59,14 @@ class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>): Recycler
         return true
     }
 
+    // custom interface for listener to delete item at certain position
+    interface RecipeListAdapterListener {
+        fun deleteRecipeAtPosition(recipe: RecipeEntry)
+    }
+
 }
+
+
 
 
 

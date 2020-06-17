@@ -36,16 +36,6 @@ class SuggestionFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_suggestion, container, false)
     }
 
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//        (activity as MainActivity).hideBottomNavigation()
-//    }
-//
-//    override fun onDetach() {
-//        (activity as MainActivity).showBottomNavigation()
-//        super.onDetach()
-//    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -73,20 +63,17 @@ class SuggestionFragment : Fragment() {
         val meal = getString(R.string.suggestion_for_meal_text, selectedMealType)
         suggestionForMealTextView.text = meal
         val url = recipe.recipe
-//        showMeHowButton.setOnClickListener {
-//            redirectToRecipeUrl(url)
-//        }
+        showMeHowButton.setOnClickListener {
+            redirectToRecipeUrl(url)
+        }
         Log.i(TAG, "generated entry title: ${recipe.title}, meal: ${recipe.meal}, url: ${recipe.recipe} ")
 
     }
 
 
 
-//    private fun redirectToRecipeUrl(url: String?) {
-//        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-//        view?.context?.startActivity(intent)
-//        val intent = Intent(Intent.ACTION_VIEW)
-//        intent.data = Uri.parse(url)
-//        startActivity(intent)
-//    }
+    private fun redirectToRecipeUrl(url: String?) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        view?.context?.startActivity(intent)
+    }
 }

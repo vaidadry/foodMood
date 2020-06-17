@@ -8,7 +8,7 @@ import vaida.dryzaite.foodmood.model.RecipeRepository
 
 class RoomRepository : RecipeRepository {
 
-    private val recipeDao: RecipeDao = FoodmoodApplication.database.recipeDao()
+     private val recipeDao: RecipeDao = FoodmoodApplication.database.recipeDao()
     private val allRecipes: LiveData<List<RecipeEntry>>
 
     init {
