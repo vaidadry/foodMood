@@ -24,8 +24,9 @@ class RecipeGeneratorTest {
         val fish = false
         val meal = "dinner"
         val recipe = "www.example.com"
+        val favorites = false
 
-        val expectedRecipe = RecipeEntry(id, date, title, veggie, fish, meal, recipe)
+        val expectedRecipe = RecipeEntry(id, date, title, veggie, fish, meal, recipe, favorites)
 
         //test now fails as UUID is generated each time separately as well as date logged
         assertEquals(expectedRecipe, recipeGenerator.generateRecipe(title, veggie, fish, meal, recipe))

@@ -13,12 +13,11 @@
         tools:context=".ui.homePage.HomeFragment">
 
 
-            <!--        android:fontFamily="@font/robotomono_bold"-->
         <TextView
             android:id="@+id/generateRandomMealText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/dosis_medium"
+            android:fontFamily="@font/dosis_regular"
             android:text="@string/grab_idea_textView"
             android:textSize="@dimen/generate_random_meal_text_size"
             app:layout_constraintEnd_toEndOf="@id/verticalGuidelineRight"

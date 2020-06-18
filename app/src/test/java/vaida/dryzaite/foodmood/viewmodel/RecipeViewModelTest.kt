@@ -56,8 +56,9 @@ class RecipeViewModelTest {
         val fish = false
         val meal = "dinner"
         val recipe = "www.example.com"
+        val favorites = false
 
-        val stubRecipe = RecipeEntry(id, date, title, veggie, fish, meal, recipe)
+        val stubRecipe = RecipeEntry(id, date, title, veggie, fish, meal, recipe, favorites)
         `when` (mockGenerator.generateRecipe(title, veggie, fish, meal, recipe)).thenReturn(stubRecipe)
 
 

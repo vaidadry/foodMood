@@ -9,5 +9,5 @@
     <item
         android:id="@+id/recipeListFragment"
         android:icon="@drawable/ic_icon_collection"
-        android:title="@string/all_nav_button_text"/>
+        android:title="@string/all_recipes_nav_button_text"/>
 </menu>

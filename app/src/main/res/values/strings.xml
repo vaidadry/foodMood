@@ -2,14 +2,15 @@
     <string name="app_name">foodMood</string>
     <string name="grab_idea_textView">Grab cool food idea!</string>
     <string name="home_nav_button_text">Home</string>
-    <string name="all_nav_button_text">Recipe book</string>
+    <string name="all_recipes_nav_button_text">Recipe book</string>
     <string name="random_button">generate!</string>
     <string name="gradient_background">gradientBackground</string>
     <string name="show_me_how_button">show me how</string>
     <string name="check_again_button">check again</string>
+    <string name="recipe_book_tab_title">Recipe book</string>
     <string name="suggestion_for_meal_text">suggestion for \n %s:</string>
     <string name="suggestion">%s</string>
-    <string name="content_description_favorite">content description drag handle</string>
+    <string name="content_description_favorite">content description favorite</string>
     <string name="content_description_meal_image">content description meal image</string>
     <string name="submit">submit</string>
     <string name="add_recipe">Add recipe</string>
@@ -28,7 +29,6 @@
         <item>Sweets</item>
     </string-array>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="splash_logo_content_description">splashLogo</string>
     <string name="background_dark">content_description_background_dark</string>
@@ -38,6 +38,13 @@
     <string name="error_showing_recipe">Add some recipes, first</string>
     <string name="error_opening_recipe">Can\'t open the url</string>
     <string name="no_recipes_available">No recipes available.</string>
+    <string name="Favorites">Favorites</string>
+    <string name="grid_view_menu_item">Grid View</string>
+    <string name="list_view_menu_item">List View</string>
+    <string name="categories_menu_item">Categories</string>
+    <string name="content_description_meal_card_image">content description meal card image</string>
+    <string name="search">Search</string>
+    <string name="content_description_search">content_description_search</string>
 
 
 </resources>

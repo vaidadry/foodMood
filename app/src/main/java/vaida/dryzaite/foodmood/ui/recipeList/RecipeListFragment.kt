@@ -1,10 +1,10 @@
 package vaida.dryzaite.foodmood.ui.recipeList
 
 import android.os.Bundle
+import android.util.Log
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.ui.main.MainActivity
 import vaida.dryzaite.foodmood.utilities.ItemTouchHelperCallback
 import vaida.dryzaite.foodmood.viewmodel.RecipeListViewModel
 
@@ -23,6 +22,41 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
     private val adapter = RecipeListAdapter(mutableListOf(), this)
 
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.top_nav_menu, menu)
+
+        //setup clicks on icons in toolbar
+        val searchIcon = menu.findItem(R.id.search_menu_item)
+        searchIcon.actionView.setOnClickListener { menu.performIdentifierAction(searchIcon.itemId, 0) }
+        val favoriteIcon = menu.findItem(R.id.favorite_menu_item)
+        favoriteIcon.actionView.setOnClickListener { menu.performIdentifierAction(favoriteIcon.itemId, 0) }
+    }
+
+    //based on selected menu item, layout managers are switched
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Log.i("menu item", "onOptionsItemSelected")
+        when(item.itemId) {
+            R.id.favorite_menu_item -> {
+                Log.i("menu item", "favorite selected")
+            }
+            R.id.search_menu_item -> {
+                Log.i("menu item", "search selected")
+                hideShowSearchBar()
+            }
+            R.id.listDisplay -> {
+                Log.i("view type", "LIST")
+//                showListView()
+            }
+            R.id.gridDisplay -> {
+                Log.i("view type", "GRID")
+//                showGridView()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,15 +65,17 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         return inflater.inflate(R.layout.fragment_recipe_list, container, false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        setHasOptionsMenu(true)
         setupViews()
 
         viewModel = ViewModelProvider(this).get(RecipeListViewModel::class.java)
 
-        //setting up a Recyclerview
-        recipe_list_recyclerview.layoutManager = LinearLayoutManager(context)
-        recipe_list_recyclerview.adapter = adapter
+        setupRecyclerView()
         setupItemTouchHelper()
 
         //updating Live data observer  with ViewModel data
@@ -50,10 +86,24 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
             checkForEmptyState()
         })
 
+        addListDividerDecoration()
+    }
 
+    override fun deleteRecipeAtPosition(recipe: RecipeEntry) {
+        viewModel.deleteRecipe(recipe)
+    }
+
+    private fun addListDividerDecoration() {
         //adding list divider decorations
         val heightInPixels = resources.getDimensionPixelSize(R.dimen.list_item_divider_height)
         recipe_list_recyclerview.addItemDecoration(DividerItemDecoration(R.color.Text, heightInPixels))
+    }
+
+    private fun setupRecyclerView() {
+        //setting up a Recyclerview
+        val layoutManager = LinearLayoutManager(context)
+        recipe_list_recyclerview.layoutManager = layoutManager
+        recipe_list_recyclerview.adapter = adapter
     }
 
 
@@ -74,8 +124,16 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         emptyState.visibility = if (adapter.itemCount == 0) View.VISIBLE else View.INVISIBLE
     }
 
-    override fun deleteRecipeAtPosition(recipe: RecipeEntry) {
-        viewModel.deleteRecipe(recipe)
+//
+//    private fun showListView() {
+//        layoutManager.spanCount = 1
+//    }
+//    private fun showGridView() {
+//        layoutManager.spanCount = 2
+//    }
+
+    private fun hideShowSearchBar() {
+        search_bar.visibility = if (search_bar.visibility == View.GONE) View.VISIBLE else View.GONE
     }
 
 

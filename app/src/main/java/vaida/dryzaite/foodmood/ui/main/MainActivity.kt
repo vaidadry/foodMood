@@ -2,13 +2,18 @@ package vaida.dryzaite.foodmood.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toolbar
+import androidx.core.util.rangeTo
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_recipe_list.*
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.viewmodel.MainViewModel
 
@@ -20,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
 
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         val bottomNav: BottomNavigationView = findViewById(R.id.bottom_nav)
@@ -39,6 +46,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        super.onOptionsItemSelected(item)
+//        return false
+//
+//    }
 
 
 }

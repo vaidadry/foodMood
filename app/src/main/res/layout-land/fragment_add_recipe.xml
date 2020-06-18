@@ -33,7 +33,7 @@
             android:id="@+id/addRecipeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/dosis_medium"
+            android:fontFamily="@font/dosis_regular"
             android:gravity="center_horizontal"
             android:text="@string/add_recipe"
             android:textSize="@dimen/generate_random_meal_text_size"

@@ -15,7 +15,8 @@ data class RecipeEntry(
     val veggie: Boolean,
     val fish: Boolean,
     val meal: String,
-    val recipe: String) {
+    val recipe: String,
+    var isFavorite: Boolean) {
 
 
     fun thumbnail(meal: String): String {

@@ -18,6 +18,12 @@ android {
 
     }
 
+    buildFeatures{
+        dataBinding = true
+        // for view binding :
+//         viewBinding = true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -28,9 +34,6 @@ android {
         jvmTarget = "1.8"
     }
 
-    dataBinding {
-        enabled = true
-    }
 
 }
 
@@ -43,6 +46,9 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    //cardview for recyclerview
+    implementation 'androidx.cardview:cardview:1.0.0'
 
     //Navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.2.2'
