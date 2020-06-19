@@ -1,6 +1,8 @@
 package vaida.dryzaite.foodmood.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.util.Log
+import androidx.lifecycle.*
+import io.reactivex.Completable
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.model.RecipeRepository
@@ -16,5 +18,43 @@ class RecipeListViewModel() : ViewModel() {
     fun getAllRecipesLiveData() = allRecipesLiveData
 
     fun deleteRecipe(recipe: RecipeEntry) = repository.deleteRecipe(recipe)
+
+
+
+    val allRecipes = MediatorLiveData<List<RecipeEntry>>()
+
+    val originalResults: MutableList<RecipeEntry> = mutableListOf()
+    val filteredResults: MutableList<RecipeEntry> = mutableListOf()
+    val oldFilteredResults: MutableList<RecipeEntry> = mutableListOf()
+
+
+    init {
+        allRecipes.addSource(allRecipesLiveData) { result ->
+            result?.let { recipe ->
+                originalResults.addAll(recipe)
+            }
+            Log.i("original results", "$originalResults")
+        }
+
+        oldFilteredResults.addAll(originalResults)
+        Log.i("old filter results", "$oldFilteredResults")
+    }
+
+
+    fun search(query: String): Completable = Completable.create{
+        Log.i("search input", " searched: $query, ofr: $oldFilteredResults")
+        val wanted = originalResults.filter {recipe ->
+            recipe.title.contains(query) || recipe.meal.contains(query)
+        }.toMutableList()
+        Log.i("search output", "$wanted")
+
+        filteredResults.clear()
+        filteredResults.addAll(wanted)
+        Log.i("filtered results", "$filteredResults")
+        it.onComplete()
+
+    }
+
+
 
 }

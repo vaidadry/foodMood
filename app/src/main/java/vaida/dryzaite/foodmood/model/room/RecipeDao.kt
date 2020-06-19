@@ -2,6 +2,7 @@ package vaida.dryzaite.foodmood.model.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import io.reactivex.Flowable
 import vaida.dryzaite.foodmood.model.RecipeEntry
 
 
@@ -16,5 +17,9 @@ interface RecipeDao {
 
     @Query("SELECT * from recipe_table ORDER BY title ASC")
     fun getAllRecipes(): LiveData<List<RecipeEntry>>
+//    fun getAllRecipes(): Flowable<List<RecipeEntry>>
+
+    @Update
+    fun updateRecipe(recipe: RecipeEntry)
 
 }

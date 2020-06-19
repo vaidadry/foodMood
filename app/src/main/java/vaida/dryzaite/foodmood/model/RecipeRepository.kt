@@ -8,4 +8,5 @@ interface RecipeRepository {
     fun saveNewRecipe(recipeEntry: RecipeEntry)
     fun getAllRecipes(): LiveData<List<RecipeEntry>>
     fun deleteRecipe(recipeEntry: RecipeEntry)
+    fun updateRecipe(recipeEntry: RecipeEntry)
 }

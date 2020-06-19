@@ -39,8 +39,6 @@ class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>, private v
 
     override fun onItemDismiss(viewHolder: RecyclerView.ViewHolder, position: Int) {
         listener.deleteRecipeAtPosition(recipes[position])
-//        recipes.removeAt(position)
-//        notifyItemRemoved(position)
     }
 
 
