@@ -1,38 +1,27 @@
 package vaida.dryzaite.foodmood.ui.recipeList
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.jakewharton.rxbinding2.widget.textChanges
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.utilities.ItemTouchHelperCallback
-import vaida.dryzaite.foodmood.utilities.RecipeDiffCallback
 import vaida.dryzaite.foodmood.viewmodel.RecipeListViewModel
-import java.util.concurrent.TimeUnit
 
 class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListener {
 
     private lateinit var viewModel: RecipeListViewModel
-    private val disposable = CompositeDisposable()
 
-        private val adapter = RecipeListAdapter(mutableListOf(), this)
-//    private val adapter = RecipeListAdapter(viewModel.oldFilteredResults, this) // 1
-
+    private val adapter = RecipeListAdapter(mutableListOf(), this)
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -96,9 +85,10 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         setupViews()
 
         viewModel = ViewModelProvider(this).get(RecipeListViewModel::class.java)
-        
+
+        setSearchInputListener()
         setupRecyclerView()
-        getSearchInput()
+
         setupItemTouchHelper()
 
         //updating Live data observer  with ViewModel data
@@ -108,6 +98,8 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
             }
             checkForEmptyState()
         })
+
+//        getSearchInput()
 
         addListDividerDecoration()
     }
@@ -161,26 +153,23 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 //    }
 
     private fun hideShowSearchBar() {
-        search_bar.visibility = if (search_bar.visibility == View.GONE) View.VISIBLE else View.GONE
+        search_input.visibility = if (search_input.visibility == View.GONE) View.VISIBLE else View.GONE
     }
 
-    private fun getSearchInput() {
-        search_input.textChanges().debounce(200, TimeUnit.MILLISECONDS).subscribe {
-            viewModel.search(it.toString()).subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe {
-                    val diffResult = DiffUtil.calculateDiff(
-                        RecipeDiffCallback(viewModel.oldFilteredResults, viewModel.filteredResults))
-                    viewModel.oldFilteredResults.clear()
-                    viewModel.oldFilteredResults.addAll(viewModel.filteredResults)
-                    diffResult.dispatchUpdatesTo(adapter)
-                }.addTo(disposable)
-        }.addTo(disposable)
 
-    }
+        private fun setSearchInputListener() {
+            search_input.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        disposable.clear()
-    }
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    adapter.filter.filter(newText)
+                    return false
+                }
+            })
+        }
+
+
 
 }

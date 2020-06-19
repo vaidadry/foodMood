@@ -21,34 +21,24 @@
                     app:titleTextColor="@color/Text"
                     app:menu="@menu/top_nav_menu"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/search_bar"
+                    app:layout_constraintBottom_toTopOf="@id/search_input"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/search_bar"
-                    android:layout_width="0dp"
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/search_input"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/toolbar"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/recipe_list_recyclerview"
-                    android:visibility="gone">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/search_input"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/half_padding"
-                            android:layout_marginEnd="@dimen/half_padding"
-                            android:backgroundTint="@color/Text"
-                            android:fontFamily="@font/dosis_medium"
-                            android:hint="@string/search"
-                            android:inputType="text"
-                            android:textColor="@color/Text"
-                            android:textColorHint="@color/colorSecondaryDark"
-                            android:textSize="@dimen/list_item_text_size" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    app:iconifiedByDefault="false"
+                    android:background="@color/colorPrimary"
+                    app:queryBackground="@null"
+                    android:textCursorDrawable="@null"
+                    android:visibility="gone"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recipe_list_recyclerview"
@@ -58,7 +48,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/search_bar"
+                    app:layout_constraintTop_toBottomOf="@id/search_input"
                     app:layout_constraintVertical_bias="0.0" >
 
                 </androidx.recyclerview.widget.RecyclerView>
