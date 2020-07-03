@@ -15,13 +15,13 @@
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/listDisplay"
+        android:id="@+id/list_display"
         android:title="@string/list_view_menu_item"
         android:orderInCategory="102"
         app:showAsAction="never"/>
 
     <item
-        android:id="@+id/gridDisplay"
+        android:id="@+id/grid_display"
         android:title="@string/grid_view_menu_item"
         android:orderInCategory="103"
         app:showAsAction="never"/>

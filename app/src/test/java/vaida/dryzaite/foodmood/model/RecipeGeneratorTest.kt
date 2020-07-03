@@ -22,7 +22,7 @@ class RecipeGeneratorTest {
         val title = "kebabas"
         val veggie = true
         val fish = false
-        val meal = "dinner"
+        val meal = 1
         val recipe = "www.example.com"
         val favorites = false
 

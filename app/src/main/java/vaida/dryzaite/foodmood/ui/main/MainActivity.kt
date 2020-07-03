@@ -2,58 +2,48 @@ package vaida.dryzaite.foodmood.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.widget.Toolbar
-import androidx.core.util.rangeTo
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
 import vaida.dryzaite.foodmood.R
-import vaida.dryzaite.foodmood.viewmodel.MainViewModel
+import vaida.dryzaite.foodmood.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
     private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        val bottomNav: BottomNavigationView = findViewById(R.id.bottom_nav)
+        val viewModelFactory = MainViewModelFactory()
+        mainViewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+
+        binding.lifecycleOwner = this
+        binding.mainViewModel = mainViewModel
 
         val navController = findNavController(R.id.nav_host_fragment_container)
-        bottomNav.setupWithNavController(navController)
+        bottom_nav.setupWithNavController(navController)
 
         mainViewModel.bottomNavigationVisibility.observe(this, Observer { navVisibility ->
-            bottomNav.visibility = navVisibility
+            bottom_nav.visibility = navVisibility
         })
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.homeFragment -> mainViewModel.showBottomNav()
-                R.id.recipeListFragment -> mainViewModel.showBottomNav()
+                R.id.home_fragment -> mainViewModel.showBottomNav()
+                R.id.recipe_list_fragment -> mainViewModel.showBottomNav()
+                R.id.discover_recipes_fragment -> mainViewModel.showBottomNav()
                 else -> mainViewModel.hideBottomNav()
             }
         }
     }
-
-
-//
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        super.onOptionsItemSelected(item)
-//        return false
-//
-//    }
-
 
 }

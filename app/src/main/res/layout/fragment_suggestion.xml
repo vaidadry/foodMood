@@ -1,125 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="suggestionViewModel"
+            type="vaida.dryzaite.foodmood.ui.suggestionPage.SuggestionViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
 
         <ImageView
-            android:id="@+id/gradientBackground"
-            app:layout_constraintTop_toBottomOf="@id/horizontalGuidelineTop2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/rounded_background"
-            android:layout_height="0dp"
+            android:id="@+id/gradient_background"
             android:layout_width="match_parent"
-            android:contentDescription="@string/gradient_background" />
+            android:layout_height="0dp"
+            android:contentDescription="@string/gradient_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_top2"
+            app:srcCompat="@drawable/rounded_background" />
 
         <TextView
-            android:id="@+id/suggestionForMealTextView"
+            android:id="@+id/suggestion_for_meal_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/suggestion_for_meal_text"
+            android:fontFamily="@font/dosis_regular"
             android:gravity="center_horizontal"
             android:lines="2"
-            android:fontFamily="@font/dosis_regular"
+            android:text="@{@string/suggestion_for_meal_text(suggestionViewModel.meal)}"
             android:textSize="@dimen/generate_random_meal_text_size"
-            app:layout_constraintStart_toStartOf="@id/verticalGuidelineLeft"
-            app:layout_constraintEnd_toEndOf="@id/verticalGuidelineRight"
-            app:layout_constraintTop_toTopOf="@id/horizontalGuidelineTop"
-            android:visibility="visible"/>
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
+            app:layout_constraintTop_toTopOf="@id/horizontal_guideline_top"
+            tools:text="@string/suggestion_for_meal_text"/>
 
         <TextView
-            android:id="@+id/suggestionTextView"
+            android:id="@+id/suggestion_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/suggestion"
-            android:gravity="center_horizontal"
             android:fontFamily="@font/dosis_medium"
+            android:gravity="center_horizontal"
+            android:text="@{@string/suggestion(suggestionViewModel.title)}"
             android:textSize="@dimen/generate_random_meal_text_size"
-            app:layout_constraintStart_toStartOf="@id/verticalGuidelineLeft"
-            app:layout_constraintEnd_toEndOf="@id/verticalGuidelineRight"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
             app:layout_constraintTop_toTopOf="parent"
-            android:visibility="visible"/>
+            tools:text="@string/suggestion"/>
 
         <Button
-            android:id="@+id/showMeHowButton"
+            android:id="@+id/show_me_how_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button_solid"
-            android:text="@string/show_me_how_button"
             android:fontFamily="@font/robotomono_bold"
+            android:text="@string/show_me_how_button"
             android:textSize="@dimen/button_text_size"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_bottom_nav"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/horizontalGuidelineBottom"
-            app:layout_constraintBottom_toTopOf="@id/horizontalGuidelineBottomNav"
-            app:layout_constraintVertical_chainStyle="spread"
-            android:visibility="visible"/>
+            app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_bottom"
+            app:layout_constraintVertical_chainStyle="spread" />
 
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/verticalGuideline"
+            android:id="@+id/vertical_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontalGuidelineTop2"
+            android:id="@+id/horizontal_guideline_top2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.125" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontalGuidelineTop"
+            android:id="@+id/horizontal_guideline_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.25" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontalGuidelineMiddle"
+            android:id="@+id/horizontal_guideline_middle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.5" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontalGuidelineBottom"
+            android:id="@+id/horizontal_guideline_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.75" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontalGuidelineBottomNav"
+            android:id="@+id/horizontal_guideline_bottom_nav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.93" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/verticalGuidelineLeft"
+            android:id="@+id/vertical_guideline_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.1" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/verticalGuidelineRight"
+            android:id="@+id/vertical_guideline_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.9" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

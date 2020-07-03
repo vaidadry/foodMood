@@ -2,7 +2,6 @@ package vaida.dryzaite.foodmood.model.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import io.reactivex.Flowable
 import vaida.dryzaite.foodmood.model.RecipeEntry
 
 
@@ -12,14 +11,27 @@ interface RecipeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRecipe(recipe: RecipeEntry)
 
+    @Update
+    fun updateRecipe(recipe: RecipeEntry)
+
     @Delete
     fun deleteRecipe(recipe: RecipeEntry)
 
+    //live data so that room update it automatically
     @Query("SELECT * from recipe_table ORDER BY title ASC")
     fun getAllRecipes(): LiveData<List<RecipeEntry>>
-//    fun getAllRecipes(): Flowable<List<RecipeEntry>>
 
-    @Update
-    fun updateRecipe(recipe: RecipeEntry)
+    //Get a specific recipe based on its key.
+    @Query("SELECT * from recipe_table WHERE id = :key")
+    fun getRecipeWithId(key: String): RecipeEntry?
+
+    //Selects and returns the recipe with given id(live data)
+    @Query("SELECT * from recipe_table WHERE id = :key")
+    fun getRecipeLiveDataWithId(key: String): LiveData<RecipeEntry>
+
+
+
+
+
 
 }

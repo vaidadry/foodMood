@@ -66,7 +66,7 @@ class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>, private v
         return true
     }
 
-    // filter
+    // filter by title
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {

@@ -22,4 +22,5 @@
     <dimen name="card_corner_radius">0sp</dimen>
     <dimen name="card_image_size">100dp</dimen>
     <dimen name="card_title_holder_height">36dp</dimen>
+    <dimen name="add_recipe_meal_text">12sp</dimen>
 </resources>
