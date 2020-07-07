@@ -7,7 +7,6 @@ import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.model.room.RecipeRepository
 
-
 // ViewModel for recipeList fragment interacts with data from the repository
 class RecipeListViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -31,5 +30,9 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
     ///and method to stop navigating
     fun onRecipeDetailNavigated() {
         _navigateToRecipeDetail.value = null
+    }
+
+    fun onFavoriteClicked() {
+        TODO()
     }
 }

@@ -2,9 +2,11 @@ package vaida.dryzaite.foodmood.ui.recipeList
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -22,7 +24,10 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
     private lateinit var recipeListViewModel: RecipeListViewModel
     private lateinit var binding: FragmentRecipeListBinding
-    private val adapter = RecipeListAdapter(mutableListOf(), this)
+    private lateinit var adapter: RecipeListAdapter
+//    private val adapter = RecipeListAdapter(mutableListOf(), this, RecipeListOnClickListener { id ->
+//        Toast.makeText(context, "$id", Toast.LENGTH_SHORT).show()
+//    })
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +38,6 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
         //reference to context, to get database instance
         val application = requireNotNull(this.activity).application
-//        val dataSource = RecipeDatabase.getInstance(application).recipeDao
 
         val viewModelFactory = RecipeListViewModelFactory(application)
         recipeListViewModel = ViewModelProvider(this, viewModelFactory).get(RecipeListViewModel::class.java)
@@ -49,7 +53,10 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
         setHasOptionsMenu(true)
+
         setupViews()
+
+        setupAdapter()
 
         setupRecyclerView()
 
@@ -65,6 +72,14 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
             checkForEmptyState()
         })
         addListDividerDecoration()
+
+        recipeListViewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, Observer { keyId->
+            keyId?.let {
+                this.findNavController().navigate(
+                    RecipeListFragmentDirections.actionRecipeListFragmentToRecipeFragment(keyId))
+                recipeListViewModel.onRecipeDetailNavigated()
+            }
+        })
     }
 
 
@@ -118,6 +133,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         recipeListViewModel.onDeleteRecipe(recipe)
     }
 
+
     private fun addListDividerDecoration() {
         //adding list divider decorations
         val heightInPixels = resources.getDimensionPixelSize(R.dimen.list_item_divider_height)
@@ -127,6 +143,13 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
                 heightInPixels
             )
         )
+    }
+
+
+    private fun setupAdapter() {
+        adapter = RecipeListAdapter(mutableListOf(), this, RecipeListOnClickListener { id ->
+            recipeListViewModel.onRecipeClicked(id)
+        })
     }
 
     private fun setupRecyclerView() {
@@ -165,7 +188,6 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
     private fun hideShowSearchBar() {
         binding.searchInput.visibility = if (search_input.visibility == View.GONE) View.VISIBLE else View.GONE
     }
-
 
         private fun setSearchInputListener() {
             binding.searchInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener {

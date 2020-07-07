@@ -1,19 +1,17 @@
 package vaida.dryzaite.foodmood.ui.recipeList
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.utilities.ItemTouchHelperListener
 import vaida.dryzaite.foodmood.utilities.RecipeDiffCallback
 import java.util.*
 import kotlin.collections.ArrayList
 
-class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>, private val listener: RecipeListAdapterListener)
+class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>, private val listener: RecipeListAdapterListener, private val clickListener: RecipeListOnClickListener)
     : RecyclerView.Adapter<RecipeListViewHolder>(), ItemTouchHelperListener, Filterable {
 
     var recipeFilterList = ArrayList<RecipeEntry>()
@@ -23,15 +21,13 @@ class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>, private v
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeListViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_item_recipe_view_holder, parent, false)
-    return RecipeListViewHolder(view)
+        return RecipeListViewHolder.from(parent)
     }
 
     override fun getItemCount() = recipeFilterList.size
 
     override fun onBindViewHolder(holder: RecipeListViewHolder, position: Int) {
-        holder.bind(recipeFilterList[position])
+        holder.bind(recipeFilterList[position], clickListener)
 
     }
 
@@ -51,6 +47,7 @@ class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>, private v
     }
 
 
+
     // interface method implemented in adapter
     override fun onItemMove(recyclerView: RecyclerView, fromPosition: Int, toPosition: Int): Boolean {
         if (fromPosition < toPosition) {
@@ -66,7 +63,7 @@ class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>, private v
         return true
     }
 
-    // filter by title
+    // filter/search by title
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
@@ -100,10 +97,12 @@ class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>, private v
     interface RecipeListAdapterListener {
         fun deleteRecipeAtPosition(recipe: RecipeEntry)
     }
-
 }
 
-
+//defining click listener to respond to clicks on RW
+class RecipeListOnClickListener(val clickListener: (id: String) -> Unit) {
+    fun onClick(recipe: RecipeEntry) =  clickListener(recipe.id)
+}
 
 
 

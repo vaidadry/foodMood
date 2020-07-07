@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.DiffUtil
 import vaida.dryzaite.foodmood.model.RecipeEntry
 
 
-//callback measures the differences between changes
+//callback measures the differences between changes and makes RecyclerView updates nicer
 class RecipeDiffCallback(private val oldRecipes: List<RecipeEntry>, private val newRecipes: List<RecipeEntry>)
     : DiffUtil.Callback() {
 
