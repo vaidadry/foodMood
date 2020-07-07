@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentHomeBinding
-import vaida.dryzaite.foodmood.model.room.RecipeDatabase
 
 
 class HomeFragment : Fragment() {
@@ -20,16 +19,17 @@ class HomeFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         val application = requireNotNull(this.activity).application
 
-        //accessing DB
-        val dataSource = RecipeDatabase.getInstance(application).recipeDao
-
         //enabling viewModel data binding in fragment
-        val viewModelFactory = HomeViewModelFactory(dataSource, application)
+        val viewModelFactory = HomeViewModelFactory(application)
         homeViewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
         binding.lifecycleOwner = this
         binding.homeViewModel = homeViewModel
@@ -37,55 +37,37 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //blogai! turi but viewmodelyje, init block neveikia, gal kažką kito?
+        homeViewModel.getAllRecipes().observe(viewLifecycleOwner, Observer {})
 
-
-//        setupButtonAction()
+        navigateToSuggestionPage()
     }
 
 
-    private fun getRandomRecipe(): Boolean {
-        Timber.i("getRandomRecipe() called, not yet generating recipe")
-        homeViewModel.getAllRecipesLiveData().observe(viewLifecycleOwner, Observer { recipes ->
-            recipes?.let {
-                Timber.i("getRandomRecipe() observer used to get to viewModel")
-                homeViewModel.getRandomRecipe(it)
-                Timber.i("got back to fragment")
+    private fun navigateToSuggestionPage() {
+        homeViewModel.navigateToSuggestionPage.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                true -> {
+                    Timber.i("SHOWING generated recipe: ${homeViewModel.randomRecipe.value}")
+                    this.findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToSuggestionFragment(homeViewModel.randomRecipe.value?.id.toString())
+                    )
+                    homeViewModel.doneNavigating()
+                }
+                false -> {
+                    Timber.i("Cant show recipe coz, no recipes added")
+                    Toast.makeText(
+                        context,
+                        getString(R.string.error_showing_recipe),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    homeViewModel.doneNavigating()
+                }
             }
         })
-        return !homeViewModel.randomRecipe.value?.title.isNullOrEmpty()
-
     }
-
-    private fun setupButtonAction() {
-        binding.randomButton.setOnClickListener {
-            Timber.i("before if statement")
-            if (getRandomRecipe()) {
-                val randomTitle = homeViewModel.randomRecipe.value?.title.toString()
-                val randomMeal = homeViewModel.randomRecipe.value?.meal!!
-                val randomUrl = homeViewModel.randomRecipe.value?.recipe.toString()
-
-                findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToSuggestionFragment(
-                        randomTitle,
-                        randomMeal,
-                        randomUrl
-                    )
-                )
-                Timber.i("SHOWING generated recipe: $randomMeal, $randomTitle, $randomUrl")
-            } else {
-                Toast.makeText(
-                    context,
-                    getString(R.string.error_showing_recipe),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
-
-
 
 }

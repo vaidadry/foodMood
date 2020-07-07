@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import timber.log.Timber
 import vaida.dryzaite.foodmood.databinding.FragmentSuggestionBinding
 import vaida.dryzaite.foodmood.model.room.RecipeDatabase
 
@@ -25,15 +27,9 @@ class SuggestionFragment : Fragment() {
         binding = FragmentSuggestionBinding.inflate(inflater, container, false)
 
         val application = requireNotNull(this.activity).application
+        val arguments = SuggestionFragmentArgs.fromBundle(requireArguments())
 
-        val dataSource = RecipeDatabase.getInstance(application).recipeDao
-
-        //can code be cleaner here? Yes, need to pass only ID and then get all info from repo ---> LATER
-        viewModelFactory = SuggestionViewModelFactory(
-            SuggestionFragmentArgs.fromBundle(requireArguments()).randomTitle,
-            SuggestionFragmentArgs.fromBundle(requireArguments()).randomMeal,
-            SuggestionFragmentArgs.fromBundle(requireArguments()).randomUrl,
-            dataSource)
+        viewModelFactory = SuggestionViewModelFactory(arguments.randomId, application)
         suggestionViewModel = ViewModelProvider(this, viewModelFactory).get(SuggestionViewModel::class.java)
 
 //        enabling data binding between view Model and layout
@@ -46,13 +42,20 @@ class SuggestionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.showMeHowButton.setOnClickListener {
-            redirectToRecipeUrl(suggestionViewModel.url)
-        }
+
+        //observer handling button SHOW ME HOW click
+        suggestionViewModel.navigateToUrl.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                Timber.i("$it is the URL to redirect")
+               redirectToRecipeUrl(it)
+                suggestionViewModel.onButtonClicked()
+            }
+        })
     }
 
     private fun redirectToRecipeUrl(url: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         view?.context?.startActivity(intent)
     }
+
 }

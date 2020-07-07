@@ -38,7 +38,11 @@
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_bottom_nav"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_bottom" />
+            app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_bottom"
+            android:clickable="true"
+            android:onClick="@{() -> homeViewModel.onGenerateButtonClick()}"
+
+        />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/horizontal_guideline_bottom_nav"

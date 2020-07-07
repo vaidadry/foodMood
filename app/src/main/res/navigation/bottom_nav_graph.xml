@@ -61,13 +61,7 @@
             app:popUpTo="@id/home_fragment"
             app:popUpToInclusive="true" />
         <argument
-            android:name="randomTitle"
-            app:argType="string" />
-        <argument
-            android:name="randomMeal"
-            app:argType="integer" />
-        <argument
-            android:name="randomUrl"
+            android:name="randomId"
             app:argType="string" />
     </fragment>
     <fragment

@@ -32,21 +32,22 @@
             android:fontFamily="@font/dosis_regular"
             android:gravity="center_horizontal"
             android:lines="2"
-            android:text="@{@string/suggestion_for_meal_text(suggestionViewModel.meal)}"
             android:textSize="@dimen/generate_random_meal_text_size"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
             app:layout_constraintTop_toTopOf="@id/horizontal_guideline_top"
-            tools:text="@string/suggestion_for_meal_text"/>
-
+            tools:text="@string/suggestion_for_meal_text"
+            app:mealTypeFormatted="@{suggestionViewModel.randomRecipe}"
+            />
+<!--        android:text="@{@string/suggestion(suggestionViewModel.title)}"-->
         <TextView
             android:id="@+id/suggestion_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/dosis_medium"
             android:gravity="center_horizontal"
-            android:text="@{@string/suggestion(suggestionViewModel.title)}"
+            android:text="@{suggestionViewModel.randomRecipe.title}"
             android:textSize="@dimen/generate_random_meal_text_size"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -68,7 +69,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_bottom"
-            app:layout_constraintVertical_chainStyle="spread" />
+            app:layout_constraintVertical_chainStyle="spread"
+            android:clickable="true"
+            android:onClick="@{() -> suggestionViewModel.onButtonClick()}"/>
 
 
         <androidx.constraintlayout.widget.Guideline

@@ -1,12 +1,12 @@
 package vaida.dryzaite.foodmood.ui.addRecipe
 
+import android.app.Application
 import androidx.databinding.ObservableField
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.*
 import timber.log.Timber
-//import vaida.dryzaite.foodmood.app.Injection
+import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.model.RecipeGenerator
 import vaida.dryzaite.foodmood.model.room.RecipeDao
@@ -14,19 +14,10 @@ import vaida.dryzaite.foodmood.utilities.isValidUrl
 
 
 class AddRecipeViewModel(
-    private val generator: RecipeGenerator = RecipeGenerator(), val database: RecipeDao
-//                         ,private val repository: RecipeRepository = RoomRepository() // changed to injection below - palikta jei reiktu atstatyti
-) : ViewModel() {
+    private val generator: RecipeGenerator = RecipeGenerator(), application: Application)
+    : AndroidViewModel(application) {
 
-    // job defined to cancel coroutines
-    private val viewModelJob = Job()
-
-    //ui scope runs on main thread as related to updating ui
-    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-
-
-//    iš seno kodo
-//    private val repository = Injection.provideRecipeRepository()
+    private val repository = Injection.provideRecipeRepository(application)
 
 
     private val newRecipe = MutableLiveData<RecipeEntry?>()
@@ -35,7 +26,7 @@ class AddRecipeViewModel(
     val title = ObservableField<String>("")
     var veggie = ObservableField<Boolean>(false)
     var fish = ObservableField<Boolean>(false)
-    var meal = ObservableField<Int>(1)
+    var meal = ObservableField<Int>(0)
     var recipe = ObservableField<String>("")
 
 
@@ -53,7 +44,7 @@ class AddRecipeViewModel(
         newRecipe.value = entry
     }
 
-    //parameter to observe state when meal is selected
+    //parameter to observe state when meal is selected - nor finished!!!!
     private val _onMealSelected = MutableLiveData<Boolean>()
         val onMealSelected: LiveData<Boolean>
         get() = _onMealSelected
@@ -92,11 +83,7 @@ class AddRecipeViewModel(
         updateEntry()
         return if (canSaveRecipe()) {
             Timber.i("added: $entry")
-            uiScope.launch {
-                withContext(Dispatchers.IO) {
-                    database.insertRecipe(entry)
-                }
-            }
+            repository.insertRecipe(entry)
             _onSaveLiveData.value = true
         } else {
             _onSaveLiveData.value = false
@@ -105,12 +92,6 @@ class AddRecipeViewModel(
 
     fun onSaveLiveDataCompleted() {
         _onSaveLiveData.value = null
-    }
-
-    //to cancel coroutines
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 }
 

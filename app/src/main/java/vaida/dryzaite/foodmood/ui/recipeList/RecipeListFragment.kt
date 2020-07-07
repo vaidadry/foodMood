@@ -33,9 +33,9 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
         //reference to context, to get database instance
         val application = requireNotNull(this.activity).application
-        val dataSource = RecipeDatabase.getInstance(application).recipeDao
+//        val dataSource = RecipeDatabase.getInstance(application).recipeDao
 
-        val viewModelFactory = RecipeListViewModelFactory(dataSource)
+        val viewModelFactory = RecipeListViewModelFactory(application)
         recipeListViewModel = ViewModelProvider(this, viewModelFactory).get(RecipeListViewModel::class.java)
 
         binding.lifecycleOwner = this
@@ -115,7 +115,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
 
     override fun deleteRecipeAtPosition(recipe: RecipeEntry) {
-        recipeListViewModel.deleteRecipe(recipe)
+        recipeListViewModel.onDeleteRecipe(recipe)
     }
 
     private fun addListDividerDecoration() {

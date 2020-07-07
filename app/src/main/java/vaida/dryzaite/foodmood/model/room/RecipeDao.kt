@@ -12,7 +12,7 @@ interface RecipeDao {
     fun insertRecipe(recipe: RecipeEntry)
 
     @Update
-    fun updateRecipe(recipe: RecipeEntry)
+   fun updateRecipe(recipe: RecipeEntry)
 
     @Delete
     fun deleteRecipe(recipe: RecipeEntry)
@@ -21,14 +21,10 @@ interface RecipeDao {
     @Query("SELECT * from recipe_table ORDER BY title ASC")
     fun getAllRecipes(): LiveData<List<RecipeEntry>>
 
-    //Get a specific recipe based on its key.
-    @Query("SELECT * from recipe_table WHERE id = :key")
-    fun getRecipeWithId(key: String): RecipeEntry?
 
     //Selects and returns the recipe with given id(live data)
     @Query("SELECT * from recipe_table WHERE id = :key")
-    fun getRecipeLiveDataWithId(key: String): LiveData<RecipeEntry>
-
+    fun getRecipeWithId(key: String): LiveData<RecipeEntry>
 
 
 

@@ -11,7 +11,7 @@ fun convertNumericMealTypeToString(mealSelection: Int, resources: Resources): St
     when (mealSelection) {
         1 -> mealString = resources.getString(R.string.breakfast)
         2 -> mealString = resources.getString(R.string.brunch)
-        3-> mealString = resources.getString(R.string.lunch)
+        3 -> mealString = resources.getString(R.string.lunch)
         4 -> mealString = resources.getString(R.string.dinner)
         5 -> mealString = resources.getString(R.string.sweets)
     }

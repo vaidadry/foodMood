@@ -14,11 +14,7 @@ import vaida.dryzaite.foodmood.model.room.RecipeDatabase
 import java.io.IOException
 import java.lang.Exception
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
+
 @RunWith(AndroidJUnit4::class)
 class RecipeDatabaseTest {
 
@@ -40,6 +36,24 @@ class RecipeDatabaseTest {
     @Throws(IOException::class)
     fun closeDb() {
         db.close()
+    }
+
+
+    @Test
+    @Throws(Exception::class)
+    fun insertRecipe() {
+        val recipe = RecipeEntry(
+            id = "0de39ad2-4ad0-4fb4-982c-7030d474c576",
+            date = "2020-06-10  15:53",
+            title = "kebabas",
+            veggie = true,
+            fish = false,
+            meal = 1,
+            recipe = "www.example.com",
+            isFavorite = true)
+        recipeDao.insertRecipe(recipe)
+        val retrievedRecipe = recipeDao.getRecipeWithId("0de39ad2-4ad0-4fb4-982c-7030d474c576")
+        assertEquals(retrievedRecipe.value?.isFavorite, true)
     }
 
     @Test
@@ -84,12 +98,10 @@ class RecipeDatabaseTest {
             isFavorite = false)
         recipeDao.insertRecipe(recipe)
         val latestRecipe = recipeDao.getRecipeWithId("0de39rd2-4adr-4fb4-982c-7030d474c576")
-        latestRecipe?.isFavorite = true
-        if (latestRecipe != null) {
-            val updatedRecipe = recipeDao.updateRecipe(latestRecipe)
-            assertNotEquals(latestRecipe, updatedRecipe)
-        }
-        assertEquals(latestRecipe?.isFavorite, true)
+        latestRecipe.value?.isFavorite = true
+        val updatedRecipe = recipeDao.updateRecipe(latestRecipe.value!!)
+        assertNotEquals(latestRecipe, updatedRecipe)
+        assertEquals(latestRecipe?.value!!.isFavorite, true)
     }
 
     @Test
@@ -106,7 +118,7 @@ class RecipeDatabaseTest {
         recipeDao.insertRecipe(recipe)
         val recipeToDelete = recipeDao.getRecipeWithId("0de39rd2-4adr-4fb4-982c-7030d474c576")
         if (recipeToDelete != null) {
-            recipeDao.deleteRecipe(recipeToDelete)
+            recipeDao.deleteRecipe(recipeToDelete.value!!)
             assertEquals(recipeToDelete, null)
         }
     }

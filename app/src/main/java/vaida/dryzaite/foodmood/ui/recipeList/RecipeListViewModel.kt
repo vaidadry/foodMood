@@ -3,32 +3,33 @@ package vaida.dryzaite.foodmood.ui.recipeList
 
 import android.app.Application
 import androidx.lifecycle.*
-//import vaida.dryzaite.foodmood.app.Injection
+import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.model.RecipeRepository
-import vaida.dryzaite.foodmood.model.room.RecipeDao
+import vaida.dryzaite.foodmood.model.room.RecipeRepository
 
 
 // ViewModel for recipeList fragment interacts with data from the repository
-class RecipeListViewModel(dataSource:RecipeDao) : ViewModel() {
+class RecipeListViewModel(application: Application) : AndroidViewModel(application) {
 
-//    private val repository: RecipeRepository =  Injection.provideRecipeRepository()
-//
-//    private val allRecipesLiveData = repository.getAllRecipes()
-//
-//    fun getAllRecipesLiveData() = allRecipesLiveData
-//
-//    fun deleteRecipe(recipe: RecipeEntry) = repository.deleteRecipe(recipe)
+    private val repository: RecipeRepository =  Injection.provideRecipeRepository(application)
 
-    val database = dataSource
-    private val allRecipesLiveData = database.getAllRecipes()
-    fun getAllRecipesLiveData() = allRecipesLiveData
+    fun getAllRecipesLiveData() = repository.getAllRecipes()
 
-    fun deleteRecipe(recipe: RecipeEntry) = database.deleteRecipe(recipe)
+    fun onDeleteRecipe(recipe: RecipeEntry) = repository.deleteRecipe(recipe)
 
 
+    //defining navigation state
+    private val _navigateToRecipeDetail = MutableLiveData<String>()
+    val navigateToRecipeDetail
+        get() = _navigateToRecipeDetail
 
 
+    fun onRecipeClicked(id:String) {
+        _navigateToRecipeDetail.value = id
+    }
 
-
+    ///and method to stop navigating
+    fun onRecipeDetailNavigated() {
+        _navigateToRecipeDetail.value = null
+    }
 }

@@ -25,9 +25,8 @@ class AddRecipeFragment : Fragment(){
         binding = FragmentAddRecipeBinding.inflate(inflater, container, false)
 
         val application = requireNotNull(this.activity).application
-        val database = RecipeDatabase.getInstance(application).recipeDao
 
-        val viewModelFactory = AddRecipeViewModelFactory(RecipeGenerator(), database)
+        val viewModelFactory = AddRecipeViewModelFactory(RecipeGenerator(), application)
         addRecipeViewModel = ViewModelProvider(this, viewModelFactory).get(AddRecipeViewModel::class.java)
         binding.lifecycleOwner = this
         binding.addRecipeViewmodel = addRecipeViewModel
@@ -38,25 +37,7 @@ class AddRecipeFragment : Fragment(){
 
         return binding.root
     }
-    /*
 
-    //observer that as item clicked changes the background of item
-    private fun observeMealTypeSelected() {
-        addRecipeViewModel.onMealSelected.observe(viewLifecycleOwner, Observer { selected ->
-            selected?.let {
-                if (selected) {
-                    Toast.makeText(
-                        context,
-                        "${addRecipeViewModel.meal.get()} selected",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    binding.<-- kaip susieti?
-                }
-            }
-        })
-    }
-*/
 
     //    since no click listener to save item, the observer send Success/error toast
     private fun observeOnAddRecipe() {
@@ -76,6 +57,26 @@ class AddRecipeFragment : Fragment(){
             }
         })
     }
+
+    /*
+
+//observer that as item clicked changes the background of item
+private fun observeMealTypeSelected() {
+    addRecipeViewModel.onMealSelected.observe(viewLifecycleOwner, Observer { selected ->
+        selected?.let {
+            if (selected) {
+                Toast.makeText(
+                    context,
+                    "${addRecipeViewModel.meal.get()} selected",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                binding.<-- kaip susieti?
+            }
+        }
+    })
+}
+*/
 
 
 }

@@ -4,25 +4,21 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import timber.log.Timber
+import vaida.dryzaite.foodmood.app.Injection
 //import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.model.RecipeRepository
-import vaida.dryzaite.foodmood.model.room.RecipeDao
+import vaida.dryzaite.foodmood.model.room.RecipeRepository
 
-class HomeViewModel(val dataSource: RecipeDao, application: Application): AndroidViewModel(application) {
-//    private val repository: RecipeRepository = Injection.provideRecipeRepository()
+class HomeViewModel(application: Application): AndroidViewModel(application) {
 
-//    private val allRecipesLiveData = repository.getAllRecipes()
+    private val repository: RecipeRepository = Injection.provideRecipeRepository(application)
 
-//    fun getAllRecipesLiveData() = allRecipesLiveData
+//    private var allRecipesLiveData = repository.getAllRecipes()
 
-    val database = dataSource
-    private val allRecipesLiveData = database.getAllRecipes()
-    fun getAllRecipesLiveData() = allRecipesLiveData
+    private val allRecipesLiveData= repository.getAllRecipes()
 
-
+    fun getAllRecipes() = allRecipesLiveData
 
     // "_" means that it is backing property; in fragment only original ones must be used.
 
@@ -31,22 +27,30 @@ class HomeViewModel(val dataSource: RecipeDao, application: Application): Androi
         get() = _randomRecipe
 
 
-//    private var _eventEmptyList = MutableLiveData<Boolean> ()
-//    val eventEmptyList: LiveData<Boolean>
-//        get() = _eventEmptyList
 
-
-    fun getRandomRecipe(recipeList: List<RecipeEntry>){
-        if (!recipeList.isNullOrEmpty()) {
-            _randomRecipe.value = recipeList.random()
-            Timber.i("randomly generated entry in viewModel: ${randomRecipe.value}")
+    private fun getRandomRecipe(): RecipeEntry? {
+        Timber.i("all recipes retrieved ${allRecipesLiveData.value}")
+        if (!allRecipesLiveData.value.isNullOrEmpty()) {
+            _randomRecipe.value = allRecipesLiveData.value?.random()
+        } else  {
+            _randomRecipe.value = null
         }
+        Timber.i("randomly generated entry in viewModel: ${_randomRecipe.value}")
+       return  _randomRecipe.value
+
     }
 
-//     fun onEmptyList() {
-//         _eventEmptyList.value = true
-//     }
-//
+
+    private val _navigateToSuggestionPage = MutableLiveData<Boolean?>()
+    val navigateToSuggestionPage: LiveData<Boolean?>
+        get() = _navigateToSuggestionPage
+
+    fun onGenerateButtonClick() {
+        _navigateToSuggestionPage.value = getRandomRecipe() != null
+    }
+    fun doneNavigating() {
+        _navigateToSuggestionPage.value = null
+    }
 
 
 

@@ -5,13 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import vaida.dryzaite.foodmood.model.room.RecipeDao
 
-class RecipeListViewModelFactory(
-    private val dataSource: RecipeDao) : ViewModelProvider.Factory {
+class RecipeListViewModelFactory( private val application: Application) : ViewModelProvider.Factory {
         @Suppress("unchecked_cast")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(RecipeListViewModel::class.java)) {
-                return RecipeListViewModel(dataSource) as T
+                return RecipeListViewModel(application) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }
+//    private val dataSource: RecipeDao
 }
