@@ -1,9 +1,11 @@
 package vaida.dryzaite.foodmood.app
 
-import vaida.dryzaite.foodmood.model.RecipeRepository
-import vaida.dryzaite.foodmood.model.room.RoomRepository
+import android.app.Application
+import vaida.dryzaite.foodmood.model.room.RecipeDao
+import vaida.dryzaite.foodmood.model.room.RecipeRepository
+import vaida.dryzaite.foodmood.model.room.RecipeDatabaseRepository
 
 object Injection {
-    fun provideRecipeRepository(): RecipeRepository =
-        RoomRepository()
+    fun provideRecipeRepository(application: Application): RecipeRepository =
+        RecipeDatabaseRepository(application)
 }

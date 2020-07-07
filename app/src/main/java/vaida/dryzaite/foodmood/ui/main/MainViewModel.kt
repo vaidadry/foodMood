@@ -1,4 +1,4 @@
-package vaida.dryzaite.foodmood.viewmodel
+package vaida.dryzaite.foodmood.ui.main
 
 import android.view.View
 import androidx.lifecycle.LiveData

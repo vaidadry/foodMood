@@ -25,4 +25,18 @@
         <item name="android:windowBackground">@drawable/full_background</item>
     </style>
 
+    <style name="AppTheme.ActionBar" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorSecondaryDark</item>
+        <item name="android:textColor">@color/Text</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="strokeColor">@color/colorPrimary</item>
+
+    </style>
+
+
+
 </resources>

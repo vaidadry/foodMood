@@ -2,12 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/homeFragment"
+        android:id="@+id/home_fragment"
         android:icon="@drawable/ic_icon_idea"
         android:title="@string/home_nav_button_text" />
 
     <item
-        android:id="@+id/recipeListFragment"
+        android:id="@+id/recipe_list_fragment"
         android:icon="@drawable/ic_icon_collection"
-        android:title="@string/all_nav_button_text"/>
+        android:title="@string/all_recipes_nav_button_text"/>
+    <item
+        android:id="@+id/discover_recipes_fragment"
+        android:icon="@drawable/ic_icon_collection"
+        android:title="@string/discover_bottom_nav_text"/>
 </menu>

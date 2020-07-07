@@ -1,26 +1,27 @@
 package vaida.dryzaite.foodmood.ui.recipeList
 
 import android.os.Bundle
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
+import timber.log.Timber
 import vaida.dryzaite.foodmood.R
+import vaida.dryzaite.foodmood.databinding.FragmentRecipeListBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.ui.main.MainActivity
+import vaida.dryzaite.foodmood.model.room.RecipeDatabase
 import vaida.dryzaite.foodmood.utilities.ItemTouchHelperCallback
-import vaida.dryzaite.foodmood.viewmodel.RecipeListViewModel
 
 class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListener {
 
-    private lateinit var viewModel: RecipeListViewModel
-
+    private lateinit var recipeListViewModel: RecipeListViewModel
+    private lateinit var binding: FragmentRecipeListBinding
     private val adapter = RecipeListAdapter(mutableListOf(), this)
 
     override fun onCreateView(
@@ -28,37 +29,116 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recipe_list, container, false)
+        binding = FragmentRecipeListBinding.inflate(inflater, container, false)
+
+        //reference to context, to get database instance
+        val application = requireNotNull(this.activity).application
+//        val dataSource = RecipeDatabase.getInstance(application).recipeDao
+
+        val viewModelFactory = RecipeListViewModelFactory(application)
+        recipeListViewModel = ViewModelProvider(this, viewModelFactory).get(RecipeListViewModel::class.java)
+
+        binding.lifecycleOwner = this
+        binding.recipeListViewModel = recipeListViewModel
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        setHasOptionsMenu(true)
         setupViews()
 
-        viewModel = ViewModelProvider(this).get(RecipeListViewModel::class.java)
+        setupRecyclerView()
 
-        //setting up a Recyclerview
-        recipe_list_recyclerview.layoutManager = LinearLayoutManager(context)
-        recipe_list_recyclerview.adapter = adapter
+        setSearchInputListener()
+
         setupItemTouchHelper()
 
-        //updating Live data observer  with ViewModel data
-        viewModel.getAllRecipesLiveData().observe(viewLifecycleOwner, Observer { recipes ->
+        //updating Live data observer with ViewModel data
+        recipeListViewModel.getAllRecipesLiveData().observe(viewLifecycleOwner, Observer { recipes ->
             recipes?.let {
                 adapter.updateRecipes(recipes)
             }
             checkForEmptyState()
         })
-
-
-        //adding list divider decorations
-        val heightInPixels = resources.getDimensionPixelSize(R.dimen.list_item_divider_height)
-        recipe_list_recyclerview.addItemDecoration(DividerItemDecoration(R.color.Text, heightInPixels))
+        addListDividerDecoration()
     }
 
 
-    fun setupViews() {
-        fab.setOnClickListener {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.top_nav_menu, menu)
+
+        //setup clicks on icons in toolbar
+        val searchIcon = menu.findItem(R.id.search_menu_item)
+        searchIcon.actionView.setOnClickListener {
+            menu.performIdentifierAction(
+                searchIcon.itemId,
+                0
+            )
+        }
+        val favoriteIcon = menu.findItem(R.id.favorite_menu_item)
+        favoriteIcon.actionView.setOnClickListener {
+            menu.performIdentifierAction(
+                favoriteIcon.itemId,
+                0
+            )
+        }
+    }
+
+    //based on selected menu item, layout managers are switched
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Timber.i("onOptionsItemSelected")
+        when (item.itemId) {
+            R.id.favorite_menu_item -> {
+                Timber.i("favorite selected")
+            }
+            R.id.search_menu_item -> {
+                Timber.i("search selected")
+                hideShowSearchBar()
+
+            }
+            R.id.list_display -> {
+                Timber.i("LIST")
+//                showListView()
+            }
+            R.id.grid_display -> {
+                Timber.i( "GRID")
+//                showGridView()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
+    override fun deleteRecipeAtPosition(recipe: RecipeEntry) {
+        recipeListViewModel.onDeleteRecipe(recipe)
+    }
+
+    private fun addListDividerDecoration() {
+        //adding list divider decorations
+        val heightInPixels = resources.getDimensionPixelSize(R.dimen.list_item_divider_height)
+        binding.recipeListRecyclerview.addItemDecoration(
+            DividerItemDecoration(
+                R.color.Text,
+                heightInPixels
+            )
+        )
+    }
+
+    private fun setupRecyclerView() {
+        //setting up a Recyclerview
+        val layoutManager = LinearLayoutManager(context)
+        binding.recipeListRecyclerview.layoutManager = layoutManager
+        binding.recipeListRecyclerview.adapter = adapter
+    }
+
+
+    private fun setupViews() {
+        binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_recipeListFragment_to_addRecipeFragment)
         }
     }
@@ -71,12 +151,34 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
     //if no items, empty state text is shown
     private fun checkForEmptyState() {
-        emptyState.visibility = if (adapter.itemCount == 0) View.VISIBLE else View.INVISIBLE
+        binding.emptyState.visibility = if (adapter.itemCount == 0) View.VISIBLE else View.INVISIBLE
     }
 
-    override fun deleteRecipeAtPosition(recipe: RecipeEntry) {
-        viewModel.deleteRecipe(recipe)
+//
+//    private fun showListView() {
+//        layoutManager.spanCount = 1
+//    }
+//    private fun showGridView() {
+//        layoutManager.spanCount = 2
+//    }
+
+    private fun hideShowSearchBar() {
+        binding.searchInput.visibility = if (search_input.visibility == View.GONE) View.VISIBLE else View.GONE
     }
+
+
+        private fun setSearchInputListener() {
+            binding.searchInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    adapter.filter.filter(newText)
+                    return false
+                }
+            })
+        }
+
 
 
 }

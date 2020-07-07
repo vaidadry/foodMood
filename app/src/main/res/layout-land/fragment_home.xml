@@ -1,91 +1,95 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/home_fragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="homeViewModel"
+            type="vaida.dryzaite.foodmood.ui.homePage.HomeViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/activity_main_layout"
+        android:id="@+id/home_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"
         tools:context=".ui.homePage.HomeFragment">
 
 
-            <!--        android:fontFamily="@font/robotomono_bold"-->
         <TextView
-            android:id="@+id/generateRandomMealText"
+            android:id="@+id/generate_random_meal_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/dosis_medium"
+            android:fontFamily="@font/dosis_regular"
             android:text="@string/grab_idea_textView"
             android:textSize="@dimen/generate_random_meal_text_size"
-            app:layout_constraintEnd_toEndOf="@id/verticalGuidelineRight"
-            app:layout_constraintStart_toStartOf="@id/verticalGuidelineLeft"
-            app:layout_constraintTop_toTopOf="@id/horizontalGuidelineTop" />
+            app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
+            app:layout_constraintTop_toTopOf="@id/horizontal_guideline_top" />
 
         <Button
             android:id="@+id/random_Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
-            android:text="@string/random_button"
             android:fontFamily="@font/robotomono_bold"
+            android:text="@string/random_button"
             android:textSize="@dimen/button_text_size"
+            app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_bottom_nav"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/horizontalGuidelineMiddle"
-            app:layout_constraintBottom_toTopOf="@id/horizontalGuidelineBottomNav"/>
+            app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_middle"
+            android:clickable="true"
+            android:onClick="@{() -> homeViewModel.onGenerateButtonClick()}"/>
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontalGuidelineBottomNav"
+            android:id="@+id/horizontal_guideline_bottom_nav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.93" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontalGuidelineBottom"
+            android:id="@+id/horizontal_guideline_bottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.75" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/verticalGuideline"
+            android:id="@+id/vertical_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontalGuidelineTop"
+            android:id="@+id/horizontal_guideline_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.25" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontalGuidelineMiddle"
+            android:id="@+id/horizontal_guideline_middle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.5" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/verticalGuidelineLeft"
+            android:id="@+id/vertical_guideline_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.1" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/verticalGuidelineRight"
+            android:id="@+id/vertical_guideline_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.9" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
+

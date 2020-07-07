@@ -11,10 +11,23 @@ interface RecipeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertRecipe(recipe: RecipeEntry)
 
+    @Update
+   fun updateRecipe(recipe: RecipeEntry)
+
     @Delete
     fun deleteRecipe(recipe: RecipeEntry)
 
+    //live data so that room update it automatically
     @Query("SELECT * from recipe_table ORDER BY title ASC")
     fun getAllRecipes(): LiveData<List<RecipeEntry>>
+
+
+    //Selects and returns the recipe with given id(live data)
+    @Query("SELECT * from recipe_table WHERE id = :key")
+    fun getRecipeWithId(key: String): LiveData<RecipeEntry>
+
+
+
+
 
 }

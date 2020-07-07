@@ -25,7 +25,8 @@ class RecipeDiffCallback(private val oldRecipes: List<RecipeEntry>, private val 
                 oldRecipe.veggie == newRecipe.veggie &&
                 oldRecipe.fish == newRecipe.fish &&
                 oldRecipe.meal == newRecipe.meal &&
-                oldRecipe.recipe == newRecipe.recipe
+                oldRecipe.recipe == newRecipe.recipe &&
+                oldRecipe.isFavorite == newRecipe.isFavorite
 
 
     }

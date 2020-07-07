@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "259103506392",
+    "firebase_url": "https://foodmoodgenerator.firebaseio.com",
+    "project_id": "foodmoodgenerator",
+    "storage_bucket": "foodmoodgenerator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259103506392:android:042edcfefafa12b2c47cad",
+        "android_client_info": {
+          "package_name": "vaida.dryzaite.foodmood"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "259103506392-m85p88kj6vs801ip3ppv7nlaj60kkupm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTEzkMiEvr7TvadzeRUx_pDHPw3HX6G1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "259103506392-m85p88kj6vs801ip3ppv7nlaj60kkupm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
