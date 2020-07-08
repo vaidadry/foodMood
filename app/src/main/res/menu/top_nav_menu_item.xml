@@ -4,10 +4,9 @@
 
     <item
         android:id="@+id/menu_share_item"
-        android:enabled="true"
         android:title="@string/share_recipe"
-        android:actionLayout="@layout/view_share"
+        app:actionLayout="@layout/view_share"
         app:showAsAction="ifRoom"
-        android:visible="true"/>
+        />
 
 </menu>

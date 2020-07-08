@@ -4,18 +4,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<!--    <data>-->
-<!--        <variable-->
-<!--            name="dataclassRecipeEntry"-->
-<!--            type="vaida.dryzaite.foodmood.model.RecipeEntry" />-->
-<!--        <variable-->
-<!--            name="clickListener"-->
-<!--            type="vaida.dryzaite.foodmood.ui.recipeList.RecipeListViewHolder" />-->
-<!--    </data>-->
+    <data>
+        <variable
+            name="dataclassRecipeEntry"
+            type="vaida.dryzaite.foodmood.model.RecipeEntry"/>
+        <variable
+            name="clickListener"
+            type="vaida.dryzaite.foodmood.ui.recipeList.RecipeListOnClickListener" />
+        <variable
+            name="recipeListViewModel"
+            type="vaida.dryzaite.foodmood.ui.recipeList.RecipeListViewModel" />
+
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/list_item_container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/list_item_height_with_divider">
+        android:layout_height="@dimen/list_item_height_with_divider"
+        android:onClick="@{() -> clickListener.onClick(dataclassRecipeEntry)}">
 
         <ImageView
             android:id="@+id/meal_icon"
@@ -26,7 +31,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_4" />
+            app:mealTypeIcon="@{dataclassRecipeEntry}"/>
+
 
         <TextView
             android:id="@+id/recipe_title"
@@ -37,6 +43,7 @@
             android:textAlignment="viewStart"
             android:textColor="@color/Text"
             android:textSize="@dimen/list_item_text_size"
+            android:text="@{dataclassRecipeEntry.title}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/favorite"
             app:layout_constraintStart_toEndOf="@+id/meal_icon"
@@ -54,7 +61,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/recipe_title"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_heart_empty" />
+            app:srcCompat="@drawable/ic_heart_empty"
+            android:onClick="@{() -> recipeListViewModel.onFavoriteClicked()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

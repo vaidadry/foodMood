@@ -69,7 +69,7 @@
         android:name="vaida.dryzaite.foodmood.ui.recipePage.RecipeFragment"
         android:label="RecipeFragment"
         tools:layout="@layout/recipe_fragment" >
-        <argument android:name="KeyId"
+        <argument android:name="keyId"
             app:argType="string" />
     </fragment>
     <fragment
