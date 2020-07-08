@@ -9,14 +9,8 @@
         <item name="android:textColor">@color/Text</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
-
     </style>
 
-    <style name="SpinnerStyle" parent="@style/Base.Widget.AppCompat.Spinner.Underlined">
-        <item name="strokeWidth">2dp</item>
-        <item name="fontFamily">@font/dosis_medium</item>
-        <item name="android:textSize">@dimen/list_item_text_size</item>
-    </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="android:windowFullscreen">true</item>
@@ -34,7 +28,11 @@
         <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="strokeColor">@color/colorPrimary</item>
+    </style>
 
+    <style name="FavoriteCheckbox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/ic_favorite_selector</item>
+        <item name="android:gravity">center</item>
     </style>
 
 

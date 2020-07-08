@@ -61,7 +61,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/recipe_title"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_heart_empty"
+            app:srcCompat="@drawable/ic_heart_empty_yellow_boarder"
             android:onClick="@{() -> recipeListViewModel.onFavoriteClicked()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
