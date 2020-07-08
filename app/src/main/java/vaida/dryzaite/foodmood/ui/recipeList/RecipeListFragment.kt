@@ -25,9 +25,6 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
     private lateinit var recipeListViewModel: RecipeListViewModel
     private lateinit var binding: FragmentRecipeListBinding
     private lateinit var adapter: RecipeListAdapter
-//    private val adapter = RecipeListAdapter(mutableListOf(), this, RecipeListOnClickListener { id ->
-//        Toast.makeText(context, "$id", Toast.LENGTH_SHORT).show()
-//    })
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,6 +70,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         })
         addListDividerDecoration()
 
+        //set up observer to react on item taps and enable navigation
         recipeListViewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, Observer { keyId->
             keyId?.let {
                 this.findNavController().navigate(

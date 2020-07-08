@@ -28,8 +28,4 @@ data class RecipeEntry(
     @ColumnInfo (name = "is_favorite")
     var isFavorite: Boolean = false
 )
-{
-    fun thumbnail(meal: Int): String {
-        return "drawable/ic_$meal"
-    }
-}
+

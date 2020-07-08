@@ -31,7 +31,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_3" />
+            app:mealTypeIcon="@{dataclassRecipeEntry}"/>
+
 
         <TextView
             android:id="@+id/recipe_title"
@@ -42,6 +43,7 @@
             android:textAlignment="viewStart"
             android:textColor="@color/Text"
             android:textSize="@dimen/list_item_text_size"
+            android:text="@{dataclassRecipeEntry.title}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/favorite"
             app:layout_constraintStart_toEndOf="@+id/meal_icon"

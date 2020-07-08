@@ -12,15 +12,9 @@ import vaida.dryzaite.foodmood.utilities.ItemSelectedListener
 
 class RecipeListViewHolder(val binding: ListItemRecipeViewHolderBinding) : RecyclerView.ViewHolder(binding.root), ItemSelectedListener {
 
-    //retrieving data avoiding findById
-    fun bind(
-        recipe: RecipeEntry,
-        clickListener: RecipeListOnClickListener
-    ) {
+    // binding data to list item layout
+    fun bind(recipe: RecipeEntry, clickListener: RecipeListOnClickListener) {
         binding.dataclassRecipeEntry = recipe
-        val context = itemView.context
-        binding.mealIcon.setImageResource(context.resources.getIdentifier(recipe.thumbnail(recipe.meal), null, context.packageName))
-        binding.recipeTitle.text = recipe.title
         binding.clickListener = clickListener
 
     }
