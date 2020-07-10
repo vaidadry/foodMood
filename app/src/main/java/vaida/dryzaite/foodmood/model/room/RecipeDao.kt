@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import vaida.dryzaite.foodmood.model.RecipeEntry
 
-
 //creating interface for DAO
 @Dao
 interface RecipeDao {
@@ -21,10 +20,13 @@ interface RecipeDao {
     @Query("SELECT * from recipe_table ORDER BY title ASC")
     fun getAllRecipes(): LiveData<List<RecipeEntry>>
 
-
     //Selects and returns the recipe with given id(live data)
     @Query("SELECT * from recipe_table WHERE id = :key")
     fun getRecipeWithId(key: String): LiveData<RecipeEntry>
+
+    //Select Favorites
+    @Query("SELECT * from recipe_table WHERE is_favorite = 1")
+    fun getFavorites(): LiveData<List<RecipeEntry>>
 
 
 

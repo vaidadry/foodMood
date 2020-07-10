@@ -20,7 +20,7 @@ class DiscoverRecipesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.discover_recipes_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_discover_recipes, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

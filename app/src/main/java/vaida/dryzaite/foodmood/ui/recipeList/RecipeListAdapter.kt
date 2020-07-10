@@ -28,7 +28,6 @@ class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>, private v
 
     override fun onBindViewHolder(holder: RecipeListViewHolder, position: Int) {
         holder.bind(recipeFilterList[position], clickListener)
-
     }
 
     fun updateRecipes(recipes: List<RecipeEntry>) {
@@ -99,9 +98,9 @@ class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>, private v
     }
 }
 
-//defining click listener to respond to clicks on RW
+//defining click listeners to respond to clicks on RW
 class RecipeListOnClickListener(val clickListener: (id: String) -> Unit) {
-    fun onClick(recipe: RecipeEntry) =  clickListener(recipe.id)
+    fun onClick(recipe: RecipeEntry) = clickListener(recipe.id)
 }
 
 
