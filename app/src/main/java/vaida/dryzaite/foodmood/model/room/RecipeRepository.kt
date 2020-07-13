@@ -11,5 +11,6 @@ interface RecipeRepository {
     fun deleteRecipe(recipe: RecipeEntry)
     fun updateRecipe(recipe: RecipeEntry)
     fun getRecipeWithId(key: String): LiveData<RecipeEntry>
+    fun getFavorites(): LiveData<List<RecipeEntry>>
 
 }

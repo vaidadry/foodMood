@@ -68,7 +68,7 @@
         android:id="@+id/recipe_fragment"
         android:name="vaida.dryzaite.foodmood.ui.recipePage.RecipeFragment"
         android:label="RecipeFragment"
-        tools:layout="@layout/recipe_fragment" >
+        tools:layout="@layout/fragment_recipe_detail" >
         <argument android:name="keyId"
             app:argType="string" />
     </fragment>
@@ -76,7 +76,7 @@
         android:id="@+id/discover_recipes_fragment"
         android:name="vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesFragment"
         android:label="DiscoverRecipesFragment"
-        tools:layout="@layout/discover_recipes_fragment">
+        tools:layout="@layout/fragment_discover_recipes">
         <action
             android:id="@+id/action_discoverRecipesFragment_to_favoritesFragment"
             app:destination="@id/favoritesFragment" />
@@ -89,5 +89,8 @@
         <argument
             android:name="KeyId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_favoritesFragment_to_recipe_fragment"
+            app:destination="@id/recipe_fragment" />
     </fragment>
 </navigation>

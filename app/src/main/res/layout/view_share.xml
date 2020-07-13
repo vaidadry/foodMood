@@ -6,10 +6,10 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/search_full_app_bar"
-        android:layout_width="@dimen/app_bar_icon"
-        android:layout_height="@dimen/app_bar_icon"
-        android:layout_marginStart="@dimen/half_padding"
+        android:id="@+id/share_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/normal_padding"
         android:layout_marginEnd="@dimen/half_padding"
         android:contentDescription="@string/content_description_search"
         app:layout_constraintBottom_toBottomOf="parent"

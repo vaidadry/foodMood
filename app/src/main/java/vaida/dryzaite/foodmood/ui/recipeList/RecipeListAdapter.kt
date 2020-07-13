@@ -5,13 +5,17 @@ import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import timber.log.Timber
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.utilities.ItemTouchHelperListener
 import vaida.dryzaite.foodmood.utilities.RecipeDiffCallback
 import java.util.*
 import kotlin.collections.ArrayList
 
-class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>, private val listener: RecipeListAdapterListener, private val clickListener: RecipeListOnClickListener)
+class RecipeListAdapter(
+    private val recipes: MutableList<RecipeEntry>,
+    private val listener: RecipeListAdapterListener,
+    private val clickListener: RecipeListOnClickListener)
     : RecyclerView.Adapter<RecipeListViewHolder>(), ItemTouchHelperListener, Filterable {
 
     var recipeFilterList = ArrayList<RecipeEntry>()
@@ -28,7 +32,6 @@ class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>, private v
 
     override fun onBindViewHolder(holder: RecipeListViewHolder, position: Int) {
         holder.bind(recipeFilterList[position], clickListener)
-
     }
 
     fun updateRecipes(recipes: List<RecipeEntry>) {
@@ -99,9 +102,9 @@ class RecipeListAdapter(private val recipes: MutableList<RecipeEntry>, private v
     }
 }
 
-//defining click listener to respond to clicks on RW
-class RecipeListOnClickListener(val clickListener: (id: String) -> Unit) {
-    fun onClick(recipe: RecipeEntry) =  clickListener(recipe.id)
+//defining click listeners to respond to clicks on RW
+open class RecipeListOnClickListener(val clickListener: (id: String) -> Unit) {
+    fun onClick(recipe: RecipeEntry) = clickListener(recipe.id)
 }
 
 

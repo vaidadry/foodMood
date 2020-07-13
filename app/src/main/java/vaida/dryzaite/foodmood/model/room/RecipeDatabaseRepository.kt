@@ -67,4 +67,8 @@ class RecipeDatabaseRepository(application: Application) : RecipeRepository, Cor
         return recipeDao!!.getRecipeWithId(key)
     }
 
+    override fun getFavorites(): LiveData<List<RecipeEntry>> {
+        return recipeDao!!.getFavorites()
+    }
+
 }

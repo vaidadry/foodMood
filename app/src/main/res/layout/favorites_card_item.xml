@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="dataclassRecipeEntry"
+            type="vaida.dryzaite.foodmood.model.RecipeEntry" />
+
+        <variable
+            name="clickListener"
+            type="vaida.dryzaite.foodmood.ui.favoritesPage.FavoritesOnClickListener" />
+
+        <variable
+            name="favoriteViewModel"
+            type="vaida.dryzaite.foodmood.ui.favoritesPage.FavoritesViewModel" />
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/recipe_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onClick(dataclassRecipeEntry)}"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="@dimen/cardview_default_elevation">
+
+
+        <!-- Used for ripple effect on touch-->
+        <LinearLayout
+            android:id="@+id/cardRipple"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/recipe_card_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/favorite_image"
+                android:layout_width="@dimen/card_image_size"
+                android:layout_height="@dimen/card_image_size"
+                android:layout_gravity="center"
+                android:contentDescription="@string/recipe_image_content_description"
+                android:padding="@dimen/normal_padding"
+                app:layout_constraintBottom_toTopOf="@id/titleHolder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:mealTypeIcon="@{dataclassRecipeEntry}"
+                tools:srcCompat="@drawable/ic_food" />
+
+            <CheckBox
+                android:id="@+id/favorite_icon"
+                style="@style/FavoriteCheckbox"
+                android:layout_width="@dimen/favorite_icon_size"
+                android:layout_height="@dimen/favorite_icon_size"
+                android:layout_margin="@dimen/quarter_padding"
+                android:checked="@{dataclassRecipeEntry.favorite}"
+                android:contentDescription="@string/content_description_favorite"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/titleHolder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:alpha="0.9"
+                android:background="@color/colorAccent"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/favorite_image">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/normal_padding"
+                    android:layout_marginEnd="@dimen/normal_padding"
+                    android:fontFamily="@font/dosis_medium"
+                    android:maxLines="5"
+                    android:padding="@dimen/half_padding"
+                    android:text="@{dataclassRecipeEntry.title}"
+                    android:textAlignment="center"
+                    android:textColor="@color/Text"
+                    android:textSize="@dimen/list_item_text_size"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/title" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

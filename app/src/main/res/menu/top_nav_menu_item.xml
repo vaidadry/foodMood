@@ -3,10 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/favorite_item_selector"
+        android:checkable="true"
+        android:icon="@drawable/ic_favorite_selector_30dp"
+        android:title="@string/Favorites"
+        app:actionLayout="@layout/layout_favorites_action_bar"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/menu_share_item"
+        android:icon="@drawable/ic_share"
         android:title="@string/share_recipe"
-        app:actionLayout="@layout/view_share"
-        app:showAsAction="ifRoom"
-        />
+        app:showAsAction="ifRoom" />
 
 </menu>

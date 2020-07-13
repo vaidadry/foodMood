@@ -1,84 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
-            name="recipeViewModel"
-            type="vaida.dryzaite.foodmood.ui.recipePage.RecipeViewModel" />
+            name="favoritesViewModel"
+            type="vaida.dryzaite.foodmood.ui.favoritesPage.FavoritesViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/recipe_fragment"
+        android:id="@+id/favorites_fragment_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.recipePage.RecipeFragment">
+        android:background="@color/colorPrimaryDark"
+        tools:context=".ui.favoritesPage.FavoritesFragment">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_item"
+            android:id="@+id/favorites_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/full_background"
+            app:layout_constraintBottom_toTopOf="@id/favorites_recyclerview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:menu="@menu/top_nav_menu_item"
-            app:title="Recipe"
+            app:title="@string/Favorites"
             app:titleTextColor="@color/Text" />
 
-
-        <ImageView
-            android:id="@+id/detail_image"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            app:layout_constraintBottom_toTopOf="@id/detail_title"
-            app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
-            app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/toolbar_item"
-            android:contentDescription="@string/general_meal_image_of_detail_page"
-            app:mealTypeIcon="@{recipeViewModel.detailRecipe}" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/favorites_recyclerview"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_bottom_nav"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/favorites_toolbar"/>
 
         <TextView
-            android:id="@+id/detail_title"
+            android:id="@+id/empty_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/dosis_bold"
-            android:text="@{recipeViewModel.recipeDetail.title}"
-            android:textSize="@dimen/generate_random_meal_text_size"
-            app:layout_constraintBottom_toTopOf="@id/detail_url"
-            app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
-            app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/detail_image"
-            tools:text="@string/title" />
-
-        <TextView
-            android:id="@+id/detail_meal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/dosis_bold"
+            android:fontFamily="@font/dosis_extralight"
+            android:text="@string/no_recipes_available"
             android:textSize="@dimen/list_item_text_size"
-            app:layout_constraintBottom_toTopOf="@+id/detail_url"
-            app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
-            app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/detail_title"
-            tools:text="meal"
-            app:mealTypeText="@{recipeViewModel.recipeDetail}"/>
-
-        <TextView
-            android:id="@+id/detail_url"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/dosis_bold"
-            android:text="@{recipeViewModel.recipeDetail.recipe}"
-            android:textSize="@dimen/list_item_text_size"
-            app:layout_constraintBottom_toBottomOf="@id/horizontal_guideline_bottom_nav"
-            app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
-            app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/detail_title"
-            tools:text="@string/url" />
-
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/horizontal_guideline_bottom_nav"

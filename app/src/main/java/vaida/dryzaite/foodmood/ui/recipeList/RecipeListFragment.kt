@@ -6,7 +6,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -17,7 +16,6 @@ import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentRecipeListBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.model.room.RecipeDatabase
 import vaida.dryzaite.foodmood.utilities.ItemTouchHelperCallback
 
 class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListener {
@@ -78,7 +76,33 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
                 recipeListViewModel.onRecipeDetailNavigated()
             }
         })
+
+        //NEVEIKIA
+        recipeListViewModel.favoriteStatusChange.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                Toast.makeText(context, "fav value changed", Toast.LENGTH_SHORT).show()
+                recipeListViewModel.onFavoriteClickCompleted()
+            }
+        })
+
+
     }
+
+//    private fun setUpFavorite(id: String) {
+//        val recipe = recipeListViewModel.getRecipeById(id)
+//        recipeListViewModel.updateRecipe(recipe.value!!)
+//    }
+
+//    //enable Favorite button
+//    private fun setupFavoriteToggle(id: String) {
+//        val recipe = recipeListViewModel.getRecipeById(id)
+//        favorite.setOnCheckedChangeListener { _, boolean ->
+//            recipe.value!!.isFavorite = boolean
+//            recipeListViewModel.updateRecipe(recipe.value!!)
+//        }
+//        favorite.isChecked = recipe.value.isFavorite!!
+//    }
+
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -107,6 +131,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         Timber.i("onOptionsItemSelected")
         when (item.itemId) {
             R.id.favorite_menu_item -> {
+                navigateToFavoritesPage()
                 Timber.i("favorite selected")
             }
             R.id.search_menu_item -> {
@@ -187,6 +212,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         binding.searchInput.visibility = if (search_input.visibility == View.GONE) View.VISIBLE else View.GONE
     }
 
+
         private fun setSearchInputListener() {
             binding.searchInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
@@ -199,6 +225,9 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
             })
         }
 
-
-
+    private fun navigateToFavoritesPage() {
+        this.findNavController().navigate(
+            RecipeListFragmentDirections.actionRecipeListFragmentToFavoritesFragment(""))
+        recipeListViewModel.onRecipeDetailNavigated()
+    }
 }

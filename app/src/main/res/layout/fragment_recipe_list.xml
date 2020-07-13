@@ -8,6 +8,8 @@
             type="vaida.dryzaite.foodmood.ui.recipeList.RecipeListViewModel" />
     </data>
 
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/recipe_list_fragment_layout"
         android:layout_width="match_parent"

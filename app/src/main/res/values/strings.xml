@@ -56,6 +56,7 @@
     <string name="dinner">Dinner</string>
     <string name="sweets">Sweets</string>
     <string name="general_meal_image_of_detail_page">General meal image of detail page</string>
+    <string name="recipe_image_content_description">recipe image content description</string>
 
 
 </resources>
