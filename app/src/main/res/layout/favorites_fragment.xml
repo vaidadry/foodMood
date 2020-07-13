@@ -2,6 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="favoritesViewModel"
+            type="vaida.dryzaite.foodmood.ui.favoritesPage.FavoritesViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/favorites_fragment_layout"
         android:layout_width="match_parent"
@@ -10,11 +16,11 @@
         tools:context=".ui.favoritesPage.FavoritesFragment">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_favorites"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/full_background"
-            app:layout_constraintBottom_toTopOf="@id/search_input"
+            app:layout_constraintBottom_toTopOf="@id/favorites_list_recyclerview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -22,31 +28,14 @@
             app:titleTextColor="@color/Text" />
 
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:textCursorDrawable="@null"
-            android:visibility="gone"
-            app:iconifiedByDefault="false"
-            app:layout_constraintBottom_toTopOf="@id/favorites_list_recyclerview"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:queryBackground="@null"
-            app:queryHint="@string/search"/>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/favorites_list_recyclerview"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_bottom_nav"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search_input"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintTop_toBottomOf="@id/toolbar_favorites">
 
         </androidx.recyclerview.widget.RecyclerView>
 

@@ -51,11 +51,13 @@
 
             <TextView
                 android:id="@+id/detail_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textAlignment="center"
                 android:fontFamily="@font/dosis_bold"
                 android:text="@{recipeViewModel.recipeDetail.title}"
                 android:textSize="@dimen/generate_random_meal_text_size"
+                android:maxLines="3"
                 app:layout_constraintBottom_toTopOf="@id/detail_url"
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
@@ -64,8 +66,9 @@
 
             <TextView
                 android:id="@+id/detail_meal"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:textAlignment="center"
                 android:fontFamily="@font/dosis_bold"
                 android:textSize="@dimen/list_item_text_size"
                 app:layout_constraintBottom_toTopOf="@+id/detail_url"
@@ -75,18 +78,21 @@
                 app:mealTypeText="@{recipeViewModel.recipeDetail}"
                 tools:text="meal" />
 
-            <TextView
+
+            <Button
                 android:id="@+id/detail_url"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/dosis_bold"
-                android:text="@{recipeViewModel.recipeDetail.recipe}"
+                android:background="@drawable/rounded_button"
+                android:fontFamily="@font/robotomono_bold"
                 android:textSize="@dimen/list_item_text_size"
+                android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="@id/horizontal_guideline_bottom_nav"
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toBottomOf="@id/detail_title"
-                tools:text="@string/url"
+                android:text="@string/show_me_how_button"
+                android:clickable="true"
                 android:onClick="@{() -> recipeViewModel.onClickUrl()}"/>
 
 

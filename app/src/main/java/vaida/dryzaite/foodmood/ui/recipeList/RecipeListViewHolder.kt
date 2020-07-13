@@ -22,7 +22,7 @@ class RecipeListViewHolder(val binding: ListItemRecipeViewHolderBinding) : Recyc
     fun bind(recipe: RecipeEntry, clickListener: RecipeListOnClickListener) {
         binding.dataclassRecipeEntry = recipe
         binding.clickListener = clickListener
-        binding.executePendingBindings()
+
 
         binding.favorite.setOnCheckedChangeListener { _, isChecked ->
             recipe.isFavorite = isChecked
@@ -31,7 +31,7 @@ class RecipeListViewHolder(val binding: ListItemRecipeViewHolderBinding) : Recyc
             binding.favorite.isChecked = recipe.isFavorite
             Timber.i("fun bind working - is checked  $recipe")
 
-
+        binding.executePendingBindings()
 
 
 //        val status = adapterPosition

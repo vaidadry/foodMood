@@ -38,6 +38,8 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
     }
 
 
+
+
 //neveikia apacioj!
 
     private val _favoriteStatusChange = MutableLiveData<Boolean?>()

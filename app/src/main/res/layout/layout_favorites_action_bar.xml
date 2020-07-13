@@ -1,0 +1,12 @@
+<CheckBox xmlns:tools="http://schemas.android.com/tools"
+    style="@style/FavoriteCheckboxActionBar"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/app_bar_icon"
+    android:layout_height="@dimen/app_bar_icon"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    android:layout_marginEnd="@dimen/half_padding"
+    android:layout_marginStart="@dimen/half_padding" />

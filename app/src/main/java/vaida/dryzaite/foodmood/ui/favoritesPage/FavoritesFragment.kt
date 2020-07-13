@@ -8,20 +8,20 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentFavoritesBinding
-import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.ui.recipeList.DividerItemDecoration
-import vaida.dryzaite.foodmood.ui.recipeList.RecipeListAdapter
-import vaida.dryzaite.foodmood.ui.recipeList.RecipeListOnClickListener
 
 
-class FavoritesFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListener {
+class FavoritesFragment : Fragment() {
 
     private lateinit var favoritesViewModel: FavoritesViewModel
     private lateinit var binding: FragmentFavoritesBinding
-    private lateinit var adapter: RecipeListAdapter
+    private lateinit var adapter: FavoritesAdapter
+
+    private lateinit var gridItemDecoration: RecyclerView.ItemDecoration
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentFavoritesBinding.inflate(inflater, container, false)
@@ -44,6 +44,19 @@ class FavoritesFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListene
         setupAdapter()
 
         setupRecyclerView()
+        setupItemDecoration()
+        
+        //adding scroll listener for smooth animation
+        binding.favoritesRecyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                adapter.scrollDirection = if (dy > 0) {
+                    FavoritesAdapter.ScrollDirection.DOWN
+                } else {
+                    FavoritesAdapter.ScrollDirection.UP
+                }
+            }
+        })
 
         //updating Live data observer with ViewModel data
         favoritesViewModel.getFavorites().observe(viewLifecycleOwner, Observer { recipes ->
@@ -52,8 +65,6 @@ class FavoritesFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListene
             }
             checkForEmptyState()
         })
-        addListDividerDecoration()
-
 
         //set up observer to react on item taps and enable navigation
         favoritesViewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, Observer { keyId->
@@ -66,27 +77,16 @@ class FavoritesFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListene
     }
 
 
-    private fun addListDividerDecoration() {
-        //adding list divider decorations
-        val heightInPixels = resources.getDimensionPixelSize(R.dimen.list_item_divider_height)
-        binding.favoritesRecyclerview.addItemDecoration(
-            DividerItemDecoration(
-                R.color.Text,
-                heightInPixels
-            )
-        )
-    }
-
 
     private fun setupAdapter() {
-        adapter = RecipeListAdapter(mutableListOf(), this, RecipeListOnClickListener { id ->
+        adapter = FavoritesAdapter(mutableListOf(), FavoritesOnClickListener { id ->
             favoritesViewModel.onRecipeClicked(id)
         })
     }
 
     private fun setupRecyclerView() {
         //setting up a Recyclerview
-        val layoutManager = LinearLayoutManager(context)
+        val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         binding.favoritesRecyclerview.layoutManager = layoutManager
         binding.favoritesRecyclerview.adapter = adapter
     }
@@ -96,10 +96,14 @@ class FavoritesFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListene
         binding.emptyState.visibility = if (adapter.itemCount == 0) View.VISIBLE else View.INVISIBLE
     }
 
-//nenaudojam
-    override fun deleteRecipeAtPosition(recipe: RecipeEntry) {
-        TODO("Not yet implemented")
+//    adding spacing decorator for equal spacing between grid items
+    private fun setupItemDecoration() {
+        val spacingInPixels = resources.getDimensionPixelSize(R.dimen.recipe_card_grid_layout_margin)
+        gridItemDecoration = SpacingItemDecorator(3, spacingInPixels)
+        binding.favoritesRecyclerview.addItemDecoration(gridItemDecoration)
+
     }
+
 
 
 }

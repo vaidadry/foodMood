@@ -25,7 +25,7 @@ interface RecipeDao {
     fun getRecipeWithId(key: String): LiveData<RecipeEntry>
 
     //Select Favorites
-    @Query("SELECT * from recipe_table WHERE is_favorite = 1")
+    @Query("SELECT * from recipe_table WHERE is_favorite = 1 ORDER BY title ASC")
     fun getFavorites(): LiveData<List<RecipeEntry>>
 
 
