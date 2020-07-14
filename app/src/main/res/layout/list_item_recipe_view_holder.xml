@@ -11,10 +11,6 @@
         <variable
             name="clickListener"
             type="vaida.dryzaite.foodmood.ui.recipeList.RecipeListOnClickListener" />
-        <variable
-            name="recipeListViewModel"
-            type="vaida.dryzaite.foodmood.ui.recipeList.RecipeListViewModel" />
-
     </data>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -79,7 +75,7 @@
                 app:layout_constraintStart_toEndOf="@id/list_item_info"
                 app:layout_constraintTop_toTopOf="parent"
                 android:checked="@{dataclassRecipeEntry.favorite}"
-                android:onClick="@{() -> recipeListViewModel.onFavoriteClicked(dataclassRecipeEntry)}"/>
-
+                android:saveEnabled="false"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

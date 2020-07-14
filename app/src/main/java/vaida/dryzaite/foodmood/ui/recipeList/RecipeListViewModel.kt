@@ -3,7 +3,6 @@ package vaida.dryzaite.foodmood.ui.recipeList
 
 import android.app.Application
 import androidx.lifecycle.*
-import timber.log.Timber
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.model.room.RecipeRepository
@@ -37,26 +36,25 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
         _navigateToRecipeDetail.value = null
     }
 
-
-
-
-//neveikia apacioj!
-
+    //defining favorite button state
     private val _favoriteStatusChange = MutableLiveData<Boolean?>()
     val favoriteStatusChange: LiveData<Boolean?>
         get() = _favoriteStatusChange
 
 
-    fun onFavoriteClicked(recipe: RecipeEntry) {
-        val recipeData = getRecipeById(recipe.id)
-        Timber.i("live data  get by id ${recipeData.value}")
-        when (val favStatus = recipeData.value!!.isFavorite) {
-            true -> !favStatus
-            false -> favStatus
-        }
-        Timber.i("live data  after WHEN  ${recipeData.value}")
-        updateRecipe(recipeData.value!!)
-        Timber.i("live data  after update  ${recipeData.value}")
+    private lateinit var mRecipe: RecipeEntry
+
+    fun removeFavorites(recipe: RecipeEntry) {
+        mRecipe = recipe
+        mRecipe.isFavorite = false
+        updateRecipe(mRecipe)
+        _favoriteStatusChange.value = true
+    }
+
+    fun addFavorites(recipe: RecipeEntry) {
+        mRecipe = recipe
+        mRecipe.isFavorite = true
+        updateRecipe(mRecipe)
         _favoriteStatusChange.value = true
     }
 

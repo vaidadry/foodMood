@@ -77,31 +77,13 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
             }
         })
 
-        //NEVEIKIA
+        //observer to react on fav button state (if change needed or not)
         recipeListViewModel.favoriteStatusChange.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                Toast.makeText(context, "fav value changed", Toast.LENGTH_SHORT).show()
                 recipeListViewModel.onFavoriteClickCompleted()
             }
         })
-
-
     }
-
-//    private fun setUpFavorite(id: String) {
-//        val recipe = recipeListViewModel.getRecipeById(id)
-//        recipeListViewModel.updateRecipe(recipe.value!!)
-//    }
-
-//    //enable Favorite button
-//    private fun setupFavoriteToggle(id: String) {
-//        val recipe = recipeListViewModel.getRecipeById(id)
-//        favorite.setOnCheckedChangeListener { _, boolean ->
-//            recipe.value!!.isFavorite = boolean
-//            recipeListViewModel.updateRecipe(recipe.value!!)
-//        }
-//        favorite.isChecked = recipe.value.isFavorite!!
-//    }
 
 
 
@@ -156,6 +138,17 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         recipeListViewModel.onDeleteRecipe(recipe)
     }
 
+    override fun addFavorites(recipe: RecipeEntry) {
+        Timber.i("addFavorites called  ")
+        recipeListViewModel.addFavorites(recipe)
+
+    }
+
+    override fun removeFavorites(recipe: RecipeEntry) {
+        Timber.i("RemoveFavorites called  ")
+        recipeListViewModel.removeFavorites(recipe)
+    }
+
 
     private fun addListDividerDecoration() {
         //adding list divider decorations
@@ -175,8 +168,8 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         })
     }
 
+    //setting up a Recyclerview
     private fun setupRecyclerView() {
-        //setting up a Recyclerview
         val layoutManager = LinearLayoutManager(context)
         binding.recipeListRecyclerview.layoutManager = layoutManager
         binding.recipeListRecyclerview.adapter = adapter
