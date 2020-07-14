@@ -13,10 +13,6 @@
             name="clickListener"
             type="vaida.dryzaite.foodmood.ui.favoritesPage.FavoritesOnClickListener" />
 
-        <variable
-            name="favoriteViewModel"
-            type="vaida.dryzaite.foodmood.ui.favoritesPage.FavoritesViewModel" />
-
     </data>
 
     <androidx.cardview.widget.CardView
@@ -65,7 +61,8 @@
                 android:checked="@{dataclassRecipeEntry.favorite}"
                 android:contentDescription="@string/content_description_favorite"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:saveEnabled="false"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/titleHolder"

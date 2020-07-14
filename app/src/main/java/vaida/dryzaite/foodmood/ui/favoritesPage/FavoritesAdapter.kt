@@ -10,7 +10,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.favorites_card_item.view.*
-import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FavoritesCardItemBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
@@ -22,8 +21,8 @@ import kotlin.collections.ArrayList
 
 class FavoritesAdapter(
     private val recipes: MutableList<RecipeEntry>,
-    private val clickListener: FavoritesOnClickListener
-)
+    private val clickListener: FavoritesOnClickListener,
+    private val listener: FavoritesAdapterListener)
     : RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder>(), ItemTouchHelperListener, Filterable {
 
 
@@ -37,7 +36,6 @@ class FavoritesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = FavoritesCardItemBinding.inflate(layoutInflater, parent, false)
-
         return FavoritesViewHolder(binding)
     }
 
@@ -108,7 +106,6 @@ class FavoritesAdapter(
     }
 
 
-
     inner class FavoritesViewHolder(val binding: FavoritesCardItemBinding) : RecyclerView.ViewHolder(binding.root),
         ItemSelectedListener {
 
@@ -116,40 +113,22 @@ class FavoritesAdapter(
         fun bind(recipe: RecipeEntry, clickListener: FavoritesOnClickListener) {
             binding.dataclassRecipeEntry = recipe
             binding.clickListener = clickListener
-            binding.executePendingBindings()
 
-            binding.favoriteIcon.setOnCheckedChangeListener { _, isChecked ->
-                recipe.isFavorite = isChecked
-                Timber.i("fun bind working -  click listener on line $recipe")
-            }
+            // click listener to change DB and UI according to fav button clicks
             binding.favoriteIcon.isChecked = recipe.isFavorite
-            Timber.i("fun bind working - is checked  $recipe")
+            binding.favoriteIcon.setOnCheckedChangeListener { _, _ ->
+                if (binding.favoriteIcon.isShown) {
+                    if (binding.favoriteIcon.isChecked) {
+                        listener.addFavorites(recipe)
+                    } else {
+                        listener.removeFavorites(recipe)
+                    }
+                }
+            }
 
             animateView(itemView)
-
-
-
-//        val status = adapterPosition
-//           binding.recipeListViewModel?.updateRecipe(recipe)
-//            Timber.i("fun bind update viewmodel $recipe")
-//            val test = binding.recipeListViewModel?.getRecipeById(recipe.id)
-//            Timber.i("fun bind get viewmodel ${test?.value}")
-
-
-//        binding.favorite.isChecked = recipe.isFavorite
-//        Timber.i("fun bind working - is checked  $recipe")
-//        binding.recipeListViewModel?.updateRecipe(recipe)
-//        Timber.i("fun bind update viewmodel $recipe")
-
+            binding.executePendingBindings()
         }
-
-//    //enable Favorite button
-//    private fun setupFavoriteToggle(recipe: RecipeEntry) {
-//        binding.favorite.setOnCheckedChangeListener { _, boolean ->
-//            recipe.isFavorite = boolean
-//        }
-//        binding.favorite.isChecked = recipe.isFavorite
-//    }
 
 
         // adding on and off background colors on dragged item
@@ -163,7 +142,7 @@ class FavoritesAdapter(
 
         private fun animateView(viewToAnimate: View) {
             if (viewToAnimate.animation == null) {
-                val animId = if (scrollDirection == FavoritesAdapter.ScrollDirection.DOWN) R.anim.slide_from_bottom else R.anim.slide_from_top
+                val animId = if (scrollDirection == ScrollDirection.DOWN) R.anim.slide_from_bottom else R.anim.slide_from_top
                 val animation = AnimationUtils.loadAnimation(viewToAnimate.context, animId )
                 viewToAnimate.animation = animation
             }
@@ -174,6 +153,10 @@ class FavoritesAdapter(
     // to track scroll direction - for scroll animation
     enum class ScrollDirection {
         UP, DOWN
+    }
+    interface FavoritesAdapterListener {
+        fun addFavorites(recipe: RecipeEntry)
+        fun removeFavorites(recipe: RecipeEntry)
     }
 }
 

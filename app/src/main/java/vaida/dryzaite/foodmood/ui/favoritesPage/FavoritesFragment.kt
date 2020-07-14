@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentFavoritesBinding
+import vaida.dryzaite.foodmood.model.RecipeEntry
 
 
-class FavoritesFragment : Fragment() {
+class FavoritesFragment : Fragment(), FavoritesAdapter.FavoritesAdapterListener {
 
     private lateinit var favoritesViewModel: FavoritesViewModel
     private lateinit var binding: FragmentFavoritesBinding
@@ -42,21 +42,10 @@ class FavoritesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupAdapter()
-
         setupRecyclerView()
+
         setupItemDecoration()
-        
-        //adding scroll listener for smooth animation
-        binding.favoritesRecyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                adapter.scrollDirection = if (dy > 0) {
-                    FavoritesAdapter.ScrollDirection.DOWN
-                } else {
-                    FavoritesAdapter.ScrollDirection.UP
-                }
-            }
-        })
+        setupScrollListener()
 
         //updating Live data observer with ViewModel data
         favoritesViewModel.getFavorites().observe(viewLifecycleOwner, Observer { recipes ->
@@ -74,14 +63,33 @@ class FavoritesFragment : Fragment() {
                 favoritesViewModel.onRecipeDetailNavigated()
             }
         })
+
+        // observer to react to favorite button click state
+        favoritesViewModel.favoriteStatusChange.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                favoritesViewModel.onFavoriteClickCompleted()
+            }
+        })
     }
 
-
+    //adding scroll listener for smooth animation
+    private fun setupScrollListener() {
+        binding.favoritesRecyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                adapter.scrollDirection = if (dy > 0) {
+                    FavoritesAdapter.ScrollDirection.DOWN
+                } else {
+                    FavoritesAdapter.ScrollDirection.UP
+                }
+            }
+        })
+    }
 
     private fun setupAdapter() {
         adapter = FavoritesAdapter(mutableListOf(), FavoritesOnClickListener { id ->
             favoritesViewModel.onRecipeClicked(id)
-        })
+        }, this)
     }
 
     private fun setupRecyclerView() {
@@ -101,9 +109,15 @@ class FavoritesFragment : Fragment() {
         val spacingInPixels = resources.getDimensionPixelSize(R.dimen.recipe_card_grid_layout_margin)
         gridItemDecoration = SpacingItemDecorator(3, spacingInPixels)
         binding.favoritesRecyclerview.addItemDecoration(gridItemDecoration)
-
     }
 
+    override fun addFavorites(recipe: RecipeEntry) {
+        favoritesViewModel.addFavorites(recipe)
+    }
+
+    override fun removeFavorites(recipe: RecipeEntry) {
+        favoritesViewModel.removeFavorites(recipe)
+    }
 
 
 }
