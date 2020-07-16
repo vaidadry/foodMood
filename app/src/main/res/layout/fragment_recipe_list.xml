@@ -20,13 +20,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/full_background"
-            app:layout_constraintBottom_toTopOf="@id/search_input"
+            app:layout_constraintBottom_toTopOf="@id/chips"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/top_nav_menu"
             app:title="@string/recipe_book_tab_title"
             app:titleTextColor="@color/Text" />
+
+        <HorizontalScrollView
+            android:id="@+id/chips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toTopOf="@id/search_input"
+            android:visibility="gone">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/meal_type_selection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:singleSelection="true"
+                android:padding="@dimen/normal_padding" />
+        </HorizontalScrollView>
 
 
         <androidx.appcompat.widget.SearchView
@@ -40,7 +58,7 @@
             app:layout_constraintBottom_toTopOf="@id/recipe_list_recyclerview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/chips"
             app:queryBackground="@null"
             app:queryHint="@string/search"/>
 
