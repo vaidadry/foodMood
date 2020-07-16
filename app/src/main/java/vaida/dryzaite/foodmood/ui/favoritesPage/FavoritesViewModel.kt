@@ -15,7 +15,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     fun getFavorites() = repository.getFavorites()
 
     //updating database with changed status of favorites
-    fun updateRecipe(recipe: RecipeEntry) = repository.updateRecipe(recipe)
+    private fun updateRecipe(recipe: RecipeEntry) = repository.updateRecipe(recipe)
 
     //defining navigation state
     private val _navigateToRecipeDetail = MutableLiveData<String>()
@@ -32,25 +32,25 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
         _navigateToRecipeDetail.value = null
     }
 
+    //handling Favorite data updates in DB
 
     private val _favoriteStatusChange = MutableLiveData<Boolean?>()
     val favoriteStatusChange: LiveData<Boolean?>
         get() = _favoriteStatusChange
 
-
-    private lateinit var mRecipe: RecipeEntry
+    private lateinit var _recipe: RecipeEntry
 
     fun removeFavorites(recipe: RecipeEntry) {
-        mRecipe = recipe
-        mRecipe.isFavorite = false
-        updateRecipe(mRecipe)
+        _recipe = recipe
+        _recipe.isFavorite = false
+        updateRecipe(_recipe)
         _favoriteStatusChange.value = true
     }
 
     fun addFavorites(recipe: RecipeEntry) {
-        mRecipe = recipe
-        mRecipe.isFavorite = true
-        updateRecipe(mRecipe)
+        _recipe = recipe
+        _recipe.isFavorite = true
+        updateRecipe(_recipe)
         _favoriteStatusChange.value = true
     }
 

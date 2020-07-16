@@ -24,5 +24,6 @@
     <dimen name="card_image_size">100dp</dimen>
     <dimen name="add_recipe_meal_text">12sp</dimen>
     <dimen name="recipe_card_grid_layout_margin">3dp</dimen>
+    <dimen name="meal_selection_icons_layout_margin">3dp</dimen>
 
 </resources>

@@ -11,11 +11,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
-import vaida.dryzaite.foodmood.databinding.FragmentHomeBinding
+import vaida.dryzaite.foodmood.databinding.FragmentHome2Binding
 
 
 class HomeFragment : Fragment() {
-    private lateinit var binding: FragmentHomeBinding
+    private lateinit var binding: FragmentHome2Binding
     private lateinit var homeViewModel: HomeViewModel
 
 
@@ -24,7 +24,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentHome2Binding.inflate(inflater, container, false)
 
         val application = requireNotNull(this.activity).application
 
@@ -40,12 +40,23 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         //blogai! turi but viewmodelyje, init block neveikia, gal kažką kito?
         homeViewModel.getAllRecipes().observe(viewLifecycleOwner, Observer {})
 
+
+        observeMealSelectionStatus()
         navigateToSuggestionPage()
     }
 
+    //observer of meal selection click event
+    private fun observeMealSelectionStatus() {
+        homeViewModel.onMealSelected.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                homeViewModel.mealSelectionCompleted()
+            }
+        })
+    }
 
     private fun navigateToSuggestionPage() {
         homeViewModel.navigateToSuggestionPage.observe(viewLifecycleOwner, Observer {
@@ -53,7 +64,7 @@ class HomeFragment : Fragment() {
                 true -> {
                     Timber.i("SHOWING generated recipe: ${homeViewModel.randomRecipe.value}")
                     this.findNavController().navigate(
-                        HomeFragmentDirections.actionHomeFragmentToSuggestionFragment(homeViewModel.randomRecipe.value?.id.toString())
+                        HomeFragmentDirections.actionHomeFragment2ToSuggestionFragment(homeViewModel.randomRecipe.value?.id.toString())
                     )
                     homeViewModel.doneNavigating()
                 }

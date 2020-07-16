@@ -31,8 +31,7 @@ class AddRecipeFragment : Fragment(){
         binding.lifecycleOwner = this
         binding.addRecipeViewmodel = addRecipeViewModel
 
-//        observeMealTypeSelected()
-
+        observeMealTypeSelected()
         observeOnAddRecipe()
 
         return binding.root
@@ -58,25 +57,17 @@ class AddRecipeFragment : Fragment(){
         })
     }
 
-    /*
 
-//observer that as item clicked changes the background of item
-private fun observeMealTypeSelected() {
-    addRecipeViewModel.onMealSelected.observe(viewLifecycleOwner, Observer { selected ->
-        selected?.let {
-            if (selected) {
-                Toast.makeText(
-                    context,
-                    "${addRecipeViewModel.meal.get()} selected",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                binding.<-- kaip susieti?
+    //observer that as item clicked changes the background of item
+    private fun observeMealTypeSelected() {
+        addRecipeViewModel.onMealSelected.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                addRecipeViewModel.mealTypeSelectionCompleted()
             }
-        }
-    })
-}
-*/
+        })
+
+    }
+
 
 
 }

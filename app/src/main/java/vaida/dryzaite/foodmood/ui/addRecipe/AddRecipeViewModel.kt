@@ -44,15 +44,19 @@ class AddRecipeViewModel(
         newRecipe.value = entry
     }
 
-    //parameter to observe state when meal is selected - nor finished!!!!
-    private val _onMealSelected = MutableLiveData<Boolean>()
-        val onMealSelected: LiveData<Boolean>
+    //parameter to observe state when meal is selected
+    private val _onMealSelected = MutableLiveData<Boolean?>()
+        val onMealSelected: LiveData<Boolean?>
         get() = _onMealSelected
 
 
     fun onSetMealType(mealSelection: Int) {
         this.meal.set(mealSelection)
         _onMealSelected.value = true
+    }
+
+    fun mealTypeSelectionCompleted() {
+        _onMealSelected.value = null
     }
 
 

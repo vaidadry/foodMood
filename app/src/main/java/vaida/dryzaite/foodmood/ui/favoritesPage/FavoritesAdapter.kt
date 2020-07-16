@@ -140,6 +140,7 @@ class FavoritesAdapter(
             itemView.recipe_card_container.setBackgroundColor(0)
         }
 
+        //adding animation based on scroll direction
         private fun animateView(viewToAnimate: View) {
             if (viewToAnimate.animation == null) {
                 val animId = if (scrollDirection == ScrollDirection.DOWN) R.anim.slide_from_bottom else R.anim.slide_from_top

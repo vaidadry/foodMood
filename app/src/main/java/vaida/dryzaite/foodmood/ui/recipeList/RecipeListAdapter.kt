@@ -134,7 +134,6 @@ class RecipeListAdapter(
         }
     }
 
-
     // custom interface for listener to delete item at certain position
     interface RecipeListAdapterListener {
         fun deleteRecipeAtPosition(recipe: RecipeEntry)
