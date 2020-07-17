@@ -36,6 +36,23 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
         _navigateToRecipeDetail.value = null
     }
 
+
+    //defining action of FAB
+    private val _navigateToAddRecipeFragment = MutableLiveData<Boolean?>()
+    val navigateToAddRecipeFragment: LiveData<Boolean?>
+        get() = _navigateToAddRecipeFragment
+
+
+    fun onFabClick() {
+        _navigateToAddRecipeFragment.value = true
+    }
+
+    fun onFabClicked() {
+        _navigateToAddRecipeFragment.value = null
+    }
+
+
+
     //defining favorite button state
     private val _favoriteStatusChange = MutableLiveData<Boolean?>()
     val favoriteStatusChange: LiveData<Boolean?>

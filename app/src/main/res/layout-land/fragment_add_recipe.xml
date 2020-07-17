@@ -94,7 +94,7 @@
 
         <RadioGroup
             android:id="@+id/meal_selection_radio_group"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
@@ -254,7 +254,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.93" />
+            app:layout_constraintGuide_percent="0.88" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/vertical_guideline_left"

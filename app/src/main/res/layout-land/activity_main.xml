@@ -43,7 +43,8 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintHeight_percent="0.12"
             android:background="@color/colorPrimaryDark"
             app:itemIconTint="@color/Text"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -58,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.93" />
+            app:layout_constraintGuide_percent="0.88" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/horizontal_guideline_bottom"

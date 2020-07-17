@@ -90,7 +90,7 @@
 
         <RadioGroup
             android:id="@+id/meal_selection_radio_group"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
@@ -178,8 +178,7 @@
         <CheckBox
             android:id="@+id/fish_checkbox"
             style="@style/MealSelectionCheckBox"
-            app:layout_constraintEnd_toStartOf="@id/veggie_checkbox"
-            app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
+            app:layout_constraintEnd_toStartOf="@id/vertical_guideline"
             app:layout_constraintTop_toBottomOf="@id/lunch_text"
             app:layout_constraintBottom_toTopOf="@id/submit_recipe_btn"
             android:text="@string/fish_craving_checkbox"
@@ -188,8 +187,7 @@
         <CheckBox
             android:id="@+id/veggie_checkbox"
             style="@style/MealSelectionCheckBox"
-            app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
-            app:layout_constraintStart_toEndOf="@id/fish_checkbox"
+            app:layout_constraintStart_toEndOf="@id/vertical_guideline"
             app:layout_constraintTop_toBottomOf="@id/lunch_text"
             app:layout_constraintBottom_toTopOf="@id/submit_recipe_btn"
             android:text="@string/veggie_checkbox"

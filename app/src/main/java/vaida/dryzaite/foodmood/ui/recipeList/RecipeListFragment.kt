@@ -176,9 +176,12 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
 
     private fun setupViews() {
-        binding.fab.setOnClickListener {
-            findNavController().navigate(R.id.action_recipeListFragment_to_addRecipeFragment)
-        }
+        recipeListViewModel.navigateToAddRecipeFragment.observe(viewLifecycleOwner, Observer {
+            if (it == true) {
+                this.findNavController().navigate(R.id.action_recipeListFragment_to_addRecipeFragment)
+                recipeListViewModel.onFabClicked()
+            }
+        })
     }
 
     // setting up drag&drop move
@@ -191,14 +194,6 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
     private fun checkForEmptyState() {
         binding.emptyState.visibility = if (adapter.itemCount == 0) View.VISIBLE else View.INVISIBLE
     }
-
-//
-//    private fun showListView() {
-//        layoutManager.spanCount = 1
-//    }
-//    private fun showGridView() {
-//        layoutManager.spanCount = 2
-//    }
 
     private fun hideShowSearchBar() {
         binding.searchInput.visibility = if (search_input.visibility == View.GONE) View.VISIBLE else View.GONE
