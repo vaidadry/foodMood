@@ -57,5 +57,7 @@
     <string name="sweets">Sweets</string>
     <string name="general_meal_image_of_detail_page">General meal image of detail page</string>
     <string name="recipe_image_content_description">recipe image content description</string>
+    <string name="external_recipe_image">external recipe image</string>
+    <string name="loading_animation">loading animation</string>
 
 </resources>

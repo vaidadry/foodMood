@@ -107,7 +107,6 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         }
     }
 
-    //based on selected menu item, layout managers are switched
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Timber.i("onOptionsItemSelected")
         when (item.itemId) {

@@ -2,6 +2,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="discoverRecipesViewModel"
+            type="vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/discover_fragment_layout"
         android:layout_width="match_parent"
@@ -14,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/full_background"
-            app:layout_constraintBottom_toTopOf="@id/search_input"
+            app:layout_constraintBottom_toTopOf="@id/discover_search_input"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -24,45 +30,37 @@
 
 
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_input"
+            android:id="@+id/discover_search_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:textCursorDrawable="@null"
             android:visibility="gone"
             app:iconifiedByDefault="false"
-            app:layout_constraintBottom_toTopOf="@id/discover_list_recyclerview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintBottom_toTopOf="@id/discover_list_recyclerview"
             app:queryBackground="@null"
             app:queryHint="@string/search"/>
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/discover_list_recyclerview"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_bottom_nav"
+            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+            app:spanCount="3"
+            tools:listitem="@layout/grid_list_item"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/search_input"
-            app:layout_constraintVertical_bias="0.0">
-
+            app:layout_constraintTop_toBottomOf="@id/discover_search_input"
+            app:layout_constraintVertical_bias="0.0"
+            app:listData="@{discoverRecipesViewModel.externalRecipes}">
         </androidx.recyclerview.widget.RecyclerView>
 
-        <TextView
-            android:id="@+id/empty_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/dosis_extralight"
-            android:text="@string/no_recipes_available"
-            android:textSize="@dimen/list_item_text_size"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/horizontal_guideline_bottom_nav"

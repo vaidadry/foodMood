@@ -3,14 +3,21 @@ package vaida.dryzaite.foodmood.utilities
 import android.annotation.SuppressLint
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.utilities.convertNumericMealTypeToString
+import vaida.dryzaite.foodmood.network.ExternalRecipe
+import vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesAdapter
 import java.util.*
 
 //Binding adapters to format DB data to UI
+// also to format data from API
 
+// formatting textView with DB data
 @SuppressLint("SetTextI18n")
 @BindingAdapter("mealTypeFormatted")
 fun TextView.setMealTypeFormatted(recipe: RecipeEntry?) {
@@ -43,4 +50,26 @@ fun ImageView.setMealTypeIcon(recipe: RecipeEntry?) {
         })
     }
 }
+
+// to use Glide to show images from url
+@BindingAdapter("imageUrl")
+fun bindImage(imgView: ImageView, imgUrl: String?) {
+    imgUrl?.let {
+        val imgUri = imgUrl.toUri().buildUpon().scheme("http").build()
+        Glide.with(imgView.context)
+            .load(imgUri)
+            .apply(RequestOptions()
+                .placeholder(R.drawable.loading_animation)
+                .error(R.drawable.ic_broken))
+            .into(imgView)
+    }
+}
+
+// to bind api data to recyclerview (instead of code in Fragment)
+@BindingAdapter("listData")
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<ExternalRecipe>?) {
+    val adapter = recyclerView.adapter as DiscoverRecipesAdapter
+    adapter.submitList(data)
+}
+
 

@@ -19,8 +19,6 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
     //updating database with changed status of favorites
     private fun updateRecipe(recipe: RecipeEntry) = repository.updateRecipe(recipe)
 
-    fun getRecipeById(id: String) = repository.getRecipeWithId(id)
-
     //defining navigation state
     private val _navigateToRecipeDetail = MutableLiveData<String>()
     val navigateToRecipeDetail
@@ -52,12 +50,10 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
     }
 
 
-
     //defining favorite button state
     private val _favoriteStatusChange = MutableLiveData<Boolean?>()
     val favoriteStatusChange: LiveData<Boolean?>
         get() = _favoriteStatusChange
-
 
     private lateinit var _recipe: RecipeEntry
 
