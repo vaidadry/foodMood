@@ -1,32 +1,102 @@
 package vaida.dryzaite.foodmood.ui.discoverRecipes
 
 import android.os.Bundle
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_discover_recipes.*
+import kotlinx.android.synthetic.main.fragment_recipe_list.*
+import timber.log.Timber
 import vaida.dryzaite.foodmood.R
+import vaida.dryzaite.foodmood.databinding.FragmentDiscoverRecipesBinding
+import vaida.dryzaite.foodmood.ui.favoritesPage.SpacingItemDecorator
+import vaida.dryzaite.foodmood.ui.recipeList.RecipeListAdapter
+
 
 class DiscoverRecipesFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = DiscoverRecipesFragment()
+    private lateinit var gridItemDecoration: RecyclerView.ItemDecoration
+    private lateinit var adapter: DiscoverRecipesAdapter
+
+    private val discoverRecipesViewModel: DiscoverRecipesViewModel by lazy {
+        val viewModelFactory = DiscoverRecipesViewModelFactory()
+        ViewModelProvider(this, viewModelFactory).get(DiscoverRecipesViewModel::class.java)
+    }
+    private lateinit var binding: FragmentDiscoverRecipesBinding
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+        // Inflate the layout for this fragment
+        binding = FragmentDiscoverRecipesBinding.inflate(inflater, container, false)
+
+        binding.lifecycleOwner = this
+        binding.discoverRecipesViewModel = discoverRecipesViewModel
+
+        binding.discoverListRecyclerview.adapter = DiscoverRecipesAdapter()
+
+        return binding.root
     }
 
-    private lateinit var viewModel: DiscoverRecipesViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        setHasOptionsMenu(true)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_discover_recipes, container, false)
+        setupItemDecoration()
+//        setSearchInputListener()
+
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(DiscoverRecipesViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.top_nav_menu, menu)
+
+        //setup clicks on icons in toolbar
+        val searchIcon = menu.findItem(R.id.search_menu_item)
+        searchIcon.actionView.setOnClickListener {
+            menu.performIdentifierAction(
+                searchIcon.itemId,
+                0
+            )
+        }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        Timber.i("onOptionsItemSelected")
+        when (item.itemId) {
+            R.id.search_menu_item -> {
+                Timber.i("search selected")
+                hideShowSearchBar()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+
+    //    adding spacing decorator for equal spacing between grid items
+    private fun setupItemDecoration() {
+        val spacingInPixels = resources.getDimensionPixelSize(R.dimen.recipe_card_grid_layout_margin)
+        gridItemDecoration = SpacingItemDecorator(3, spacingInPixels)
+        binding.discoverListRecyclerview.addItemDecoration(gridItemDecoration)
+    }
+
+    private fun hideShowSearchBar() {
+        binding.discoverSearchInput.visibility = if (discover_search_input.visibility == View.GONE) View.VISIBLE else View.GONE
+    }
+
+
+//    private fun setSearchInputListener() {
+//        binding.searchInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                return false
+//            }
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                adapter.filter.filter(newText)
+//                return false
+//            }
+//        })
+//    }
 }

@@ -60,7 +60,7 @@
     </style>
 
     <style name="MealSelectionCheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
-        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">@dimen/list_item_text_size</item>
         <item name="android:fontFamily">@font/dosis_medium</item>

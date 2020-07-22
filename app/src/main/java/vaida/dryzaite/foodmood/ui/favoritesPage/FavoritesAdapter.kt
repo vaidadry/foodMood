@@ -23,7 +23,7 @@ class FavoritesAdapter(
     private val recipes: MutableList<RecipeEntry>,
     private val clickListener: FavoritesOnClickListener,
     private val listener: FavoritesAdapterListener)
-    : RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder>(), ItemTouchHelperListener, Filterable {
+    : RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder>(){
 
 
     var scrollDirection = ScrollDirection.DOWN
@@ -54,55 +54,6 @@ class FavoritesAdapter(
         this.recipes.addAll(recipes)
 
         diffResult.dispatchUpdatesTo(this)
-    }
-
-    override fun onItemDismiss(viewHolder: RecyclerView.ViewHolder, position: Int) {
-    }
-
-
-    // interface method implemented in adapter, to track position moved
-    override fun onItemMove(recyclerView: RecyclerView, fromPosition: Int, toPosition: Int): Boolean {
-        if (fromPosition < toPosition) {
-            for (i in fromPosition until toPosition) {
-                Collections.swap(recipes, i, i + 1)
-                }
-            }else {
-            for (i in fromPosition downTo toPosition + 1) {
-                Collections.swap(recipes, i, i - 1)
-            }
-        }
-        notifyItemMoved(fromPosition, toPosition)
-        return true
-    }
-
-    // filter/search by title
-    override fun getFilter(): Filter {
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val charSearch = constraint.toString()
-                recipeFilterList = if (charSearch.isEmpty()) {
-                    recipes as ArrayList<RecipeEntry>
-                } else {
-                    val resultList = ArrayList<RecipeEntry>()
-                    for (entry in recipes) {
-                        if (entry.title.toLowerCase(Locale.ROOT)
-                                .contains(charSearch.toLowerCase(Locale.ROOT))
-                        ) {
-                            resultList.add(entry)
-                        }
-                    }
-                    resultList
-                }
-                val filterResults = FilterResults()
-                filterResults.values = recipeFilterList
-                return filterResults
-            }
-            @Suppress ("UNCHECKED_CAST")
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                recipeFilterList = results?.values as ArrayList<RecipeEntry>
-                notifyDataSetChanged()
-            }
-        }
     }
 
 
