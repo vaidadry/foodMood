@@ -8,6 +8,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 
 // connection to open source recipe API service - using Retrofit and Moshi libs
@@ -25,7 +26,7 @@ private val retrofit = Retrofit.Builder()
 
 interface RecipeApiService {
     @GET("api")
-    fun getRecipesAsync():
+    fun getRecipesAsync(@Query("q") searchQuery: String? = ""):
             Deferred<Response>
 }
 

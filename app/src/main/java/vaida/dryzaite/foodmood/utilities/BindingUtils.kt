@@ -1,6 +1,7 @@
 package vaida.dryzaite.foodmood.utilities
 
 import android.annotation.SuppressLint
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
@@ -12,6 +13,7 @@ import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.network.ExternalRecipe
 import vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesAdapter
+import vaida.dryzaite.foodmood.ui.discoverRecipes.RecipeApiStatus
 import java.util.*
 
 //Binding adapters to format DB data to UI
@@ -60,7 +62,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .load(imgUri)
             .apply(RequestOptions()
                 .placeholder(R.drawable.loading_animation)
-                .error(R.drawable.ic_broken))
+                .error(R.drawable.ic_food))
             .into(imgView)
     }
 }
@@ -70,6 +72,24 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<ExternalRecipe>?) {
     val adapter = recyclerView.adapter as DiscoverRecipesAdapter
     adapter.submitList(data)
+}
+
+// binds image view with error handling to fragment, based on network call state
+@BindingAdapter("recipeApiStatus")
+fun bindStatus(statusImageView: ImageView, status: RecipeApiStatus?) {
+    when (status) {
+        RecipeApiStatus.LOADING -> {
+            statusImageView.visibility = View.VISIBLE
+            statusImageView.setImageResource(R.drawable.loading_animation)
+        }
+        RecipeApiStatus.ERROR -> {
+            statusImageView.visibility = View.VISIBLE
+            statusImageView.setImageResource(R.drawable.ic_connection_error)
+        }
+        RecipeApiStatus.DONE -> {
+            statusImageView.visibility = View.GONE
+        }
+    }
 }
 
 

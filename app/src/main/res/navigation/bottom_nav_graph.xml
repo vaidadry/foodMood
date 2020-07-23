@@ -80,6 +80,9 @@
         <action
             android:id="@+id/action_discoverRecipesFragment_to_favoritesFragment"
             app:destination="@id/favoritesFragment" />
+        <action
+            android:id="@+id/action_discover_recipes_fragment_to_discoverRecipeDetailFragment"
+            app:destination="@id/discoverRecipeDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
@@ -92,5 +95,13 @@
         <action
             android:id="@+id/action_favoritesFragment_to_recipe_fragment"
             app:destination="@id/recipe_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/discoverRecipeDetailFragment"
+        android:name="vaida.dryzaite.foodmood.ui.discoverRecipePage.DiscoverRecipeDetailFragment"
+        android:label="DiscoverRecipeDetailFragment">
+        <argument
+            android:name="selectedRecipe"
+            app:argType="vaida.dryzaite.foodmood.network.ExternalRecipe"/>
     </fragment>
 </navigation>

@@ -55,6 +55,7 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
     val favoriteStatusChange: LiveData<Boolean?>
         get() = _favoriteStatusChange
 
+
     private lateinit var _recipe: RecipeEntry
 
     fun removeFavorites(recipe: RecipeEntry) {

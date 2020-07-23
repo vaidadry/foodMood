@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_home_2.*
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.ActivityMainBinding
@@ -31,6 +32,9 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_container)
         bottom_nav.setupWithNavController(navController)
+        // to ignore reloading on already open fragment
+        bottom_nav.setOnNavigationItemReselectedListener {
+        }
 
         mainViewModel.bottomNavigationVisibility.observe(this, Observer { navVisibility ->
             bottom_nav.visibility = navVisibility
@@ -44,6 +48,7 @@ class MainActivity : AppCompatActivity() {
                 else -> mainViewModel.hideBottomNav()
             }
         }
-    }
 
+
+    }
 }

@@ -5,27 +5,27 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_discover_recipes.*
-import kotlinx.android.synthetic.main.fragment_recipe_list.*
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentDiscoverRecipesBinding
 import vaida.dryzaite.foodmood.ui.favoritesPage.SpacingItemDecorator
-import vaida.dryzaite.foodmood.ui.recipeList.RecipeListAdapter
 
 
 class DiscoverRecipesFragment : Fragment() {
 
     private lateinit var gridItemDecoration: RecyclerView.ItemDecoration
     private lateinit var adapter: DiscoverRecipesAdapter
+    private lateinit var binding: FragmentDiscoverRecipesBinding
 
     private val discoverRecipesViewModel: DiscoverRecipesViewModel by lazy {
         val viewModelFactory = DiscoverRecipesViewModelFactory()
         ViewModelProvider(this, viewModelFactory).get(DiscoverRecipesViewModel::class.java)
     }
-    private lateinit var binding: FragmentDiscoverRecipesBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -35,7 +35,20 @@ class DiscoverRecipesFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.discoverRecipesViewModel = discoverRecipesViewModel
 
-        binding.discoverListRecyclerview.adapter = DiscoverRecipesAdapter()
+        adapter = DiscoverRecipesAdapter(mutableListOf(), DiscoverRecipesAdapter.OnClickListener {
+            discoverRecipesViewModel.displayRecipeDetails(it)
+        })
+
+        binding.discoverListRecyclerview.adapter = adapter
+
+        // observing navigation state and navigating to detail page
+        discoverRecipesViewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, Observer {
+            if ( null != it) {
+                this.findNavController().navigate(
+                    DiscoverRecipesFragmentDirections.actionDiscoverRecipesFragmentToDiscoverRecipeDetailFragment(it))
+                discoverRecipesViewModel.displayRecipeDetailsComplete()
+            }
+        })
 
         return binding.root
     }
@@ -46,7 +59,7 @@ class DiscoverRecipesFragment : Fragment() {
         setHasOptionsMenu(true)
 
         setupItemDecoration()
-//        setSearchInputListener()
+        setSearchInputListener()
 
     }
 
@@ -88,15 +101,21 @@ class DiscoverRecipesFragment : Fragment() {
     }
 
 
-//    private fun setSearchInputListener() {
-//        binding.searchInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String?): Boolean {
-//                return false
-//            }
-//            override fun onQueryTextChange(newText: String?): Boolean {
-//                adapter.filter.filter(newText)
-//                return false
-//            }
-//        })
-//    }
+    private fun setSearchInputListener() {
+        binding.discoverSearchInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Timber.i("onQueryTextSubmit executed, query - $query")
+                discoverRecipesViewModel.getFilterResults(query)
+                Timber.i("getFilterResults #1 executed query - $query")
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter.filter(newText)
+                Timber.i("adapter.filter accesed new text - $newText")
+                discoverRecipesViewModel.getFilterResults(newText)
+                Timber.i("getFilterResults #2 executed; new text - $newText")
+                return false
+            }
+        })
+    }
 }

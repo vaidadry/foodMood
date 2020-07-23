@@ -140,7 +140,6 @@ class RecipeListAdapter(
         fun addFavorites(recipe: RecipeEntry)
         fun removeFavorites(recipe: RecipeEntry)
     }
-
 }
 
 
