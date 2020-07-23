@@ -199,17 +199,17 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
     }
 
 
-        private fun setSearchInputListener() {
-            binding.searchInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return false
-                }
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    adapter.filter.filter(newText)
-                    return false
-                }
-            })
-        }
+    private fun setSearchInputListener() {
+        binding.searchInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                adapter.filter.filter(newText)
+                return false
+            }
+        })
+    }
 
     private fun navigateToFavoritesPage() {
         this.findNavController().navigate(

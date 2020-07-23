@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
-            name="recipeViewModel"
-            type="vaida.dryzaite.foodmood.ui.recipePage.RecipeViewModel" />
+            name="discoverRecipeDetailViewModel"
+            type="vaida.dryzaite.foodmood.ui.discoverRecipePage.DiscoverRecipeDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +17,7 @@
         tools:context=".ui.recipePage.DiscoverRecipeDetailFragment">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_item"
+            android:id="@+id/toolbar_discover_recipe_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/full_background"
@@ -24,8 +25,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/top_nav_menu_item"
-            app:title="@{recipeViewModel.detailRecipe.title}"
             app:titleTextColor="@color/Text"
+            app:title="@{discoverRecipeDetailViewModel.selectedRecipe.title}"
             tools:title="@string/title" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,52 +35,55 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_item">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_discover_recipe_detail">
 
             <ImageView
                 android:id="@+id/detail_image"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:contentDescription="@string/general_meal_image_of_detail_page"
-                app:layout_constraintBottom_toTopOf="@id/detail_title"
+                app:layout_constraintBottom_toTopOf="@id/discover_detail_title"
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toTopOf="parent"
-                app:mealTypeIcon="@{recipeViewModel.detailRecipe}"
+                app:imageUrl="@{discoverRecipeDetailViewModel.selectedRecipe.thumbnail}"
                 tools:srcCompat="@drawable/ic_3" />
 
             <TextView
-                android:id="@+id/detail_title"
+                android:id="@+id/discover_detail_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:fontFamily="@font/dosis_bold"
-                android:text="@{recipeViewModel.recipeDetail.title}"
                 android:textSize="@dimen/generate_random_meal_text_size"
-                android:maxLines="3"
-                app:layout_constraintBottom_toTopOf="@id/detail_url"
+                android:maxLines="2"
+                app:layout_constraintBottom_toTopOf="@id/discover_detail_url"
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toBottomOf="@id/detail_image"
+                android:text="@{discoverRecipeDetailViewModel.selectedRecipe.title}"
                 tools:text="@string/title" />
 
+
             <TextView
-                android:id="@+id/detail_meal"
+                android:id="@+id/ingredients"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:fontFamily="@font/dosis_bold"
+                android:fontFamily="@font/dosis_regular"
                 android:textSize="@dimen/list_item_text_size"
-                app:layout_constraintBottom_toTopOf="@+id/detail_url"
+                android:textColor="@color/colorSecondaryDark"
+                android:maxLines="3"
+                app:layout_constraintBottom_toTopOf="@+id/discover_detail_url"
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-                app:layout_constraintTop_toBottomOf="@id/detail_title"
-                app:mealTypeText="@{recipeViewModel.recipeDetail}"
-                tools:text="meal" />
+                app:layout_constraintTop_toBottomOf="@id/discover_detail_title"
+                android:text="@{discoverRecipeDetailViewModel.selectedRecipe.ingredients}"
+                tools:text="ingredients" />
 
 
             <Button
-                android:id="@+id/detail_url"
+                android:id="@+id/discover_detail_url"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_button"
@@ -89,12 +93,28 @@
                 app:layout_constraintBottom_toBottomOf="@id/horizontal_guideline_bottom_nav"
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-                app:layout_constraintTop_toBottomOf="@id/detail_title"
+                app:layout_constraintTop_toBottomOf="@id/discover_detail_title"
                 android:text="@string/show_me_how_button"
                 android:clickable="true"
-                android:onClick="@{() -> recipeViewModel.onClickUrl()}"/>
+                android:onClick="@{() -> discoverRecipeDetailViewModel.onClickUrl()}"
 
+            />
 
+            <Button
+                android:id="@+id/button_add_to_database"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_button"
+                android:fontFamily="@font/robotomono_bold"
+                android:textSize="@dimen/list_item_text_size"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="@id/horizontal_guideline_bottom_nav"
+                app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
+                app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
+                app:layout_constraintTop_toBottomOf="@id/discover_detail_url"
+                android:text="@string/add_to_recipe_book"
+                android:clickable="true"
+                />
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/horizontal_guideline_bottom_nav"
                 android:layout_width="wrap_content"

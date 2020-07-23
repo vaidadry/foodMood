@@ -47,6 +47,7 @@
     <string name="content_description_search">content_description_search</string>
     <string name="share_recipe">share recipe</string>
     <string name="share_message">Heyy! Lets make %1$s for %2$s today! Here\'s what I have in mind: %3$s </string>
+    <string name="nom_nom">Nom Nom</string>
     <string name="discover">Discover</string>
     <string name="discover_bottom_nav_text">Discover</string>
     <string name="incorrect_url">Incorrect url, take a look</string>
@@ -59,5 +60,8 @@
     <string name="recipe_image_content_description">recipe image content description</string>
     <string name="external_recipe_image">external recipe image</string>
     <string name="loading_animation">loading animation</string>
+    <string name="network_data_status_image">network data status image</string>
+    <string name="add_to_recipe_book">Add to Recipe Book</string>
+
 
 </resources>
