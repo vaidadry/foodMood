@@ -17,7 +17,6 @@ class DiscoverRecipeDetailViewModel (externalRecipe: ExternalRecipe, application
         _selectedRecipe.value = externalRecipe
     }
 
-
         // manage clicks on url link
     private val _navigateToUrl = MutableLiveData<String?>()
     val navigateToUrl: LiveData<String?>
@@ -32,27 +31,17 @@ class DiscoverRecipeDetailViewModel (externalRecipe: ExternalRecipe, application
     }
 
 
+    //manage clicks on AddButton
+    private val _navigateToAddFragment = MutableLiveData<ExternalRecipe?>()
+    val navigateToAddRecipe: LiveData<ExternalRecipe?>
+        get() = _navigateToAddFragment
 
+    fun onClickAddFragment(){
+        _navigateToAddFragment.value = _selectedRecipe.value
+    }
 
+    fun onClickAddFragmentComplete(){
+        _navigateToAddFragment.value = null
+    }
 
 }
-//    private val repository: RecipeRepository = Injection.provideRecipeRepository(application)
-//
-//    private val _detailRecipe: LiveData<RecipeEntry>
-//
-//    init {
-//        _detailRecipe = repository.getRecipeWithId(keyId)
-//    }
-//
-//    fun getDetailRecipe() = _detailRecipe
-//
-//    //for use of UI
-//    val recipeDetail = getDetailRecipe()
-//
-//    //updating database with status of favorites
-//    fun updateRecipe(recipe: RecipeEntry) {
-//        repository.updateRecipe(recipe)
-//    }
-//
-//
-

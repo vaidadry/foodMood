@@ -114,6 +114,7 @@
                 app:layout_constraintTop_toBottomOf="@id/discover_detail_url"
                 android:text="@string/add_to_recipe_book"
                 android:clickable="true"
+                android:onClick="@{() -> discoverRecipeDetailViewModel.onClickAddFragment()}"
                 />
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/horizontal_guideline_bottom_nav"

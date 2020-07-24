@@ -9,19 +9,28 @@ import timber.log.Timber
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.model.RecipeGenerator
-import vaida.dryzaite.foodmood.model.room.RecipeDao
 import vaida.dryzaite.foodmood.network.ExternalRecipe
 import vaida.dryzaite.foodmood.utilities.isValidUrl
 
-
-class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerator(),
-                         application: Application)
-    : AndroidViewModel(application) {
+class AddRecipeViewModel2(
+    private val generator: RecipeGenerator = RecipeGenerator(),
+    application: Application,
+    externalRecipe: ExternalRecipe?
+) : AndroidViewModel(application) {
 
     private val repository = Injection.provideRecipeRepository(application)
 
     private val newRecipe = MutableLiveData<RecipeEntry?>()
 
+    //property to keep data from External Recipe api
+    private val _externalRecipeToAdd = MutableLiveData<ExternalRecipe?>()
+    val externalRecipeToAdd: LiveData<ExternalRecipe?>
+        get() = _externalRecipeToAdd
+
+    init {
+        _externalRecipeToAdd.value = externalRecipe
+        Timber.i("external recipe in VM: $externalRecipe")
+    }
 
     //defining RecipeEntry  parameters
     val title = ObservableField<String>("")
@@ -47,7 +56,7 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
 
     //parameter to observe state when meal is selected
     private val _onMealSelected = MutableLiveData<Boolean?>()
-        val onMealSelected: LiveData<Boolean?>
+    val onMealSelected: LiveData<Boolean?>
         get() = _onMealSelected
 
 

@@ -68,7 +68,7 @@ class HomeFragment : Fragment() {
                     )
                     homeViewModel.doneNavigating()
                 }
-                false -> {
+                else -> {
                     Timber.i("Cant show recipe coz, no recipes added")
                     Toast.makeText(
                         context,
