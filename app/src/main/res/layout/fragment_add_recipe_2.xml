@@ -1,31 +1,92 @@
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--    adding data binding for Add recipe form - for cleaner code-->
     <data>
         <variable
             name="viewModel"
-            type="vaida.dryzaite.foodmood.ui.homePage.HomeViewModel" />
+            type="vaida.dryzaite.foodmood.ui.addRecipe.AddRecipeViewModel2" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/home_fragment_2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        tools:context=".ui.homePage.HomeFragment">
+        android:id="@+id/add_recipe_fragment"
+        tools:context=".ui.addRecipe.AddRecipeFragment2">
+
+        <ImageView
+            android:id="@+id/gradient_background"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:contentDescription="@string/gradient_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_top2"
+            app:srcCompat="@drawable/rounded_background" />
 
         <TextView
-            android:id="@+id/generate_random_meal_text"
+            android:id="@+id/add_recipe_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/dosis_regular"
-            android:text="@string/grab_idea_textView"
+            android:gravity="center_horizontal"
+            android:text="@string/add_recipe"
             android:textSize="@dimen/generate_random_meal_text_size"
+            app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_top"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/title_input_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-            app:layout_constraintTop_toTopOf="@id/horizontal_guideline_top" />
+            app:layout_constraintTop_toBottomOf="@id/add_recipe_text_view"
+            app:layout_constraintBottom_toTopOf="@id/url_input_layout"
+            app:layout_constraintVertical_chainStyle="spread">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/title_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/Text"
+                android:fontFamily="@font/dosis_medium"
+                android:textSize="@dimen/list_item_text_size"
+                android:backgroundTint="@color/Text"
+                android:textColorHint="@color/colorSecondaryDark"
+                android:hint="@string/title"
+                android:inputType="text"
+                android:text="@={viewModel.title}"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/url_input_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/title_input_layout"
+            app:layout_constraintBottom_toTopOf="@id/meal_selection_radio_group">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/url_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/Text"
+                android:fontFamily="@font/dosis_medium"
+                android:textSize="@dimen/list_item_text_size"
+                android:backgroundTint="@color/Text"
+                android:textColorHint="@color/colorSecondaryDark"
+                android:hint="@string/url"
+                android:text="@={viewModel.recipe}"
+                android:inputType="textUri" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <RadioGroup
             android:id="@+id/meal_selection_radio_group"
@@ -33,10 +94,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="@id/horizontal_guideline_middle"
+            app:layout_constraintBottom_toTopOf="@id/fish_checkbox"
             app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-            app:layout_constraintTop_toTopOf="@id/horizontal_guideline_middle">
+            app:layout_constraintTop_toBottomOf="@id/url_input_layout">
 
             <RadioButton
                 android:id="@+id/breakfast_icon_homepage"
@@ -114,13 +175,12 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/dinner_text"
             app:layout_constraintTop_toBottomOf="@id/meal_selection_radio_group" />
-
         <CheckBox
             android:id="@+id/fish_checkbox"
             style="@style/MealSelectionCheckBox"
             app:layout_constraintEnd_toStartOf="@id/vertical_guideline"
-            app:layout_constraintTop_toBottomOf="@id/meal_selection_radio_group"
-            app:layout_constraintBottom_toTopOf="@id/random_Button"
+            app:layout_constraintTop_toBottomOf="@id/lunch_text"
+            app:layout_constraintBottom_toTopOf="@id/submit_recipe_btn"
             android:text="@string/fish_craving_checkbox"
             android:checked="@={viewModel.fish}" />
 
@@ -128,40 +188,24 @@
             android:id="@+id/veggie_checkbox"
             style="@style/MealSelectionCheckBox"
             app:layout_constraintStart_toEndOf="@id/vertical_guideline"
-            app:layout_constraintTop_toBottomOf="@id/meal_selection_radio_group"
-            app:layout_constraintBottom_toTopOf="@id/random_Button"
+            app:layout_constraintTop_toBottomOf="@id/lunch_text"
+            app:layout_constraintBottom_toTopOf="@id/submit_recipe_btn"
             android:text="@string/veggie_checkbox"
             android:checked="@={viewModel.veggie}" />
 
-
         <Button
-            android:id="@+id/random_Button"
+            android:id="@+id/submit_recipe_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
-            android:clickable="true"
+            android:background="@drawable/rounded_button_solid"
             android:fontFamily="@font/robotomono_bold"
-            android:text="@string/random_button"
+            android:text="@string/submit"
+            android:onClick="@{() -> viewModel.saveNewRecipe()}"
             android:textSize="@dimen/button_text_size"
+            app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_bottom"
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_bottom_nav"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_bottom"
-            android:onClick="@{() -> viewModel.onGenerateButtonClick()}" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontal_guideline_bottom_nav"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.93" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontal_guideline_bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.75" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/vertical_guideline"
@@ -169,6 +213,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontal_guideline_top2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.125" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/horizontal_guideline_top"
@@ -185,6 +236,20 @@
             app:layout_constraintGuide_percent="0.5" />
 
         <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontal_guideline_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.75" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontal_guideline_bottom_nav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.93" />
+
+        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/vertical_guideline_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -197,6 +262,5 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.9" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

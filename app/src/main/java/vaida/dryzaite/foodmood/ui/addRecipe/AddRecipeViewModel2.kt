@@ -9,19 +9,27 @@ import timber.log.Timber
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.model.RecipeGenerator
-import vaida.dryzaite.foodmood.model.room.RecipeDao
 import vaida.dryzaite.foodmood.network.ExternalRecipe
 import vaida.dryzaite.foodmood.utilities.isValidUrl
 
-
-class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerator(),
-                         application: Application)
-    : AndroidViewModel(application) {
+class AddRecipeViewModel2(
+    private val generator: RecipeGenerator = RecipeGenerator(),
+    application: Application,
+    externalRecipe: ExternalRecipe?
+) : AndroidViewModel(application) {
 
     private val repository = Injection.provideRecipeRepository(application)
 
     private val newRecipe = MutableLiveData<RecipeEntry?>()
 
+    //property to keep data from External Recipe api
+    private val _externalRecipeToAdd = MutableLiveData<ExternalRecipe?>()
+    val externalRecipeToAdd: LiveData<ExternalRecipe?>
+        get() = _externalRecipeToAdd
+
+    init {
+        _externalRecipeToAdd.value = externalRecipe
+    }
 
     //defining RecipeEntry  parameters
     val title = ObservableField<String>("")
@@ -34,7 +42,7 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
     private lateinit var entry: RecipeEntry
 
 
-    fun updateEntry() {
+    private fun updateEntry() {
         entry = generator.generateRecipe(
             title.get() ?: "",
             veggie.get() ?: false,
@@ -47,7 +55,7 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
 
     //parameter to observe state when meal is selected
     private val _onMealSelected = MutableLiveData<Boolean?>()
-        val onMealSelected: LiveData<Boolean?>
+    val onMealSelected: LiveData<Boolean?>
         get() = _onMealSelected
 
 
@@ -62,7 +70,7 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
 
 
     // form validation - valid url and non empty fields
-    fun canSaveRecipe(): Boolean {
+    private fun canSaveRecipe(): Boolean {
         val title = this.title.get()
         val recipe = this.recipe.get()
         title?.let {

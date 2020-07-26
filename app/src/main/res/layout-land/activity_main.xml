@@ -5,7 +5,7 @@
 
     <data>
         <variable
-            name="mainViewModel"
+            name="viewModel"
             type="vaida.dryzaite.foodmood.ui.main.MainViewModel" />
     </data>
 

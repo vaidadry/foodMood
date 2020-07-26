@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="suggestionViewModel"
+            name="viewModel"
             type="vaida.dryzaite.foodmood.ui.suggestionPage.SuggestionViewModel" />
     </data>
 
@@ -38,7 +38,7 @@
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
             app:layout_constraintTop_toTopOf="@id/horizontal_guideline_top"
             tools:text="@string/suggestion_for_meal_text"
-            app:mealTypeFormatted="@{suggestionViewModel.randomRecipe}"
+            app:mealTypeFormatted="@{viewModel.randomRecipe}"
             />
 <!--        android:text="@{@string/suggestion(suggestionViewModel.title)}"-->
         <TextView
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/dosis_medium"
             android:gravity="center_horizontal"
-            android:text="@{suggestionViewModel.randomRecipe.title}"
+            android:text="@{viewModel.randomRecipe.title}"
             android:textSize="@dimen/generate_random_meal_text_size"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -71,7 +71,7 @@
             app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_bottom"
             app:layout_constraintVertical_chainStyle="spread"
             android:clickable="true"
-            android:onClick="@{() -> suggestionViewModel.onButtonClick()}"/>
+            android:onClick="@{() -> viewModel.onButtonClick()}"/>
 
 
         <androidx.constraintlayout.widget.Guideline

@@ -3,6 +3,7 @@ package vaida.dryzaite.foodmood.ui.discoverRecipes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -50,25 +51,25 @@ class DiscoverRecipesViewModel : ViewModel() {
     private val coroutineScope = CoroutineScope(
         viewModelJob + Dispatchers.Main)
 
-    init {
-        getExternalRecipes(searchQuery.value)
-        Timber.i("init value of getingExtRecipes from api ${searchQuery.value}")
-    }
 
     //this creates and starts network call on a bckgrnd thread returning deferred object
 //    status defines stages network call is in and its actions
-    private fun getExternalRecipes(searchQuery: String?) {
+    fun getExternalRecipes(searchQuery: String?) {
         Timber.i("launching coroutines with search query $searchQuery")
-       coroutineScope.launch {
+        _status.value = RecipeApiStatus.LOADING
+       viewModelScope.launch(Dispatchers.IO) {
            try {
                val getExternalRecipesDeferred = RecipeApi.retrofitService.getRecipesAsync(searchQuery)
-               _status.value = RecipeApiStatus.LOADING
                val listResult = getExternalRecipesDeferred.await().results
-               _status.value = RecipeApiStatus.DONE
-               _externalRecipes.value = listResult
+               viewModelScope.launch {
+                   _status.value = RecipeApiStatus.DONE
+                   _externalRecipes.value = listResult
+               }
            } catch (e: Exception){
-               _status.value = RecipeApiStatus.ERROR
-               _externalRecipes.value = ArrayList()
+               viewModelScope.launch {
+                   _status.value = RecipeApiStatus.ERROR
+                   _externalRecipes.value = ArrayList()
+               }
            }
        }
     }

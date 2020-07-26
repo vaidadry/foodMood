@@ -4,7 +4,7 @@
 
     <data>
         <variable
-            name="favoritesViewModel"
+            name="viewModel"
             type="vaida.dryzaite.foodmood.ui.favoritesPage.FavoritesViewModel" />
     </data>
 

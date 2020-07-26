@@ -17,7 +17,7 @@ import vaida.dryzaite.foodmood.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var mainViewModel: MainViewModel
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,10 +25,10 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         val viewModelFactory = MainViewModelFactory()
-        mainViewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
         binding.lifecycleOwner = this
-        binding.mainViewModel = mainViewModel
+        binding.viewModel = viewModel
 
         val navController = findNavController(R.id.nav_host_fragment_container)
         bottom_nav.setupWithNavController(navController)
@@ -36,16 +36,16 @@ class MainActivity : AppCompatActivity() {
         bottom_nav.setOnNavigationItemReselectedListener {
         }
 
-        mainViewModel.bottomNavigationVisibility.observe(this, Observer { navVisibility ->
+        viewModel.bottomNavigationVisibility.observe(this, Observer { navVisibility ->
             bottom_nav.visibility = navVisibility
         })
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.home_fragment_2 -> mainViewModel.showBottomNav()
-                R.id.recipe_list_fragment -> mainViewModel.showBottomNav()
-                R.id.discover_recipes_fragment -> mainViewModel.showBottomNav()
-                else -> mainViewModel.hideBottomNav()
+                R.id.home_fragment_2 -> viewModel.showBottomNav()
+                R.id.recipe_list_fragment -> viewModel.showBottomNav()
+                R.id.discover_recipes_fragment -> viewModel.showBottomNav()
+                else -> viewModel.hideBottomNav()
             }
         }
 

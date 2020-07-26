@@ -28,8 +28,8 @@ interface RecipeDao {
     @Query("SELECT * from recipe_table WHERE is_favorite = 1 ORDER BY title ASC")
     fun getFavorites(): LiveData<List<RecipeEntry>>
 
-
-
-
+    //Filter by meal and/or fish/veg
+    @Query("SELECT * from recipe_table WHERE type_meal = :meal")
+    fun getFilteredRecipes(meal: Int): LiveData<List<RecipeEntry>>
 
 }

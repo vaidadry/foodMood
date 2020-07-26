@@ -19,7 +19,7 @@ import vaida.dryzaite.foodmood.utilities.ItemTouchHelperCallback
 
 class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListener {
 
-    private lateinit var recipeListViewModel: RecipeListViewModel
+    private lateinit var viewModel: RecipeListViewModel
     private lateinit var binding: FragmentRecipeListBinding
     private lateinit var adapter: RecipeListAdapter
 
@@ -34,10 +34,10 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         val application = requireNotNull(this.activity).application
 
         val viewModelFactory = RecipeListViewModelFactory(application)
-        recipeListViewModel = ViewModelProvider(this, viewModelFactory).get(RecipeListViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(RecipeListViewModel::class.java)
 
         binding.lifecycleOwner = this
-        binding.recipeListViewModel = recipeListViewModel
+        binding.viewModel = viewModel
 
         return binding.root
     }
@@ -59,7 +59,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         setupItemTouchHelper()
 
         //updating Live data observer with ViewModel data
-        recipeListViewModel.getAllRecipesLiveData().observe(viewLifecycleOwner, Observer { recipes ->
+        viewModel.getAllRecipesLiveData().observe(viewLifecycleOwner, Observer { recipes ->
             recipes?.let {
                 adapter.updateRecipes(recipes)
             }
@@ -68,18 +68,18 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         addListDividerDecoration()
 
         //set up observer to react on item taps and enable navigation
-        recipeListViewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, Observer { keyId->
+        viewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, Observer { keyId->
             keyId?.let {
                 this.findNavController().navigate(
                     RecipeListFragmentDirections.actionRecipeListFragmentToRecipeFragment(keyId))
-                recipeListViewModel.onRecipeDetailNavigated()
+                viewModel.onRecipeDetailNavigated()
             }
         })
 
         //observer to react on fav button state (if change needed or not)
-        recipeListViewModel.favoriteStatusChange.observe(viewLifecycleOwner, Observer {
+        viewModel.favoriteStatusChange.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                recipeListViewModel.onFavoriteClickCompleted()
+                viewModel.onFavoriteClickCompleted()
             }
         })
     }
@@ -133,18 +133,18 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
 
     override fun deleteRecipeAtPosition(recipe: RecipeEntry) {
-        recipeListViewModel.onDeleteRecipe(recipe)
+        viewModel.onDeleteRecipe(recipe)
     }
 
     override fun addFavorites(recipe: RecipeEntry) {
         Timber.i("addFavorites called  ")
-        recipeListViewModel.addFavorites(recipe)
+        viewModel.addFavorites(recipe)
 
     }
 
     override fun removeFavorites(recipe: RecipeEntry) {
         Timber.i("RemoveFavorites called  ")
-        recipeListViewModel.removeFavorites(recipe)
+        viewModel.removeFavorites(recipe)
     }
 
 
@@ -162,7 +162,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
     private fun setupAdapter() {
         adapter = RecipeListAdapter(mutableListOf(), this, RecipeListOnClickListener { id ->
-            recipeListViewModel.onRecipeClicked(id)
+            viewModel.onRecipeClicked(id)
         })
     }
 
@@ -175,10 +175,10 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
 
     private fun setupViews() {
-        recipeListViewModel.navigateToAddRecipeFragment.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToAddRecipeFragment.observe(viewLifecycleOwner, Observer {
             if (it == true) {
                 this.findNavController().navigate(R.id.action_recipeListFragment_to_addRecipeFragment)
-                recipeListViewModel.onFabClicked()
+                viewModel.onFabClicked()
             }
         })
     }
@@ -214,6 +214,6 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
     private fun navigateToFavoritesPage() {
         this.findNavController().navigate(
             RecipeListFragmentDirections.actionRecipeListFragmentToFavoritesFragment(""))
-        recipeListViewModel.onRecipeDetailNavigated()
+        viewModel.onRecipeDetailNavigated()
     }
 }

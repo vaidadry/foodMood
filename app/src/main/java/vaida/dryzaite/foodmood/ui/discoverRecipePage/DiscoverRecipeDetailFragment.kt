@@ -1,27 +1,18 @@
 package vaida.dryzaite.foodmood.ui.discoverRecipePage
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
-import android.widget.CheckBox
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_discover_recipe_detail.*
-import kotlinx.android.synthetic.main.fragment_recipe_detail.*
-import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentDiscoverRecipeDetailBinding
-import vaida.dryzaite.foodmood.databinding.FragmentRecipeDetailBinding
-import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesFragmentDirections
-import vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesViewModelFactory
 import vaida.dryzaite.foodmood.ui.recipePage.DiscoverRecipeDetailViewModelFactory
-import vaida.dryzaite.foodmood.utilities.convertNumericMealTypeToString
 
 
 class DiscoverRecipeDetailFragment : Fragment(), Toolbar.OnMenuItemClickListener {
@@ -47,7 +38,7 @@ class DiscoverRecipeDetailFragment : Fragment(), Toolbar.OnMenuItemClickListener
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(DiscoverRecipeDetailViewModel::class.java)
 
-        binding.discoverRecipeDetailViewModel = viewModel
+        binding.viewModel = viewModel
 
         return binding.root
     }
@@ -75,6 +66,16 @@ class DiscoverRecipeDetailFragment : Fragment(), Toolbar.OnMenuItemClickListener
                 viewModel.onButtonClicked()
             }
         })
+
+        //observer to navigate to Add recipe fragment, passing info via Safe Args
+        viewModel.navigateToAddRecipe.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                    this.findNavController().navigate(
+                        DiscoverRecipeDetailFragmentDirections.actionDiscoverRecipeDetailFragmentToAddRecipeFragment2(it)
+                    )
+                    viewModel.onClickAddFragmentComplete()
+                }
+            })
     }
 
 
