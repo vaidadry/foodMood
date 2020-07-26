@@ -6,7 +6,7 @@
     <!--    adding data binding for Add recipe form - for cleaner code-->
     <data>
         <variable
-            name="addRecipeViewmodel"
+            name="viewModel"
             type="vaida.dryzaite.foodmood.ui.addRecipe.AddRecipeViewModel" />
 
     </data>
@@ -61,7 +61,7 @@
                 android:textColorHint="@color/colorSecondaryDark"
                 android:hint="@string/title"
                 android:inputType="text"
-                android:text="@={addRecipeViewmodel.title}"
+                android:text="@={viewModel.title}"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,7 +84,7 @@
                 android:backgroundTint="@color/Text"
                 android:textColorHint="@color/colorSecondaryDark"
                 android:hint="@string/url"
-                android:text="@={addRecipeViewmodel.recipe}"
+                android:text="@={viewModel.recipe}"
                 android:inputType="textUri" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,31 +103,31 @@
                 android:id="@+id/breakfast_icon_homepage"
                 style="@style/MealSelectionRadioButton"
                 android:foreground="@drawable/ic_1"
-                android:onClick="@{() -> addRecipeViewmodel.onSetMealType(1)}" />
+                android:onClick="@{() -> viewModel.onSetMealType(1)}" />
 
             <RadioButton
                 android:id="@+id/brunch_icon_homepage"
                 style="@style/MealSelectionRadioButton"
                 android:foreground="@drawable/ic_2"
-                android:onClick="@{() -> addRecipeViewmodel.onSetMealType(2)}" />
+                android:onClick="@{() -> viewModel.onSetMealType(2)}" />
 
             <RadioButton
                 android:id="@+id/lunch_icon_homepage"
                 style="@style/MealSelectionRadioButton"
                 android:foreground="@drawable/ic_3"
-                android:onClick="@{() -> addRecipeViewmodel.onSetMealType(3)}" />
+                android:onClick="@{() -> viewModel.onSetMealType(3)}" />
 
             <RadioButton
                 android:id="@+id/dinner_icon_homepage"
                 style="@style/MealSelectionRadioButton"
                 android:foreground="@drawable/ic_4"
-                android:onClick="@{() -> addRecipeViewmodel.onSetMealType(4)}" />
+                android:onClick="@{() -> viewModel.onSetMealType(4)}" />
 
             <RadioButton
                 android:id="@+id/sweets_icon_homepage"
                 style="@style/MealSelectionRadioButton"
                 android:foreground="@drawable/ic_5"
-                android:onClick="@{() -> addRecipeViewmodel.onSetMealType(5)}" />
+                android:onClick="@{() -> viewModel.onSetMealType(5)}" />
         </RadioGroup>
 
         <TextView
@@ -182,7 +182,7 @@
             app:layout_constraintTop_toBottomOf="@id/lunch_text"
             app:layout_constraintBottom_toTopOf="@id/submit_recipe_btn"
             android:text="@string/fish_craving_checkbox"
-            android:checked="@={addRecipeViewmodel.fish}" />
+            android:checked="@={viewModel.fish}" />
 
         <CheckBox
             android:id="@+id/veggie_checkbox"
@@ -191,7 +191,7 @@
             app:layout_constraintTop_toBottomOf="@id/lunch_text"
             app:layout_constraintBottom_toTopOf="@id/submit_recipe_btn"
             android:text="@string/veggie_checkbox"
-            android:checked="@={addRecipeViewmodel.veggie}" />
+            android:checked="@={viewModel.veggie}" />
 
         <Button
             android:id="@+id/submit_recipe_btn"
@@ -200,7 +200,7 @@
             android:background="@drawable/rounded_button_solid"
             android:fontFamily="@font/robotomono_bold"
             android:text="@string/submit"
-            android:onClick="@{() -> addRecipeViewmodel.saveNewRecipe()}"
+            android:onClick="@{() -> viewModel.saveNewRecipe()}"
             android:textSize="@dimen/button_text_size"
             app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_bottom"
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_bottom_nav"

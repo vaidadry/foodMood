@@ -17,7 +17,7 @@ import vaida.dryzaite.foodmood.utilities.isValidUrl
 
 class AddRecipeFragment2 : Fragment(){
 
-    private lateinit var addRecipeViewModel2: AddRecipeViewModel2
+    private lateinit var viewModel: AddRecipeViewModel2
     private lateinit var binding: FragmentAddRecipe2Binding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -26,14 +26,14 @@ class AddRecipeFragment2 : Fragment(){
         val application = requireNotNull(this.activity).application
 
         val externalRecipe = AddRecipeFragment2Args.fromBundle(requireArguments()).selectedRecipe
-        Timber.i("external recipe received $externalRecipe")
 
         val viewModelFactory = AddRecipeViewModelFactory2(RecipeGenerator(), application, externalRecipe)
-        addRecipeViewModel2 = ViewModelProvider(this, viewModelFactory).get(AddRecipeViewModel2::class.java)
-        binding.lifecycleOwner = this
-        binding.addRecipeViewmodel2 = addRecipeViewModel2
+        viewModel = ViewModelProvider(this, viewModelFactory).get(AddRecipeViewModel2::class.java)
+        viewModel.title.set(externalRecipe.title)
+        viewModel.recipe.set(externalRecipe.url)
 
-//        binding.titleInput =  addRecipeViewModel2.externalRecipeToAdd.value.title.toString()
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
         observeMealTypeSelected()
         observeOnAddRecipe()
@@ -44,19 +44,19 @@ class AddRecipeFragment2 : Fragment(){
 
     //    since no click listener to save item, the observer send Success/error toast
     private fun observeOnAddRecipe() {
-        addRecipeViewModel2.onSaveLiveData.observe(viewLifecycleOwner, Observer { saved ->
+        viewModel.onSaveLiveData.observe(viewLifecycleOwner, Observer { saved ->
             saved?.let {
                 if (saved) {
                     Toast.makeText(context, getString(R.string.saved_successfully), Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_addRecipeFragment_to_recipeListFragment)
+                    findNavController().navigate(R.id.action_addRecipeFragment2_to_recipeListFragment)
                 } else {
-                    if (!addRecipeViewModel2.recipe.get()?.isValidUrl()!!) {
+                    if (!viewModel.recipe.get()?.isValidUrl()!!) {
                         Toast.makeText(context, getString(R.string.incorrect_url), Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(context, getString(R.string.error_saving_recipe_not_filled), Toast.LENGTH_SHORT).show()
                     }
                 }
-                addRecipeViewModel2.onSaveLiveDataCompleted()
+                viewModel.onSaveLiveDataCompleted()
             }
         })
     }
@@ -64,9 +64,9 @@ class AddRecipeFragment2 : Fragment(){
 
     //observer that as item clicked changes the background of item
     private fun observeMealTypeSelected() {
-        addRecipeViewModel2.onMealSelected.observe(viewLifecycleOwner, Observer {
+        viewModel.onMealSelected.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                addRecipeViewModel2.mealTypeSelectionCompleted()
+                viewModel.mealTypeSelectionCompleted()
             }
         })
 

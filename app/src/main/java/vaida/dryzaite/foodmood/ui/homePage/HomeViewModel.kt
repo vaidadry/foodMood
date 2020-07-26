@@ -1,7 +1,6 @@
 package vaida.dryzaite.foodmood.ui.homePage
 
 import android.app.Application
-import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -15,13 +14,13 @@ class HomeViewModel(application: Application): AndroidViewModel(application) {
 
     private val repository: RecipeRepository = Injection.provideRecipeRepository(application)
 
-//    private var allRecipesLiveData = repository.getAllRecipes()
-
     private val allRecipesLiveData= repository.getAllRecipes()
+//    private val filteredRecipes =repository.getFilteredRecipes(meal.get() ?: 0)
 
+    fun getFilteredRecipes(): LiveData<List<RecipeEntry>> = repository.getFilteredRecipes(mealx.value ?: 0)
     fun getAllRecipes() = allRecipesLiveData
 
-    // "_" means that it is backing property; in fragment only original ones must be used.
+    // "_" means that it is a backing property; in fragment only original ones must be used.
 
     private val _randomRecipe = MutableLiveData<RecipeEntry>()
     val randomRecipe: LiveData<RecipeEntry>
@@ -29,14 +28,23 @@ class HomeViewModel(application: Application): AndroidViewModel(application) {
 
 
     private fun getRandomRecipe(): RecipeEntry? {
-        Timber.i("all recipes retrieved ${allRecipesLiveData.value}")
-        if (!allRecipesLiveData.value.isNullOrEmpty()) {
-            _randomRecipe.value = allRecipesLiveData.value?.random()
-        } else  {
-            _randomRecipe.value = null
-        }
-        Timber.i("randomly generated entry in viewModel: ${_randomRecipe.value}")
-       return  _randomRecipe.value
+        Timber.i("veggie selection : ${veggie.get()}, fish selection: ${fish.get()}, meal selection: ${meal.get()}")
+        val filteredRecipes = getFilteredRecipes()
+        Timber.i("all recipes retrieved ${filteredRecipes.value}")
+            if (!filteredRecipes.value.isNullOrEmpty()) {
+                _randomRecipe.value = filteredRecipes.value?.random()
+            } else  {
+                _randomRecipe.value = null
+            }
+            Timber.i("randomly generated entry in viewModel: ${_randomRecipe.value}")
+        return  _randomRecipe.value
+//        if (!allRecipesLiveData.value.isNullOrEmpty()) {
+//            _randomRecipe.value = allRecipesLiveData.value?.random()
+//        } else  {
+//            _randomRecipe.value = null
+//        }
+//        Timber.i("randomly generated entry in viewModel: ${_randomRecipe.value}")
+//       return  _randomRecipe.value
 
     }
 
@@ -53,27 +61,17 @@ class HomeViewModel(application: Application): AndroidViewModel(application) {
     }
 
 
-// handing meal selection clicks
+    //handing meal radio selection and checkbox clicks:
+    fun onSetMealType(mealSelection: Int) {
+//        this.meal.set(mealSelection)
+        _meal.value = mealSelection
+    }
+
     private val _meal = MutableLiveData<Int>()
-    val meal:LiveData<Int>
+    val mealx : LiveData<Int>
         get() = _meal
 
-
-    //parameter to observe state when meal is selected - nor finished!!!!
-    private val _onMealSelected = MutableLiveData<Boolean?>()
-    val onMealSelected: LiveData<Boolean?>
-        get() = _onMealSelected
-
-
-    fun onSetMealType(mealSelection: Int) {
-        _meal.value = mealSelection
-        _onMealSelected.value = true
-    }
-
-    fun mealSelectionCompleted() {
-        _onMealSelected.value = null
-    }
-
+    var meal = ObservableField<Int>(0)
     var veggie = ObservableField<Boolean>(false)
     var fish = ObservableField<Boolean>(false)
 

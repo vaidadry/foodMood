@@ -4,7 +4,7 @@
 
     <data>
         <variable
-            name="discoverRecipesViewModel"
+            name="viewModel"
             type="vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesViewModel" />
     </data>
 
@@ -57,7 +57,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/discover_search_input"
             app:layout_constraintVertical_bias="0.0"
-            app:listData="@{discoverRecipesViewModel.externalRecipes}">
+            app:listData="@{viewModel.externalRecipes}">
         </androidx.recyclerview.widget.RecyclerView>
 
         <ImageView
@@ -68,7 +68,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:recipeApiStatus="@{discoverRecipesViewModel.status}"
+            app:recipeApiStatus="@{viewModel.status}"
             android:contentDescription="@string/network_data_status_image" />
 
         <androidx.constraintlayout.widget.Guideline

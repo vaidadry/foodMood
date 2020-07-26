@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="discoverRecipeDetailViewModel"
+            name="viewModel"
             type="vaida.dryzaite.foodmood.ui.discoverRecipePage.DiscoverRecipeDetailViewModel" />
     </data>
 
@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/top_nav_menu_item"
             app:titleTextColor="@color/Text"
-            app:title="@{discoverRecipeDetailViewModel.selectedRecipe.title}"
+            app:title="@{viewModel.selectedRecipe.title}"
             tools:title="@string/title" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,7 +46,7 @@
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toTopOf="parent"
-                app:imageUrl="@{discoverRecipeDetailViewModel.selectedRecipe.thumbnail}"
+                app:imageUrl="@{viewModel.selectedRecipe.thumbnail}"
                 tools:srcCompat="@drawable/ic_3" />
 
             <TextView
@@ -61,7 +61,7 @@
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toBottomOf="@id/detail_image"
-                android:text="@{discoverRecipeDetailViewModel.selectedRecipe.title}"
+                android:text="@{viewModel.selectedRecipe.title}"
                 tools:text="@string/title" />
 
 
@@ -78,7 +78,7 @@
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toBottomOf="@id/discover_detail_title"
-                android:text="@{discoverRecipeDetailViewModel.selectedRecipe.ingredients}"
+                android:text="@{viewModel.selectedRecipe.ingredients}"
                 tools:text="ingredients" />
 
 
@@ -96,7 +96,7 @@
                 app:layout_constraintTop_toBottomOf="@id/discover_detail_title"
                 android:text="@string/show_me_how_button"
                 android:clickable="true"
-                android:onClick="@{() -> discoverRecipeDetailViewModel.onClickUrl()}"
+                android:onClick="@{() -> viewModel.onClickUrl()}"
 
             />
 
@@ -114,7 +114,7 @@
                 app:layout_constraintTop_toBottomOf="@id/discover_detail_url"
                 android:text="@string/add_to_recipe_book"
                 android:clickable="true"
-                android:onClick="@{() -> discoverRecipeDetailViewModel.onClickAddFragment()}"
+                android:onClick="@{() -> viewModel.onClickAddFragment()}"
                 />
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/horizontal_guideline_bottom_nav"

@@ -5,7 +5,7 @@
 
     <data>
         <variable
-            name="recipeViewModel"
+            name="viewModel"
             type="vaida.dryzaite.foodmood.ui.recipePage.RecipeViewModel" />
     </data>
 
@@ -24,7 +24,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/top_nav_menu_item"
-            app:title="@{recipeViewModel.detailRecipe.title}"
+            app:title="@{viewModel.detailRecipe.title}"
             app:titleTextColor="@color/Text"
             tools:title="@string/title" />
 
@@ -45,7 +45,7 @@
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toTopOf="parent"
-                app:mealTypeIcon="@{recipeViewModel.detailRecipe}"
+                app:mealTypeIcon="@{viewModel.detailRecipe}"
                 tools:srcCompat="@drawable/ic_3" />
 
             <TextView
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:fontFamily="@font/dosis_bold"
-                android:text="@{recipeViewModel.recipeDetail.title}"
+                android:text="@{viewModel.recipeDetail.title}"
                 android:textSize="@dimen/generate_random_meal_text_size"
                 android:maxLines="3"
                 app:layout_constraintBottom_toTopOf="@id/detail_url"
@@ -74,7 +74,7 @@
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toBottomOf="@id/detail_title"
-                app:mealTypeText="@{recipeViewModel.recipeDetail}"
+                app:mealTypeText="@{viewModel.recipeDetail}"
                 tools:text="meal" />
 
 
@@ -92,7 +92,7 @@
                 app:layout_constraintTop_toBottomOf="@id/detail_title"
                 android:text="@string/show_me_how_button"
                 android:clickable="true"
-                android:onClick="@{() -> recipeViewModel.onClickUrl()}"/>
+                android:onClick="@{() -> viewModel.onClickUrl()}"/>
 
 
             <androidx.constraintlayout.widget.Guideline

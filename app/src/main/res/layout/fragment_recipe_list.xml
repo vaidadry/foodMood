@@ -4,7 +4,7 @@
 
     <data>
         <variable
-            name="recipeListViewModel"
+            name="viewModel"
             type="vaida.dryzaite.foodmood.ui.recipeList.RecipeListViewModel" />
     </data>
 
@@ -87,7 +87,7 @@
             app:layout_anchorGravity="bottom|right|end"
             app:srcCompat="@drawable/ic_plus"
             app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
-            android:onClick="@{() -> recipeListViewModel.onFabClick()}"/>
+            android:onClick="@{() -> viewModel.onFabClick()}"/>
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

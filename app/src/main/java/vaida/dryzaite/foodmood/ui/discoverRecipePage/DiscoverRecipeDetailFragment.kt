@@ -38,7 +38,7 @@ class DiscoverRecipeDetailFragment : Fragment(), Toolbar.OnMenuItemClickListener
         viewModel =
             ViewModelProvider(this, viewModelFactory).get(DiscoverRecipeDetailViewModel::class.java)
 
-        binding.discoverRecipeDetailViewModel = viewModel
+        binding.viewModel = viewModel
 
         return binding.root
     }

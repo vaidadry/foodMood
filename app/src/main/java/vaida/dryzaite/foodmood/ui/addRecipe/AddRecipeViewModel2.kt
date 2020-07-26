@@ -29,7 +29,6 @@ class AddRecipeViewModel2(
 
     init {
         _externalRecipeToAdd.value = externalRecipe
-        Timber.i("external recipe in VM: $externalRecipe")
     }
 
     //defining RecipeEntry  parameters
@@ -43,7 +42,7 @@ class AddRecipeViewModel2(
     private lateinit var entry: RecipeEntry
 
 
-    fun updateEntry() {
+    private fun updateEntry() {
         entry = generator.generateRecipe(
             title.get() ?: "",
             veggie.get() ?: false,
@@ -71,7 +70,7 @@ class AddRecipeViewModel2(
 
 
     // form validation - valid url and non empty fields
-    fun canSaveRecipe(): Boolean {
+    private fun canSaveRecipe(): Boolean {
         val title = this.title.get()
         val recipe = this.recipe.get()
         title?.let {

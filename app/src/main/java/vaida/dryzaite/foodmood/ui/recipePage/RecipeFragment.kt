@@ -19,7 +19,7 @@ import vaida.dryzaite.foodmood.utilities.convertNumericMealTypeToString
 
 class RecipeFragment : Fragment(), Toolbar.OnMenuItemClickListener {
 
-    private lateinit var recipeViewModel: RecipeViewModel
+    private lateinit var viewModel: RecipeViewModel
     private lateinit var binding: FragmentRecipeDetailBinding
     private lateinit var viewModelFactory: RecipeViewModelFactory
 
@@ -30,9 +30,9 @@ class RecipeFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         val arguments = RecipeFragmentArgs.fromBundle(requireArguments())
 
         viewModelFactory = RecipeViewModelFactory(arguments.keyId, application)
-        recipeViewModel = ViewModelProvider(this, viewModelFactory).get(RecipeViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(RecipeViewModel::class.java)
 
-        binding.recipeViewModel = recipeViewModel
+        binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
@@ -57,15 +57,15 @@ class RecipeFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         val checkbox = favoriteMenuItem.actionView as CheckBox
 
         //observer handling fav button clicks
-        recipeViewModel.recipeDetail.observe(viewLifecycleOwner, Observer {
+        viewModel.recipeDetail.observe(viewLifecycleOwner, Observer {
             setupFavoriteToggle(checkbox, it)
         })
 
         //observer handling clicks on URL field
-        recipeViewModel.navigateToUrl.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToUrl.observe(viewLifecycleOwner, Observer {
             it?.let {
                 redirectToRecipeUrl(it)
-                recipeViewModel.onButtonClicked()
+                viewModel.onButtonClicked()
             }
         })
     }
@@ -73,7 +73,7 @@ class RecipeFragment : Fragment(), Toolbar.OnMenuItemClickListener {
 
 //    intent for sharing a recipe via other apps
     private fun getShareIntent(): Intent {
-        val recipe = recipeViewModel.recipeDetail.value!!
+        val recipe = viewModel.recipeDetail.value!!
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.setType("text/plain").putExtra(Intent.EXTRA_TEXT,
             getString(R.string.share_message, recipe.title, convertNumericMealTypeToString(recipe.meal, resources), recipe.recipe))
@@ -91,7 +91,7 @@ class RecipeFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         Timber.i("live data  get by id $recipe")
         checkBox.setOnCheckedChangeListener { _, boolean ->
             recipe.isFavorite = boolean
-            recipeViewModel.updateRecipe(recipe)
+            viewModel.updateRecipe(recipe)
             Timber.i("live data  get by id $recipe")
         }
         checkBox.isChecked = recipe.isFavorite

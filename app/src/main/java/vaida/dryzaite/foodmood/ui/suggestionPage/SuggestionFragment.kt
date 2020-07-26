@@ -11,12 +11,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import timber.log.Timber
 import vaida.dryzaite.foodmood.databinding.FragmentSuggestionBinding
-import vaida.dryzaite.foodmood.model.room.RecipeDatabase
 
 class SuggestionFragment : Fragment() {
 
     private lateinit var binding: FragmentSuggestionBinding
-    private lateinit var suggestionViewModel: SuggestionViewModel
+    private lateinit var viewModel: SuggestionViewModel
     private lateinit var viewModelFactory: SuggestionViewModelFactory
 
     override fun onCreateView(
@@ -30,10 +29,10 @@ class SuggestionFragment : Fragment() {
         val arguments = SuggestionFragmentArgs.fromBundle(requireArguments())
 
         viewModelFactory = SuggestionViewModelFactory(arguments.randomId, application)
-        suggestionViewModel = ViewModelProvider(this, viewModelFactory).get(SuggestionViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(SuggestionViewModel::class.java)
 
 //        enabling data binding between view Model and layout
-        binding.suggestionViewModel = suggestionViewModel
+        binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
@@ -44,11 +43,11 @@ class SuggestionFragment : Fragment() {
 
 
         //observer handling button SHOW ME HOW click
-        suggestionViewModel.navigateToUrl.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToUrl.observe(viewLifecycleOwner, Observer {
             it?.let {
                 Timber.i("$it is the URL to redirect")
                redirectToRecipeUrl(it)
-                suggestionViewModel.onButtonClicked()
+                viewModel.onButtonClicked()
             }
         })
     }

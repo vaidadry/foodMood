@@ -5,7 +5,7 @@
 
     <data>
         <variable
-            name="homeViewModel"
+            name="viewModel"
             type="vaida.dryzaite.foodmood.ui.homePage.HomeViewModel" />
     </data>
 
@@ -42,31 +42,31 @@
                 android:id="@+id/breakfast_icon_homepage"
                 style="@style/MealSelectionRadioButton"
                 android:foreground="@drawable/ic_1"
-                android:onClick="@{() -> homeViewModel.onSetMealType(1)}" />
+                android:onClick="@{() -> viewModel.onSetMealType(1)}" />
 
             <RadioButton
                 android:id="@+id/brunch_icon_homepage"
                 style="@style/MealSelectionRadioButton"
                 android:foreground="@drawable/ic_2"
-                android:onClick="@{() -> homeViewModel.onSetMealType(2)}" />
+                android:onClick="@{() -> viewModel.onSetMealType(2)}" />
 
             <RadioButton
                 android:id="@+id/lunch_icon_homepage"
                 style="@style/MealSelectionRadioButton"
                 android:foreground="@drawable/ic_3"
-                android:onClick="@{() -> homeViewModel.onSetMealType(3)}" />
+                android:onClick="@{() -> viewModel.onSetMealType(3)}" />
 
             <RadioButton
                 android:id="@+id/dinner_icon_homepage"
                 style="@style/MealSelectionRadioButton"
                 android:foreground="@drawable/ic_4"
-                android:onClick="@{() -> homeViewModel.onSetMealType(4)}" />
+                android:onClick="@{() -> viewModel.onSetMealType(4)}" />
 
             <RadioButton
                 android:id="@+id/sweets_icon_homepage"
                 style="@style/MealSelectionRadioButton"
                 android:foreground="@drawable/ic_5"
-                android:onClick="@{() -> homeViewModel.onSetMealType(5)}" />
+                android:onClick="@{() -> viewModel.onSetMealType(5)}" />
         </RadioGroup>
 
         <TextView
@@ -122,7 +122,7 @@
             app:layout_constraintTop_toBottomOf="@id/meal_selection_radio_group"
             app:layout_constraintBottom_toTopOf="@id/random_Button"
             android:text="@string/fish_craving_checkbox"
-            android:checked="@={homeViewModel.fish}" />
+            android:checked="@={viewModel.fish}" />
 
         <CheckBox
             android:id="@+id/veggie_checkbox"
@@ -131,7 +131,7 @@
             app:layout_constraintTop_toBottomOf="@id/meal_selection_radio_group"
             app:layout_constraintBottom_toTopOf="@id/random_Button"
             android:text="@string/veggie_checkbox"
-            android:checked="@={homeViewModel.veggie}" />
+            android:checked="@={viewModel.veggie}" />
 
 
         <Button
@@ -147,7 +147,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_bottom"
-            android:onClick="@{() -> homeViewModel.onGenerateButtonClick()}" />
+            android:onClick="@{() -> viewModel.onGenerateButtonClick()}" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/horizontal_guideline_bottom_nav"

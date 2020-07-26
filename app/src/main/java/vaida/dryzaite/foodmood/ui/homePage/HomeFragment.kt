@@ -16,7 +16,7 @@ import vaida.dryzaite.foodmood.databinding.FragmentHome2Binding
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHome2Binding
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var viewModel: HomeViewModel
 
 
     override fun onCreateView(
@@ -30,9 +30,9 @@ class HomeFragment : Fragment() {
 
         //enabling viewModel data binding in fragment
         val viewModelFactory = HomeViewModelFactory(application)
-        homeViewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
         binding.lifecycleOwner = this
-        binding.homeViewModel = homeViewModel
+        binding.viewModel = viewModel
 
         return binding.root
     }
@@ -42,43 +42,33 @@ class HomeFragment : Fragment() {
 
 
         //blogai! turi but viewmodelyje, init block neveikia, gal kažką kito?
-        homeViewModel.getAllRecipes().observe(viewLifecycleOwner, Observer {})
+        viewModel.getFilteredRecipes().observe(viewLifecycleOwner, Observer {})
 
 
-        observeMealSelectionStatus()
         navigateToSuggestionPage()
     }
 
-    //observer of meal selection click event
-    private fun observeMealSelectionStatus() {
-        homeViewModel.onMealSelected.observe(viewLifecycleOwner, Observer {
-            if (it == true) {
-                homeViewModel.mealSelectionCompleted()
-            }
-        })
-    }
 
     private fun navigateToSuggestionPage() {
-        homeViewModel.navigateToSuggestionPage.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToSuggestionPage.observe(viewLifecycleOwner, Observer {
             when (it) {
                 true -> {
-                    Timber.i("SHOWING generated recipe: ${homeViewModel.randomRecipe.value}")
+                    Timber.i("SHOWING generated recipe: ${viewModel.randomRecipe.value}")
                     this.findNavController().navigate(
-                        HomeFragmentDirections.actionHomeFragment2ToSuggestionFragment(homeViewModel.randomRecipe.value?.id.toString())
+                        HomeFragmentDirections.actionHomeFragment2ToSuggestionFragment(viewModel.randomRecipe.value?.id.toString())
                     )
-                    homeViewModel.doneNavigating()
+                    viewModel.doneNavigating()
                 }
-                else -> {
+                false -> {
                     Timber.i("Cant show recipe coz, no recipes added")
                     Toast.makeText(
                         context,
                         getString(R.string.error_showing_recipe),
                         Toast.LENGTH_SHORT
                     ).show()
-                    homeViewModel.doneNavigating()
+                    viewModel.doneNavigating()
                 }
             }
         })
     }
-
 }

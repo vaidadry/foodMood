@@ -21,11 +21,13 @@ class RecipeDatabaseRepository(application: Application) : RecipeRepository, Cor
     private val recipeDao: RecipeDao?
 
     private val allRecipes: LiveData<List<RecipeEntry>>
+    private val filteredRecipes: LiveData<List<RecipeEntry>>
 
     init {
         val database = RecipeDatabase.getInstance(application)
         recipeDao = database.recipeDao
         allRecipes = recipeDao.getAllRecipes()
+        filteredRecipes = recipeDao.getFilteredRecipes(0)
     }
 
     //    When we get the recipes, we are already returning LiveData in Dao.
@@ -69,6 +71,10 @@ class RecipeDatabaseRepository(application: Application) : RecipeRepository, Cor
 
     override fun getFavorites(): LiveData<List<RecipeEntry>> {
         return recipeDao!!.getFavorites()
+    }
+
+    override fun getFilteredRecipes(meal: Int): LiveData<List<RecipeEntry>> {
+        return  recipeDao!!.getFilteredRecipes(meal)
     }
 
 }

@@ -1,5 +1,6 @@
 package vaida.dryzaite.foodmood.ui.discoverRecipes
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +23,7 @@ class DiscoverRecipesFragment : Fragment() {
     private lateinit var adapter: DiscoverRecipesAdapter
     private lateinit var binding: FragmentDiscoverRecipesBinding
 
-    private val discoverRecipesViewModel: DiscoverRecipesViewModel by lazy {
+    private val viewModel: DiscoverRecipesViewModel by lazy {
         val viewModelFactory = DiscoverRecipesViewModelFactory()
         ViewModelProvider(this, viewModelFactory).get(DiscoverRecipesViewModel::class.java)
     }
@@ -33,24 +34,30 @@ class DiscoverRecipesFragment : Fragment() {
         binding = FragmentDiscoverRecipesBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
-        binding.discoverRecipesViewModel = discoverRecipesViewModel
+        binding.viewModel = viewModel
 
         adapter = DiscoverRecipesAdapter(mutableListOf(), DiscoverRecipesAdapter.OnClickListener {
-            discoverRecipesViewModel.displayRecipeDetails(it)
+            viewModel.displayRecipeDetails(it)
         })
 
         binding.discoverListRecyclerview.adapter = adapter
 
         // observing navigation state and navigating to detail page
-        discoverRecipesViewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, Observer {
             if ( null != it) {
                 this.findNavController().navigate(
                     DiscoverRecipesFragmentDirections.actionDiscoverRecipesFragmentToDiscoverRecipeDetailFragment(it))
-                discoverRecipesViewModel.displayRecipeDetailsComplete()
+                viewModel.displayRecipeDetailsComplete()
             }
         })
 
         return binding.root
+    }
+
+    // loading initial values from API (no filter)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        viewModel.getExternalRecipes("")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -105,14 +112,14 @@ class DiscoverRecipesFragment : Fragment() {
         binding.discoverSearchInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 Timber.i("onQueryTextSubmit executed, query - $query")
-                discoverRecipesViewModel.getFilterResults(query)
+                viewModel.getFilterResults(query)
                 Timber.i("getFilterResults #1 executed query - $query")
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 adapter.filter.filter(newText)
                 Timber.i("adapter.filter accesed new text - $newText")
-                discoverRecipesViewModel.getFilterResults(newText)
+                viewModel.getFilterResults(newText)
                 Timber.i("getFilterResults #2 executed; new text - $newText")
                 return false
             }

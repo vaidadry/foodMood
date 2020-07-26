@@ -18,7 +18,7 @@ import vaida.dryzaite.foodmood.utilities.isValidUrl
 
 class AddRecipeFragment : Fragment(){
 
-    private lateinit var addRecipeViewModel: AddRecipeViewModel
+    private lateinit var viewModel: AddRecipeViewModel
     private lateinit var binding: FragmentAddRecipeBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -27,9 +27,9 @@ class AddRecipeFragment : Fragment(){
         val application = requireNotNull(this.activity).application
 
         val viewModelFactory = AddRecipeViewModelFactory(RecipeGenerator(), application)
-        addRecipeViewModel = ViewModelProvider(this, viewModelFactory).get(AddRecipeViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(AddRecipeViewModel::class.java)
         binding.lifecycleOwner = this
-        binding.addRecipeViewmodel = addRecipeViewModel
+        binding.viewModel = viewModel
 
         observeMealTypeSelected()
         observeOnAddRecipe()
@@ -40,19 +40,19 @@ class AddRecipeFragment : Fragment(){
 
     //    since no click listener to save item, the observer send Success/error toast
     private fun observeOnAddRecipe() {
-        addRecipeViewModel.onSaveLiveData.observe(viewLifecycleOwner, Observer { saved ->
+        viewModel.onSaveLiveData.observe(viewLifecycleOwner, Observer { saved ->
             saved?.let {
                 if (saved) {
                     Toast.makeText(context, getString(R.string.saved_successfully), Toast.LENGTH_SHORT).show()
                     findNavController().navigate(R.id.action_addRecipeFragment_to_recipeListFragment)
                 } else {
-                    if (!addRecipeViewModel.recipe.get()?.isValidUrl()!!) {
+                    if (!viewModel.recipe.get()?.isValidUrl()!!) {
                         Toast.makeText(context, getString(R.string.incorrect_url), Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(context, getString(R.string.error_saving_recipe_not_filled), Toast.LENGTH_SHORT).show()
                     }
                 }
-                addRecipeViewModel.onSaveLiveDataCompleted()
+                viewModel.onSaveLiveDataCompleted()
             }
         })
     }
@@ -60,9 +60,9 @@ class AddRecipeFragment : Fragment(){
 
     //observer that as item clicked changes the background of item
     private fun observeMealTypeSelected() {
-        addRecipeViewModel.onMealSelected.observe(viewLifecycleOwner, Observer {
+        viewModel.onMealSelected.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                addRecipeViewModel.mealTypeSelectionCompleted()
+                viewModel.mealTypeSelectionCompleted()
             }
         })
 

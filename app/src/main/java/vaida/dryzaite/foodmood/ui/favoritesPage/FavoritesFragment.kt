@@ -17,7 +17,7 @@ import vaida.dryzaite.foodmood.model.RecipeEntry
 
 class FavoritesFragment : Fragment(), FavoritesAdapter.FavoritesAdapterListener {
 
-    private lateinit var favoritesViewModel: FavoritesViewModel
+    private lateinit var viewModel: FavoritesViewModel
     private lateinit var binding: FragmentFavoritesBinding
     private lateinit var adapter: FavoritesAdapter
 
@@ -30,10 +30,10 @@ class FavoritesFragment : Fragment(), FavoritesAdapter.FavoritesAdapterListener 
         val application = requireNotNull(this.activity).application
 
         val viewModelFactory = FavoritesViewModelFactory(application)
-        favoritesViewModel = ViewModelProvider(this, viewModelFactory).get(FavoritesViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(FavoritesViewModel::class.java)
 
         binding.lifecycleOwner = this
-        binding.favoritesViewModel = favoritesViewModel
+        binding.viewModel = viewModel
 
         return binding.root
     }
@@ -48,7 +48,7 @@ class FavoritesFragment : Fragment(), FavoritesAdapter.FavoritesAdapterListener 
         setupScrollListener()
 
         //updating Live data observer with ViewModel data
-        favoritesViewModel.getFavorites().observe(viewLifecycleOwner, Observer { recipes ->
+        viewModel.getFavorites().observe(viewLifecycleOwner, Observer { recipes ->
             recipes?.let {
                 adapter.updateRecipes(recipes)
             }
@@ -56,18 +56,18 @@ class FavoritesFragment : Fragment(), FavoritesAdapter.FavoritesAdapterListener 
         })
 
         //set up observer to react on item taps and enable navigation
-        favoritesViewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, Observer { keyId->
+        viewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, Observer { keyId->
             keyId?.let {
                 this.findNavController().navigate(
                     FavoritesFragmentDirections.actionFavoritesFragmentToRecipeFragment(keyId))
-                favoritesViewModel.onRecipeDetailNavigated()
+                viewModel.onRecipeDetailNavigated()
             }
         })
 
         // observer to react to favorite button click state
-        favoritesViewModel.favoriteStatusChange.observe(viewLifecycleOwner, Observer {
+        viewModel.favoriteStatusChange.observe(viewLifecycleOwner, Observer {
             if (it == true) {
-                favoritesViewModel.onFavoriteClickCompleted()
+                viewModel.onFavoriteClickCompleted()
             }
         })
     }
@@ -88,7 +88,7 @@ class FavoritesFragment : Fragment(), FavoritesAdapter.FavoritesAdapterListener 
 
     private fun setupAdapter() {
         adapter = FavoritesAdapter(mutableListOf(), FavoritesOnClickListener { id ->
-            favoritesViewModel.onRecipeClicked(id)
+            viewModel.onRecipeClicked(id)
         }, this)
     }
 
@@ -112,11 +112,11 @@ class FavoritesFragment : Fragment(), FavoritesAdapter.FavoritesAdapterListener 
     }
 
     override fun addFavorites(recipe: RecipeEntry) {
-        favoritesViewModel.addFavorites(recipe)
+        viewModel.addFavorites(recipe)
     }
 
     override fun removeFavorites(recipe: RecipeEntry) {
-        favoritesViewModel.removeFavorites(recipe)
+        viewModel.removeFavorites(recipe)
     }
 
 
