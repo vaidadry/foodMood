@@ -4,8 +4,6 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import vaida.dryzaite.foodmood.model.RecipeGenerator
-import vaida.dryzaite.foodmood.model.room.RecipeDao
-import vaida.dryzaite.foodmood.network.ExternalRecipe
 
 
 class AddRecipeViewModelFactory (private val generator: RecipeGenerator = RecipeGenerator(),

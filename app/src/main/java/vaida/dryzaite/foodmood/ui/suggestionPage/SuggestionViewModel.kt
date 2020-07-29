@@ -4,13 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import timber.log.Timber
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.model.room.RecipeDatabase
-import vaida.dryzaite.foodmood.model.room.RecipeDatabaseRepository
-import vaida.dryzaite.foodmood.model.room.RecipeRepository
+import vaida.dryzaite.foodmood.model.roomRecipeBook.RecipeRepository
 
 class SuggestionViewModel(randomId: String, application: Application): AndroidViewModel(application) {
 

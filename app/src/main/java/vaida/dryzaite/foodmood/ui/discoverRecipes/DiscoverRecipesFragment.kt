@@ -1,6 +1,5 @@
 package vaida.dryzaite.foodmood.ui.discoverRecipes
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
@@ -24,9 +23,11 @@ class DiscoverRecipesFragment : Fragment() {
     private lateinit var binding: FragmentDiscoverRecipesBinding
 
     private val viewModel: DiscoverRecipesViewModel by lazy {
-        val viewModelFactory = DiscoverRecipesViewModelFactory()
+        val application = requireNotNull(this.activity).application
+        val viewModelFactory = DiscoverRecipesViewModelFactory(application)
         ViewModelProvider(this, viewModelFactory).get(DiscoverRecipesViewModel::class.java)
     }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -42,6 +43,7 @@ class DiscoverRecipesFragment : Fragment() {
 
         binding.discoverListRecyclerview.adapter = adapter
 
+
         // observing navigation state and navigating to detail page
         viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, Observer {
             if ( null != it) {
@@ -51,13 +53,16 @@ class DiscoverRecipesFragment : Fragment() {
             }
         })
 
-        return binding.root
-    }
+        // if from detail page BACK is pressed, navigates back to search, with entered keyword, not to the empty page
+        val searchWord = viewModel.searchQueryVM.value
+        binding.discoverSearchInput.setQuery(searchWord, true)
+        Timber.i("set query after pressed BACK button ${viewModel.searchQueryVM.value}")
 
-    // loading initial values from API (no filter)
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        viewModel.getExternalRecipes("")
+        //cant start filtering coz cant see full list on
+//        if (!searchWord.isNullOrEmpty()) {
+//            adapter.filter.filter(searchWord)
+//        }
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -107,22 +112,21 @@ class DiscoverRecipesFragment : Fragment() {
         binding.discoverSearchInput.visibility = if (discover_search_input.visibility == View.GONE) View.VISIBLE else View.GONE
     }
 
-
     private fun setSearchInputListener() {
         binding.discoverSearchInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 Timber.i("onQueryTextSubmit executed, query - $query")
-                viewModel.getFilterResults(query)
-                Timber.i("getFilterResults #1 executed query - $query")
+                viewModel.searchQueryVM.value = query
+                viewModel.getExternalFilterResults(query)
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.searchQueryVM.value = newText
                 adapter.filter.filter(newText)
-                Timber.i("adapter.filter accesed new text - $newText")
-                viewModel.getFilterResults(newText)
-                Timber.i("getFilterResults #2 executed; new text - $newText")
+                Timber.i("adapter.filter accessed new text - $newText")
                 return false
             }
         })
     }
+
 }

@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_recipe_list_fragment_to_favoritesFragment"
             app:destination="@id/favoritesFragment" />
+        <action
+            android:id="@+id/action_recipe_list_fragment_to_home_fragment_2"
+            app:destination="@id/home_fragment_2" />
     </fragment>
     <fragment
         android:id="@+id/add_recipe_fragment"

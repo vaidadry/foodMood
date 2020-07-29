@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentHome2Binding
+import vaida.dryzaite.foodmood.model.RecipeEntry
 
 
 class HomeFragment : Fragment() {
@@ -41,13 +43,36 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        //blogai! turi but viewmodelyje, init block neveikia, gal kažką kito?
-        viewModel.getFilteredRecipes().observe(viewLifecycleOwner, Observer {})
+        //blogai! turi but viewmodelyje, gal kažką kito?
+        viewModel.getAllRecipes().observe(viewLifecycleOwner, Observer {
+            Timber.i("${viewModel.allRecipesLiveData.value}")
+        })
 
+//        val mealx = viewModel.meal.value ?: 0
+//        viewModel.getFilteredRecipes(mealx).observe(viewLifecycleOwner, Observer<List<RecipeEntry>> {
+//            Timber.i("${viewModel.allRecipesLiveData.value}")
+//        })
 
+//        observeMealSelectionction()
         navigateToSuggestionPage()
     }
 
+
+
+//    private fun observeMealSelection() {
+//        viewModel.meal.observe(viewLifecycleOwner, Observer {
+//            if (it != null) {
+//                viewModel.getFilteredRecipes(it)
+//                Timber.i("getFilteredRecipes called ${viewModel.filteredRecipes.value}")
+//            } else {
+//                viewModel.getAllRecipes().value
+//                Timber.i("get all recipes called ${viewModel.getAllRecipes().value}")
+//            }
+//        })
+//    }
+
+
+    // daryti gal on click listener paprasta ir ten paleisti observer?
 
     private fun navigateToSuggestionPage() {
         viewModel.navigateToSuggestionPage.observe(viewLifecycleOwner, Observer {

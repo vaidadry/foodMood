@@ -27,7 +27,7 @@ class FavoritesAdapter(
 
 
     var scrollDirection = ScrollDirection.DOWN
-    var recipeFilterList = ArrayList<RecipeEntry>()
+    private var recipeFilterList = ArrayList<RecipeEntry>()
 
     init {
         recipeFilterList = recipes as ArrayList<RecipeEntry>

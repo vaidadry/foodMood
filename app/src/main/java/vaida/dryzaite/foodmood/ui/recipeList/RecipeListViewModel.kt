@@ -5,7 +5,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.model.room.RecipeRepository
+import vaida.dryzaite.foodmood.model.roomRecipeBook.RecipeRepository
 
 // ViewModel for recipeList fragment interacts with data from the repository
 class RecipeListViewModel(application: Application) : AndroidViewModel(application) {
@@ -18,6 +18,8 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
 
     //updating database with changed status of favorites
     private fun updateRecipe(recipe: RecipeEntry) = repository.updateRecipe(recipe)
+
+    var searchQueryVM =  MutableLiveData<String?>()
 
     //defining navigation state
     private val _navigateToRecipeDetail = MutableLiveData<String>()

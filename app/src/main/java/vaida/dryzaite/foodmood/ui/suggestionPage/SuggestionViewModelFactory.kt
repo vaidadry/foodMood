@@ -3,7 +3,6 @@ package vaida.dryzaite.foodmood.ui.suggestionPage
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import vaida.dryzaite.foodmood.model.room.RecipeDao
 import java.lang.IllegalArgumentException
 
 

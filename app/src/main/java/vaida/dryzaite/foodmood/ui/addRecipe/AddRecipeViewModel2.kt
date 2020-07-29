@@ -24,8 +24,6 @@ class AddRecipeViewModel2(
 
     //property to keep data from External Recipe api
     private val _externalRecipeToAdd = MutableLiveData<ExternalRecipe?>()
-    val externalRecipeToAdd: LiveData<ExternalRecipe?>
-        get() = _externalRecipeToAdd
 
     init {
         _externalRecipeToAdd.value = externalRecipe

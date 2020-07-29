@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.model.room.RecipeRepository
+import vaida.dryzaite.foodmood.model.roomRecipeBook.RecipeRepository
 
 class FavoritesViewModel(application: Application) : AndroidViewModel(application){
 

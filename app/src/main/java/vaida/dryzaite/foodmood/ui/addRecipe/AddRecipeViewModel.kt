@@ -9,8 +9,6 @@ import timber.log.Timber
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.model.RecipeGenerator
-import vaida.dryzaite.foodmood.model.room.RecipeDao
-import vaida.dryzaite.foodmood.network.ExternalRecipe
 import vaida.dryzaite.foodmood.utilities.isValidUrl
 
 

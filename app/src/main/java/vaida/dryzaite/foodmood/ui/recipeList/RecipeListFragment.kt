@@ -2,6 +2,7 @@ package vaida.dryzaite.foodmood.ui.recipeList
 
 import android.os.Bundle
 import android.view.*
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -23,6 +24,16 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
     private lateinit var binding: FragmentRecipeListBinding
     private lateinit var adapter: RecipeListAdapter
 
+    //handling back button clicks not to return to add-form
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(RecipeListFragmentDirections.actionRecipeListFragmentToHomeFragment2())
+            }
+        })
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,6 +49,11 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        // if from detail page BACK is pressed, navigates back to search, with entered keyword, not to the empty page
+        val searchWord = viewModel.searchQueryVM.value
+        binding.searchInput.setQuery(searchWord, true)
+        Timber.i("set query after pressed BACK button ${viewModel.searchQueryVM.value}")
 
         return binding.root
     }
@@ -83,8 +99,6 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
             }
         })
     }
-
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -202,9 +216,11 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
     private fun setSearchInputListener() {
         binding.searchInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.searchQueryVM.value = query
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.searchQueryVM.value = newText
                 adapter.filter.filter(newText)
                 return false
             }

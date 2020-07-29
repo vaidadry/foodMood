@@ -1,14 +1,19 @@
-package vaida.dryzaite.foodmood.model.room
+package vaida.dryzaite.foodmood.model.roomRecipeBook
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
+import vaida.dryzaite.foodmood.model.CacheRecipeEntry
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import java.lang.reflect.Array.get
+import vaida.dryzaite.foodmood.model.asDomainModel
+import vaida.dryzaite.foodmood.network.ExternalRecipe
+import vaida.dryzaite.foodmood.network.RecipeApi
+import vaida.dryzaite.foodmood.network.asDatabaseModel
 import kotlin.coroutines.CoroutineContext
 
 
@@ -76,5 +81,35 @@ class RecipeDatabaseRepository(application: Application) : RecipeRepository, Cor
     override fun getFilteredRecipes(meal: Int): LiveData<List<RecipeEntry>> {
         return  recipeDao!!.getFilteredRecipes(meal)
     }
+
+
+    //refresh method ran on coroutines - to refresh cache in DB
+    override suspend fun refreshExternalRecipes() {
+        withContext(Dispatchers.IO) {
+            Timber.d("refresh videos is called")
+            val externalRecipeList = RecipeApi.retrofitService.getRecipesAsync().await()
+            recipeDao?.insertCachedRecipes(externalRecipeList.asDatabaseModel())
+        }
+    }
+
+    //refresh method ran on coroutines - to refresh cache in DB
+    override suspend fun searchExternalRecipes(searchQuery: String?) {
+        withContext(Dispatchers.IO) {
+            Timber.d("SEARCH videos is called")
+            val externalRecipeList = RecipeApi.retrofitService.getRecipesAsync(searchQuery).await()
+            recipeDao?.insertCachedRecipes(externalRecipeList.asDatabaseModel())
+            Timber.i("response is ${externalRecipeList.results}")
+
+        }
+    }
+
+    override val results: LiveData<List<ExternalRecipe>> = recipeDao?.getCachedRecipes()?.let { liveDataList ->
+        Transformations.map(liveDataList){
+            it.asDomainModel()
+        }
+    } as LiveData<List<ExternalRecipe>>
+
+
+
 
 }

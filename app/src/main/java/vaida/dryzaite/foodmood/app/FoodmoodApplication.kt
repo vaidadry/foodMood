@@ -1,9 +1,7 @@
 package vaida.dryzaite.foodmood.app
 
 import android.app.Application
-import androidx.room.Room
 import timber.log.Timber
-import vaida.dryzaite.foodmood.model.room.RecipeDatabase
 
 class FoodmoodApplication: Application() {
 

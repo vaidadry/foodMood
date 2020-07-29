@@ -16,6 +16,7 @@ import vaida.dryzaite.foodmood.model.RecipeGenerator
 import vaida.dryzaite.foodmood.utilities.isValidUrl
 
 
+
 class AddRecipeFragment : Fragment(){
 
     private lateinit var viewModel: AddRecipeViewModel
