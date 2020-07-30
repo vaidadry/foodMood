@@ -1,7 +1,7 @@
 package vaida.dryzaite.foodmood.model.roomRecipeBook
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
-import vaida.dryzaite.foodmood.model.CacheRecipeEntry
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.network.ExternalRecipe
 

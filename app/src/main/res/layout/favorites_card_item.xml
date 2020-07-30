@@ -21,7 +21,8 @@
         android:layout_height="wrap_content"
         android:onClick="@{() -> clickListener.onClick(dataclassRecipeEntry)}"
         app:cardCornerRadius="@dimen/card_corner_radius"
-        app:cardElevation="@dimen/cardview_default_elevation">
+        app:cardElevation="@dimen/cardview_default_elevation"
+        tools:ignore="PrivateResource">
 
 
         <!-- Used for ripple effect on touch-->
@@ -88,7 +89,7 @@
                     android:padding="@dimen/half_padding"
                     android:text="@{dataclassRecipeEntry.title}"
                     android:textAlignment="center"
-                    android:textColor="@color/Text"
+                    android:textColor="@color/TextToolbarsButtons"
                     android:textSize="@dimen/list_item_text_size"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"

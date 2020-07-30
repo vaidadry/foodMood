@@ -27,6 +27,7 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
     var fish = ObservableField<Boolean>(false)
     var meal = ObservableField<Int>(0)
     var recipe = ObservableField<String>("")
+    val ingredients = ""
 
 
     private lateinit var entry: RecipeEntry
@@ -38,7 +39,8 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
             veggie.get() ?: false,
             fish.get() ?: false,
             meal.get() ?: 0,
-            recipe.get() ?: ""
+            recipe.get() ?: "",
+            ingredients
         )
         newRecipe.value = entry
     }

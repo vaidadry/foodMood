@@ -1,5 +1,6 @@
 package vaida.dryzaite.foodmood.ui.discoverRecipes
 
+import android.accounts.NetworkErrorException
 import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope
@@ -26,13 +27,7 @@ class DiscoverRecipesViewModel(application: Application) : AndroidViewModel(appl
     val status: LiveData<RecipeApiStatus>
         get() = _status
 
-
-    // The internal MutableLiveData and external immutable LiveData that stores list data
-//    private val _externalRecipes = MutableLiveData<List<ExternalRecipe>>()
-//    val externalRecipes: LiveData<List<ExternalRecipe>>
-//        get() = _externalRecipes
-
-    var externalRecipes = repository.results
+    val externalRecipes = repository.results
 
 
     //val to trigger navigation to detail page and related methods
@@ -50,13 +45,11 @@ class DiscoverRecipesViewModel(application: Application) : AndroidViewModel(appl
 
 
     //here user search input gets saved
-//    private val _searchQuery =  MutableLiveData<String?>()
     var searchQueryVM =  MutableLiveData<String?>()
-//        get() = _searchQuery
+
 
     private var viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(
-        viewModelJob + Dispatchers.Main)
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
 
     init {
@@ -66,14 +59,15 @@ class DiscoverRecipesViewModel(application: Application) : AndroidViewModel(appl
     //this creates and starts network call on a bckgrnd thread returning deferred object
 //    status defines stages network call is in and its actions
     private fun getExternalRecipes() {
-        _status.value = RecipeApiStatus.LOADING
        viewModelScope.launch {
            try {
+               _status.value = RecipeApiStatus.LOADING
                repository.refreshExternalRecipes()
                _status.value = RecipeApiStatus.DONE
 
            } catch (networkError: IOException){
                    if(externalRecipes.value.isNullOrEmpty()) {
+                       Timber.i("${externalRecipes.value}")
                        _status.value = RecipeApiStatus.ERROR
                    }
            }
@@ -82,14 +76,15 @@ class DiscoverRecipesViewModel(application: Application) : AndroidViewModel(appl
 
     private fun searchExternalRecipes(searchQuery: String?) {
         Timber.i("launching coroutines with search query $searchQuery")
-        _status.value = RecipeApiStatus.LOADING
         viewModelScope.launch {
             try {
+                _status.value = RecipeApiStatus.LOADING
                 repository.searchExternalRecipes(searchQuery)
                 _status.value = RecipeApiStatus.DONE
 
-            } catch (networkError: IOException){
+            } catch (networkError: NetworkErrorException){
                 if(externalRecipes.value.isNullOrEmpty()) {
+                    Timber.i("${externalRecipes.value}")
                     _status.value = RecipeApiStatus.ERROR
                 }
             }
@@ -100,7 +95,6 @@ class DiscoverRecipesViewModel(application: Application) : AndroidViewModel(appl
     fun getExternalFilterResults(searchQuery: String?) {
         Timber.i("getting filter results: $searchQuery")
         searchExternalRecipes(searchQuery)
-
     }
 
 

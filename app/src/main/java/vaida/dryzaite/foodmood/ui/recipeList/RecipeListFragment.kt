@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
@@ -54,6 +56,8 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         val searchWord = viewModel.searchQueryVM.value
         binding.searchInput.setQuery(searchWord, true)
         Timber.i("set query after pressed BACK button ${viewModel.searchQueryVM.value}")
+
+//
 
         return binding.root
     }
@@ -133,14 +137,6 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
                 hideShowSearchBar()
 
             }
-            R.id.list_display -> {
-                Timber.i("LIST")
-//                showListView()
-            }
-            R.id.grid_display -> {
-                Timber.i( "GRID")
-//                showGridView()
-            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -210,6 +206,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
     private fun hideShowSearchBar() {
         binding.searchInput.visibility = if (search_input.visibility == View.GONE) View.VISIBLE else View.GONE
+//        binding.chips.visibility = if (chips.visibility == View.GONE) View.VISIBLE else View.GONE
     }
 
 

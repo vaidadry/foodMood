@@ -143,6 +143,7 @@
             android:fontFamily="@font/robotomono_bold"
             android:text="@string/random_button"
             android:textSize="@dimen/button_text_size"
+            android:textColor="@color/TextToolbarsButtons"
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_bottom_nav"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

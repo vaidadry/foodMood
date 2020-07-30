@@ -21,6 +21,11 @@ class DiscoverRecipesAdapter( private var recipes: MutableList<ExternalRecipe>, 
  {
 
     var recipeFilterList = ArrayList<ExternalRecipe>()
+//     var recipeFilterList: List<ExternalRecipe> = emptyList()
+//         set(value) {
+//             field = value
+//             notifyDataSetChanged()
+//         }
 
     init {
         recipeFilterList = recipes as ArrayList<ExternalRecipe>

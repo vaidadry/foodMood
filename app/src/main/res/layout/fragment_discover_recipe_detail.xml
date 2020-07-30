@@ -24,8 +24,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:menu="@menu/top_nav_menu_item"
-            app:titleTextColor="@color/Text"
+            app:menu="@menu/top_nav_menu_item_discover"
             app:title="@{viewModel.selectedRecipe.title}"
             tools:title="@string/title" />
 
@@ -39,8 +38,8 @@
 
             <ImageView
                 android:id="@+id/detail_image"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="@dimen/detail_recipe_image_size"
+                android:layout_height="@dimen/detail_recipe_image_size"
                 android:contentDescription="@string/general_meal_image_of_detail_page"
                 app:layout_constraintBottom_toTopOf="@id/discover_detail_title"
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
@@ -89,6 +88,7 @@
                 android:background="@drawable/rounded_button"
                 android:fontFamily="@font/robotomono_bold"
                 android:textSize="@dimen/list_item_text_size"
+                android:textColor="@color/TextToolbarsButtons"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="@id/horizontal_guideline_bottom_nav"
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
@@ -106,6 +106,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/rounded_button"
                 android:fontFamily="@font/robotomono_bold"
+                android:textColor="@color/TextToolbarsButtons"
                 android:textSize="@dimen/list_item_text_size"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="@id/horizontal_guideline_bottom_nav"

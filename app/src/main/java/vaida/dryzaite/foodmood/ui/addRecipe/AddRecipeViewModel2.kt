@@ -35,6 +35,7 @@ class AddRecipeViewModel2(
     var fish = ObservableField<Boolean>(false)
     var meal = ObservableField<Int>(0)
     var recipe = ObservableField<String>("")
+    var ingredients = _externalRecipeToAdd.value?.ingredients
 
 
     private lateinit var entry: RecipeEntry
@@ -46,7 +47,8 @@ class AddRecipeViewModel2(
             veggie.get() ?: false,
             fish.get() ?: false,
             meal.get() ?: 0,
-            recipe.get() ?: ""
+            recipe.get() ?: "",
+            ingredients ?: ""
         )
         newRecipe.value = entry
     }

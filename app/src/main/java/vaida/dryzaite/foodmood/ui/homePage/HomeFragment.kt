@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -14,12 +15,24 @@ import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentHome2Binding
 import vaida.dryzaite.foodmood.model.RecipeEntry
+import vaida.dryzaite.foodmood.ui.recipeList.RecipeListFragmentDirections
 
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHome2Binding
     private lateinit var viewModel: HomeViewModel
 
+    private var backPressedTaps = 0
+
+//    handling back button clicks not to return to recipe list
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragment2Self())
+            }
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,16 +57,12 @@ class HomeFragment : Fragment() {
 
 
         //blogai! turi but viewmodelyje, gal kažką kito?
-        viewModel.getAllRecipes().observe(viewLifecycleOwner, Observer {
-            Timber.i("${viewModel.allRecipesLiveData.value}")
-        })
-
-//        val mealx = viewModel.meal.value ?: 0
-//        viewModel.getFilteredRecipes(mealx).observe(viewLifecycleOwner, Observer<List<RecipeEntry>> {
+//        viewModel.allRecipesLiveData.observe(viewLifecycleOwner, Observer {
 //            Timber.i("${viewModel.allRecipesLiveData.value}")
 //        })
 
-//        observeMealSelectionction()
+
+//        observeMealSelection()
         navigateToSuggestionPage()
     }
 

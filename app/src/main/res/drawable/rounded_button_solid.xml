@@ -16,5 +16,5 @@
 
     <stroke
         android:width="@dimen/button_stroke_width"
-        android:color="@color/Text" />
+        android:color="@color/TextToolbarsButtons" />
 </shape>

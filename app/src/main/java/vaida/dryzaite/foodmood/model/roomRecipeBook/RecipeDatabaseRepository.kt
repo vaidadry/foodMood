@@ -1,6 +1,7 @@
 package vaida.dryzaite.foodmood.model.roomRecipeBook
 
 import android.app.Application
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import kotlinx.coroutines.CoroutineScope
@@ -8,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import vaida.dryzaite.foodmood.model.CacheRecipeEntry
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.model.asDomainModel
 import vaida.dryzaite.foodmood.network.ExternalRecipe

@@ -16,19 +16,17 @@ class HomeViewModel(application: Application): AndroidViewModel(application) {
 
     val allRecipesLiveData= repository.getAllRecipes()
 
-//    private val filterRepoRecipes = repository.getFilteredRecipes(meal.value!!) //!! BREAKS THE APP
+    private val filterRepoRecipes = repository.getFilteredRecipes(5)
+// !! BREAKS THE APP
 
 
-//    fun getFilteredRecipes(mealSelection: Int) {
-////        val demo = repository.getFilteredRecipes(mealSelection)
-//        _filteredRecipes.value = filterRepoRecipes.value
-//        Timber.i("meal selection: $mealSelection, demo: ${filterRepoRecipes.value}; filteredRec: ${_filteredRecipes.value}")
-//    }
+    fun getFilteredRecipes(mealSelection: Int) {
+        _filteredRecipes.value = filterRepoRecipes.value
+        Timber.i("meal selection: $mealSelection, filteredRepoRecipes: ${filterRepoRecipes.value}; _filteredRec: ${_filteredRecipes.value}")
+    }
 
     fun getAllRecipes() = allRecipesLiveData
 
-
-//    private lateinit var filteredList: MutableLiveData<List<RecipeEntry>>
 
 
 
@@ -47,11 +45,17 @@ class HomeViewModel(application: Application): AndroidViewModel(application) {
 
 
     private fun getRandomRecipe(): RecipeEntry? {
-        Timber.i("veggie selection : ${veggie.get()}, fish selection: ${fish.get()}, meal selection: $_meal")
-        val allRecipes = getAllRecipes()
-//        Timber.i("all recipes retrieved ${allRecipes.value}")
-        if (!allRecipes.value.isNullOrEmpty()) {
-            _randomRecipe.value = allRecipes.value?.random()
+        val selectedMeal = meal.get()
+        Timber.i("veggie selection : ${veggie.get()}, fish selection: ${fish.get()}, meal selection: $selectedMeal")
+        if (selectedMeal != null) {
+            getFilteredRecipes(selectedMeal)
+        } else {
+            _filteredRecipes.value= getAllRecipes().value
+        }
+        Timber.i("all recipes retrieved ${_filteredRecipes.value}")
+
+        if (!_filteredRecipes.value.isNullOrEmpty()) {
+            _randomRecipe.value = _filteredRecipes.value?.random()
         } else {
             _randomRecipe.value = null
         }
@@ -91,16 +95,16 @@ class HomeViewModel(application: Application): AndroidViewModel(application) {
     //handing meal radio selection and checkbox clicks:
 
     fun onSetMealType(mealSelection: Int) {
-        _meal.value = mealSelection
-//        meal.set(mealSelection)
-        Timber.i("meal selected ${_meal.value}")
+//        _meal.value = mealSelection
+        meal.set(mealSelection)
+        Timber.i("meal selected ${meal.get()}")
     }
 
-    private val _meal = MutableLiveData<Int?>()
-    val meal : LiveData<Int?>
-        get() = _meal
+//    private val _meal = MutableLiveData<Int?>()
+//    val meal : LiveData<Int?>
+//        get() = _meal
 
-//    var meal = ObservableField<Int>(0)
+    var meal = ObservableField<Int>(0)
     var veggie = ObservableField<Boolean>(false)
     var fish = ObservableField<Boolean>(false)
 

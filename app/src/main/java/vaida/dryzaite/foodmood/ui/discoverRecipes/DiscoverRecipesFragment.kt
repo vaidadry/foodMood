@@ -28,6 +28,17 @@ class DiscoverRecipesFragment : Fragment() {
         ViewModelProvider(this, viewModelFactory).get(DiscoverRecipesViewModel::class.java)
     }
 
+//    private var viewModelAdapter: DiscoverRecipesAdapter? = null
+//
+//    override fun onActivityCreated(savedInstanceState: Bundle?) {
+//        super.onActivityCreated(savedInstanceState)
+//        viewModel.externalRecipes.observe(viewLifecycleOwner, Observer<List<ExternalRecipe>> { externalRecipes ->
+//            externalRecipes?.apply {
+//                viewModelAdapter?.recipeFilterList = externalRecipes as MutableList<ExternalRecipe>
+//            }
+//
+//        })
+//    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -122,6 +133,8 @@ class DiscoverRecipesFragment : Fragment() {
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 viewModel.searchQueryVM.value = newText
+//                viewModel.getExternalFilterResults(newText) //crashes the app
+//                :java.lang.IndexOutOfBoundsException: Inconsistency detected. Invalid view holder adapter positionDiscoverRecipesViewHolder
                 adapter.filter.filter(newText)
                 Timber.i("adapter.filter accessed new text - $newText")
                 return false

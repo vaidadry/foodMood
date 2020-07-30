@@ -77,4 +77,5 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
     fun onFavoriteClickCompleted() {
         _favoriteStatusChange.value = null
     }
+
 }

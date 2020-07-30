@@ -7,4 +7,10 @@
     <color name="colorSecondary">#C8FD58</color>
     <color name="colorSecondaryDark">#7F9031</color>
     <color name="Text">#0A0A03</color>
+
+<!--    additional colors - for dark mode compatibility-->
+    <color name="TextToolbarsButtons">#0A0A03</color>
+    <color name="gradientStart">#FFC66D</color>
+    <color name="gradientCenter">#FDEE56</color>
+    <color name="gradientEnd">#C8FD58</color>
 </resources>
