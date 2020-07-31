@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="vaida.dryzaite.foodmood.ui.addRecipe.AddRecipeViewModel" />
+            type="vaida.dryzaite.foodmood.ui.addRecipe.AddRecipeViewModel2" />
 
     </data>
 
@@ -15,13 +15,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/add_recipe_fragment"
-        tools:context=".ui.addRecipe.AddRecipeFragment">
+        tools:context=".ui.addRecipe.AddRecipeFragment2">
 
         <ImageView
             android:id="@+id/gradient_background"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:autoMirrored="true"
             android:contentDescription="@string/gradient_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,21 +33,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/dosis_regular"
+            android:textColor="@color/TextToolbarsButtons"
             android:gravity="center_horizontal"
             android:text="@string/add_recipe"
             android:textSize="@dimen/generate_random_meal_text_size"
-            android:textColor="@color/TextToolbarsButtons"
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_top"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/title_input_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:hintTextAppearance="@color/Text"
+            android:textColorHint="@color/Text"
             android:textAlignment="viewStart"
-            app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
+            app:layout_constraintEnd_toStartOf="@id/vertical_guideline"
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
             app:layout_constraintTop_toBottomOf="@id/add_recipe_text_view"
             app:layout_constraintBottom_toTopOf="@id/url_input_layout"
@@ -62,6 +61,7 @@
                 android:fontFamily="@font/dosis_medium"
                 android:textAlignment="viewStart"
                 android:textSize="@dimen/add_item_text_field_text_size"
+                android:backgroundTint="@color/Text"
                 android:textColorHint="@color/Text"
                 android:hint="@string/title"
                 android:inputType="text"
@@ -73,12 +73,13 @@
             android:id="@+id/url_input_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:hintTextAppearance="@color/Text"
+            android:textColorHint="@color/Text"
             android:textAlignment="viewStart"
-            app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
+            app:layout_constraintEnd_toStartOf="@id/vertical_guideline"
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
             app:layout_constraintTop_toBottomOf="@id/title_input_layout"
-            app:layout_constraintBottom_toTopOf="@id/meal_selection_radio_group">
+            app:layout_constraintBottom_toTopOf="@id/submit_recipe_btn"
+            app:layout_constraintBottom_toBottomOf="@id/fish_checkbox">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/url_input"
@@ -88,6 +89,7 @@
                 android:fontFamily="@font/dosis_medium"
                 android:textAlignment="viewStart"
                 android:textSize="@dimen/add_item_text_field_text_size"
+                android:backgroundTint="@color/Text"
                 android:textColorHint="@color/Text"
                 android:hint="@string/url"
                 android:text="@={viewModel.recipe}"
@@ -100,10 +102,11 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/title_input_layout"
             app:layout_constraintBottom_toTopOf="@id/fish_checkbox"
             app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
-            app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-            app:layout_constraintTop_toBottomOf="@id/url_input_layout">
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline"
+            app:layout_constraintTop_toBottomOf="@id/add_recipe_text_view">
 
             <RadioButton
                 android:id="@+id/breakfast_icon_homepage"
@@ -140,28 +143,28 @@
             android:id="@+id/breakfast_text"
             style="@style/MealSelectionTextView"
             android:text="@string/breakfast"
-            app:layout_constraintEnd_toStartOf="@+id/brunch_text"
+            app:layout_constraintEnd_toStartOf="@id/brunch_text"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/meal_selection_radio_group" />
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline"
+            app:layout_constraintTop_toBottomOf="@id/meal_selection_radio_group"  />
 
         <TextView
             android:id="@+id/brunch_text"
             style="@style/MealSelectionTextView"
             android:text="@string/brunch"
-            app:layout_constraintEnd_toStartOf="@+id/lunch_text"
+            app:layout_constraintEnd_toStartOf="@id/lunch_text"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/breakfast_text"
+            app:layout_constraintStart_toEndOf="@id/breakfast_text"
             app:layout_constraintTop_toBottomOf="@id/meal_selection_radio_group" />
 
         <TextView
             android:id="@+id/lunch_text"
             style="@style/MealSelectionTextView"
             android:text="@string/lunch"
-            app:layout_constraintEnd_toStartOf="@+id/dinner_text"
+            app:layout_constraintEnd_toStartOf="@id/dinner_text"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/brunch_text"
+            app:layout_constraintStart_toEndOf="@id/brunch_text"
             app:layout_constraintTop_toBottomOf="@id/meal_selection_radio_group" />
 
         <TextView
@@ -170,21 +173,22 @@
             android:text="@string/dinner"
             app:layout_constraintEnd_toStartOf="@+id/sweets_text"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/lunch_text"
+            app:layout_constraintStart_toEndOf="@id/lunch_text"
             app:layout_constraintTop_toBottomOf="@id/meal_selection_radio_group" />
 
         <TextView
             android:id="@+id/sweets_text"
             style="@style/MealSelectionTextView"
             android:text="@string/sweets"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/dinner_text"
-            app:layout_constraintTop_toBottomOf="@id/meal_selection_radio_group" />
+            app:layout_constraintStart_toEndOf="@id/dinner_text"
+            app:layout_constraintTop_toBottomOf="@id/meal_selection_radio_group"/>
         <CheckBox
             android:id="@+id/fish_checkbox"
             style="@style/MealSelectionCheckBox"
-            app:layout_constraintEnd_toStartOf="@id/vertical_guideline"
+            app:layout_constraintEnd_toStartOf="@id/veggie_checkbox"
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline"
             app:layout_constraintTop_toBottomOf="@id/lunch_text"
             app:layout_constraintBottom_toTopOf="@id/submit_recipe_btn"
             android:text="@string/fish_craving_checkbox"
@@ -193,7 +197,8 @@
         <CheckBox
             android:id="@+id/veggie_checkbox"
             style="@style/MealSelectionCheckBox"
-            app:layout_constraintStart_toEndOf="@id/vertical_guideline"
+            app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
+            app:layout_constraintStart_toEndOf="@id/fish_checkbox"
             app:layout_constraintTop_toBottomOf="@id/lunch_text"
             app:layout_constraintBottom_toTopOf="@id/submit_recipe_btn"
             android:text="@string/veggie_checkbox"
@@ -208,8 +213,8 @@
             android:text="@string/submit"
             android:onClick="@{() -> viewModel.saveNewRecipe()}"
             android:textSize="@dimen/button_text_size"
-            app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_bottom"
-            app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_bottom_nav"
+            app:layout_constraintTop_toBottomOf="@id/url_input_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -260,13 +265,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.1" />
+            app:layout_constraintGuide_percent="0.05" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/vertical_guideline_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.9" />
+            app:layout_constraintGuide_percent="0.95" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

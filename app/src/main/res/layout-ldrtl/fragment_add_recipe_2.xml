@@ -7,7 +7,7 @@
     <data>
         <variable
             name="viewModel"
-            type="vaida.dryzaite.foodmood.ui.addRecipe.AddRecipeViewModel" />
+            type="vaida.dryzaite.foodmood.ui.addRecipe.AddRecipeViewModel2" />
 
     </data>
 
@@ -15,29 +15,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/add_recipe_fragment"
-        tools:context=".ui.addRecipe.AddRecipeFragment">
+        tools:context=".ui.addRecipe.AddRecipeFragment2">
 
         <ImageView
             android:id="@+id/gradient_background"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:autoMirrored="true"
             android:contentDescription="@string/gradient_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_top2"
-            app:srcCompat="@drawable/rounded_background" />
+            app:srcCompat="@drawable/rounded_background_rtl" />
 
         <TextView
             android:id="@+id/add_recipe_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/dosis_regular"
+            android:textColor="@color/TextToolbarsButtons"
             android:gravity="center_horizontal"
             android:text="@string/add_recipe"
             android:textSize="@dimen/generate_random_meal_text_size"
-            android:textColor="@color/TextToolbarsButtons"
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_top"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -46,7 +45,7 @@
             android:id="@+id/title_input_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:hintTextAppearance="@color/Text"
+            android:textColorHint="@color/Text"
             android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
@@ -62,6 +61,7 @@
                 android:fontFamily="@font/dosis_medium"
                 android:textAlignment="viewStart"
                 android:textSize="@dimen/add_item_text_field_text_size"
+                android:backgroundTint="@color/Text"
                 android:textColorHint="@color/Text"
                 android:hint="@string/title"
                 android:inputType="text"
@@ -73,7 +73,7 @@
             android:id="@+id/url_input_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:hintTextAppearance="@color/Text"
+            android:textColorHint="@color/Text"
             android:textAlignment="viewStart"
             app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
@@ -88,6 +88,7 @@
                 android:fontFamily="@font/dosis_medium"
                 android:textAlignment="viewStart"
                 android:textSize="@dimen/add_item_text_field_text_size"
+                android:backgroundTint="@color/Text"
                 android:textColorHint="@color/Text"
                 android:hint="@string/url"
                 android:text="@={viewModel.recipe}"

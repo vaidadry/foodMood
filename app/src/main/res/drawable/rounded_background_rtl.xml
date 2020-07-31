@@ -8,8 +8,8 @@
         <shape android:shape="rectangle" >
 
             <corners
-                android:topLeftRadius="@dimen/rounded_background_lowcut_corner_radius"
-                android:topRightRadius="@dimen/button_corner_radius" />
+                android:topLeftRadius="@dimen/button_corner_radius"
+                android:topRightRadius="@dimen/rounded_background_lowcut_corner_radius"/>
 
             <gradient android:startColor="@color/gradientStart"
                 android:centerColor="@color/gradientCenter"

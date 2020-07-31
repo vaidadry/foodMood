@@ -14,6 +14,7 @@
     <dimen name="favorite_icon_size_card_view">25dp</dimen>
     <dimen name="list_item_icon_size">60dp</dimen>
     <dimen name="list_item_text_size">15sp</dimen>
+    <dimen name="add_item_text_field_text_size">18sp</dimen>
     <dimen name="checkbox_text_size">15sp</dimen>
     <dimen name="list_item_height_with_divider">61dp</dimen>
     <dimen name="list_item_divider_height">1dp</dimen>
