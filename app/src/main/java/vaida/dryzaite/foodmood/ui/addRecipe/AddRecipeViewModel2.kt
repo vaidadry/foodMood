@@ -5,6 +5,9 @@ import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
@@ -27,6 +30,10 @@ class AddRecipeViewModel2(
 
     init {
         _externalRecipeToAdd.value = externalRecipe
+    }
+
+    private fun insertRecipe(recipeEntry: RecipeEntry) = viewModelScope.launch(Dispatchers.IO) {
+        repository.insertRecipe(recipeEntry)
     }
 
     //defining RecipeEntry  parameters
@@ -96,7 +103,7 @@ class AddRecipeViewModel2(
         updateEntry()
         return if (canSaveRecipe()) {
             Timber.i("added: $entry")
-            repository.insertRecipe(entry)
+            insertRecipe(entry)
             _onSaveLiveData.value = true
         } else {
             _onSaveLiveData.value = false

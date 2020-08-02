@@ -18,10 +18,8 @@ import kotlin.coroutines.CoroutineContext
 
 
 //Repository integrated with coroutines to send work off main thread
-class RecipeDatabaseRepository(application: Application) : RecipeRepository, CoroutineScope {
+class RecipeDatabaseRepository(application: Application) : RecipeRepository {
 
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main
 
     private val recipeDao: RecipeDao?
 
@@ -40,35 +38,20 @@ class RecipeDatabaseRepository(application: Application) : RecipeRepository, Cor
     override fun getAllRecipes(): LiveData<List<RecipeEntry>> = allRecipes
 
 
-    override fun insertRecipe(recipe: RecipeEntry) {
-        launch { insertRecipeBG(recipe) }
+    override suspend fun insertRecipe(recipe: RecipeEntry) {
+        recipeDao?.insertRecipe(recipe)
     }
 
-    private suspend fun insertRecipeBG(recipe: RecipeEntry) {
-        withContext(Dispatchers.IO) {
-            recipeDao?.insertRecipe(recipe)
-        }
+
+    override suspend fun deleteRecipe(recipe: RecipeEntry) {
+        recipeDao?.deleteRecipe(recipe)
     }
 
-    override fun deleteRecipe(recipe: RecipeEntry) {
-        launch { deleteRecipeBG(recipe) }
+
+    override suspend fun updateRecipe(recipe: RecipeEntry) {
+        recipeDao?.updateRecipe(recipe)
     }
 
-    private suspend fun deleteRecipeBG(recipe: RecipeEntry) {
-        withContext(Dispatchers.IO) {
-            recipeDao?.deleteRecipe(recipe)
-        }
-    }
-
-    override fun updateRecipe(recipe: RecipeEntry) {
-        launch { updateRecipeBG(recipe) }
-    }
-
-    private suspend fun updateRecipeBG(recipe: RecipeEntry) {
-        withContext(Dispatchers.IO) {
-            recipeDao?.updateRecipe(recipe)
-        }
-    }
 
     override fun getRecipeWithId(key: String): LiveData<RecipeEntry> {
         return recipeDao!!.getRecipeWithId(key)

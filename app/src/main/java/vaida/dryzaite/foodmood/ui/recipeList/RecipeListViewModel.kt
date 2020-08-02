@@ -3,6 +3,8 @@ package vaida.dryzaite.foodmood.ui.recipeList
 
 import android.app.Application
 import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.model.roomRecipeBook.RecipeRepository
@@ -14,10 +16,20 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
 
     fun getAllRecipesLiveData() = repository.getAllRecipes()
 
-    fun onDeleteRecipe(recipe: RecipeEntry) = repository.deleteRecipe(recipe)
+    private fun deleteRecipe(recipeEntry: RecipeEntry) = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteRecipe(recipeEntry)
+    }
 
     //updating database with changed status of favorites
-    private fun updateRecipe(recipe: RecipeEntry) = repository.updateRecipe(recipe)
+    private fun updateRecipe(recipeEntry: RecipeEntry) = viewModelScope.launch(Dispatchers.IO) {
+        repository.updateRecipe(recipeEntry)
+    }
+
+
+    fun onDeleteRecipe(recipeEntry: RecipeEntry) = deleteRecipe(recipeEntry)
+
+    //updating database with changed status of favorites
+//    private fun updateRecipe(recipeEntry: RecipeEntry) = repository.updateRecipe(recipeEntry)
 
     var searchQueryVM =  MutableLiveData<String?>()
 
@@ -60,15 +72,15 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
 
     private lateinit var _recipe: RecipeEntry
 
-    fun removeFavorites(recipe: RecipeEntry) {
-        _recipe = recipe
+    fun removeFavorites(recipeEntry: RecipeEntry) {
+        _recipe = recipeEntry
         _recipe.isFavorite = false
         updateRecipe(_recipe)
         _favoriteStatusChange.value = true
     }
 
-    fun addFavorites(recipe: RecipeEntry) {
-        _recipe = recipe
+    fun addFavorites(recipeEntry: RecipeEntry) {
+        _recipe = recipeEntry
         _recipe.isFavorite = true
         updateRecipe(_recipe)
         _favoriteStatusChange.value = true

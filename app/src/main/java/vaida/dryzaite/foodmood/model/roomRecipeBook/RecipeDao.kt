@@ -10,13 +10,13 @@ import vaida.dryzaite.foodmood.model.RecipeEntry
 @Dao
 interface RecipeDao {
     @Insert(entity = RecipeEntry::class, onConflict = OnConflictStrategy.REPLACE)
-    fun insertRecipe(recipe: RecipeEntry)
+    suspend fun insertRecipe(recipe: RecipeEntry)
 
     @Update(entity = RecipeEntry::class)
-   fun updateRecipe(recipe: RecipeEntry)
+   suspend fun updateRecipe(recipe: RecipeEntry)
 
     @Delete(entity = RecipeEntry::class)
-    fun deleteRecipe(recipe: RecipeEntry)
+   suspend fun deleteRecipe(recipe: RecipeEntry)
 
     //live data so that room update it automatically
     @Query("SELECT * from recipe_table ORDER BY title ASC")
@@ -40,6 +40,6 @@ interface RecipeDao {
     fun getCachedRecipes(): LiveData<List<CacheRecipeEntry>>
 
     @Insert(entity = CacheRecipeEntry::class, onConflict = OnConflictStrategy.REPLACE)
-    fun insertCachedRecipes(results: List<CacheRecipeEntry>)
+    suspend fun insertCachedRecipes(results: List<CacheRecipeEntry>)
 
 }
