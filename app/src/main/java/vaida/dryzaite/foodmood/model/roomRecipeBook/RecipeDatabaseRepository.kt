@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.map
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,14 +25,15 @@ class RecipeDatabaseRepository(application: Application) : RecipeRepository {
     private val recipeDao: RecipeDao?
 
     private val allRecipes: LiveData<List<RecipeEntry>>
-    private val filteredRecipes: LiveData<List<RecipeEntry>>
+//    private val filteredRecipes: LiveData<List<RecipeEntry>>
 
     init {
         val database = RecipeDatabase.getInstance(application)
         recipeDao = database.recipeDao
         allRecipes = recipeDao.getAllRecipes()
-        filteredRecipes = recipeDao.getFilteredRecipes(0)
+//        filteredRecipes = recipeDao.getFilteredRecipes(0)
     }
+
 
     //    When we get the recipes, we are already returning LiveData in Dao.
 //    So we don’t need to get the data from background thread.

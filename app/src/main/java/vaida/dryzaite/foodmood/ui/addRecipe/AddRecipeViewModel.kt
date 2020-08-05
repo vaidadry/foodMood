@@ -28,6 +28,7 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
     }
 
 
+
     //defining RecipeEntry  parameters
     val title = ObservableField<String>("")
     var veggie = ObservableField<Boolean>(false)

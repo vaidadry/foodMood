@@ -22,7 +22,6 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHome2Binding
     private lateinit var viewModel: HomeViewModel
 
-    private var backPressedTaps = 0
 
 //    handling back button clicks not to return to recipe list
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,39 +54,19 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //observing filtering
+        viewModel.filteredRecipes.observe(viewLifecycleOwner, Observer {})
 
-        //blogai! turi but viewmodelyje, gal kažką kito?
-//        viewModel.allRecipesLiveData.observe(viewLifecycleOwner, Observer {
-//            Timber.i("${viewModel.allRecipesLiveData.value}")
-//        })
-
-
-//        observeMealSelection()
         navigateToSuggestionPage()
     }
 
 
 
-//    private fun observeMealSelection() {
-//        viewModel.meal.observe(viewLifecycleOwner, Observer {
-//            if (it != null) {
-//                viewModel.getFilteredRecipes(it)
-//                Timber.i("getFilteredRecipes called ${viewModel.filteredRecipes.value}")
-//            } else {
-//                viewModel.getAllRecipes().value
-//                Timber.i("get all recipes called ${viewModel.getAllRecipes().value}")
-//            }
-//        })
-//    }
-
-
-    // daryti gal on click listener paprasta ir ten paleisti observer?
-
     private fun navigateToSuggestionPage() {
         viewModel.navigateToSuggestionPage.observe(viewLifecycleOwner, Observer {
             when (it) {
                 true -> {
-                    Timber.i("SHOWING generated recipe: ${viewModel.randomRecipe.value}")
+                    Timber.i("navigateToSuggestionPage(): SHOWING generated recipe: ${viewModel.randomRecipe.value}")
                     this.findNavController().navigate(
                         HomeFragmentDirections.actionHomeFragment2ToSuggestionFragment(viewModel.randomRecipe.value?.id.toString())
                     )

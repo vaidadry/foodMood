@@ -2,9 +2,7 @@ package vaida.dryzaite.foodmood.ui.homePage
 
 import android.app.Application
 import androidx.databinding.ObservableField
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import timber.log.Timber
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
@@ -14,29 +12,21 @@ class HomeViewModel(application: Application): AndroidViewModel(application) {
 
     private val repository: RecipeRepository = Injection.provideRecipeRepository(application)
 
-    val allRecipesLiveData= repository.getAllRecipes()
-
-    private val filterRepoRecipes = repository.getFilteredRecipes(5)
-// !! BREAKS THE APP
-
-
-    fun getFilteredRecipes(mealSelection: Int) {
-        _filteredRecipes.value = filterRepoRecipes.value
-        Timber.i("meal selection: $mealSelection, filteredRepoRecipes: ${filterRepoRecipes.value}; _filteredRec: ${_filteredRecipes.value}")
-    }
-
-    fun getAllRecipes() = allRecipesLiveData
-
-
-
-
 
     // "_" means that it is a backing property; in fragment only original ones must be used.
+    //property to hold meal selection
+    private val _meal = MutableLiveData<Int?>()
+    val meal : LiveData<Int?>
+        get() = _meal
 
-    //property to hold filtered items
-    private val _filteredRecipes = MutableLiveData<List<RecipeEntry>>()
+    var veggie = ObservableField<Boolean>(false)
+    var fish = ObservableField<Boolean>(false)
+
+
+    //property to hold filtered items and by checkbox selections filtered Items
     val filteredRecipes: LiveData<List<RecipeEntry>>
-    get() = _filteredRecipes
+    private var filteredRecipes2: List<RecipeEntry>? = ArrayList()
+
 
     //property to hold random item
     private val _randomRecipe = MutableLiveData<RecipeEntry>()
@@ -44,39 +34,44 @@ class HomeViewModel(application: Application): AndroidViewModel(application) {
         get() = _randomRecipe
 
 
-    private fun getRandomRecipe(): RecipeEntry? {
-        val selectedMeal = meal.get()
-        Timber.i("veggie selection : ${veggie.get()}, fish selection: ${fish.get()}, meal selection: $selectedMeal")
-        if (selectedMeal != null) {
-            getFilteredRecipes(selectedMeal)
-        } else {
-            _filteredRecipes.value= getAllRecipes().value
+    // if no radiobutton selected - all data is used, if meal selected - only from that data set
+    init {
+        _meal.value = 0
+        filteredRecipes = Transformations.switchMap(_meal) { selection ->
+            if (selection != 0) {
+                return@switchMap repository.getFilteredRecipes(selection!!)
+            } else {
+                return@switchMap repository.getAllRecipes()
+            }
         }
-        Timber.i("all recipes retrieved ${_filteredRecipes.value}")
+    }
 
-        if (!_filteredRecipes.value.isNullOrEmpty()) {
-            _randomRecipe.value = _filteredRecipes.value?.random()
+    //handing meal radio selection and checkbox clicks:
+    fun onSetMealType(mealSelection: Int) {
+        _meal.value = mealSelection
+    }
+
+    // selecting random recipe based on checkbox selections
+    private fun getRandomRecipe(): RecipeEntry? {
+        Timber.i("veggie selection : ${veggie.get()}, fish selection: ${fish.get()}, meal selection: ${_meal.value}")
+        Timber.i("filtered recipes- dataset: ${filteredRecipes.value?.size} recipes")
+
+        // checkbox filtering: if nothing selected, means that items under selections will be excluded !!
+        // (not included as ALL)
+        if (!filteredRecipes.value.isNullOrEmpty()) {
+            filteredRecipes2 = filteredRecipes.value?.filter { it.fish == fish.get() && it.veggie == veggie.get() }
+        }
+        Timber.i("filtered recipes by checkboxes: ${filteredRecipes2?.size} recipes")
+
+        //picking random item, if none - null
+        if (!filteredRecipes2.isNullOrEmpty()) {
+            _randomRecipe.value = filteredRecipes2!!.random()
         } else {
             _randomRecipe.value = null
         }
-        Timber.i("randomly generated entry in viewModel: ${_randomRecipe.value}")
+        Timber.i("randomly generated entry: ${_randomRecipe.value}")
         return _randomRecipe.value
     }
-
-
-
-
-//    private fun getRandomRecipe(): RecipeEntry? {
-//        Timber.i("veggie selection : ${veggie.get()}, fish selection: ${fish.get()}, meal selection: ${_meal.value}")
-//        if (!_filteredRecipes.value.isNullOrEmpty()) {
-//            _randomRecipe.value = _filteredRecipes.value?.random()
-//        } else {
-//            _randomRecipe.value = null
-//        }
-//        Timber.i("randomly generated entry in viewModel: ${_randomRecipe.value}")
-//        return _randomRecipe.value
-
-
 
 
     // handling navigation
@@ -90,23 +85,5 @@ class HomeViewModel(application: Application): AndroidViewModel(application) {
     fun doneNavigating() {
         _navigateToSuggestionPage.value = null
     }
-
-
-    //handing meal radio selection and checkbox clicks:
-
-    fun onSetMealType(mealSelection: Int) {
-//        _meal.value = mealSelection
-        meal.set(mealSelection)
-        Timber.i("meal selected ${meal.get()}")
-    }
-
-//    private val _meal = MutableLiveData<Int?>()
-//    val meal : LiveData<Int?>
-//        get() = _meal
-
-    var meal = ObservableField<Int>(0)
-    var veggie = ObservableField<Boolean>(false)
-    var fish = ObservableField<Boolean>(false)
-
 
 }

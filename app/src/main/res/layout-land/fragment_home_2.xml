@@ -120,7 +120,7 @@
             style="@style/MealSelectionCheckBox"
             app:layout_constraintEnd_toStartOf="@id/vertical_guideline"
             app:layout_constraintTop_toBottomOf="@id/lunch_text"
-            app:layout_constraintBottom_toTopOf="@id/random_Button"
+            app:layout_constraintBottom_toTopOf="@id/random_button"
             android:text="@string/fish_craving_checkbox"
             android:checked="@={viewModel.fish}" />
 
@@ -129,13 +129,13 @@
             style="@style/MealSelectionCheckBox"
             app:layout_constraintStart_toEndOf="@id/vertical_guideline"
             app:layout_constraintTop_toBottomOf="@id/lunch_text"
-            app:layout_constraintBottom_toTopOf="@id/random_Button"
+            app:layout_constraintBottom_toTopOf="@id/random_button"
             android:text="@string/veggie_checkbox"
             android:checked="@={viewModel.veggie}" />
 
 
         <Button
-            android:id="@+id/random_Button"
+            android:id="@+id/random_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_button"
