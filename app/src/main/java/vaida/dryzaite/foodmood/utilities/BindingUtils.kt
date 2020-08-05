@@ -71,7 +71,9 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 @BindingAdapter("listData")
 fun bindRecyclerView(recyclerView: RecyclerView, data: List<ExternalRecipe>?) {
     val adapter = recyclerView.adapter as DiscoverRecipesAdapter
-    adapter.submitList(data)
+    if (data != null) {
+        adapter.updateRecipes(data)
+    }
 }
 
 // binds image view with error handling to fragment, based on network call state

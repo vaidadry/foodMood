@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2E2E2E</color>
+    <color name="colorPrimaryDark">#1E1E1E</color>
+    <color name="colorAccent">#FDEE56</color>
+    <color name="colorAccentDark">#FFC66D</color>
+    <color name="colorSecondary">#C8FD58</color>
+    <color name="colorSecondaryDark">#7F9031</color>
+    <color name="Text">#F6F7F9</color>
+
+<!--    dark mode compatibility-->
+    <color name="TextToolbarsButtons">#1E1E1E</color>
+    <color name="gradientStart">#1E1E1E</color>
+    <color name="gradientCenter">#7F9031</color>
+    <color name="gradientEnd">#FDEE56</color>
+</resources>

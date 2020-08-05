@@ -29,7 +29,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/discover_card_container"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/list_item_height_with_divider">
+            android:layout_height="@dimen/list_item_height_with_divider"
+            android:background="@color/colorPrimary">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/discover_card_info"
@@ -44,13 +45,12 @@
                 android:id="@+id/discover_image"
                 android:layout_width="@dimen/list_item_icon_size"
                 android:layout_height="@dimen/list_item_icon_size"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/quarter_padding"
+                android:padding="@dimen/half_padding"
                 android:contentDescription="@string/recipe_image_content_description"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:imageUrl="@{externalRecipe.thumbnail}"
-                tools:srcCompat="@drawable/ic_food"
+                tools:srcCompat="@drawable/ic_3"
                 tools:src="@drawable/ic_3" />
 
 

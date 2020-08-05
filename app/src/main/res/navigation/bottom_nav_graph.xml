@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_recipe_list_fragment_to_favoritesFragment"
             app:destination="@id/favoritesFragment" />
+        <action
+            android:id="@+id/action_recipe_list_fragment_to_home_fragment_2"
+            app:destination="@id/home_fragment_2" />
     </fragment>
     <fragment
         android:id="@+id/add_recipe_fragment"
@@ -89,7 +92,7 @@
         android:id="@+id/favoritesFragment"
         android:name="vaida.dryzaite.foodmood.ui.favoritesPage.FavoritesFragment"
         android:label="FavoritesFragment"
-        tools:layout="@layout/favorites_fragment">
+        tools:layout="@layout/fragment_favorites">
         <argument
             android:name="KeyId"
             app:argType="string" />

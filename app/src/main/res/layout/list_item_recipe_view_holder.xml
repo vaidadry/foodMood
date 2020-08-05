@@ -17,7 +17,8 @@
             android:id="@+id/list_item_container"
             android:layout_width="match_parent"
             android:layout_height="@dimen/list_item_height_with_divider"
-            android:background="?android:attr/selectableItemBackground">
+            android:background="@color/colorPrimary">
+<!--            android:background="?android:attr/selectableItemBackground">-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/list_item_info"

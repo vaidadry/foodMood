@@ -4,10 +4,12 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import timber.log.Timber
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.model.room.RecipeRepository
+import vaida.dryzaite.foodmood.model.roomRecipeBook.RecipeRepository
 
 class RecipeViewModel (keyId: String, application: Application): AndroidViewModel(application) {
 
@@ -25,8 +27,8 @@ class RecipeViewModel (keyId: String, application: Application): AndroidViewMode
     val recipeDetail = getDetailRecipe()
 
     //updating database with status of favorites
-    fun updateRecipe(recipe: RecipeEntry) {
-        repository.updateRecipe(recipe)
+    fun updateRecipe(recipeEntry: RecipeEntry) = viewModelScope.launch(Dispatchers.IO) {
+        repository.updateRecipe(recipeEntry)
     }
 
 

@@ -25,7 +25,6 @@
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/top_nav_menu_item"
             app:title="@{viewModel.detailRecipe.title}"
-            app:titleTextColor="@color/Text"
             tools:title="@string/title" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,8 +37,8 @@
 
             <ImageView
                 android:id="@+id/detail_image"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="@dimen/detail_recipe_image_size"
+                android:layout_height="@dimen/detail_recipe_image_size"
                 android:contentDescription="@string/general_meal_image_of_detail_page"
                 app:layout_constraintBottom_toTopOf="@id/detail_title"
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
@@ -70,12 +69,28 @@
                 android:textAlignment="center"
                 android:fontFamily="@font/dosis_bold"
                 android:textSize="@dimen/list_item_text_size"
-                app:layout_constraintBottom_toTopOf="@+id/detail_url"
+                app:layout_constraintBottom_toTopOf="@+id/ingredients"
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toBottomOf="@id/detail_title"
                 app:mealTypeText="@{viewModel.recipeDetail}"
                 tools:text="meal" />
+
+            <TextView
+                android:id="@+id/ingredients"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:fontFamily="@font/dosis_regular"
+                android:textSize="@dimen/list_item_text_size"
+                android:textColor="@color/colorSecondaryDark"
+                android:maxLines="3"
+                app:layout_constraintBottom_toTopOf="@+id/detail_url"
+                app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
+                app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
+                app:layout_constraintTop_toBottomOf="@id/detail_meal"
+                android:text="@{viewModel.recipeDetail.ingredients}"
+                tools:text="ingredients" />
 
 
             <Button
@@ -85,11 +100,12 @@
                 android:background="@drawable/rounded_button"
                 android:fontFamily="@font/robotomono_bold"
                 android:textSize="@dimen/list_item_text_size"
+                android:textColor="@color/TextToolbarsButtons"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="@id/horizontal_guideline_bottom_nav"
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-                app:layout_constraintTop_toBottomOf="@id/detail_title"
+                app:layout_constraintTop_toBottomOf="@id/detail_meal"
                 android:text="@string/show_me_how_button"
                 android:clickable="true"
                 android:onClick="@{() -> viewModel.onClickUrl()}"/>

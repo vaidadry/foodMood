@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval" >
+    <corners android:radius="@dimen/button_corner_radius" />
+    <solid android:color="@color/colorPrimary"/>
+    <size android:height="@dimen/splash_icon_size"  android:width="@dimen/splash_icon_size" />
+    <stroke android:width="@dimen/button_stroke_width" android:color="@color/Text" />
+</shape>

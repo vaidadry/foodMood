@@ -21,7 +21,8 @@ class RecipeListAdapter(
     private val recipes: MutableList<RecipeEntry>,
     private val listener: RecipeListAdapterListener,
     private val clickListener: RecipeListOnClickListener)
-    : RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder>(), ItemTouchHelperListener, Filterable {
+    : RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder>(), ItemTouchHelperListener, Filterable{
+
 
     var recipeFilterList = ArrayList<RecipeEntry>()
 

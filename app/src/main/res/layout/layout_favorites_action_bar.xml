@@ -9,4 +9,4 @@
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
     android:layout_marginEnd="@dimen/half_padding"
-    android:layout_marginStart="@dimen/half_padding" />
+    android:layout_marginStart="@dimen/half_padding"/>

@@ -1,12 +1,14 @@
-package vaida.dryzaite.foodmood.model.room
+package vaida.dryzaite.foodmood.model.roomRecipeBook
 
 import android.content.Context
+import androidx.constraintlayout.solver.Cache
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import vaida.dryzaite.foodmood.model.CacheRecipeEntry
 import vaida.dryzaite.foodmood.model.RecipeEntry
 
-@Database (entities = [(RecipeEntry::class)], version = 2, exportSchema = false)
+@Database (entities = [(RecipeEntry::class), (CacheRecipeEntry::class)], version = 5, exportSchema = false)
 abstract class RecipeDatabase: RoomDatabase() {
 
     abstract val recipeDao: RecipeDao

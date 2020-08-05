@@ -2,14 +2,17 @@ package vaida.dryzaite.foodmood.ui.recipeList
 
 import android.os.Bundle
 import android.view.*
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
@@ -22,6 +25,16 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
     private lateinit var viewModel: RecipeListViewModel
     private lateinit var binding: FragmentRecipeListBinding
     private lateinit var adapter: RecipeListAdapter
+
+    //handling back button clicks not to return to add-form
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(RecipeListFragmentDirections.actionRecipeListFragmentToHomeFragment2())
+            }
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +51,13 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        // if from detail page BACK is pressed, navigates back to search, with entered keyword, not to the empty page
+        val searchWord = viewModel.searchQueryVM.value
+        binding.searchInput.setQuery(searchWord, true)
+        Timber.i("set query after pressed BACK button ${viewModel.searchQueryVM.value}")
+
+//
 
         return binding.root
     }
@@ -84,8 +104,6 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         })
     }
 
-
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.top_nav_menu, menu)
@@ -118,14 +136,6 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
                 Timber.i("search selected")
                 hideShowSearchBar()
 
-            }
-            R.id.list_display -> {
-                Timber.i("LIST")
-//                showListView()
-            }
-            R.id.grid_display -> {
-                Timber.i( "GRID")
-//                showGridView()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -196,15 +206,18 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
     private fun hideShowSearchBar() {
         binding.searchInput.visibility = if (search_input.visibility == View.GONE) View.VISIBLE else View.GONE
+//        binding.chips.visibility = if (chips.visibility == View.GONE) View.VISIBLE else View.GONE
     }
 
 
     private fun setSearchInputListener() {
         binding.searchInput.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.searchQueryVM.value = query
                 return false
             }
             override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.searchQueryVM.value = newText
                 adapter.filter.filter(newText)
                 return false
             }

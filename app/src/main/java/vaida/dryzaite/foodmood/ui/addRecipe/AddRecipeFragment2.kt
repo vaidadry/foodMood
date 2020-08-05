@@ -20,6 +20,7 @@ class AddRecipeFragment2 : Fragment(){
     private lateinit var viewModel: AddRecipeViewModel2
     private lateinit var binding: FragmentAddRecipe2Binding
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentAddRecipe2Binding.inflate(inflater, container, false)
 
@@ -40,6 +41,7 @@ class AddRecipeFragment2 : Fragment(){
 
         return binding.root
     }
+
 
 
     //    since no click listener to save item, the observer send Success/error toast

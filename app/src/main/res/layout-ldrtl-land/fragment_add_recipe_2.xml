@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--    adding data binding for Add recipe form - for cleaner code-->
+    <data>
+        <variable
+            name="viewModel"
+            type="vaida.dryzaite.foodmood.ui.addRecipe.AddRecipeViewModel2" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/add_recipe_fragment"
+        tools:context=".ui.addRecipe.AddRecipeFragment2">
+
+        <ImageView
+            android:id="@+id/gradient_background"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:contentDescription="@string/gradient_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_top2"
+            app:srcCompat="@drawable/rounded_background" />
+
+        <TextView
+            android:id="@+id/add_recipe_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dosis_regular"
+            android:textColor="@color/TextToolbarsButtons"
+            android:gravity="center_horizontal"
+            android:text="@string/add_recipe"
+            android:textSize="@dimen/generate_random_meal_text_size"
+            app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/title_input_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/Text"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toStartOf="@id/vertical_guideline"
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/add_recipe_text_view"
+            app:layout_constraintBottom_toTopOf="@id/url_input_layout"
+            app:layout_constraintVertical_chainStyle="spread">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/title_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/Text"
+                android:fontFamily="@font/dosis_medium"
+                android:textAlignment="viewStart"
+                android:textSize="@dimen/add_item_text_field_text_size"
+                android:backgroundTint="@color/Text"
+                android:textColorHint="@color/Text"
+                android:hint="@string/title"
+                android:inputType="text"
+                android:text="@={viewModel.title}"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/url_input_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/Text"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toStartOf="@id/vertical_guideline"
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/title_input_layout"
+            app:layout_constraintBottom_toTopOf="@id/submit_recipe_btn"
+            app:layout_constraintBottom_toBottomOf="@id/fish_checkbox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/url_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/Text"
+                android:fontFamily="@font/dosis_medium"
+                android:textAlignment="viewStart"
+                android:textSize="@dimen/add_item_text_field_text_size"
+                android:backgroundTint="@color/Text"
+                android:textColorHint="@color/Text"
+                android:hint="@string/url"
+                android:text="@={viewModel.recipe}"
+                android:inputType="textUri" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RadioGroup
+            android:id="@+id/meal_selection_radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="@id/title_input_layout"
+            app:layout_constraintBottom_toTopOf="@id/fish_checkbox"
+            app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline"
+            app:layout_constraintTop_toBottomOf="@id/add_recipe_text_view">
+
+            <RadioButton
+                android:id="@+id/breakfast_icon_homepage"
+                style="@style/MealSelectionRadioButton"
+                android:foreground="@drawable/ic_1"
+                android:onClick="@{() -> viewModel.onSetMealType(1)}" />
+
+            <RadioButton
+                android:id="@+id/brunch_icon_homepage"
+                style="@style/MealSelectionRadioButton"
+                android:foreground="@drawable/ic_2"
+                android:onClick="@{() -> viewModel.onSetMealType(2)}" />
+
+            <RadioButton
+                android:id="@+id/lunch_icon_homepage"
+                style="@style/MealSelectionRadioButton"
+                android:foreground="@drawable/ic_3"
+                android:onClick="@{() -> viewModel.onSetMealType(3)}" />
+
+            <RadioButton
+                android:id="@+id/dinner_icon_homepage"
+                style="@style/MealSelectionRadioButton"
+                android:foreground="@drawable/ic_4"
+                android:onClick="@{() -> viewModel.onSetMealType(4)}" />
+
+            <RadioButton
+                android:id="@+id/sweets_icon_homepage"
+                style="@style/MealSelectionRadioButton"
+                android:foreground="@drawable/ic_5"
+                android:onClick="@{() -> viewModel.onSetMealType(5)}" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/breakfast_text"
+            style="@style/MealSelectionTextView"
+            android:text="@string/breakfast"
+            app:layout_constraintEnd_toStartOf="@id/brunch_text"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline"
+            app:layout_constraintTop_toBottomOf="@id/meal_selection_radio_group"  />
+
+        <TextView
+            android:id="@+id/brunch_text"
+            style="@style/MealSelectionTextView"
+            android:text="@string/brunch"
+            app:layout_constraintEnd_toStartOf="@id/lunch_text"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/breakfast_text"
+            app:layout_constraintTop_toBottomOf="@id/meal_selection_radio_group" />
+
+        <TextView
+            android:id="@+id/lunch_text"
+            style="@style/MealSelectionTextView"
+            android:text="@string/lunch"
+            app:layout_constraintEnd_toStartOf="@id/dinner_text"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/brunch_text"
+            app:layout_constraintTop_toBottomOf="@id/meal_selection_radio_group" />
+
+        <TextView
+            android:id="@+id/dinner_text"
+            style="@style/MealSelectionTextView"
+            android:text="@string/dinner"
+            app:layout_constraintEnd_toStartOf="@+id/sweets_text"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/lunch_text"
+            app:layout_constraintTop_toBottomOf="@id/meal_selection_radio_group" />
+
+        <TextView
+            android:id="@+id/sweets_text"
+            style="@style/MealSelectionTextView"
+            android:text="@string/sweets"
+            app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@id/dinner_text"
+            app:layout_constraintTop_toBottomOf="@id/meal_selection_radio_group"/>
+        <CheckBox
+            android:id="@+id/fish_checkbox"
+            style="@style/MealSelectionCheckBox"
+            app:layout_constraintEnd_toStartOf="@id/veggie_checkbox"
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline"
+            app:layout_constraintTop_toBottomOf="@id/lunch_text"
+            app:layout_constraintBottom_toTopOf="@id/submit_recipe_btn"
+            android:text="@string/fish_craving_checkbox"
+            android:checked="@={viewModel.fish}" />
+
+        <CheckBox
+            android:id="@+id/veggie_checkbox"
+            style="@style/MealSelectionCheckBox"
+            app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
+            app:layout_constraintStart_toEndOf="@id/fish_checkbox"
+            app:layout_constraintTop_toBottomOf="@id/lunch_text"
+            app:layout_constraintBottom_toTopOf="@id/submit_recipe_btn"
+            android:text="@string/veggie_checkbox"
+            android:checked="@={viewModel.veggie}" />
+
+        <Button
+            android:id="@+id/submit_recipe_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button_solid"
+            android:fontFamily="@font/robotomono_bold"
+            android:text="@string/submit"
+            android:onClick="@{() -> viewModel.saveNewRecipe()}"
+            android:textSize="@dimen/button_text_size"
+            app:layout_constraintTop_toBottomOf="@id/url_input_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/vertical_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontal_guideline_top2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.125" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontal_guideline_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.25" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontal_guideline_middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontal_guideline_bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.75" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontal_guideline_bottom_nav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.93" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/vertical_guideline_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/vertical_guideline_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.95" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

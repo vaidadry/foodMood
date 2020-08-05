@@ -3,7 +3,6 @@ package vaida.dryzaite.foodmood.ui.homePage
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import vaida.dryzaite.foodmood.model.room.RecipeDao
 
 class HomeViewModelFactory(private val application: Application)
     : ViewModelProvider.Factory {

@@ -26,6 +26,8 @@ data class RecipeEntry(
     @ColumnInfo (name = "recipe_url")
     val recipe: String,
     @ColumnInfo (name = "is_favorite")
-    var isFavorite: Boolean = false
+    var isFavorite: Boolean = false,
+    @ColumnInfo (name = "ingredients")
+    var ingredients: String = ""
 )
 

@@ -1,33 +1,33 @@
 package vaida.dryzaite.foodmood.ui.discoverRecipes
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.accounts.NetworkErrorException
+import android.app.Application
+import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import vaida.dryzaite.foodmood.app.Injection
+import vaida.dryzaite.foodmood.model.roomRecipeBook.RecipeRepository
 import vaida.dryzaite.foodmood.network.ExternalRecipe
 import vaida.dryzaite.foodmood.network.RecipeApi
+import java.io.IOException
 import java.lang.Exception
 
 //defining states of web request
 enum class RecipeApiStatus { LOADING, ERROR, DONE }
 
-class DiscoverRecipesViewModel : ViewModel() {
+class DiscoverRecipesViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val repository: RecipeRepository = Injection.provideRecipeRepository(application)
 
     // The internal MutableLiveData and external immutable LiveData that stores the most recent response
     private val _status = MutableLiveData<RecipeApiStatus>()
     val status: LiveData<RecipeApiStatus>
         get() = _status
 
-
-    // The internal MutableLiveData and external immutable LiveData that stores single recipe data
-    private val _externalRecipes = MutableLiveData<List<ExternalRecipe>>()
-    val externalRecipes: LiveData<List<ExternalRecipe>>
-        get() = _externalRecipes
+    val externalRecipes = repository.results
 
 
     //val to trigger navigation to detail page and related methods
@@ -45,38 +45,56 @@ class DiscoverRecipesViewModel : ViewModel() {
 
 
     //here user search input gets saved
-    private val searchQuery =  MutableLiveData<String?>()
+    var searchQueryVM =  MutableLiveData<String?>()
+
 
     private var viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(
-        viewModelJob + Dispatchers.Main)
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
+
+    init {
+        getExternalRecipes()
+    }
 
     //this creates and starts network call on a bckgrnd thread returning deferred object
 //    status defines stages network call is in and its actions
-    fun getExternalRecipes(searchQuery: String?) {
-        Timber.i("launching coroutines with search query $searchQuery")
-        _status.value = RecipeApiStatus.LOADING
-       viewModelScope.launch(Dispatchers.IO) {
+    private fun getExternalRecipes() {
+       viewModelScope.launch {
            try {
-               val getExternalRecipesDeferred = RecipeApi.retrofitService.getRecipesAsync(searchQuery)
-               val listResult = getExternalRecipesDeferred.await().results
-               viewModelScope.launch {
-                   _status.value = RecipeApiStatus.DONE
-                   _externalRecipes.value = listResult
-               }
-           } catch (e: Exception){
-               viewModelScope.launch {
-                   _status.value = RecipeApiStatus.ERROR
-                   _externalRecipes.value = ArrayList()
-               }
+               _status.value = RecipeApiStatus.LOADING
+               repository.refreshExternalRecipes()
+               _status.value = RecipeApiStatus.DONE
+
+           } catch (networkError: IOException){
+                   if(externalRecipes.value.isNullOrEmpty()) {
+                       Timber.i("${externalRecipes.value}")
+                       _status.value = RecipeApiStatus.ERROR
+                   }
            }
        }
     }
 
-    fun getFilterResults(searchQuery: String?) {
-        Timber.i("geting filter results: $searchQuery")
-        getExternalRecipes(searchQuery)
+    private fun searchExternalRecipes(searchQuery: String?) {
+        Timber.i("launching coroutines with search query $searchQuery")
+        viewModelScope.launch {
+            try {
+                _status.value = RecipeApiStatus.LOADING
+                repository.searchExternalRecipes(searchQuery)
+                _status.value = RecipeApiStatus.DONE
+
+            } catch (networkError: NetworkErrorException){
+                if(externalRecipes.value.isNullOrEmpty()) {
+                    Timber.i("${externalRecipes.value}")
+                    _status.value = RecipeApiStatus.ERROR
+                }
+            }
+        }
+    }
+
+
+    fun getExternalFilterResults(searchQuery: String?) {
+        Timber.i("getting filter results: $searchQuery")
+        searchExternalRecipes(searchQuery)
     }
 
 

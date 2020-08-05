@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:bottom="-3dp"
-        android:right="-3dp"
-        android:left="-3dp">
+        android:end="-3dp"
+        android:start="-3dp">
 
         <shape android:shape="rectangle" >
 
@@ -11,15 +11,15 @@
                 android:topLeftRadius="@dimen/rounded_background_lowcut_corner_radius"
                 android:topRightRadius="@dimen/button_corner_radius" />
 
-            <gradient android:startColor="@color/colorAccentDark"
-                android:centerColor="@color/colorAccent"
-                android:endColor="@color/colorSecondary"
+            <gradient android:startColor="@color/gradientStart"
+                android:centerColor="@color/gradientCenter"
+                android:endColor="@color/gradientEnd"
                 android:type="linear"
                 android:angle="45"/>
 
             <stroke
                 android:width="@dimen/button_stroke_width"
-                android:color="@color/Text" />
+                android:color="@color/TextToolbarsButtons" />
         </shape>
     </item>
 </layer-list>

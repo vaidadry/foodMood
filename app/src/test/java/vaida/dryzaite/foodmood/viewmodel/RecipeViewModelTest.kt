@@ -11,8 +11,8 @@ import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.model.RecipeGenerator
-import vaida.dryzaite.foodmood.model.room.RecipeRepository
-import vaida.dryzaite.foodmood.model.room.RecipeDao
+import vaida.dryzaite.foodmood.model.roomRecipeBook.RecipeRepository
+import vaida.dryzaite.foodmood.model.roomRecipeBook.RecipeDao
 import vaida.dryzaite.foodmood.ui.addRecipe.AddRecipeViewModel
 import vaida.dryzaite.foodmood.utilities.isValidUrl
 
