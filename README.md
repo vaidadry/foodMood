@@ -13,6 +13,8 @@ Besides, the discover option allows to browse external recipes and save them to 
 * dark mode, RTL, landscape layouts
 
 
+<img src="https://user-images.githubusercontent.com/52376789/90375840-2afdd200-e07e-11ea-9c86-69551449938f.jpg" width=150>    <img src="https://user-images.githubusercontent.com/52376789/90377266-72855d80-e080-11ea-9bf7-f717b523731e.jpg" width=150>   <img src="https://user-images.githubusercontent.com/52376789/90377013-086cb880-e080-11ea-8b8e-30fee7c8cddc.jpg" width=150>   <img src="https://user-images.githubusercontent.com/52376789/90377070-1d494c00-e080-11ea-90d0-c8ef2960093d.jpg" width=150>   <img src="https://user-images.githubusercontent.com/52376789/90377551-cbed8c80-e080-11ea-87ed-ab200d7ca506.jpg" width=150>   <img src="https://user-images.githubusercontent.com/52376789/90376575-5af9a500-e07f-11ea-9de6-a5f4db19b16a.jpg" width=150>
+
 ### Technologies :rocket:
 Written in Kotlin, based on latest recommendations by Google.
 * MVVM architecture
@@ -23,3 +25,4 @@ Written in Kotlin, based on latest recommendations by Google.
 * DataBinding
 * Filterable - for search by title
 * Transformations
+ 
