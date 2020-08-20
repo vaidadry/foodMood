@@ -5,9 +5,10 @@ import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.model.roomRecipeBook.RecipeRepository
+import vaida.dryzaite.foodmood.data.RecipeRepository
 
 // ViewModel for recipeList fragment interacts with data from the repository
 class RecipeListViewModel(application: Application) : AndroidViewModel(application) {
@@ -25,13 +26,14 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
         repository.updateRecipe(recipeEntry)
     }
 
-
     fun onDeleteRecipe(recipeEntry: RecipeEntry) = deleteRecipe(recipeEntry)
 
-    //updating database with changed status of favorites
-//    private fun updateRecipe(recipeEntry: RecipeEntry) = repository.updateRecipe(recipeEntry)
 
-    var searchQueryVM =  MutableLiveData<String?>()
+   private val _recipeList = MutableLiveData<List<RecipeEntry>>()
+    val recipeList : LiveData<List<RecipeEntry>>
+            get() = _recipeList
+
+
 
     //defining navigation state
     private val _navigateToRecipeDetail = MutableLiveData<String>()
@@ -90,4 +92,21 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
         _favoriteStatusChange.value = null
     }
 
+    private val _mealSelection = MutableLiveData<CharSequence?>()
+    val mealSelection: LiveData<CharSequence?>
+        get() = _mealSelection
+
+//    private val _mealSelectionChecked = MutableLiveData<Boolean>()
+//    val mealSelectionChecked: LiveData<Boolean>
+//        get() = _mealSelectionChecked
+
+    fun onMealSelected(chipId: CharSequence?){
+        _mealSelection.value = chipId
+        Timber.i("selected item: ${_mealSelection.value}")
+    }
+
+
+
 }
+
+

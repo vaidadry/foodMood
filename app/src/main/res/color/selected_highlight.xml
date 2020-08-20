@@ -3,8 +3,8 @@
 
     <!--    defining state of chip color, as selected, default. all states must be selected-->
     <item
-        android:color="?attr/colorPrimaryVariant"
-        android:state_selected="true" />
+        android:color="@color/colorSecondaryDark"
+        android:state_checked="true" />
     <item
         android:alpha="0.18"
         android:color="?attr/colorOnSurface"/>

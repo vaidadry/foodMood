@@ -6,7 +6,7 @@ import androidx.lifecycle.*
 import timber.log.Timber
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.model.roomRecipeBook.RecipeRepository
+import vaida.dryzaite.foodmood.data.RecipeRepository
 
 class HomeViewModel(application: Application): AndroidViewModel(application) {
 
@@ -54,16 +54,11 @@ class HomeViewModel(application: Application): AndroidViewModel(application) {
     // selecting random recipe based on checkbox selections
     private fun getRandomRecipe(): RecipeEntry? {
         Timber.i("veggie selection : ${veggie.get()}, fish selection: ${fish.get()}, meal selection: ${_meal.value}")
-        Timber.i("filtered recipes- dataset: ${filteredRecipes.value?.size} recipes")
+        Timber.i("filtered recipes- data set: ${filteredRecipes.value?.size} recipes")
 
-        // checkbox filtering: if nothing selected, means that items under selections will be excluded !!
-        // (not included as ALL)
-        if (!filteredRecipes.value.isNullOrEmpty()) {
-            filteredRecipes2 = filteredRecipes.value?.filter { it.fish == fish.get() && it.veggie == veggie.get() }
-        }
-        Timber.i("filtered recipes by checkboxes: ${filteredRecipes2?.size} recipes")
+       filterByCheckboxSelections()
 
-        //picking random item, if none - null
+        //picking random item, if none available - return null
         if (!filteredRecipes2.isNullOrEmpty()) {
             _randomRecipe.value = filteredRecipes2!!.random()
         } else {
@@ -71,6 +66,15 @@ class HomeViewModel(application: Application): AndroidViewModel(application) {
         }
         Timber.i("randomly generated entry: ${_randomRecipe.value}")
         return _randomRecipe.value
+    }
+
+    // checkbox filtering: if nothing selected, means that items under selections will be excluded !!
+    // (not included as ALL)
+    private fun filterByCheckboxSelections() {
+        if (!filteredRecipes.value.isNullOrEmpty()) {
+            filteredRecipes2 = filteredRecipes.value?.filter { it.fish == fish.get() && it.veggie == veggie.get() }
+        }
+        Timber.i("filtered recipes by checkboxes: ${filteredRecipes2?.size} recipes")
     }
 
 

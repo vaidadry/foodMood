@@ -38,7 +38,7 @@ class ExternalRecipesDiffCallback(private val oldRecipes: List<ExternalRecipe>, 
     : DiffUtil.Callback() {
 
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldRecipes[oldItemPosition].url == newRecipes[newItemPosition].url
+        return oldRecipes[oldItemPosition].href == newRecipes[newItemPosition].href
     }
 
     override fun getOldListSize(): Int = oldRecipes.size
@@ -50,7 +50,7 @@ class ExternalRecipesDiffCallback(private val oldRecipes: List<ExternalRecipe>, 
         val newRecipe = newRecipes[newItemPosition]
 
         return oldRecipe.title == newRecipe.title &&
-                oldRecipe.url == newRecipe.url &&
+                oldRecipe.href == newRecipe.href &&
                 oldRecipe.ingredients == newRecipe.ingredients &&
                 oldRecipe.thumbnail == newRecipe.thumbnail
     }

@@ -1,39 +1,39 @@
 package vaida.dryzaite.foodmood.ui.discoverRecipes
 
-import android.accounts.NetworkErrorException
 import android.app.Application
 import androidx.lifecycle.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import vaida.dryzaite.foodmood.app.Injection
-import vaida.dryzaite.foodmood.model.roomRecipeBook.RecipeRepository
+import vaida.dryzaite.foodmood.data.RecipeRepository
 import vaida.dryzaite.foodmood.network.ExternalRecipe
-import vaida.dryzaite.foodmood.network.RecipeApi
-import java.io.IOException
-import java.lang.Exception
 
 //defining states of web request
 enum class RecipeApiStatus { LOADING, ERROR, DONE }
 
+@ExperimentalCoroutinesApi
 class DiscoverRecipesViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: RecipeRepository = Injection.provideRecipeRepository(application)
 
-    // The internal MutableLiveData and external immutable LiveData that stores the most recent response
+    // stores the most recent responses of status, query, searchresult
     private val _status = MutableLiveData<RecipeApiStatus>()
     val status: LiveData<RecipeApiStatus>
         get() = _status
 
-    val externalRecipes = repository.results
+    private var currentQueryValue: String? = null
+    private var currentSearchResult: Flow<PagingData<ExternalRecipe>>? = null
 
 
     //val to trigger navigation to detail page and related methods
     private val _navigateToSelectedRecipe = MutableLiveData<ExternalRecipe>()
     val navigateToSelectedRecipe: LiveData<ExternalRecipe>
         get() = _navigateToSelectedRecipe
+
+
 
     fun displayRecipeDetails(externalRecipe: ExternalRecipe) {
         _navigateToSelectedRecipe.value = externalRecipe
@@ -44,62 +44,40 @@ class DiscoverRecipesViewModel(application: Application) : AndroidViewModel(appl
     }
 
 
-    //here user search input gets saved
-    var searchQueryVM =  MutableLiveData<String?>()
-
-
-    private var viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-
-
-    init {
-        getExternalRecipes()
-    }
-
-    //this creates and starts network call on a bckgrnd thread returning deferred object
-//    status defines stages network call is in and its actions
-    private fun getExternalRecipes() {
-       viewModelScope.launch {
-           try {
-               _status.value = RecipeApiStatus.LOADING
-               repository.refreshExternalRecipes()
-               _status.value = RecipeApiStatus.DONE
-
-           } catch (networkError: IOException){
-                   if(externalRecipes.value.isNullOrEmpty()) {
-                       Timber.i("${externalRecipes.value}")
-                       _status.value = RecipeApiStatus.ERROR
-                   }
-           }
-       }
-    }
-
-    private fun searchExternalRecipes(searchQuery: String?) {
-        Timber.i("launching coroutines with search query $searchQuery")
-        viewModelScope.launch {
-            try {
-                _status.value = RecipeApiStatus.LOADING
-                repository.searchExternalRecipes(searchQuery)
-                _status.value = RecipeApiStatus.DONE
-
-            } catch (networkError: NetworkErrorException){
-                if(externalRecipes.value.isNullOrEmpty()) {
-                    Timber.i("${externalRecipes.value}")
-                    _status.value = RecipeApiStatus.ERROR
-                }
-            }
+    // method checks if query old or new, if old - uses cache, if new - makes network call
+    fun searchExternalRecipes(searchQuery: String) : Flow<PagingData<ExternalRecipe>> {
+        Timber.i("launching searchQuery: $searchQuery")
+        val lastResult = currentSearchResult
+        Timber.i("lastResult: ${lastResult}")
+        if (searchQuery == currentQueryValue && lastResult != null) {
+            Timber.i("old search result: ${lastResult}")
+            return lastResult
         }
+        currentQueryValue = searchQuery
+        Timber.i("current query: $currentQueryValue")
+
+        val newResult: Flow<PagingData<ExternalRecipe>> =
+            repository.searchExternalRecipes(searchQuery)
+                .cachedIn(viewModelScope)
+        currentSearchResult = newResult
+        Timber.i("new search result: $newResult")
+        return newResult
     }
 
+    // for states!
 
-    fun getExternalFilterResults(searchQuery: String?) {
-        Timber.i("getting filter results: $searchQuery")
-        searchExternalRecipes(searchQuery)
-    }
+//        viewModelScope.launch {
+//            try {
+//                _status.value = RecipeApiStatus.LOADING
+//                repository.searchExternalRecipes(searchQuery)
+//                _status.value = RecipeApiStatus.DONE
+//
+//            } catch (networkError: NetworkErrorException){
+//                if(externalRecipes.value.isNullOrEmpty()) {
+//                    _status.value = RecipeApiStatus.ERROR
+//                }
+//            }
+//        }
 
 
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
-    }
 }

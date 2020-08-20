@@ -17,34 +17,59 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/full_background"
-            app:layout_constraintBottom_toTopOf="@id/search_input"
+            style="@style/ToolBar"
+            app:layout_constraintBottom_toTopOf="@id/chips"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/top_nav_menu"
-            app:title="@string/recipe_book_tab_title" />
+            app:title="@string/recipe_book_tab_title"/>
 
         <HorizontalScrollView
             android:id="@+id/chips"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintBottom_toTopOf="@id/search_input"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_meal_type_selection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:singleSelection="true"
-                android:padding="@dimen/normal_padding" />
-        </HorizontalScrollView>
+                app:singleLine="true"
+                android:layout_gravity="start">
 
+                <com.google.android.material.chip.Chip
+                    style="@style/Chips"
+                    android:id="@+id/chip_1"
+                    android:text="@string/breakfast"
+                    />
+                <com.google.android.material.chip.Chip
+                    style="@style/Chips"
+                    android:id="@+id/chip_2"
+                    android:text="@string/brunch"
+                    />
+                <com.google.android.material.chip.Chip
+                    style="@style/Chips"
+                    android:id="@+id/chip_3"
+                    android:text="@string/lunch"
+                    />
+                <com.google.android.material.chip.Chip
+                    style="@style/Chips"
+                    android:id="@+id/chip_4"
+                    android:text="@string/dinner"
+                    />
+                <com.google.android.material.chip.Chip
+                    style="@style/Chips"
+                    android:id="@+id/chip_5"
+                    android:text="@string/sweets"
+                    />
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search_input"
@@ -57,7 +82,7 @@
             app:layout_constraintBottom_toTopOf="@id/coordinator_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/chips"
             app:queryBackground="@null"
             app:queryHint="@string/search"/>
 

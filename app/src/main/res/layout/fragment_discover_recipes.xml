@@ -17,9 +17,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/full_background"
+            style="@style/ToolBar"
             app:layout_constraintBottom_toTopOf="@id/discover_search_input"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,47 +25,76 @@
             app:menu="@menu/top_nav_menu"
             app:title="@string/discover"/>
 
-
-        <androidx.appcompat.widget.SearchView
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/discover_search_input"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:textCursorDrawable="@null"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:visibility="gone"
-            app:iconifiedByDefault="false"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintBottom_toTopOf="@id/discover_list_recyclerview"
-            app:queryBackground="@null"
-            app:queryHint="@string/search" />
+            app:layout_constraintBottom_toTopOf="@id/container">
+            <EditText
+                android:id="@+id/search_recipe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/search"
+                android:imeOptions="actionSearch"
+                android:inputType="textNoSuggestions"
+                android:selectAllOnFocus="true"
+                tools:text="Falafel" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/discover_list_recyclerview"
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-            app:spanCount="1"
-            app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_bottom_nav"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/discover_search_input"
-            app:layout_constraintVertical_bias="0.0"
-            app:listData="@{viewModel.externalRecipes}">
-        </androidx.recyclerview.widget.RecyclerView>
-
-        <ImageView
-            android:id="@+id/status_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:recipeApiStatus="@{viewModel.status}"
-            android:contentDescription="@string/network_data_status_image" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/discover_search_input">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/discover_list_recyclerview"
+                android:layout_width="411dp"
+                android:layout_height="668dp"
+                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:spanCount="1" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminateDrawable="@drawable/loading_animation"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/retry_button"
+                android:layout_width="@dimen/small_button_width"
+                android:layout_height="@dimen/small_button_height"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_button_small"
+                android:clickable="true"
+                android:fontFamily="@font/robotomono_bold"
+                android:text="@string/retry"
+                android:textColor="@color/TextToolbarsButtons"
+                android:textSize="@dimen/small_button_text_size"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/horizontal_guideline_bottom_nav"

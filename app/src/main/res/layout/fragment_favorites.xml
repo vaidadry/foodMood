@@ -17,9 +17,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/favorites_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/full_background"
+            style="@style/ToolBar"
             app:layout_constraintBottom_toTopOf="@id/favorites_recyclerview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

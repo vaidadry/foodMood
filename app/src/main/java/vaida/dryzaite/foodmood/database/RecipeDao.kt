@@ -1,8 +1,7 @@
-package vaida.dryzaite.foodmood.model.roomRecipeBook
+package vaida.dryzaite.foodmood.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import kotlinx.coroutines.selects.select
 import vaida.dryzaite.foodmood.model.CacheRecipeEntry
 import vaida.dryzaite.foodmood.model.RecipeEntry
 
@@ -36,10 +35,10 @@ interface RecipeDao {
 
     // DAO methods for Cached recipes - to add all and to retrieve
 
-    @Query("SELECT * from cached_recipe_table ORDER BY title ASC")
-    fun getCachedRecipes(): LiveData<List<CacheRecipeEntry>>
+//    @Query("SELECT * from cached_recipe_table ORDER BY title ASC")
+//    fun getCachedRecipes(): LiveData<List<CacheRecipeEntry>>
 
-    @Insert(entity = CacheRecipeEntry::class, onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCachedRecipes(results: List<CacheRecipeEntry>)
+//    @Insert(entity = CacheRecipeEntry::class, onConflict = OnConflictStrategy.REPLACE)
+//    suspend fun insertCachedRecipes(results: List<CacheRecipeEntry>)
 
 }

@@ -18,7 +18,7 @@ fun List<CacheRecipeEntry>.asDomainModel(): List<ExternalRecipe> {
     return map {
         ExternalRecipe(
             title = it.title,
-            url = it.url,
+            href = it.url,
             ingredients = it.ingredients,
             thumbnail = it.thumbnail)
     }
