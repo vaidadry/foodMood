@@ -6,14 +6,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
-import androidx.databinding.InverseBindingListener
-import androidx.databinding.InverseBindingMethod
-import androidx.databinding.InverseBindingMethods
-import androidx.recyclerview.widget.RecyclerView
+import androidx.paging.LoadState
+import androidx.paging.LoadState.Loading
+import androidx.paging.LoadState.Error
+import androidx.paging.LoadState.NotLoading
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.network.ExternalRecipe
@@ -69,33 +67,6 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
                 .placeholder(R.drawable.loading_animation)
                 .error(R.drawable.ic_food))
             .into(imgView)
-    }
-}
-
-// to bind api data to recyclerview (instead of code in Fragment)
-//@BindingAdapter("listData")
-//fun bindRecyclerView(recyclerView: RecyclerView, data: List<ExternalRecipe>?) {
-//    val adapter = recyclerView.adapter as DiscoverRecipesAdapter
-//    if (data != null) {
-//        adapter.updateRecipes(data)
-//    }
-//}
-
-// binds image view with error handling to fragment, based on network call state
-@BindingAdapter("recipeApiStatus")
-fun bindStatus(statusImageView: ImageView, status: RecipeApiStatus?) {
-    when (status) {
-        RecipeApiStatus.LOADING -> {
-            statusImageView.visibility = View.VISIBLE
-            statusImageView.setImageResource(R.drawable.loading_animation)
-        }
-        RecipeApiStatus.ERROR -> {
-            statusImageView.visibility = View.VISIBLE
-            statusImageView.setImageResource(R.drawable.ic_connection_error)
-        }
-        RecipeApiStatus.DONE -> {
-            statusImageView.visibility = View.GONE
-        }
     }
 }
 

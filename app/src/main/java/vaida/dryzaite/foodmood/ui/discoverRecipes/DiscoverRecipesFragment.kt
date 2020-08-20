@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -49,11 +50,7 @@ class DiscoverRecipesFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        adapter = DiscoverRecipesAdapter(DiscoverRecipesAdapter.OnClickListener {
-            viewModel.displayRecipeDetails(it)
-        })
-
-        binding.discoverListRecyclerview.adapter = adapter
+        initAdapter()
 
         //preparing search functionality
         val query = savedInstanceState?.getString(LAST_SEARCH_QUERY) ?: DEFAULT_QUERY
@@ -70,8 +67,12 @@ class DiscoverRecipesFragment : Fragment() {
             }
         })
 
+        // enable Retry connection method
+        binding.retryButton.setOnClickListener { adapter.retry() }
+
         return binding.root
     }
+
 
     // to avoid  re-loading with state change
     override fun onSaveInstanceState(outState: Bundle) {
@@ -112,6 +113,26 @@ class DiscoverRecipesFragment : Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun initAdapter() {
+        // set onClick listener to enable clicks on item
+        adapter = DiscoverRecipesAdapter(DiscoverRecipesAdapter.OnClickListener {
+            viewModel.displayRecipeDetails(it)
+        })
+
+        //adding loadState adapter
+        binding.discoverListRecyclerview.adapter = adapter.withLoadStateFooter(
+            footer = RecipeLoadStateAdapter { adapter.retry() }
+        )
+        adapter.addLoadStateListener { loadState ->
+            // Only show the RV if refresh succeeds.
+            binding.discoverListRecyclerview.isVisible = loadState.source.refresh is LoadState.NotLoading
+            // Show loading spinner during initial load or refresh.
+            binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+            // Show the retry state if initial load or refresh fails.
+            binding.retryButton.isVisible = loadState.source.refresh is LoadState.Error
+        }
     }
 
     // to start search job + update adapter
