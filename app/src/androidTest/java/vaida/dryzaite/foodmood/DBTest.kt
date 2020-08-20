@@ -9,8 +9,8 @@ import org.junit.runner.RunWith
 import org.junit.Assert.*
 import org.junit.Before
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.model.roomRecipeBook.RecipeDao
-import vaida.dryzaite.foodmood.model.roomRecipeBook.RecipeDatabase
+import vaida.dryzaite.foodmood.database.RecipeDao
+import vaida.dryzaite.foodmood.database.RecipeDatabase
 import java.io.IOException
 import java.lang.Exception
 

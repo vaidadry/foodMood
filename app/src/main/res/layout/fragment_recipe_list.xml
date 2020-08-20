@@ -17,10 +17,8 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/full_background"
-            app:layout_constraintBottom_toTopOf="@id/search_input"
+            style="@style/ToolBar"
+            app:layout_constraintBottom_toTopOf="@id/chips"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -29,7 +27,7 @@
 
         <HorizontalScrollView
             android:id="@+id/chips"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +40,37 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:singleSelection="true"
-                android:padding="@dimen/normal_padding" />
+                app:singleLine="true"
+                android:layout_gravity="start"
+                android:padding="@dimen/quarter_padding"
+                >
+
+                <com.google.android.material.chip.Chip
+                    style="@style/Chips"
+                    android:id="@+id/chip_1"
+                    android:text="@string/breakfast"
+                    />
+                <com.google.android.material.chip.Chip
+                    style="@style/Chips"
+                    android:id="@+id/chip_2"
+                    android:text="@string/brunch"
+                    />
+                <com.google.android.material.chip.Chip
+                    style="@style/Chips"
+                    android:id="@+id/chip_3"
+                    android:text="@string/lunch"
+                    />
+                <com.google.android.material.chip.Chip
+                    style="@style/Chips"
+                    android:id="@+id/chip_4"
+                    android:text="@string/dinner"
+                    />
+                <com.google.android.material.chip.Chip
+                    style="@style/Chips"
+                    android:id="@+id/chip_5"
+                    android:text="@string/sweets"
+                    />
+            </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
 
 
@@ -57,7 +85,7 @@
             app:layout_constraintBottom_toTopOf="@id/coordinator_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/chips"
             app:queryBackground="@null"
             app:queryHint="@string/search"/>
 
@@ -143,14 +171,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.1" />
+            app:layout_constraintGuide_percent="0.0" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/vertical_guideline_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.9" />
+            app:layout_constraintGuide_percent="0.96" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

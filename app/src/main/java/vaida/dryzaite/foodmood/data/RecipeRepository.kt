@@ -1,7 +1,8 @@
-package vaida.dryzaite.foodmood.model.roomRecipeBook
+package vaida.dryzaite.foodmood.data
 
-import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
+import androidx.paging.PagingData
+import kotlinx.coroutines.flow.Flow
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.network.ExternalRecipe
 
@@ -15,7 +16,5 @@ interface RecipeRepository {
     fun getRecipeWithId(key: String): LiveData<RecipeEntry>
     fun getFavorites(): LiveData<List<RecipeEntry>>
     fun getFilteredRecipes(meal: Int): LiveData<List<RecipeEntry>>
-    suspend fun refreshExternalRecipes()
-    suspend fun searchExternalRecipes(searchQuery: String?)
-    val results: LiveData<List<ExternalRecipe>>
+    fun searchExternalRecipes(searchQuery: String?): Flow<PagingData<ExternalRecipe>>
 }

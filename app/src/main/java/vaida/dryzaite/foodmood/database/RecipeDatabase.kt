@@ -1,7 +1,6 @@
-package vaida.dryzaite.foodmood.model.roomRecipeBook
+package vaida.dryzaite.foodmood.database
 
 import android.content.Context
-import androidx.constraintlayout.solver.Cache
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase

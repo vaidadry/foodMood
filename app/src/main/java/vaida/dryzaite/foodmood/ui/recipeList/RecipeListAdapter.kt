@@ -21,7 +21,7 @@ class RecipeListAdapter(
     private val recipes: MutableList<RecipeEntry>,
     private val listener: RecipeListAdapterListener,
     private val clickListener: RecipeListOnClickListener)
-    : RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder>(), ItemTouchHelperListener, Filterable{
+    : RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder>(), ItemTouchHelperListener{
 
 
     var recipeFilterList = ArrayList<RecipeEntry>()
@@ -72,35 +72,6 @@ class RecipeListAdapter(
         return true
     }
 
-    // filter/search by title
-    override fun getFilter(): Filter {
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence?): FilterResults {
-                val charSearch = constraint.toString()
-                recipeFilterList = if (charSearch.isEmpty()) {
-                    recipes as ArrayList<RecipeEntry>
-                } else {
-                    val resultList = ArrayList<RecipeEntry>()
-                    for (entry in recipes) {
-                        if (entry.title.toLowerCase(Locale.ROOT)
-                                .contains(charSearch.toLowerCase(Locale.ROOT))
-                        ) {
-                            resultList.add(entry)
-                        }
-                    }
-                    resultList
-                }
-                val filterResults = FilterResults()
-                filterResults.values = recipeFilterList
-                return filterResults
-            }
-            @Suppress ("UNCHECKED_CAST")
-            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                recipeFilterList = results?.values as ArrayList<RecipeEntry>
-                notifyDataSetChanged()
-            }
-        }
-    }
 
 
     inner class RecipeListViewHolder(val binding: ListItemRecipeViewHolderBinding) : RecyclerView.ViewHolder(binding.root),

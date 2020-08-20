@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentAddRecipe2Binding
 import vaida.dryzaite.foodmood.model.RecipeGenerator
@@ -31,7 +30,7 @@ class AddRecipeFragment2 : Fragment(){
         val viewModelFactory = AddRecipeViewModelFactory2(RecipeGenerator(), application, externalRecipe)
         viewModel = ViewModelProvider(this, viewModelFactory).get(AddRecipeViewModel2::class.java)
         viewModel.title.set(externalRecipe.title)
-        viewModel.recipe.set(externalRecipe.url)
+        viewModel.recipe.set(externalRecipe.href)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel

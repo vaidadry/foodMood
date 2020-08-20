@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.model.roomRecipeBook.RecipeRepository
+import vaida.dryzaite.foodmood.data.RecipeRepository
 
 class RecipeViewModel (keyId: String, application: Application): AndroidViewModel(application) {
 

@@ -86,7 +86,7 @@ class DiscoverRecipeDetailFragment : Fragment(), Toolbar.OnMenuItemClickListener
         val recipe = viewModel.selectedRecipe.value!!
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.setType("text/plain").putExtra(Intent.EXTRA_TEXT,
-            getString(R.string.share_message, recipe.title, "NomNom", recipe.url))
+            getString(R.string.share_message, recipe.title, "NomNom", recipe.href))
         return shareIntent
     }
 

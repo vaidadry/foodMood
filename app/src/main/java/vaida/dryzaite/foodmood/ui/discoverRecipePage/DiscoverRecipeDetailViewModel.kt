@@ -23,7 +23,7 @@ class DiscoverRecipeDetailViewModel (externalRecipe: ExternalRecipe, application
         get() = _navigateToUrl
 
     fun onClickUrl() {
-        _navigateToUrl.value = _selectedRecipe.value?.url
+        _navigateToUrl.value = _selectedRecipe.value?.href
     }
 
     fun onButtonClicked() {

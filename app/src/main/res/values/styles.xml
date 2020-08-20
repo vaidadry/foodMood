@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -19,12 +19,13 @@
         <item name="android:windowBackground">@drawable/full_background</item>
     </style>
 
-    <style name="AppTheme.ActionBar" parent="Theme.AppCompat.DayNight">
+    <style name="AppTheme.ActionBar" parent="Theme.MaterialComponents.DayNight.Bridge">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorSecondaryDark</item>
         <item name="android:textColor">@color/Text</item>
+        <item name="android:fontFamily">@font/dosis_bold</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="strokeColor">@color/colorPrimary</item>
@@ -67,6 +68,36 @@
         <item name="android:textSize">@dimen/checkbox_text_size</item>
         <item name="android:textColor">@color/Text</item>
     </style>
+
+    <style name="Chips" parent="Widget.MaterialComponents.Chip.Filter">
+        <!-- Customize your theme here. -->
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="chipBackgroundColor">@color/selected_highlight</item>
+        <item name="checkedIconVisible">true</item>
+        <item name="android:fontFamily">@font/dosis_medium</item>
+        <item name="android:textSize">@dimen/checkbox_text_size</item>
+        <item name="android:textColor">@color/Text</item>
+        <item name="android:checkable">true</item>
+    </style>
+
+    <style name="ToolBar" parent="AppTheme.ActionBar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/full_background</item>
+        <item name="android:theme">@style/AppTheme.ToolbarFont</item>
+    </style>
+
+    <style name="AppTheme.ToolbarFont" parent="AppTheme.ActionBar">
+        <item name="android:fontFamily">@font/dosis_medium</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="AppTheme.NavBarFont" parent="AppTheme.ActionBar">
+        <item name="android:fontFamily">@font/dosis_medium</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
 
 
 

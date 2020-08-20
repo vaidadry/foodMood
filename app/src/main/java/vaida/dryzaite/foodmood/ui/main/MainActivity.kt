@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
 //        setting day/night mode as default
-//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
 
         val viewModelFactory = MainViewModelFactory()
