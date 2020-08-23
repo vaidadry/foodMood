@@ -44,7 +44,8 @@
                 android:hint="@string/search"
                 android:imeOptions="actionSearch"
                 android:inputType="textNoSuggestions"
-                android:selectAllOnFocus="true" />
+                android:selectAllOnFocus="true"
+                android:autofillHints="Search" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

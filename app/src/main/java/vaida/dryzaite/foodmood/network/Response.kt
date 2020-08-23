@@ -14,8 +14,9 @@ data class Response (
     val nextPage: Int? = null
 )
 
+// HREF is the only unique, thus PrimaryKey
 @Parcelize
-@Entity(tableName = "cached_recipes_table" )
+@Entity(tableName = "external_recipes_table" )
 data class ExternalRecipe (
     val title: String,
     @PrimaryKey val href: String,

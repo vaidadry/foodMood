@@ -8,6 +8,7 @@ import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import vaida.dryzaite.foodmood.database.ApiRecipesPagingSource
+import vaida.dryzaite.foodmood.database.ExternalRecipesRemoteMediator
 import vaida.dryzaite.foodmood.database.RecipeDao
 import vaida.dryzaite.foodmood.database.RecipeDatabase
 import vaida.dryzaite.foodmood.model.RecipeEntry
@@ -67,6 +68,9 @@ class RecipeDatabaseRepository(application: Application, private val service: Re
         Timber.i("searchExternalRecipes initiated")
         // appending '%' so we can allow other characters to be before and after the query string
         val dbQuery = "%${searchQuery.replace(' ', '%')}%"
+        val pagingSourceFactory =  { ApiRecipesPagingSource(service, dbQuery)}
+        //TO FETCH DB + NETWORK (BUGS in API currently- reloading multiple times, crashing etc, so im using only network above)
+//        val pagingSourceFactory =  { database.externalRecipesDao().getExternalRecipes(dbQuery) }
 
 
         return Pager(
@@ -75,7 +79,12 @@ class RecipeDatabaseRepository(application: Application, private val service: Re
                 enablePlaceholders = false,
                 prefetchDistance = 2,
                 initialLoadSize = 10),
-            pagingSourceFactory = { ApiRecipesPagingSource(service, dbQuery) }
+            remoteMediator = ExternalRecipesRemoteMediator(
+                dbQuery,
+                service,
+                database
+            ),
+            pagingSourceFactory = pagingSourceFactory
         ).flow
     }
 
