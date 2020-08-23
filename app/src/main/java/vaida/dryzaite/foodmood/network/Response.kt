@@ -1,36 +1,26 @@
 package vaida.dryzaite.foodmood.network
 
 import android.os.Parcelable
-import com.squareup.moshi.Json
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-import vaida.dryzaite.foodmood.model.CacheRecipeEntry
 
 data class Response (
-    @Json(name = "title") val providerTitle: String,
+    @SerializedName("title") val providerTitle: String,
     val version: Float,
-    @Json(name = "API url") val href: String,
+    @SerializedName("API_url") val href: String,
     val results: List<ExternalRecipe> = emptyList(),
     val nextPage: Int? = null
 )
 
 @Parcelize
+@Entity(tableName = "cached_recipes_table" )
 data class ExternalRecipe (
     val title: String,
-    val href: String,
+    @PrimaryKey val href: String,
     val ingredients: String,
     val thumbnail: String
     ) : Parcelable
-
-// extension function to convert network results to DB objects
-fun Response.asDatabaseModel(): List<CacheRecipeEntry> {
-    return results.map {
-        CacheRecipeEntry(
-            title = it.title,
-            url = it.href,
-            ingredients = it.ingredients,
-            thumbnail = it.thumbnail
-        )
-    }
-}
 
 

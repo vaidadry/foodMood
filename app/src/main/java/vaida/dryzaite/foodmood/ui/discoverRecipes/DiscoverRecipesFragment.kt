@@ -139,7 +139,7 @@ class DiscoverRecipesFragment : Fragment() {
     private fun search(searchQuery: String) {
         searchJob?.cancel()
         Timber.i("search method initiated $searchQuery")
-        searchJob = lifecycleScope.launch {
+        searchJob = viewLifecycleOwner.lifecycleScope.launch {
             Timber.i("search job started")
             viewModel.searchExternalRecipes(searchQuery).collectLatest {
                 Timber.i("paging data returned : $it")

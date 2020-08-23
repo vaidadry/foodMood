@@ -8,21 +8,14 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import vaida.dryzaite.foodmood.app.Injection
-import vaida.dryzaite.foodmood.data.RecipeRepository
+import vaida.dryzaite.foodmood.repository.RecipeRepository
 import vaida.dryzaite.foodmood.network.ExternalRecipe
 
-//defining states of web request
-enum class RecipeApiStatus { LOADING, ERROR, DONE }
 
 @ExperimentalCoroutinesApi
 class DiscoverRecipesViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: RecipeRepository = Injection.provideRecipeRepository(application)
-
-    // stores the most recent responses of status, query, searchresult
-    private val _status = MutableLiveData<RecipeApiStatus>()
-    val status: LiveData<RecipeApiStatus>
-        get() = _status
 
     private var currentQueryValue: String? = null
     private var currentSearchResult: Flow<PagingData<ExternalRecipe>>? = null
@@ -63,21 +56,5 @@ class DiscoverRecipesViewModel(application: Application) : AndroidViewModel(appl
         Timber.i("new search result: $newResult")
         return newResult
     }
-
-    // for states!
-
-//        viewModelScope.launch {
-//            try {
-//                _status.value = RecipeApiStatus.LOADING
-//                repository.searchExternalRecipes(searchQuery)
-//                _status.value = RecipeApiStatus.DONE
-//
-//            } catch (networkError: NetworkErrorException){
-//                if(externalRecipes.value.isNullOrEmpty()) {
-//                    _status.value = RecipeApiStatus.ERROR
-//                }
-//            }
-//        }
-
 
 }

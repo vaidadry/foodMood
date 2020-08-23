@@ -1,22 +1,15 @@
 package vaida.dryzaite.foodmood.utilities
 
 import android.annotation.SuppressLint
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
-import androidx.paging.LoadState
-import androidx.paging.LoadState.Loading
-import androidx.paging.LoadState.Error
-import androidx.paging.LoadState.NotLoading
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.network.ExternalRecipe
-import vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesAdapter
-import vaida.dryzaite.foodmood.ui.discoverRecipes.RecipeApiStatus
+
 import java.util.*
 
 //Binding adapters to format DB data to UI

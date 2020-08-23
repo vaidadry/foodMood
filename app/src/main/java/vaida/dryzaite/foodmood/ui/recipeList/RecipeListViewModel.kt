@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.data.RecipeRepository
+import vaida.dryzaite.foodmood.repository.RecipeRepository
 
 // ViewModel for recipeList fragment interacts with data from the repository
 class RecipeListViewModel(application: Application) : AndroidViewModel(application) {

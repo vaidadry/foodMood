@@ -9,6 +9,7 @@
         <item name="android:textColor">@color/Text</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
+
     </style>
 
 
@@ -20,7 +21,6 @@
     </style>
 
     <style name="AppTheme.ActionBar" parent="Theme.MaterialComponents.DayNight.Bridge">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorSecondaryDark</item>
@@ -70,7 +70,6 @@
     </style>
 
     <style name="Chips" parent="Widget.MaterialComponents.Chip.Filter">
-        <!-- Customize your theme here. -->
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="chipBackgroundColor">@color/selected_highlight</item>
@@ -98,7 +97,46 @@
         <item name="android:textSize">13sp</item>
     </style>
 
+    <style name="colorCursor" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="colorControlActivated">@color/Text</item>
+    </style>
 
 
+    <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textColorHint">@color/Text</item>
+        <item name="hintTextColor">@color/Text</item>
+        <item name="boxStrokeColor">@color/colorSecondaryDark</item>
+        <item name="boxStrokeWidth">@dimen/small_button_stroke_width</item>
+        <item name="android:theme">@style/colorCursor</item>
+    </style>
+
+    <style name="TextInputStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="materialThemeOverlay">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/Text</item>
+        <item name="android:fontFamily">@font/dosis_medium</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:textSize">@dimen/add_item_text_field_text_size</item>
+        <item name="android:textColorHint">@color/Text</item>
+    </style>
+
+    <style name="ColorfulButton" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:fontFamily">@font/robotomono_bold</item>
+        <item name="android:textColor">@color/TextToolbarsButtons</item>
+        <item name="android:textSize">@dimen/list_item_text_size</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="SolidButton" parent="ColorfulButton">
+        <item name="android:background">@drawable/rounded_button_solid</item>
+    </style>
 
 </resources>

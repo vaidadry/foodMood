@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorSecondaryDark</item>
+        <item name="android:textColor">@color/Text</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="AppTheme.ActionBar" parent="Theme.MaterialComponents.DayNight.Bridge">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorSecondaryDark</item>
+        <item name="android:textColor">@color/Text</item>
+        <item name="android:fontFamily">@font/dosis_bold</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="strokeColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="ColorfulButton" parent="Widget.AppCompat.Button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:fontFamily">@font/robotomono_bold</item>
+        <item name="android:textColor">@color/TextToolbarsButtons</item>
+        <item name="android:textSize">@dimen/list_item_text_size</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="SolidButton" parent="ColorfulButton">
+        <item name="android:background">@drawable/rounded_button_solid</item>
+        <item name="android:textColor">@color/Text</item>
+    </style>
+</resources>

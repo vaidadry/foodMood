@@ -136,14 +136,8 @@
 
         <Button
             android:id="@+id/random_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
-            android:clickable="true"
-            android:fontFamily="@font/robotomono_bold"
+            style="@style/ColorfulButton"
             android:text="@string/random_button"
-            android:textSize="@dimen/button_text_size"
-            android:textColor="@color/TextToolbarsButtons"
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_bottom_nav"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

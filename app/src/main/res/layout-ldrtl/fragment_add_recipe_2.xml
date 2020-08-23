@@ -43,10 +43,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/title_input_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/Text"
-            android:textAlignment="viewStart"
+            style="@style/TextInputLayoutStyle"
             app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
             app:layout_constraintTop_toBottomOf="@id/add_recipe_text_view"
@@ -55,14 +52,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/title_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/Text"
-                android:fontFamily="@font/dosis_medium"
-                android:textAlignment="viewStart"
-                android:textSize="@dimen/add_item_text_field_text_size"
-                android:backgroundTint="@color/Text"
-                android:textColorHint="@color/Text"
+                style="@style/TextInputStyle"
                 android:hint="@string/title"
                 android:inputType="text"
                 android:text="@={viewModel.title}"
@@ -71,10 +61,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/url_input_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColorHint="@color/Text"
-            android:textAlignment="viewStart"
+            style="@style/TextInputLayoutStyle"
             app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
             app:layout_constraintTop_toBottomOf="@id/title_input_layout"
@@ -82,14 +69,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/url_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/Text"
-                android:fontFamily="@font/dosis_medium"
-                android:textAlignment="viewStart"
-                android:textSize="@dimen/add_item_text_field_text_size"
-                android:backgroundTint="@color/Text"
-                android:textColorHint="@color/Text"
+                style="@style/TextInputStyle"
                 android:hint="@string/url"
                 android:text="@={viewModel.recipe}"
                 android:inputType="textUri" />
@@ -202,13 +182,9 @@
 
         <Button
             android:id="@+id/submit_recipe_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button_solid"
-            android:fontFamily="@font/robotomono_bold"
+            style="@style/SolidButton"
             android:text="@string/submit"
             android:onClick="@{() -> viewModel.saveNewRecipe()}"
-            android:textSize="@dimen/button_text_size"
             app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_bottom"
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_bottom_nav"
             app:layout_constraintEnd_toEndOf="parent"
