@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.data.RecipeRepository
+import vaida.dryzaite.foodmood.repository.RecipeRepository
 
 class SuggestionViewModel(randomId: String, application: Application): AndroidViewModel(application) {
 

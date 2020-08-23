@@ -83,38 +83,24 @@
 
             <Button
                 android:id="@+id/discover_detail_url"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_button"
-                android:fontFamily="@font/robotomono_bold"
-                android:textSize="@dimen/list_item_text_size"
-                android:textColor="@color/TextToolbarsButtons"
-                android:textAlignment="center"
+                style="@style/ColorfulButton"
                 app:layout_constraintBottom_toBottomOf="@id/horizontal_guideline_bottom_nav"
                 app:layout_constraintEnd_toStartOf="@id/button_add_to_database"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toBottomOf="@id/detail_image"
                 android:text="@string/show_me_how_button"
-                android:clickable="true"
                 android:onClick="@{() -> viewModel.onClickUrl()}"
 
             />
 
             <Button
                 android:id="@+id/button_add_to_database"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/rounded_button"
-                android:fontFamily="@font/robotomono_bold"
-                android:textColor="@color/TextToolbarsButtons"
-                android:textSize="@dimen/list_item_text_size"
-                android:textAlignment="center"
+                style="@style/ColorfulButton"
                 app:layout_constraintBottom_toBottomOf="@id/horizontal_guideline_bottom_nav"
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toEndOf="@id/discover_detail_url"
                 app:layout_constraintTop_toBottomOf="@id/detail_image"
                 android:text="@string/add_to_recipe_book"
-                android:clickable="true"
                 android:onClick="@{() -> viewModel.onClickAddFragment()}"
                 />
             <androidx.constraintlayout.widget.Guideline

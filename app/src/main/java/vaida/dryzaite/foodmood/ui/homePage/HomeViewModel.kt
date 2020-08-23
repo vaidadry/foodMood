@@ -6,7 +6,7 @@ import androidx.lifecycle.*
 import timber.log.Timber
 import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.data.RecipeRepository
+import vaida.dryzaite.foodmood.repository.RecipeRepository
 
 class HomeViewModel(application: Application): AndroidViewModel(application) {
 

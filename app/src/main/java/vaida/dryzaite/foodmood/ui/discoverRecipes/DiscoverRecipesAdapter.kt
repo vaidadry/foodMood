@@ -13,7 +13,6 @@ class DiscoverRecipesAdapter (private val onClickListener: OnClickListener)
     : PagingDataAdapter <ExternalRecipe, DiscoverRecipesAdapter.DiscoverRecipesViewHolder>(
     diffUtil) {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiscoverRecipesViewHolder {
         return DiscoverRecipesViewHolder(GridListItemBinding.inflate(
             LayoutInflater.from(parent.context)))

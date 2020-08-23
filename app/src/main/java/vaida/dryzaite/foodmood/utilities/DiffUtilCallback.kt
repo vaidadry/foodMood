@@ -21,38 +21,29 @@ class RecipeDiffCallback(private val oldRecipes: List<RecipeEntry>, private val 
         val oldRecipe = oldRecipes[oldItemPosition]
         val newRecipe = newRecipes[newItemPosition]
 
-        return oldRecipe.date == newRecipe.date &&
-                oldRecipe.title == newRecipe.title &&
-                oldRecipe.veggie == newRecipe.veggie &&
-                oldRecipe.fish == newRecipe.fish &&
-                oldRecipe.meal == newRecipe.meal &&
-                oldRecipe.recipe == newRecipe.recipe &&
-                oldRecipe.isFavorite == newRecipe.isFavorite
-
-
+        return oldRecipe.id == newRecipe.id
     }
 }
 
-//callback measures the differences between changes and makes RecyclerView updates nicer
-class ExternalRecipesDiffCallback(private val oldRecipes: List<ExternalRecipe>, private val newRecipes: List<ExternalRecipe>)
-    : DiffUtil.Callback() {
+//NOT USED CURRENTLY
 
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldRecipes[oldItemPosition].href == newRecipes[newItemPosition].href
-    }
-
-    override fun getOldListSize(): Int = oldRecipes.size
-
-    override fun getNewListSize(): Int = newRecipes.size
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldRecipe = oldRecipes[oldItemPosition]
-        val newRecipe = newRecipes[newItemPosition]
-
-        return oldRecipe.title == newRecipe.title &&
-                oldRecipe.href == newRecipe.href &&
-                oldRecipe.ingredients == newRecipe.ingredients &&
-                oldRecipe.thumbnail == newRecipe.thumbnail
-    }
-}
+////callback measures the differences between changes and makes RecyclerView updates nicer
+//class ExternalRecipesDiffCallback(private val oldRecipes: List<ExternalRecipe>, private val newRecipes: List<ExternalRecipe>)
+//    : DiffUtil.Callback() {
+//
+//    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+//        return oldRecipes[oldItemPosition].href == newRecipes[newItemPosition].href
+//    }
+//
+//    override fun getOldListSize(): Int = oldRecipes.size
+//
+//    override fun getNewListSize(): Int = newRecipes.size
+//
+//    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+//        val oldRecipe = oldRecipes[oldItemPosition]
+//        val newRecipe = newRecipes[newItemPosition]
+//
+//        return oldRecipe.title == newRecipe.title
+//    }
+//}
 

@@ -1,4 +1,4 @@
-package vaida.dryzaite.foodmood.data
+package vaida.dryzaite.foodmood.repository
 
 import android.app.Application
 import androidx.lifecycle.LiveData
@@ -11,27 +11,24 @@ import vaida.dryzaite.foodmood.database.ApiRecipesPagingSource
 import vaida.dryzaite.foodmood.database.RecipeDao
 import vaida.dryzaite.foodmood.database.RecipeDatabase
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.model.asDomainModel
 import vaida.dryzaite.foodmood.network.ExternalRecipe
 import vaida.dryzaite.foodmood.network.RecipeApiService
-import vaida.dryzaite.foodmood.network.asDatabaseModel
-
 
 
 //Repository integrated with coroutines to send work off main thread
 class RecipeDatabaseRepository(application: Application, private val service: RecipeApiService) : RecipeRepository {
 
-
     private val recipeDao: RecipeDao?
 
     private val allRecipes: LiveData<List<RecipeEntry>>
 
+    private val database: RecipeDatabase
+
     init {
-        val database = RecipeDatabase.getInstance(application)
-        recipeDao = database.recipeDao
+        database = RecipeDatabase.getInstance(application)
+        recipeDao = database.recipeDao()
         allRecipes = recipeDao.getAllRecipes()
     }
-
 
     //    When we get the recipes, we are already returning LiveData in Dao.
 //    So we don’t need to get the data from background thread.
@@ -65,15 +62,21 @@ class RecipeDatabaseRepository(application: Application, private val service: Re
         return  recipeDao!!.getFilteredRecipes(meal)
     }
 
-
     // search method run on flow coroutines and paging library
-    override fun searchExternalRecipes(searchQuery: String?): Flow<PagingData<ExternalRecipe>> {
+    override fun searchExternalRecipes(searchQuery: String): Flow<PagingData<ExternalRecipe>> {
         Timber.i("searchExternalRecipes initiated")
-        return Pager(
-            config = PagingConfig(pageSize = NETWORK_PAGE_SIZE),
-            pagingSourceFactory = { ApiRecipesPagingSource(service, searchQuery)}
-        ).flow
+        // appending '%' so we can allow other characters to be before and after the query string
+        val dbQuery = "%${searchQuery.replace(' ', '%')}%"
 
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = NETWORK_PAGE_SIZE,
+                enablePlaceholders = false,
+                prefetchDistance = 2,
+                initialLoadSize = 10),
+            pagingSourceFactory = { ApiRecipesPagingSource(service, dbQuery) }
+        ).flow
     }
 
 
