@@ -46,27 +46,27 @@
                 <com.google.android.material.chip.Chip
                     style="@style/Chips"
                     android:id="@+id/chip_1"
-                    android:text="@string/breakfast"
+                    app:mealTypeTextChip="@{1}"
                     />
                 <com.google.android.material.chip.Chip
                     style="@style/Chips"
                     android:id="@+id/chip_2"
-                    android:text="@string/brunch"
+                    app:mealTypeTextChip="@{2}"
                     />
                 <com.google.android.material.chip.Chip
                     style="@style/Chips"
                     android:id="@+id/chip_3"
-                    android:text="@string/lunch"
+                    app:mealTypeTextChip="@{3}"
                     />
                 <com.google.android.material.chip.Chip
                     style="@style/Chips"
                     android:id="@+id/chip_4"
-                    android:text="@string/dinner"
+                    app:mealTypeTextChip="@{4}"
                     />
                 <com.google.android.material.chip.Chip
                     style="@style/Chips"
                     android:id="@+id/chip_5"
-                    android:text="@string/sweets"
+                    app:mealTypeTextChip="@{5}"
                     />
             </com.google.android.material.chip.ChipGroup>
         </HorizontalScrollView>
