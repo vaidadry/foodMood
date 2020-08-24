@@ -26,7 +26,7 @@ class RecipeLoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<R
     ) : RecyclerView.ViewHolder(binding.root) {
 
         init {
-            binding.retryButton.setOnClickListener { retry.invoke() }
+            binding.retryButtonFooter.setOnClickListener { retry.invoke() }
         }
 
         fun bind(loadState: LoadState) {
@@ -34,8 +34,8 @@ class RecipeLoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<R
                 Timber.e( "Error: ${loadState.error.localizedMessage}")
                 binding.errorMsg.setText(R.string.load_error_message)
             }
-            binding.progressBar.isVisible = loadState is LoadState.Loading
-            binding.retryButton.isVisible = loadState !is LoadState.Loading
+            binding.progressBarFooter.isVisible = loadState is LoadState.Loading
+            binding.retryButtonFooter.isVisible = loadState !is LoadState.Loading
             binding.errorMsg.isVisible = loadState !is LoadState.Loading
         }
 

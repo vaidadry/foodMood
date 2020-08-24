@@ -51,7 +51,7 @@ class ExternalRecipesRemoteMediator(
         }
 
         try {
-            val apiResponse = service.getRecipesAsync(query)
+            val apiResponse = service.getRecipesAsync(query, page)
 
             val recipes = apiResponse.await().results
             val endOfPaginationReached = recipes.isEmpty()

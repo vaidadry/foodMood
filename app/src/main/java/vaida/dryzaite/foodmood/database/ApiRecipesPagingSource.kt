@@ -19,16 +19,16 @@ class ApiRecipesPagingSource(
     //load func triggers async load, avoids multiple requests same time, in-memory cache,
     // keeps track of page to be requested
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ExternalRecipe> {
-        val position = params.key ?: API_STARTING_PAGE_INDEX
+        val page = params.key ?: API_STARTING_PAGE_INDEX
 
         return try {
-            val response = service.getRecipesAsync(query, position)
+            val response = service.getRecipesAsync(query, page)
             val recipes = response.await().results
             Timber.i("load recipes: ${recipes.size}")
             LoadResult.Page(
                 data = recipes,
-                prevKey = if (position == API_STARTING_PAGE_INDEX) null else position -1,
-                nextKey = if(recipes.isEmpty()) null else position +1
+                prevKey = if (page == API_STARTING_PAGE_INDEX) null else page - 1,
+                nextKey = if(recipes.isEmpty()) null else page + 1
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)
