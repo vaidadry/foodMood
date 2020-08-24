@@ -2,11 +2,14 @@ package vaida.dryzaite.foodmood.utilities
 
 import android.annotation.SuppressLint
 import android.widget.ImageView
+import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.Resource
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.chip.Chip
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.model.RecipeEntry
 
@@ -25,13 +28,22 @@ fun TextView.setMealTypeFormatted(recipe: RecipeEntry?) {
     }
 }
 
-//simple converter int to string for Meal type
+//simple converter int to string for Meal type LOWERCASE
 @SuppressLint("SetTextI18n")
 @BindingAdapter("mealTypeText")
 fun TextView.setMealTypeTextFormatted(recipe: RecipeEntry?) {
     recipe?.let {
         text = convertNumericMealTypeToString(recipe.meal, context.resources).toLowerCase(
             Locale.ROOT)
+    }
+}
+
+//simple converter int to string for Meal type Regular
+@SuppressLint("SetTextI18n")
+@BindingAdapter("mealTypeTextRegular")
+fun TextView.setMealTypeText(mealType: Int?) {
+    mealType?.let {
+        text = convertNumericMealTypeToString(mealType, context.resources)
     }
 }
 
@@ -49,6 +61,7 @@ fun ImageView.setMealTypeIcon(recipe: RecipeEntry?) {
     }
 }
 
+
 // to use Glide to show images from url
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
@@ -62,5 +75,14 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
             .into(imgView)
     }
 }
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("mealTypeTextChip")
+fun Chip.bindChip(mealType: Int?) {
+    mealType?.let {
+        text = convertNumericMealTypeToString(mealType, context.resources)
+    }
+}
+
 
 

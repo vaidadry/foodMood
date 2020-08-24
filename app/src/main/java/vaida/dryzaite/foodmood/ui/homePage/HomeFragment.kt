@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //observing filtering
-        viewModel.filteredRecipes.observe(viewLifecycleOwner, Observer {})
+        viewModel.filteredRecipes.observe(viewLifecycleOwner, {})
 
         navigateToSuggestionPage()
     }
@@ -63,7 +63,7 @@ class HomeFragment : Fragment() {
 
 
     private fun navigateToSuggestionPage() {
-        viewModel.navigateToSuggestionPage.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToSuggestionPage.observe(viewLifecycleOwner, {
             when (it) {
                 true -> {
                     Timber.i("navigateToSuggestionPage(): SHOWING generated recipe: ${viewModel.randomRecipe.value}")

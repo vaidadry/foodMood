@@ -2,20 +2,15 @@ package vaida.dryzaite.foodmood.ui.recipeList
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
-import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
-import kotlinx.android.synthetic.main.favorites_card_item.view.*
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
@@ -43,6 +38,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
         binding = FragmentRecipeListBinding.inflate(inflater, container, false)
 
@@ -56,18 +52,13 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         binding.viewModel = viewModel
 
 
-//         Set chip group checked change listener
+//      Set chip group checked change listener
         binding.chipMealTypeSelection.setOnCheckedChangeListener { group, checkedId ->
-
-            val titleOrNull = chip_meal_type_selection.findViewById<Chip>(checkedId)?.text
-            Toast.makeText(context, "$titleOrNull was checked", Toast.LENGTH_SHORT).show()
+            val titleOrNull = chip_meal_type_selection.findViewById<Chip>(checkedId)?.text.toString()
             viewModel.onMealSelected(titleOrNull)
         }
-
-
         return binding.root
     }
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -84,14 +75,18 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
         setupItemTouchHelper()
 
-        //updating Live data observer with ViewModel data
-        viewModel.getAllRecipesLiveData().observe(viewLifecycleOwner, Observer { recipes ->
-            recipes?.let {
-                adapter.updateRecipes(recipes)
-            }
-            checkForEmptyState()
+        //updating Live data observer with ViewModel data - filtering applied
+        viewModel.mealSelection.observe(viewLifecycleOwner, {
+            viewModel.initFilter().observe(viewLifecycleOwner, { recipes ->
+                recipes?.let {
+                    adapter.updateRecipes(recipes)
+                }
+                checkForEmptyState()
+            })
         })
+
         addListDividerDecoration()
+
 
         //set up observer to react on item taps and enable navigation
         viewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, Observer { keyId->
@@ -156,6 +151,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
     }
 
+
     override fun removeFavorites(recipe: RecipeEntry) {
         Timber.i("RemoveFavorites called  ")
         viewModel.removeFavorites(recipe)
@@ -189,7 +185,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
 
     private fun setupViews() {
-        viewModel.navigateToAddRecipeFragment.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToAddRecipeFragment.observe(viewLifecycleOwner, {
             if (it == true) {
                 this.findNavController().navigate(R.id.action_recipeListFragment_to_addRecipeFragment)
                 viewModel.onFabClicked()
@@ -213,5 +209,9 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         this.findNavController().navigate(
             RecipeListFragmentDirections.actionRecipeListFragmentToFavoritesFragment(""))
         viewModel.onRecipeDetailNavigated()
+    }
+
+    companion object {
+        private const val LAST_FILTER: String = "null"
     }
 }

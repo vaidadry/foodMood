@@ -8,15 +8,15 @@ import androidx.room.Query
 import vaida.dryzaite.foodmood.network.ExternalRecipe
 
 @Dao
-interface CachedRecipesDao {
+interface ExternalRecipesDao {
     // DAO methods for Cached recipes
 
-    @Query("SELECT * FROM cached_recipes_table WHERE title LIKE :queryString OR ingredients LIKE :queryString")
-    fun getCachedRecipes(queryString: String): PagingSource<Int, ExternalRecipe>
+    @Query("SELECT * FROM external_recipes_table WHERE title LIKE :queryString OR ingredients LIKE :queryString")
+    fun getExternalRecipes(queryString: String): PagingSource<Int, ExternalRecipe>
 
     @Insert(entity = ExternalRecipe::class, onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCachedRecipes(recipes: List<ExternalRecipe>)
+    suspend fun insertExternalRecipes(recipes: List<ExternalRecipe>)
 
-    @Query("DELETE FROM cached_recipes_table")
-    suspend fun clearCachedRecipes()
+    @Query("DELETE FROM external_recipes_table")
+    suspend fun clearExternalRecipes()
 }

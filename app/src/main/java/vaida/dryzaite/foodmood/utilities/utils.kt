@@ -17,3 +17,17 @@ fun convertNumericMealTypeToString(mealSelection: Int, resources: Resources): St
     }
     return mealString
 }
+
+// as DB uses Integers to divide items into categories, here is the conversion to Strings
+fun convertStringMealTypeToNumeric(mealSelection: String, resources: Resources): Int {
+
+    var mealString = 1
+    when (mealSelection) {
+        resources.getString(R.string.breakfast) -> mealString = 1
+        resources.getString(R.string.brunch) -> mealString = 2
+        resources.getString(R.string.lunch) -> mealString = 3
+        resources.getString(R.string.dinner) -> mealString = 4
+        resources.getString(R.string.sweets) -> mealString = 5
+    }
+    return mealString
+}

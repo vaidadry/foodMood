@@ -125,7 +125,7 @@
     <TextView
         android:id="@+id/breakfast_text"
         style="@style/MealSelectionTextView"
-        android:text="@string/breakfast"
+        app:mealTypeTextRegular="@{1}"
         app:layout_constraintEnd_toStartOf="@id/brunch_text"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -135,7 +135,7 @@
     <TextView
         android:id="@+id/brunch_text"
         style="@style/MealSelectionTextView"
-        android:text="@string/brunch"
+        app:mealTypeTextRegular="@{2}"
         app:layout_constraintEnd_toStartOf="@id/lunch_text"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@id/breakfast_text"
@@ -144,7 +144,7 @@
     <TextView
         android:id="@+id/lunch_text"
         style="@style/MealSelectionTextView"
-        android:text="@string/lunch"
+        app:mealTypeTextRegular="@{3}"
         app:layout_constraintEnd_toStartOf="@id/dinner_text"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@id/brunch_text"
@@ -153,7 +153,7 @@
     <TextView
         android:id="@+id/dinner_text"
         style="@style/MealSelectionTextView"
-        android:text="@string/dinner"
+        app:mealTypeTextRegular="@{4}"
         app:layout_constraintEnd_toStartOf="@+id/sweets_text"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@id/lunch_text"
@@ -162,7 +162,7 @@
     <TextView
         android:id="@+id/sweets_text"
         style="@style/MealSelectionTextView"
-        android:text="@string/sweets"
+        app:mealTypeTextRegular="@{5}"
         app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@id/dinner_text"
