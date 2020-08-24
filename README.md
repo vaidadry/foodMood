@@ -9,7 +9,8 @@ Besides, the discover option allows to browse external recipes and save them to 
 * browse external recipe DB by title and add to local Recipe Book
 * random recipe generator based on user preferances
 * linking to URLs and sharing with friends via other apps
-* favorite button
+* favorite button, 
+* chip-filtering
 * dark mode, RTL, landscape layouts
 * paging - for loading data in pieces and search by title
 
