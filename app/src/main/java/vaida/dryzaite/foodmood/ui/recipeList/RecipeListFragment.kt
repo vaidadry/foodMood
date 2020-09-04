@@ -1,12 +1,12 @@
 package vaida.dryzaite.foodmood.ui.recipeList
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,11 +16,13 @@ import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentRecipeListBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
+import vaida.dryzaite.foodmood.ui.main.MainActivity
 import vaida.dryzaite.foodmood.utilities.ItemTouchHelperCallback
+import javax.inject.Inject
 
 class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListener {
 
-    private lateinit var viewModel: RecipeListViewModel
+    @Inject lateinit var viewModel: RecipeListViewModel
     private lateinit var binding: FragmentRecipeListBinding
     private lateinit var adapter: RecipeListAdapter
 
@@ -34,19 +36,24 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         })
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as MainActivity).mainComponent.inject(this)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         // Inflate the layout for this fragment
-        binding = FragmentRecipeListBinding.inflate(inflater, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe_list, container, false)
 
         //reference to context, to get database instance
-        val application = requireNotNull(this.activity).application
-
-        val viewModelFactory = RecipeListViewModelFactory(application)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(RecipeListViewModel::class.java)
+//        val application = requireNotNull(this.activity).application
+//
+//        val viewModelFactory = RecipeListViewModelFactory(application)
+//        viewModel = ViewModelProvider(this, viewModelFactory).get(RecipeListViewModel::class.java)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -55,7 +62,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 //      Set chip group checked change listener
         binding.chipMealTypeSelection.setOnCheckedChangeListener { group, checkedId ->
             val titleOrNull = chip_meal_type_selection.findViewById<Chip>(checkedId)?.text.toString()
-            viewModel.onMealSelected(titleOrNull)
+            viewModel.onMealSelected(titleOrNull, resources)
         }
         return binding.root
     }
@@ -89,7 +96,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
 
         //set up observer to react on item taps and enable navigation
-        viewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, Observer { keyId->
+        viewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, { keyId->
             keyId?.let {
                 this.findNavController().navigate(
                     RecipeListFragmentDirections.actionRecipeListFragmentToRecipeFragment(keyId))
@@ -98,7 +105,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         })
 
         //observer to react on fav button state (if change needed or not)
-        viewModel.favoriteStatusChange.observe(viewLifecycleOwner, Observer {
+        viewModel.favoriteStatusChange.observe(viewLifecycleOwner, {
             if (it == true) {
                 viewModel.onFavoriteClickCompleted()
             }
@@ -171,8 +178,8 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
 
     private fun setupAdapter() {
-        adapter = RecipeListAdapter(mutableListOf(), this, RecipeListOnClickListener { id ->
-            viewModel.onRecipeClicked(id)
+        adapter = RecipeListAdapter(mutableListOf(), this, RecipeListOnClickListener { recipe ->
+            viewModel.onRecipeClicked(recipe)
         })
     }
 
@@ -207,7 +214,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
     private fun navigateToFavoritesPage() {
         this.findNavController().navigate(
-            RecipeListFragmentDirections.actionRecipeListFragmentToFavoritesFragment(""))
+            RecipeListFragmentDirections.actionRecipeListFragmentToFavoritesFragment())
         viewModel.onRecipeDetailNavigated()
     }
 

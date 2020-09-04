@@ -3,7 +3,7 @@
     package="vaida.dryzaite.foodmood">
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:name=".app.FoodmoodApplication"
+        android:name=".FoodmoodApplication"
         android:allowBackup="true"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"

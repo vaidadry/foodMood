@@ -1,21 +1,19 @@
 package vaida.dryzaite.foodmood.ui.discoverRecipes
 
-import android.app.Application
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
-import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.repository.RecipeRepository
 import vaida.dryzaite.foodmood.network.ExternalRecipe
+import javax.inject.Inject
 
 
 @ExperimentalCoroutinesApi
-class DiscoverRecipesViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository: RecipeRepository = Injection.provideRecipeRepository(application)
+class DiscoverRecipesViewModel @Inject constructor (
+    private val repository: RecipeRepository) : ViewModel() {
 
     private var currentQueryValue: String? = null
     private var currentSearchResult: Flow<PagingData<ExternalRecipe>>? = null
@@ -41,9 +39,9 @@ class DiscoverRecipesViewModel(application: Application) : AndroidViewModel(appl
     fun searchExternalRecipes(searchQuery: String) : Flow<PagingData<ExternalRecipe>> {
         Timber.i("launching searchQuery: $searchQuery")
         val lastResult = currentSearchResult
-        Timber.i("lastResult: ${lastResult}")
+        Timber.i("lastResult: $lastResult")
         if (searchQuery == currentQueryValue && lastResult != null) {
-            Timber.i("old search result: ${lastResult}")
+            Timber.i("old search result: $lastResult")
             return lastResult
         }
         currentQueryValue = searchQuery

@@ -18,7 +18,7 @@ fun convertNumericMealTypeToString(mealSelection: Int, resources: Resources): St
     return mealString
 }
 
-// as DB uses Integers to divide items into categories, here is the conversion to Strings
+// as DB uses Strings to divide items into categories, here is the conversion to Int
 fun convertStringMealTypeToNumeric(mealSelection: String, resources: Resources): Int {
 
     var mealString = 1
@@ -31,3 +31,5 @@ fun convertStringMealTypeToNumeric(mealSelection: String, resources: Resources):
     }
     return mealString
 }
+
+

@@ -113,8 +113,8 @@ class FavoritesAdapter(
 }
 
 //defining click listeners to respond to clicks on RW
-open class FavoritesOnClickListener(val clickListener: (id: String) -> Unit) {
-    fun onClick(recipe: RecipeEntry) = clickListener(recipe.id)
+open class FavoritesOnClickListener(val clickListener: (recipe: RecipeEntry) -> Unit) {
+    fun onClick(recipe: RecipeEntry) = clickListener(recipe)
 }
 
 

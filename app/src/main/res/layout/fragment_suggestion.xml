@@ -7,6 +7,9 @@
         <variable
             name="viewModel"
             type="vaida.dryzaite.foodmood.ui.suggestionPage.SuggestionViewModel" />
+        <variable
+            name="args"
+            type="vaida.dryzaite.foodmood.ui.suggestionPage.SuggestionFragmentArgs" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +42,7 @@
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
             app:layout_constraintTop_toTopOf="@id/horizontal_guideline_top"
             tools:text="@string/suggestion_for_meal_text"
-            app:mealTypeFormatted="@{viewModel.randomRecipe}"
+            app:mealTypeFormatted="@{viewModel.randomRecipe ?? args.recipeEntry}"
             />
 <!--        android:text="@{@string/suggestion(suggestionViewModel.title)}"-->
         <TextView
@@ -48,7 +51,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/dosis_medium"
             android:gravity="center_horizontal"
-            android:text="@{viewModel.randomRecipe.title}"
+            android:text="@{viewModel.randomRecipe.title ?? args.recipeEntry.title}"
             android:textSize="@dimen/generate_random_meal_text_size"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -66,7 +69,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_bottom"
             app:layout_constraintVertical_chainStyle="spread"
-            android:onClick="@{() -> viewModel.onButtonClick()}"/>
+            android:onClick="@{() -> viewModel.onButtonClick(viewModel.randomRecipe.recipe ?? args.recipeEntry.recipe)}"/>
 
 
         <androidx.constraintlayout.widget.Guideline

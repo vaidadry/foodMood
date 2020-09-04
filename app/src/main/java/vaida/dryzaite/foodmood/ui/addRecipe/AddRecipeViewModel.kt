@@ -1,25 +1,21 @@
 package vaida.dryzaite.foodmood.ui.addRecipe
 
-import android.app.Application
 import androidx.databinding.ObservableField
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.model.RecipeGenerator
+import vaida.dryzaite.foodmood.repository.RecipeRepository
 import vaida.dryzaite.foodmood.utilities.isValidUrl
+import javax.inject.Inject
 
 
-class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerator(),
-                         application: Application)
-    : AndroidViewModel(application) {
+class AddRecipeViewModel @Inject constructor(
+    private val generator: RecipeGenerator,
+    private val repository: RecipeRepository) : ViewModel() {
 
-    private val repository = Injection.provideRecipeRepository(application)
 
     private val newRecipe = MutableLiveData<RecipeEntry?>()
 
@@ -27,15 +23,13 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
         repository.insertRecipe(recipeEntry)
     }
 
-
-
     //defining RecipeEntry  parameters
     val title = ObservableField<String>("")
     var veggie = ObservableField<Boolean>(false)
     var fish = ObservableField<Boolean>(false)
     var meal = ObservableField<Int>(0)
     var recipe = ObservableField<String>("")
-    val ingredients = ""
+    val ingredients = ObservableField<String>("")
 
 
     private lateinit var entry: RecipeEntry
@@ -48,7 +42,7 @@ class AddRecipeViewModel(private val generator: RecipeGenerator = RecipeGenerato
             fish.get() ?: false,
             meal.get() ?: 0,
             recipe.get() ?: "",
-            ingredients
+            ingredients.get() ?: ""
         )
         newRecipe.value = entry
     }

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="vaida.dryzaite.foodmood.ui.discoverRecipePage.DiscoverRecipeDetailViewModel" />

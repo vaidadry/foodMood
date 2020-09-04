@@ -2,8 +2,6 @@ package vaida.dryzaite.foodmood.ui.recipeList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +22,7 @@ class RecipeListAdapter(
     : RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder>(), ItemTouchHelperListener{
 
 
-    var recipeFilterList = ArrayList<RecipeEntry>()
+    private var recipeFilterList = ArrayList<RecipeEntry>()
 
     init {
         recipeFilterList = recipes as ArrayList<RecipeEntry>
@@ -116,8 +114,8 @@ class RecipeListAdapter(
 
 
 //defining click listeners to respond to clicks on RW
-open class RecipeListOnClickListener(val clickListener: (id: String) -> Unit) {
-    fun onClick(recipe: RecipeEntry) = clickListener(recipe.id)
+open class RecipeListOnClickListener(val clickListener: (recipe: RecipeEntry) -> Unit) {
+    fun onClick(recipe: RecipeEntry) = clickListener(recipe)
 }
 
 

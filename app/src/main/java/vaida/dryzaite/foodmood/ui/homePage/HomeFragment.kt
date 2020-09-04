@@ -1,11 +1,13 @@
 package vaida.dryzaite.foodmood.ui.homePage
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -15,13 +17,15 @@ import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentHome2Binding
 import vaida.dryzaite.foodmood.model.RecipeEntry
+import vaida.dryzaite.foodmood.ui.main.MainActivity
 import vaida.dryzaite.foodmood.ui.recipeList.RecipeListFragmentDirections
+import javax.inject.Inject
 
 
 class HomeFragment : Fragment() {
-    private lateinit var binding: FragmentHome2Binding
-    private lateinit var viewModel: HomeViewModel
 
+    @Inject lateinit var viewModel: HomeViewModel
+    private lateinit var binding: FragmentHome2Binding
 
 //    handling back button clicks not to return to recipe list
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,18 +37,15 @@ class HomeFragment : Fragment() {
         })
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentHome2Binding.inflate(inflater, container, false)
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as MainActivity).mainComponent.inject(this)
+    }
 
-        val application = requireNotNull(this.activity).application
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home_2, container, false)
 
-        //enabling viewModel data binding in fragment
-        val viewModelFactory = HomeViewModelFactory(application)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(HomeViewModel::class.java)
+
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
@@ -68,17 +69,13 @@ class HomeFragment : Fragment() {
                 true -> {
                     Timber.i("navigateToSuggestionPage(): SHOWING generated recipe: ${viewModel.randomRecipe.value}")
                     this.findNavController().navigate(
-                        HomeFragmentDirections.actionHomeFragment2ToSuggestionFragment(viewModel.randomRecipe.value?.id.toString())
+                        HomeFragmentDirections.actionHomeFragment2ToSuggestionFragment(viewModel.randomRecipe.value)
                     )
                     viewModel.doneNavigating()
                 }
                 false -> {
                     Timber.i("Cant show recipe coz, no recipes added")
-                    Toast.makeText(
-                        context,
-                        getString(R.string.error_showing_recipe),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(context, getString(R.string.error_showing_recipe), Toast.LENGTH_SHORT).show()
                     viewModel.doneNavigating()
                 }
             }

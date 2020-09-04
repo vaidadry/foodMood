@@ -1,17 +1,13 @@
 package vaida.dryzaite.foodmood.ui.homePage
 
-import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.*
 import timber.log.Timber
-import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.repository.RecipeRepository
+import javax.inject.Inject
 
-class HomeViewModel(application: Application): AndroidViewModel(application) {
-
-    private val repository: RecipeRepository = Injection.provideRecipeRepository(application)
-
+class HomeViewModel @Inject constructor(private val repository: RecipeRepository): ViewModel() {
 
     // "_" means that it is a backing property; in fragment only original ones must be used.
     //property to hold meal selection

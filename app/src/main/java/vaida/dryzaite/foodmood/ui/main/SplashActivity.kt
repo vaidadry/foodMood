@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.databinding.DataBindingUtil
+import kotlinx.android.synthetic.main.fragment_discover_recipes.*
+import vaida.dryzaite.foodmood.FoodmoodApplication
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.ActivitySplashBinding
 
@@ -17,11 +17,17 @@ class SplashActivity : AppCompatActivity() {
     private val SPLASH_TIME_OUT: Long =  500
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        (application as FoodmoodApplication).appComponent.inject(this)
+
         setTheme(R.style.AppTheme)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         actionBar?.hide()
+
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+        // Inflate with View binding to optimize space, as no databinding used
+        binding = ActivitySplashBinding.inflate(layoutInflater, container, false)
+        setContentView(binding.root)
 
         Handler().postDelayed({
             startActivity(

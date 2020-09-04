@@ -1,14 +1,16 @@
 package vaida.dryzaite.foodmood.model
 
+import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 
 // creating entity with db table info, setting primary key to ID, which is Unique
-
+@Parcelize
 @Entity(tableName = "recipe_table" )
 data class RecipeEntry(
     @PrimaryKey @NonNull
@@ -29,4 +31,4 @@ data class RecipeEntry(
     var isFavorite: Boolean = false,
     @ColumnInfo (name = "ingredients")
     var ingredients: String = ""
-)
+) : Parcelable

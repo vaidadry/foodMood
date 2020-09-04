@@ -1,5 +1,6 @@
 package vaida.dryzaite.foodmood.ui.discoverRecipes
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -25,26 +26,28 @@ import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentDiscoverRecipesBinding
 import vaida.dryzaite.foodmood.ui.favoritesPage.SpacingItemDecorator
+import vaida.dryzaite.foodmood.ui.main.MainActivity
+import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 class DiscoverRecipesFragment : Fragment() {
 
-    private lateinit var gridItemDecoration: RecyclerView.ItemDecoration
+    @Inject lateinit var viewModel: DiscoverRecipesViewModel
     private lateinit var adapter: DiscoverRecipesAdapter
     private lateinit var binding: FragmentDiscoverRecipesBinding
-
-    private val viewModel: DiscoverRecipesViewModel by lazy {
-        val application = requireNotNull(this.activity).application
-        val viewModelFactory = DiscoverRecipesViewModelFactory(application)
-        ViewModelProvider(this, viewModelFactory).get(DiscoverRecipesViewModel::class.java)
-    }
+    private lateinit var gridItemDecoration: RecyclerView.ItemDecoration
 
     private var searchJob: Job? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as MainActivity).mainComponent.inject(this)
+    }
 
     @InternalCoroutinesApi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment. View binding to optimize space, as no databinding used
         binding = FragmentDiscoverRecipesBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this

@@ -22,7 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/top_nav_menu_item"
-            app:title="@{viewModel.detailRecipe.title}"
+            app:title="@{viewModel.recipe.title}"
             tools:title="@string/title" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,7 +42,7 @@
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toTopOf="parent"
-                app:mealTypeIcon="@{viewModel.detailRecipe}"
+                app:mealTypeIcon="@{viewModel.recipe}"
                 tools:srcCompat="@drawable/ic_3" />
 
             <TextView
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:fontFamily="@font/dosis_bold"
-                android:text="@{viewModel.recipeDetail.title}"
+                android:text="@{viewModel.recipe.title}"
                 android:textSize="@dimen/generate_random_meal_text_size"
                 android:maxLines="3"
                 app:layout_constraintBottom_toTopOf="@id/detail_url"
@@ -71,7 +71,7 @@
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toBottomOf="@id/detail_title"
-                app:mealTypeText="@{viewModel.recipeDetail}"
+                app:mealTypeText="@{viewModel.recipe}"
                 tools:text="meal" />
 
             <TextView
@@ -87,7 +87,7 @@
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toBottomOf="@id/detail_meal"
-                android:text="@{viewModel.recipeDetail.ingredients}"
+                android:text="@{viewModel.recipe.ingredients}"
                 tools:text="ingredients" />
 
 

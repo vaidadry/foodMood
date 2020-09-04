@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="dataclassRecipeEntry"
             type="vaida.dryzaite.foodmood.model.RecipeEntry" />
@@ -12,7 +11,6 @@
         <variable
             name="clickListener"
             type="vaida.dryzaite.foodmood.ui.favoritesPage.FavoritesOnClickListener" />
-
     </data>
 
     <androidx.cardview.widget.CardView

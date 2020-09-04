@@ -1,37 +1,41 @@
 package vaida.dryzaite.foodmood.ui.recipePage
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.CheckBox
 import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import kotlinx.android.synthetic.main.fragment_recipe_detail.*
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentRecipeDetailBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
+import vaida.dryzaite.foodmood.ui.main.MainActivity
 import vaida.dryzaite.foodmood.utilities.convertNumericMealTypeToString
+import javax.inject.Inject
 
 
 class RecipeFragment : Fragment(), Toolbar.OnMenuItemClickListener {
 
-    private lateinit var viewModel: RecipeViewModel
+    @Inject lateinit var viewModel: RecipeViewModel
     private lateinit var binding: FragmentRecipeDetailBinding
-    private lateinit var viewModelFactory: RecipeViewModelFactory
+    private val args by navArgs<RecipeFragmentArgs>()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as MainActivity).mainComponent.inject(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentRecipeDetailBinding.inflate(inflater, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe_detail, container, false)
 
-        val application = requireNotNull(this.activity).application
-        val arguments = RecipeFragmentArgs.fromBundle(requireArguments())
-
-        viewModelFactory = RecipeViewModelFactory(arguments.keyId, application)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(RecipeViewModel::class.java)
-
+        viewModel.setRecipe(args.recipeEntry)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
@@ -57,7 +61,7 @@ class RecipeFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         val checkbox = favoriteMenuItem.actionView as CheckBox
 
         //observer handling fav button clicks
-        viewModel.recipeDetail.observe(viewLifecycleOwner, Observer {
+        viewModel.recipe.observe(viewLifecycleOwner, Observer {
             setupFavoriteToggle(checkbox, it)
         })
 
@@ -73,7 +77,7 @@ class RecipeFragment : Fragment(), Toolbar.OnMenuItemClickListener {
 
 //    intent for sharing a recipe via other apps
     private fun getShareIntent(): Intent {
-        val recipe = viewModel.recipeDetail.value!!
+        val recipe = viewModel.recipe.value!!
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.setType("text/plain").putExtra(Intent.EXTRA_TEXT,
             getString(R.string.share_message, recipe.title, convertNumericMealTypeToString(recipe.meal, resources), recipe.recipe))
@@ -103,6 +107,4 @@ class RecipeFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         view?.context?.startActivity(intent)
     }
-
-
 }

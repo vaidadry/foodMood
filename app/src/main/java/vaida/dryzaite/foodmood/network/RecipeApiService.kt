@@ -16,24 +16,24 @@ interface RecipeApiService {
         @Query("p") page: Int = 1
     ) : Call<Response>
 
-    companion object {
-        private const val BASE_URL = "http://www.recipepuppy.com"
-
-        fun create(): RecipeApiService {
-            val logger = HttpLoggingInterceptor()
-            logger.level = HttpLoggingInterceptor.Level.BASIC
-
-            val client = OkHttpClient.Builder()
-                .addInterceptor(logger)
-                .build()
-            return Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(RecipeApiService::class.java)
-        }
-    }
+//    companion object {
+//        private const val BASE_URL = "http://www.recipepuppy.com"
+//
+//        fun create(): RecipeApiService {
+//            val logger = HttpLoggingInterceptor()
+//            logger.level = HttpLoggingInterceptor.Level.BASIC
+//
+//            val client = OkHttpClient.Builder()
+//                .addInterceptor(logger)
+//                .build()
+//            return Retrofit.Builder()
+//                .baseUrl(BASE_URL)
+//                .client(client)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build()
+//                .create(RecipeApiService::class.java)
+//        }
+//    }
 }
 
 
