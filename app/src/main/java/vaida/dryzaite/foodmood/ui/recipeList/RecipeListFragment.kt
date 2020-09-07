@@ -7,6 +7,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,9 +24,12 @@ import javax.inject.Inject
 
 class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListener {
 
-    @Inject lateinit var viewModel: RecipeListViewModel
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var binding: FragmentRecipeListBinding
     private lateinit var adapter: RecipeListAdapter
+
+    private val viewModel: RecipeListViewModel by viewModels { viewModelFactory }
+
 
     //handling back button clicks not to return to add-form
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,13 +53,6 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe_list, container, false)
-
-        //reference to context, to get database instance
-//        val application = requireNotNull(this.activity).application
-//
-//        val viewModelFactory = RecipeListViewModelFactory(application)
-//        viewModel = ViewModelProvider(this, viewModelFactory).get(RecipeListViewModel::class.java)
-
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
@@ -77,7 +75,6 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         setupViews()
 
         setupAdapter()
-
         setupRecyclerView()
 
         setupItemTouchHelper()
@@ -111,6 +108,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
             }
         })
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -155,7 +153,6 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
     override fun addFavorites(recipe: RecipeEntry) {
         Timber.i("addFavorites called  ")
         viewModel.addFavorites(recipe)
-
     }
 
 
@@ -218,7 +215,4 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         viewModel.onRecipeDetailNavigated()
     }
 
-    companion object {
-        private const val LAST_FILTER: String = "null"
-    }
 }

@@ -7,6 +7,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -26,17 +27,19 @@ import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentDiscoverRecipesBinding
 import vaida.dryzaite.foodmood.ui.favoritesPage.SpacingItemDecorator
+import vaida.dryzaite.foodmood.ui.homePage.HomeViewModel
 import vaida.dryzaite.foodmood.ui.main.MainActivity
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 class DiscoverRecipesFragment : Fragment() {
 
-    @Inject lateinit var viewModel: DiscoverRecipesViewModel
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var adapter: DiscoverRecipesAdapter
     private lateinit var binding: FragmentDiscoverRecipesBinding
     private lateinit var gridItemDecoration: RecyclerView.ItemDecoration
 
+    private val viewModel: DiscoverRecipesViewModel by viewModels { viewModelFactory }
     private var searchJob: Job? = null
 
     override fun onAttach(context: Context) {

@@ -9,13 +9,16 @@ import android.widget.CheckBox
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import kotlinx.android.synthetic.main.fragment_recipe_detail.*
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentRecipeDetailBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
+import vaida.dryzaite.foodmood.ui.homePage.HomeViewModel
 import vaida.dryzaite.foodmood.ui.main.MainActivity
 import vaida.dryzaite.foodmood.utilities.convertNumericMealTypeToString
 import javax.inject.Inject
@@ -23,9 +26,12 @@ import javax.inject.Inject
 
 class RecipeFragment : Fragment(), Toolbar.OnMenuItemClickListener {
 
-    @Inject lateinit var viewModel: RecipeViewModel
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var binding: FragmentRecipeDetailBinding
+
     private val args by navArgs<RecipeFragmentArgs>()
+    private val viewModel: RecipeViewModel by viewModels { viewModelFactory }
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

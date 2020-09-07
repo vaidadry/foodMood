@@ -1,17 +1,16 @@
-package vaida.dryzaite.foodmood.utilities
+package vaida.dryzaite.foodmood.databinding
 
 import android.annotation.SuppressLint
 import android.widget.ImageView
-import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.Resource
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.chip.Chip
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.model.RecipeEntry
+import vaida.dryzaite.foodmood.utilities.convertNumericMealTypeToString
 
 import java.util.*
 
@@ -23,7 +22,8 @@ import java.util.*
 @BindingAdapter("mealTypeFormatted")
 fun TextView.setMealTypeFormatted(recipe: RecipeEntry?) {
     recipe?.let {
-        text = "Suggestion for \n ${convertNumericMealTypeToString(recipe.meal, context.resources).toLowerCase(
+        text = "Suggestion for \n ${
+            convertNumericMealTypeToString(recipe.meal, context.resources).toLowerCase(
             Locale.ROOT)}"
     }
 }

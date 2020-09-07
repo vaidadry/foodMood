@@ -11,11 +11,6 @@ import javax.inject.Inject
 
 class RecipeListViewModel @Inject constructor(private val repository: RecipeRepository) : ViewModel() {
 
-   private val _recipeList = MutableLiveData<List<RecipeEntry>>()
-    val recipeList : LiveData<List<RecipeEntry>>
-            get() = _recipeList
-
-
     //defining navigation state
     private val _navigateToRecipeDetail = MutableLiveData<RecipeEntry>()
     val navigateToRecipeDetail : LiveData<RecipeEntry>
