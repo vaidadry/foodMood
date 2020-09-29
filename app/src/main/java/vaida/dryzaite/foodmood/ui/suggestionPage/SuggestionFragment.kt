@@ -31,7 +31,7 @@ class SuggestionFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_suggestion, container, false)
 
-//      enabling data binding between view Model and layout
+        // enabling data binding between view Model and layout
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 

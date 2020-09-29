@@ -44,7 +44,7 @@
             tools:text="@string/suggestion_for_meal_text"
             app:mealTypeFormatted="@{viewModel.randomRecipe ?? args.recipeEntry}"
             />
-<!--        android:text="@{@string/suggestion(suggestionViewModel.title)}"-->
+
         <TextView
             android:id="@+id/suggestion_text_view"
             android:layout_width="wrap_content"

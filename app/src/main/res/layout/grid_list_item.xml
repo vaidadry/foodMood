@@ -32,14 +32,6 @@
             android:layout_height="@dimen/list_item_height_with_divider"
             android:background="@color/colorPrimary">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/discover_card_info"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/favorite"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/discover_image"
@@ -59,33 +51,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/normal_padding"
+                android:layout_marginEnd="@dimen/normal_padding"
                 android:fontFamily="@font/dosis_medium"
                 android:text="@{externalRecipe.title}"
                 android:textAlignment="viewStart"
                 android:textColor="@color/Text"
                 android:textSize="@dimen/list_item_text_size"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/discover_card_info"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/discover_image"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="RecipeTitle" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <CheckBox
-            android:id="@+id/favorite"
-            style="@style/FavoriteCheckbox"
-            android:layout_width="@dimen/favorite_icon_size"
-            android:layout_height="@dimen/favorite_icon_size"
-            android:layout_marginEnd="@dimen/half_padding"
-            android:layout_marginStart="@dimen/half_padding"
-            android:contentDescription="@string/content_description_favorite"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/discover_card_info"
-            app:layout_constraintTop_toTopOf="parent"
-            android:saveEnabled="false"
-            />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

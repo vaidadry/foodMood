@@ -3,6 +3,7 @@ package vaida.dryzaite.foodmood.ui.favoritesPage
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.repository.RecipeRepository
 import javax.inject.Inject
@@ -17,7 +18,7 @@ class FavoritesViewModel @Inject constructor(private val repository: RecipeRepos
     }
 
     //defining navigation state
-    private val _navigateToRecipeDetail = MutableLiveData<RecipeEntry>()
+    private val _navigateToRecipeDetail = MutableLiveData<RecipeEntry?>()
     val navigateToRecipeDetail
         get() = _navigateToRecipeDetail
 

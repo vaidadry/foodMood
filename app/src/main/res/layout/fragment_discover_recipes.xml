@@ -22,7 +22,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:menu="@menu/top_nav_menu"
+            app:menu="@menu/top_nav_menu_discover"
             app:title="@string/discover"/>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -41,7 +41,7 @@
                 android:id="@+id/search_recipe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/search"
+                android:hint="@string/search_by_title"
                 android:imeOptions="actionSearch"
                 android:inputType="textNoSuggestions"
                 android:selectAllOnFocus="true"

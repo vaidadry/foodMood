@@ -7,8 +7,7 @@ import timber.log.Timber
 import vaida.dryzaite.foodmood.network.ExternalRecipe
 import vaida.dryzaite.foodmood.network.RecipeApiService
 import java.io.IOException
-
-private const val API_STARTING_PAGE_INDEX = 1
+import vaida.dryzaite.foodmood.utilities.API_STARTING_PAGE_INDEX
 
 //PagingSource implementation defines the source of data and how to retrieve data from that source
 class ApiRecipesPagingSource(

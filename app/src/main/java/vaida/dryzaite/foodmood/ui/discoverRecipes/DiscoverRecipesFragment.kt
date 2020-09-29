@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_discover_recipes.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -26,9 +26,10 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentDiscoverRecipesBinding
-import vaida.dryzaite.foodmood.ui.favoritesPage.SpacingItemDecorator
-import vaida.dryzaite.foodmood.ui.homePage.HomeViewModel
 import vaida.dryzaite.foodmood.ui.main.MainActivity
+import vaida.dryzaite.foodmood.utilities.DEFAULT_SEARCH_QUERY
+import vaida.dryzaite.foodmood.utilities.DividerItemDecoration
+import vaida.dryzaite.foodmood.utilities.LAST_SEARCH_QUERY
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -37,8 +38,6 @@ class DiscoverRecipesFragment : Fragment() {
     @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var adapter: DiscoverRecipesAdapter
     private lateinit var binding: FragmentDiscoverRecipesBinding
-    private lateinit var gridItemDecoration: RecyclerView.ItemDecoration
-
     private val viewModel: DiscoverRecipesViewModel by viewModels { viewModelFactory }
     private var searchJob: Job? = null
 
@@ -50,7 +49,7 @@ class DiscoverRecipesFragment : Fragment() {
     @InternalCoroutinesApi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        // Inflate the layout for this fragment. View binding to optimize space, as no databinding used
+        // Inflate the layout for this fragment. View binding to optimize space, as no data binding used
         binding = FragmentDiscoverRecipesBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
@@ -59,13 +58,13 @@ class DiscoverRecipesFragment : Fragment() {
         initAdapter()
 
         //preparing search functionality
-        val query = savedInstanceState?.getString(LAST_SEARCH_QUERY) ?: DEFAULT_QUERY
+        val query = savedInstanceState?.getString(LAST_SEARCH_QUERY) ?: DEFAULT_SEARCH_QUERY
         search(query)
         initSearch(query)
 
 
         // observing navigation state and navigating to detail page
-        viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, {
             if ( null != it) {
                 this.findNavController().navigate(
                     DiscoverRecipesFragmentDirections.actionDiscoverRecipesFragmentToDiscoverRecipeDetailFragment(it))
@@ -93,22 +92,17 @@ class DiscoverRecipesFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
-        setupItemDecoration()
+//        setupItemDecoration()
+        addListDividerDecoration()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.top_nav_menu, menu)
-
-        //setup clicks on icons in toolbar
-        val searchIcon = menu.findItem(R.id.search_menu_item)
-        searchIcon.actionView.setOnClickListener {
-            menu.performIdentifierAction(
-                searchIcon.itemId,
-                0
-            )
-        }
+        inflater.inflate(R.menu.top_nav_menu_discover, menu)
+        toolbar.overflowIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_search)
     }
+
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         Timber.i("onOptionsItemSelected")
@@ -117,7 +111,12 @@ class DiscoverRecipesFragment : Fragment() {
                 Timber.i("search selected")
                 hideShowSearchBar()
             }
+            R.id.search_by_ingredient_menu_item -> {
+                Timber.i("search selected")
+                hideShowSearchBar()
+            }
         }
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -202,20 +201,19 @@ class DiscoverRecipesFragment : Fragment() {
         }
     }
 
-    //    adding spacing decorator for equal spacing between grid items
-    private fun setupItemDecoration() {
-        val spacingInPixels = resources.getDimensionPixelSize(R.dimen.recipe_card_grid_layout_margin)
-        gridItemDecoration = SpacingItemDecorator(3, spacingInPixels)
-        binding.discoverListRecyclerview.addItemDecoration(gridItemDecoration)
+
+    private fun addListDividerDecoration() {
+        //adding list divider decorations
+        val heightInPixels = resources.getDimensionPixelSize(R.dimen.list_item_divider_height)
+        binding.discoverListRecyclerview.addItemDecoration(
+            DividerItemDecoration(
+                R.color.Text,
+                heightInPixels
+            )
+        )
     }
 
     private fun hideShowSearchBar() {
         binding.discoverSearchInput.visibility = if (discover_search_input.visibility == View.GONE) View.VISIBLE else View.GONE
     }
-
-    companion object {
-        private const val LAST_SEARCH_QUERY: String = "last_search_query"
-        private const val DEFAULT_QUERY = ""
-    }
-
 }

@@ -43,8 +43,6 @@ abstract class RecipeDatabase: RoomDatabase() {
                     INSTANCE = instance
                 }
                 return instance
-
-
             }
         }
     }

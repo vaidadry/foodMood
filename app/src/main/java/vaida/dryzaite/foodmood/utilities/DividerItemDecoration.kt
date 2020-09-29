@@ -1,4 +1,4 @@
-package vaida.dryzaite.foodmood.ui.recipeList
+package vaida.dryzaite.foodmood.utilities
 
 import android.graphics.Canvas
 import android.graphics.Paint

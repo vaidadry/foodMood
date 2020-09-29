@@ -7,6 +7,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -19,7 +20,10 @@ import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentRecipeListBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.ui.main.MainActivity
+import vaida.dryzaite.foodmood.utilities.BUNDLE_KEY
+import vaida.dryzaite.foodmood.utilities.DividerItemDecoration
 import vaida.dryzaite.foodmood.utilities.ItemTouchHelperCallback
+import vaida.dryzaite.foodmood.utilities.REQUEST_KEY
 import javax.inject.Inject
 
 class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListener {
@@ -45,6 +49,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
         super.onAttach(context)
         (activity as MainActivity).mainComponent.inject(this)
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,24 +84,41 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
         setupItemTouchHelper()
 
+        // listening to data change in Favorites fragment and updating data in RV
+        setFragmentResultListener(REQUEST_KEY) { key, bundle ->
+            val result = bundle.getBoolean(BUNDLE_KEY)
+            Timber.i("listening to result : $result")
+            if (result) {
+                viewModel.allRecipes.observe(viewLifecycleOwner, { recipes ->
+                    recipes?.let {
+                        adapter.recipes = it
+                        Timber.i("adapter updated : ${it.map { recipe -> 
+                            recipe.isFavorite }}")
+                    }
+                })
+            }
+            Timber.i("UPDATE FINISHED")
+        }
+
         //updating Live data observer with ViewModel data - filtering applied
-        viewModel.mealSelection.observe(viewLifecycleOwner, {
-            viewModel.initFilter().observe(viewLifecycleOwner, { recipes ->
-                recipes?.let {
-                    adapter.updateRecipes(recipes)
-                }
-                checkForEmptyState()
+            viewModel.mealSelection.observe(viewLifecycleOwner, {
+                viewModel.initFilter().observe(viewLifecycleOwner, { recipes ->
+                    recipes?.let {
+                        adapter.recipes = it
+                    }
+                    checkForEmptyState()
+                })
             })
-        })
 
         addListDividerDecoration()
 
 
         //set up observer to react on item taps and enable navigation
-        viewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, { keyId->
+        viewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, { keyId ->
             keyId?.let {
                 this.findNavController().navigate(
-                    RecipeListFragmentDirections.actionRecipeListFragmentToRecipeFragment(keyId))
+                    RecipeListFragmentDirections.actionRecipeListFragmentToRecipeFragment(keyId)
+                )
                 viewModel.onRecipeDetailNavigated()
             }
         })
@@ -107,21 +129,14 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
                 viewModel.onFavoriteClickCompleted()
             }
         })
-    }
 
+    }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.top_nav_menu, menu)
 
         //setup clicks on icons in toolbar
-        val searchIcon = menu.findItem(R.id.search_menu_item)
-        searchIcon.actionView.setOnClickListener {
-            menu.performIdentifierAction(
-                searchIcon.itemId,
-                0
-            )
-        }
         val favoriteIcon = menu.findItem(R.id.favorite_menu_item)
         favoriteIcon.actionView.setOnClickListener {
             menu.performIdentifierAction(
@@ -137,9 +152,6 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
             R.id.favorite_menu_item -> {
                 navigateToFavoritesPage()
                 Timber.i("favorite selected")
-            }
-            R.id.search_menu_item -> {
-                Timber.i("search selected")
             }
         }
         return super.onOptionsItemSelected(item)
@@ -175,7 +187,7 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
 
     private fun setupAdapter() {
-        adapter = RecipeListAdapter(mutableListOf(), this, RecipeListOnClickListener { recipe ->
+        adapter = RecipeListAdapter(this, RecipeListOnClickListener { recipe ->
             viewModel.onRecipeClicked(recipe)
         })
     }
@@ -191,7 +203,8 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
     private fun setupViews() {
         viewModel.navigateToAddRecipeFragment.observe(viewLifecycleOwner, {
             if (it == true) {
-                this.findNavController().navigate(R.id.action_recipeListFragment_to_addRecipeFragment)
+                this.findNavController()
+                    .navigate(R.id.action_recipeListFragment_to_addRecipeFragment)
                 viewModel.onFabClicked()
             }
         })
@@ -211,7 +224,8 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
 
     private fun navigateToFavoritesPage() {
         this.findNavController().navigate(
-            RecipeListFragmentDirections.actionRecipeListFragmentToFavoritesFragment())
+            RecipeListFragmentDirections.actionRecipeListFragmentToFavoritesFragment()
+        )
         viewModel.onRecipeDetailNavigated()
     }
 

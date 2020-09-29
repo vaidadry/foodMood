@@ -7,6 +7,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.favorites_card_item.view.*
@@ -20,18 +21,12 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class FavoritesAdapter(
-    private val recipes: MutableList<RecipeEntry>,
     private val clickListener: FavoritesOnClickListener,
     private val listener: FavoritesAdapterListener)
     : RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder>(){
 
 
     var scrollDirection = ScrollDirection.DOWN
-    private var recipeFilterList = ArrayList<RecipeEntry>()
-
-    init {
-        recipeFilterList = recipes as ArrayList<RecipeEntry>
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -39,22 +34,28 @@ class FavoritesAdapter(
         return FavoritesViewHolder(binding)
     }
 
-    override fun getItemCount() = recipeFilterList.size
+    override fun getItemCount() = favRecipes.size
 
     override fun onBindViewHolder(holder: FavoritesViewHolder, position: Int) {
-        holder.bind(recipeFilterList[position], clickListener)
+        holder.bind(favRecipes[position], clickListener)
     }
 
-    fun updateRecipes(recipes: List<RecipeEntry>) {
-        //implementing diff callback to calculate differences and send updates to adapter
-        val diffCallback = RecipeDiffCallback(this.recipes, recipes)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
+    private val diffCallback = object : DiffUtil.ItemCallback<RecipeEntry>() {
+        override fun areItemsTheSame(oldItem: RecipeEntry, newItem: RecipeEntry): Boolean {
+            return oldItem.id == newItem.id
+        }
 
-        this.recipes.clear()
-        this.recipes.addAll(recipes)
-
-        diffResult.dispatchUpdatesTo(this)
+        override fun areContentsTheSame(oldItem: RecipeEntry, newItem: RecipeEntry): Boolean {
+            return oldItem.hashCode() == newItem.hashCode()
+        }
     }
+
+    private val differ = AsyncListDiffer(this, diffCallback)
+
+    var favRecipes: List<RecipeEntry>
+        get() = differ.currentList
+        set(value) = differ.submitList(value)
+
 
 
     inner class FavoritesViewHolder(val binding: FavoritesCardItemBinding) : RecyclerView.ViewHolder(binding.root),

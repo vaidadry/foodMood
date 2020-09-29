@@ -24,18 +24,18 @@ class AddRecipeViewModel @Inject constructor(
     }
 
     //defining RecipeEntry  parameters
-    val title = ObservableField<String>("")
-    var veggie = ObservableField<Boolean>(false)
-    var fish = ObservableField<Boolean>(false)
-    var meal = ObservableField<Int>(0)
-    var recipe = ObservableField<String>("")
-    val ingredients = ObservableField<String>("")
+    var title = ObservableField<String>()
+    var veggie = ObservableField<Boolean>()
+    var fish = ObservableField<Boolean>()
+    var meal = ObservableField<Int>()
+    var recipe = ObservableField<String>()
+    var ingredients = ObservableField<String>()
 
 
-    private lateinit var entry: RecipeEntry
+    lateinit var entry: RecipeEntry
 
 
-    fun updateEntry() {
+    private fun updateEntry() {
         entry = generator.generateRecipe(
             title.get() ?: "",
             veggie.get() ?: false,

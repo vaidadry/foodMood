@@ -43,6 +43,7 @@ class RecipeListViewModel @Inject constructor(private val repository: RecipeRepo
     }
 
     private fun getAllRecipesLiveData() = repository.getAllRecipes()
+    val allRecipes = repository.getAllRecipes()
 
 
     private fun deleteRecipe(recipeEntry: RecipeEntry) = viewModelScope.launch(Dispatchers.IO) {

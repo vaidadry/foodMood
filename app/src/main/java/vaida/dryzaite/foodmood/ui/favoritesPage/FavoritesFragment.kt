@@ -6,17 +6,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentFavoritesBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.ui.homePage.HomeViewModel
 import vaida.dryzaite.foodmood.ui.main.MainActivity
+import vaida.dryzaite.foodmood.ui.recipeList.RecipeListFragmentDirections
+import vaida.dryzaite.foodmood.utilities.BUNDLE_KEY
+import vaida.dryzaite.foodmood.utilities.REQUEST_KEY
 import javax.inject.Inject
 
 
@@ -29,15 +35,23 @@ class FavoritesFragment : Fragment(), FavoritesAdapter.FavoritesAdapterListener 
 
     private val viewModel: FavoritesViewModel by viewModels { viewModelFactory }
 
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (activity as MainActivity).mainComponent.inject(this)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().navigate(FavoritesFragmentDirections.actionFavoritesFragmentToRecipeListFragment())
+            }
+        })
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        // Inflate with View binding to optimize space, as no databinding used
+        // Inflate with View binding to optimize space, as no data binding used
         binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
@@ -55,15 +69,15 @@ class FavoritesFragment : Fragment(), FavoritesAdapter.FavoritesAdapterListener 
         setupScrollListener()
 
         //updating Live data observer with ViewModel data
-        viewModel.getFavorites().observe(viewLifecycleOwner, Observer { recipes ->
+        viewModel.getFavorites().observe(viewLifecycleOwner, { recipes ->
             recipes?.let {
-                adapter.updateRecipes(recipes)
+                adapter.favRecipes = it
             }
             checkForEmptyState()
         })
 
         //set up observer to react on item taps and enable navigation
-        viewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, Observer { keyId->
+        viewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, { keyId->
             keyId?.let {
                 this.findNavController().navigate(
                     FavoritesFragmentDirections.actionFavoritesFragmentToRecipeFragment(keyId))
@@ -72,8 +86,12 @@ class FavoritesFragment : Fragment(), FavoritesAdapter.FavoritesAdapterListener 
         })
 
         // observer to react to favorite button click state
-        viewModel.favoriteStatusChange.observe(viewLifecycleOwner, Observer {
+        viewModel.favoriteStatusChange.observe(viewLifecycleOwner, {
             if (it == true) {
+
+                 // send info to RecipeList fragment about changed data
+                setFragmentResult(REQUEST_KEY, bundleOf(BUNDLE_KEY to viewModel.favoriteStatusChange.value))
+
                 viewModel.onFavoriteClickCompleted()
             }
         })
@@ -93,8 +111,9 @@ class FavoritesFragment : Fragment(), FavoritesAdapter.FavoritesAdapterListener 
         })
     }
 
+
     private fun setupAdapter() {
-        adapter = FavoritesAdapter(mutableListOf(), FavoritesOnClickListener { id ->
+        adapter = FavoritesAdapter(FavoritesOnClickListener { id ->
             viewModel.onRecipeClicked(id)
         }, this)
     }

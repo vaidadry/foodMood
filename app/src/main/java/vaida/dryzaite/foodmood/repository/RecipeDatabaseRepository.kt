@@ -1,6 +1,5 @@
 package vaida.dryzaite.foodmood.repository
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -8,14 +7,12 @@ import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import vaida.dryzaite.foodmood.database.ApiRecipesPagingSource
-import vaida.dryzaite.foodmood.database.ExternalRecipesRemoteMediator
 import vaida.dryzaite.foodmood.database.RecipeDao
-import vaida.dryzaite.foodmood.database.RecipeDatabase
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.network.ExternalRecipe
 import vaida.dryzaite.foodmood.network.RecipeApiService
+import vaida.dryzaite.foodmood.utilities.NETWORK_PAGE_SIZE
 import javax.inject.Inject
-
 
 //Repository integrated with coroutines to send work off main thread
 class RecipeDatabaseRepository @Inject constructor(private val recipeDao: RecipeDao, private val service: RecipeApiService) : RecipeRepository {
@@ -61,9 +58,9 @@ class RecipeDatabaseRepository @Inject constructor(private val recipeDao: Recipe
 
     // search method run on flow coroutines and paging library
     override fun searchExternalRecipes(searchQuery: String): Flow<PagingData<ExternalRecipe>> {
-        Timber.i("searchExternalRecipes initiated")
+        Timber.i("searchExternalRecipes initiated: $searchQuery")
         // appending '%' so we can allow other characters to be before and after the query string
-        val dbQuery = "%${searchQuery.replace(' ', '%')}%"
+        val dbQuery = "${searchQuery}"
         val pagingSourceFactory =  { ApiRecipesPagingSource(service, dbQuery)}
 
         //TO FETCH DB + NETWORK (BUGS in API currently- reloading multiple times, crashing etc, so im using only network above)
@@ -84,10 +81,5 @@ class RecipeDatabaseRepository @Inject constructor(private val recipeDao: Recipe
 //            ),
             pagingSourceFactory = pagingSourceFactory
         ).flow
-    }
-
-
-    companion object {
-        private const val NETWORK_PAGE_SIZE = 10
     }
 }

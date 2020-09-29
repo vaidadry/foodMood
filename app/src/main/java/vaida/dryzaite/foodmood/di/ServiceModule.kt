@@ -7,9 +7,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import vaida.dryzaite.foodmood.network.RecipeApiService
+import vaida.dryzaite.foodmood.utilities.BASE_URL
 import javax.inject.Singleton
 
-const val BASE_URL = "http://www.recipepuppy.com"
 @Module
 class ServiceModule {
 

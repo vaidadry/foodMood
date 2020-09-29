@@ -37,13 +37,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val navController = findNavController(R.id.nav_host_fragment_container)
-        bottom_nav.setupWithNavController(navController)
+        binding.bottomNav.setupWithNavController(navController)
         // to ignore reloading on already open fragment
-        bottom_nav.setOnNavigationItemReselectedListener {
+        binding.bottomNav.setOnNavigationItemReselectedListener {
         }
 
-        viewModel.bottomNavigationVisibility.observe(this, Observer { navVisibility ->
-            bottom_nav.visibility = navVisibility
+        viewModel.bottomNavigationVisibility.observe(this, { navVisibility ->
+            binding.bottomNav.visibility = navVisibility
         })
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
