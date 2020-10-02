@@ -3,6 +3,8 @@ package vaida.dryzaite.foodmood.ui.discoverRecipes
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -14,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import com.google.android.flexbox.FlexboxLayout
+import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_discover_recipes.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -27,9 +31,7 @@ import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentDiscoverRecipesBinding
 import vaida.dryzaite.foodmood.ui.main.MainActivity
-import vaida.dryzaite.foodmood.utilities.DEFAULT_SEARCH_QUERY
 import vaida.dryzaite.foodmood.utilities.DividerItemDecoration
-import vaida.dryzaite.foodmood.utilities.LAST_SEARCH_QUERY
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -57,11 +59,6 @@ class DiscoverRecipesFragment : Fragment() {
 
         initAdapter()
 
-        //preparing search functionality
-        val query = savedInstanceState?.getString(LAST_SEARCH_QUERY) ?: DEFAULT_SEARCH_QUERY
-        search(query)
-        initSearch(query)
-
 
         // observing navigation state and navigating to detail page
         viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, {
@@ -72,6 +69,30 @@ class DiscoverRecipesFragment : Fragment() {
             }
         })
 
+//        observing ingredients list and creating chips accordingly
+        viewModel.ingredientsList.observe(viewLifecycleOwner, object : Observer<List<String>> {
+            override fun onChanged(data: List<String>?) {
+                data ?: return
+
+                val chipGroup = binding.ingredientsGroupFL
+                chipGroup.removeAllViews()
+
+                for (chip in data) {
+                    addNewChip(chip, chipGroup)
+                }
+                searchByIngredients(data)
+            }
+        })
+
+        //observing title search query and enabling search accordingly
+        viewModel.currentTitleSearchQuery.observe(viewLifecycleOwner, {
+            Timber.i("currentTitleSearchQuery CHANGE observed, triggers search: $it")
+                it?.let {
+                    binding.titleInputET.setText(it)
+                    searchByTitle(it)
+                }
+        })
+
         // enable Retry connection method
         binding.retryButton.setOnClickListener { adapter.retry() }
 
@@ -79,22 +100,13 @@ class DiscoverRecipesFragment : Fragment() {
     }
 
 
-    // to avoid  re-loading with state change
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        Timber.i("onSaveInstanceState initiated")
-        outState.putString(LAST_SEARCH_QUERY, binding.searchRecipe.text.trim().toString())
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
 
         setHasOptionsMenu(true)
 
-//        setupItemDecoration()
         addListDividerDecoration()
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -103,20 +115,27 @@ class DiscoverRecipesFragment : Fragment() {
         toolbar.overflowIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_search)
     }
 
-
+    @InternalCoroutinesApi
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Timber.i("onOptionsItemSelected")
         when (item.itemId) {
             R.id.search_menu_item -> {
-                Timber.i("search selected")
-                hideShowSearchBar()
+                Timber.i("search by title selected")
+
+                setupTitleInputListeners()
+
+                hideShowSearchByTitleBar()
+                binding.ingredientsSearchLayout.visibility =  View.GONE
+                binding.ingredientsGroupFL.visibility =  View.GONE
             }
             R.id.search_by_ingredient_menu_item -> {
-                Timber.i("search selected")
-                hideShowSearchBar()
+                Timber.i("search by ingredient selected")
+
+                setupIngredientsInputListeners()
+
+                hideShowSearchByIngredientBar()
+                binding.discoverSearchInputTitle.visibility =  View.GONE
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
 
@@ -141,49 +160,46 @@ class DiscoverRecipesFragment : Fragment() {
     }
 
     // to start search job + update adapter
-    private fun search(searchQuery: String) {
+    private fun searchByTitle(searchQuery: String) {
         searchJob?.cancel()
         Timber.i("search method initiated $searchQuery")
         searchJob = viewLifecycleOwner.lifecycleScope.launch {
             Timber.i("search job started")
-            viewModel.searchExternalRecipes(searchQuery).collectLatest {
-                Timber.i("paging data returned : $it")
+            viewModel.searchExternalRecipesByTitle(searchQuery).collectLatest {
+                Timber.i("paging data returned : ${it}")
                 adapter.submitData(it)
             }
+
             Timber.i("search job finished")
         }
     }
 
 
-    private fun updateRecipeListFromInput() {
-        Timber.i("updateRecipeListFromInput() initiated")
-        binding.searchRecipe.text.trim().let {
-            if (it.isNotEmpty()) {
-                Timber.i("updateRecipeListFromInput() : ${binding.searchRecipe.text} is searched")
-                if (it.isNotEmpty()) {
-                    search(it.toString())
-                }
+    private fun addInputToTitleSearchQueryString() {
+        Timber.i("addInputToTitleSearchQueryString() initiated")
+        binding.titleInputET.text.trim().let {
+            if (it.isNotEmpty() && viewModel.currentTitleSearchQuery.value != it.toString())  {
+                viewModel.updateTitleSearchQuery(it.toString())
+                Timber.i("text added to vm: ${viewModel.currentTitleSearchQuery.value}")
             }
         }
     }
 
     // triggering search by setting up listeners
     @InternalCoroutinesApi
-    private fun initSearch(query: String) {
-        binding.searchRecipe.setText(query)
-        Timber.i("initSearch initiated, query - $query")
+    private fun setupTitleInputListeners() {
 
-        binding.searchRecipe.setOnEditorActionListener { _, actionId, _ ->
+        binding.titleInputET.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_GO) {
-                updateRecipeListFromInput()
+                addInputToTitleSearchQueryString()
                 true
             } else {
                 false
             }
         }
-        binding.searchRecipe.setOnKeyListener { _, keyCode, event ->
+        binding.titleInputET.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                updateRecipeListFromInput()
+                addInputToTitleSearchQueryString()
                 true
             } else {
                 false
@@ -213,7 +229,105 @@ class DiscoverRecipesFragment : Fragment() {
         )
     }
 
-    private fun hideShowSearchBar() {
-        binding.discoverSearchInput.visibility = if (discover_search_input.visibility == View.GONE) View.VISIBLE else View.GONE
+    private fun hideShowSearchByTitleBar() {
+        binding.discoverSearchInputTitle.visibility = if (discover_search_input_title.visibility == View.GONE) View.VISIBLE else View.GONE
     }
+
+    private fun hideShowSearchByIngredientBar() {
+        binding.ingredientsSearchLayout.visibility = if (ingredients_search_layout.visibility == View.GONE) View.VISIBLE else View.GONE
+    }
+
+
+    // setting up text input listeners
+    @InternalCoroutinesApi
+    private fun setupIngredientsInputListeners() {
+        binding.ingredientsInputET.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_GO) {
+                addInputToIngredientsList()
+                true
+            } else {
+                false
+            }
+        }
+        binding.ingredientsInputET.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                addInputToIngredientsList()
+                true
+            } else {
+                false
+            }
+        }
+
+//        // Scroll to top when the list is refreshed from network.
+        lifecycleScope.launch {
+            adapter.loadStateFlow
+                // Only emit when REFRESH LoadState for RemoteMediator changes.
+                .distinctUntilChangedBy { it.refresh }
+                // Only react to cases where Remote REFRESH completes i.e., NotLoading.
+                .filter { it.refresh is LoadState.NotLoading }
+                .collect { binding.discoverListRecyclerview.scrollToPosition(0) }
+        }
+    }
+
+    private fun addInputToIngredientsList()  {
+        Timber.i("addInputToIngredientsList() initiated")
+        binding.ingredientsInputET.text.trim().let {
+            if (it.isNotEmpty() && !viewModel.ingredientsList.value?.contains(it)!!) {
+                viewModel.addIngredientToSearchList(it.toString())
+                Timber.i("chip added, and ingredient {it added to vm: ${viewModel.ingredientsList.value}")
+            }
+        }
+        binding.ingredientsInputET.text.clear()
+    }
+
+    private fun addNewChip(ingredient: String, chipGroup: FlexboxLayout) {
+        val chip = layoutInflater.inflate(R.layout.chip, chipGroup, false) as Chip
+        chip.text = ingredient
+        chip.isCloseIconVisible = true
+        chip.isClickable = true
+        chipGroup.addView(chip as View, chipGroup.childCount - 1)
+        chip.setOnCloseIconClickListener {
+            removeChip(it, chipGroup)
+
+            viewModel.removeIngredientFromSearchList(ingredient)
+            Timber.i("chip removed, and ingredient $ingredient removed to vm: ${viewModel.ingredientsList.value}")
+        }
+    }
+
+    private fun removeChip(chip: View, chipGroup: FlexboxLayout) {
+        val anim = AlphaAnimation(1f,0f)
+        anim.duration = 250
+        anim.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {}
+
+            override fun onAnimationEnd(animation: Animation?) {
+                chipGroup.removeView(chip)
+            }
+
+            override fun onAnimationStart(animation: Animation?) {}
+        })
+
+        chip.startAnimation(anim)
+    }
+
+    // to start search job + update adapter
+    private fun searchByIngredients(queryList: List<String>) {
+        searchJob?.cancel()
+        Timber.i("search method initiated $queryList")
+        searchJob = viewLifecycleOwner.lifecycleScope.launch {
+            Timber.i("search job started")
+            viewModel.searchExternalRecipesByIngredient(queryList).collectLatest {
+                Timber.i("paging data returned : $it")
+                adapter.submitData(it)
+
+            }
+        }
+    }
+
+    //if no items, empty state text is shown
+    private fun checkForEmptyState() {
+        binding.emptyState.visibility = if (adapter.itemCount == 0) View.VISIBLE else View.INVISIBLE
+    }
+
+
 }

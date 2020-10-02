@@ -6,6 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
+import vaida.dryzaite.foodmood.database.ApiRecipesByIngredientPagingSource
 import vaida.dryzaite.foodmood.database.ApiRecipesPagingSource
 import vaida.dryzaite.foodmood.database.RecipeDao
 import vaida.dryzaite.foodmood.model.RecipeEntry
@@ -61,6 +62,8 @@ class RecipeDatabaseRepository @Inject constructor(private val recipeDao: Recipe
         Timber.i("searchExternalRecipes initiated: $searchQuery")
         // appending '%' so we can allow other characters to be before and after the query string
         val dbQuery = "${searchQuery}"
+        Timber.i("dbQuery made: $dbQuery")
+
         val pagingSourceFactory =  { ApiRecipesPagingSource(service, dbQuery)}
 
         //TO FETCH DB + NETWORK (BUGS in API currently- reloading multiple times, crashing etc, so im using only network above)
@@ -82,4 +85,35 @@ class RecipeDatabaseRepository @Inject constructor(private val recipeDao: Recipe
             pagingSourceFactory = pagingSourceFactory
         ).flow
     }
+
+    override fun searchExternalRecipesByIngredient(queryList: List<String>): Flow<PagingData<ExternalRecipe>> {
+        Timber.i("searchExternalRecipes initiated: $queryList")
+
+        val dbQuery = queryList.joinToString(",")
+
+        Timber.i("dbQuery made: $dbQuery")
+
+
+        val pagingSourceFactory =  { ApiRecipesByIngredientPagingSource(service, dbQuery)}
+
+        //TO FETCH DB + NETWORK (BUGS in API currently- reloading multiple times, crashing etc, so im using only network above)
+//        val pagingSourceFactory =  { database.externalRecipesDao().getExternalRecipes(dbQuery) }
+        //also excluding REMOTE MEDIATOR bellow, coz it blocks loading states and disable footer
+
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = NETWORK_PAGE_SIZE,
+                enablePlaceholders = false,
+                prefetchDistance = 2,
+                initialLoadSize = 10),
+//            remoteMediator = ExternalRecipesRemoteMediator(
+//                dbQuery,
+//                service,
+//                database
+//            ),
+            pagingSourceFactory = pagingSourceFactory
+        ).flow
+    }
+
 }

@@ -12,9 +12,7 @@ import vaida.dryzaite.foodmood.databinding.ListItemRecipeViewHolderBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.utilities.ItemSelectedListener
 import vaida.dryzaite.foodmood.utilities.ItemTouchHelperListener
-import vaida.dryzaite.foodmood.utilities.RecipeDiffCallback
 import java.util.*
-import kotlin.collections.ArrayList
 
 class RecipeListAdapter(
     private val listener: RecipeListAdapterListener,

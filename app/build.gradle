@@ -66,6 +66,9 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.fragment:fragment-ktx:1.3.0-alpha04'
 
+    //chip group - flexible wrap
+    implementation 'com.google.android:flexbox:2.0.1'
+
     //cardview for recyclerview
     implementation 'androidx.cardview:cardview:1.0.0'
 
@@ -88,8 +91,8 @@ dependencies {
     implementation "androidx.room:room-ktx:$rootProject.room_version"
 
     //Crashlytics FIREBASE- commented out due constant errors
-    implementation 'com.google.firebase:firebase-crashlytics:17.2.1'
-    implementation 'com.google.firebase:firebase-analytics-ktx:17.5.0'
+//    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
+//    implementation 'com.google.firebase:firebase-analytics-ktx:17.5.0'
 
     //logging with Timber library
     implementation 'com.jakewharton.timber:timber:4.7.1'

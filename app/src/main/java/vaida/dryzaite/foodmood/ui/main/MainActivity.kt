@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_container)
         binding.bottomNav.setupWithNavController(navController)
+
         // to ignore reloading on already open fragment
         binding.bottomNav.setOnNavigationItemReselectedListener {
         }

@@ -17,6 +17,8 @@ interface RecipeRepository {
     fun getFavorites(): LiveData<List<RecipeEntry>>
     fun getFilteredRecipes(meal: Int): LiveData<List<RecipeEntry>>
     fun searchExternalRecipes(searchQuery: String): Flow<PagingData<ExternalRecipe>>
+    fun searchExternalRecipesByIngredient(queryList: List<String>): Flow<PagingData<ExternalRecipe>>
+
 
 //    fun getCachedRecipes(queryString: String): PagingSource<Int, CacheRecipeEntry>
 //    suspend fun insertCachedRecipes(recipes: List<CacheRecipeEntry>)

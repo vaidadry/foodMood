@@ -12,7 +12,6 @@ import vaida.dryzaite.foodmood.ui.main.MainActivity
 import vaida.dryzaite.foodmood.ui.recipeList.RecipeListFragment
 import vaida.dryzaite.foodmood.ui.recipePage.RecipeFragment
 import vaida.dryzaite.foodmood.ui.suggestionPage.SuggestionFragment
-import javax.inject.Singleton
 
 @Subcomponent(modules = [ViewModelModule::class])
 interface MainComponent {

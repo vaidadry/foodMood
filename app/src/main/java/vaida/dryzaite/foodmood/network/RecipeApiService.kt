@@ -12,6 +12,13 @@ interface RecipeApiService {
         @Query("p") page: Int = 1
     ) : Call<Response>
 
+    @GET("api")
+    fun getRecipesByIngredientAsync(
+        @Query("i") searchQuery: String? = "",
+        @Query("p") page: Int = 1
+    ) : Call<Response>
+
+
 }
 
 

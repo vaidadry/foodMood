@@ -4,8 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.Filter
-import android.widget.Filterable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -15,10 +13,6 @@ import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FavoritesCardItemBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.utilities.ItemSelectedListener
-import vaida.dryzaite.foodmood.utilities.ItemTouchHelperListener
-import vaida.dryzaite.foodmood.utilities.RecipeDiffCallback
-import java.util.*
-import kotlin.collections.ArrayList
 
 class FavoritesAdapter(
     private val clickListener: FavoritesOnClickListener,
