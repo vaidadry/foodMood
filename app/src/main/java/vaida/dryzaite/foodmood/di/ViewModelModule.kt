@@ -11,6 +11,7 @@ import vaida.dryzaite.foodmood.repository.RecipeRepository
 import vaida.dryzaite.foodmood.ui.ViewModelFactory
 import vaida.dryzaite.foodmood.ui.addRecipe.AddRecipeViewModel
 import vaida.dryzaite.foodmood.ui.addRecipe.AddRecipeViewModel2
+import vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesIngredientViewModel
 import vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesViewModel
 import vaida.dryzaite.foodmood.ui.favoritesPage.FavoritesViewModel
 import vaida.dryzaite.foodmood.ui.homePage.HomeViewModel
@@ -35,6 +36,13 @@ abstract class ViewModelModule {
     @ViewModelKey(DiscoverRecipesViewModel::class)
     abstract fun bindDiscoverRecipesViewModel(viewModel: DiscoverRecipesViewModel): ViewModel
 
+    @ExperimentalCoroutinesApi
+    @Binds
+    @IntoMap
+    @ViewModelKey(DiscoverRecipesIngredientViewModel::class)
+    abstract fun bindDiscoverRecipesIngredientViewModel(viewModel: DiscoverRecipesIngredientViewModel): ViewModel
+
+
     @Binds
     @IntoMap
     @ViewModelKey(FavoritesViewModel::class)
@@ -54,6 +62,8 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(RecipeViewModel::class)
     abstract fun bindRecipeViewModel(viewModel: RecipeViewModel): ViewModel
+
+
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

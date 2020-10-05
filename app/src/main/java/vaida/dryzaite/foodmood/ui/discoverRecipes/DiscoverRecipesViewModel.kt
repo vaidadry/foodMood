@@ -5,6 +5,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import timber.log.Timber
 import vaida.dryzaite.foodmood.repository.RecipeRepository
 import vaida.dryzaite.foodmood.network.ExternalRecipe
@@ -18,36 +19,11 @@ class DiscoverRecipesViewModel @Inject constructor (
     private var currentTitleSearchResult: Flow<PagingData<ExternalRecipe>>? = null
 
     //to store title search QUERY
-    private val _currentTitleSearchQuery = MutableLiveData<String>()
+    private val _currentTitleSearchQuery = MutableLiveData<String>("")
     val currentTitleSearchQuery: LiveData<String> = _currentTitleSearchQuery
 
     fun updateTitleSearchQuery(searchQuery: String) {
         _currentTitleSearchQuery.value = searchQuery
-    }
-
-    //to store ingredient search QUERY
-    private var currentIngredientListQueryValue: List<String>? = null
-
-    //to store INGREDIENT search RESULT: recipeList
-    private var currentIngredientSearchResult: Flow<PagingData<ExternalRecipe>>? = null
-
-    private val _ingredientsListHelper = ArrayList<String>()
-    private val _ingredientsList = MutableLiveData<List<String>>(emptyList())
-    val ingredientsList: LiveData<List<String>> = _ingredientsList
-
-    fun addIngredientToSearchList(ingredient: String) {
-        _ingredientsListHelper.add(ingredient)
-        _ingredientsList.value = _ingredientsListHelper
-    }
-    fun removeIngredientFromSearchList (ingredient: String){
-        _ingredientsListHelper.remove(ingredient)
-        _ingredientsList.value = _ingredientsListHelper
-    }
-
-    fun clearSearchQuery() {
-        _ingredientsListHelper.clear()
-        _ingredientsList.value = _ingredientsListHelper
-        Timber.i(" cleared ingredients list : ${ingredientsList.value}")
     }
 
     //val to trigger navigation to detail page and related methods
@@ -67,16 +43,19 @@ class DiscoverRecipesViewModel @Inject constructor (
 
 
     // method checks if query old or new, if old - uses cache, if new - makes network call
+    //p.s. using old query does not refresh data somehow, can use cache
     fun searchExternalRecipesByTitle(searchQuery: String) : Flow<PagingData<ExternalRecipe>> {
-        Timber.i("launching searchQuery: $searchQuery")
+        Timber.i("launching searchExternalRecipesByTitle() searchQuery: $searchQuery")
+
 //        val previousResult = currentTitleSearchResult
 //        Timber.i("previousResult: $previousResult")
 //
 //        if (searchQuery == _currentTitleSearchQuery.value && previousResult != null) {
-//            Timber.i("old search result: $previousResult")
+//            Timber.i("old search result: ${previousResult}")
 //            return previousResult
 //        }
 //        updateTitleSearchQuery(searchQuery)
+// updating this causes the loop, if no old query is used
 
         Timber.i("current query: ${currentTitleSearchQuery.value}, searchQuery = $searchQuery")
 
@@ -84,29 +63,9 @@ class DiscoverRecipesViewModel @Inject constructor (
             repository.searchExternalRecipes(searchQuery)
                 .cachedIn(viewModelScope)
         currentTitleSearchResult = newResult
-        Timber.i("new search result: $newResult")
+        Timber.i("current result: ${currentTitleSearchResult} new search result: $newResult")
         return newResult
-    }
 
-    // method checks if query old or new, if old - uses cache, if new - makes network call
-    fun searchExternalRecipesByIngredient(queryList: List<String>) : Flow<PagingData<ExternalRecipe>> {
-        Timber.i("launching search of queryList: $queryList")
-        val lastResult = currentIngredientSearchResult
-        Timber.i("lastResult: $lastResult")
-
-//        if (queryList == currentIngredientListQueryValue && lastResult != null) {
-//            Timber.i("old search list: $currentIngredientListQueryValue and query list: $queryList")
-//            return lastResult
-//        }
-        currentIngredientListQueryValue = queryList
-        Timber.i("current query: $currentIngredientListQueryValue")
-
-        val newResult: Flow<PagingData<ExternalRecipe>> =
-            repository.searchExternalRecipesByIngredient(queryList)
-                .cachedIn(viewModelScope)
-        currentIngredientSearchResult = newResult
-        Timber.i("new search result: $newResult")
-        return newResult
     }
 
 }

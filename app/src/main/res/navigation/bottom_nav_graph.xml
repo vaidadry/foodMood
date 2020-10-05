@@ -83,11 +83,11 @@
         android:label="DiscoverRecipesFragment"
         tools:layout="@layout/fragment_discover_recipes">
         <action
-            android:id="@+id/action_discoverRecipesFragment_to_favoritesFragment"
-            app:destination="@id/favoritesFragment" />
-        <action
             android:id="@+id/action_discover_recipes_fragment_to_discoverRecipeDetailFragment"
             app:destination="@id/discoverRecipeDetailFragment" />
+        <action
+            android:id="@+id/action_discover_recipes_fragment_to_discoverRecipesIngredientFragment"
+            app:destination="@id/discoverRecipesIngredientFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
@@ -126,5 +126,20 @@
             app:destination="@id/recipe_list_fragment"
             app:exitAnim="@anim/slide_down_anim"
             app:popEnterAnim="@anim/slide_up_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/discoverRecipesIngredientFragment"
+        android:name="vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesIngredientFragment"
+        android:label="DiscoverRecipesIngredientFragment"
+        tools:layout="@layout/fragment_discover_recipes_ingredient">
+        <action
+            android:id="@+id/action_discoverRecipesIngredientFragment_to_discoverRecipeDetailFragment"
+            app:destination="@id/discoverRecipeDetailFragment" />
+        <action
+            android:id="@+id/action_discoverRecipesIngredientFragment_to_discoverRecipeDetailFragment2"
+            app:destination="@id/discoverRecipeDetailFragment" />
+        <action
+            android:id="@+id/action_discoverRecipesIngredientFragment_to_discover_recipes_fragment"
+            app:destination="@id/discover_recipes_fragment" />
     </fragment>
 </navigation>

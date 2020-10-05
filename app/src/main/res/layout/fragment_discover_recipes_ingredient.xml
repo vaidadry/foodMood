@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -5,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesViewModel" />
+            type="vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesIngredientViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"
-        tools:context=".ui.discoverRecipes.DiscoverRecipesFragment">
+        tools:context=".ui.discoverRecipes.DiscoverRecipesIngredientFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -34,8 +35,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/ingredients_group_FL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/quarter_padding"
+                android:layout_marginEnd="@dimen/quarter_padding"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintBottom_toTopOf="@id/ingredient_search_layout"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:flexWrap="wrap"
+                app:alignItems="stretch"
+                app:alignContent="space_around"
+                app:showDivider="beginning|middle|end"/>
+
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/discover_search_input_title"
+                android:id="@+id/ingredient_search_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,17 +62,17 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/ingredients_group_FL">
 
                 <EditText
-                    android:id="@+id/title_input_ET"
+                    android:id="@+id/ingredients_input_ET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints="Search"
-                    android:hint="@string/search_by_title"
+                    android:hint="@string/search_by_ingredient"
                     android:imeOptions="actionSearch"
-                    android:inputType="text"
-                    android:selectAllOnFocus="true" />
+                    android:inputType="text"/>
+
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
