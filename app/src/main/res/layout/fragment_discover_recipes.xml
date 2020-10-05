@@ -36,11 +36,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/discover_search_input_title"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/quarter_padding"
-                android:layout_marginEnd="@dimen/quarter_padding"
+                style="@style/TextInputLayoutStyleSearch"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -49,8 +45,7 @@
 
                 <EditText
                     android:id="@+id/title_input_ET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/TextInputStyle"
                     android:autofillHints="Search"
                     android:hint="@string/search_by_title"
                     android:imeOptions="actionSearch"

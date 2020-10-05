@@ -18,12 +18,8 @@ import javax.inject.Inject
 //Repository integrated with coroutines to send work off main thread
 class RecipeDatabaseRepository @Inject constructor(private val recipeDao: RecipeDao, private val service: RecipeApiService) : RecipeRepository {
 
-    private val allRecipes: LiveData<List<RecipeEntry>>
+    private val allRecipes: LiveData<List<RecipeEntry>> = recipeDao.getAllRecipes()
 
-
-    init {
-        allRecipes = recipeDao.getAllRecipes()
-    }
 
     //    When we get the recipes, we are already returning LiveData in Dao.
 //    So we don’t need to get the data from background thread.
