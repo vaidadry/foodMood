@@ -8,10 +8,4 @@
         app:actionLayout="@layout/view_favorites"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/search_menu_item"
-        android:title="@string/search"
-        app:actionLayout="@layout/view_search"
-        app:showAsAction="ifRoom"/>
-
 </menu>

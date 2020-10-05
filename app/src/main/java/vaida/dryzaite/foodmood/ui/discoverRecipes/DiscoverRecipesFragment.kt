@@ -1,17 +1,24 @@
 package vaida.dryzaite.foodmood.ui.discoverRecipes
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.RecyclerView
+import com.google.android.flexbox.FlexboxLayout
+import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.fragment_discover_recipes.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -24,47 +31,53 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentDiscoverRecipesBinding
-import vaida.dryzaite.foodmood.ui.favoritesPage.SpacingItemDecorator
+import vaida.dryzaite.foodmood.ui.main.MainActivity
+import vaida.dryzaite.foodmood.utilities.DividerItemDecoration
+import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 class DiscoverRecipesFragment : Fragment() {
 
-    private lateinit var gridItemDecoration: RecyclerView.ItemDecoration
+    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var adapter: DiscoverRecipesAdapter
     private lateinit var binding: FragmentDiscoverRecipesBinding
-
-    private val viewModel: DiscoverRecipesViewModel by lazy {
-        val application = requireNotNull(this.activity).application
-        val viewModelFactory = DiscoverRecipesViewModelFactory(application)
-        ViewModelProvider(this, viewModelFactory).get(DiscoverRecipesViewModel::class.java)
-    }
-
+    private val viewModel: DiscoverRecipesViewModel by viewModels { viewModelFactory }
     private var searchJob: Job? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as MainActivity).mainComponent.inject(this)
+    }
 
     @InternalCoroutinesApi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment. View binding to optimize space, as no data binding used
         binding = FragmentDiscoverRecipesBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
         initAdapter()
-
-        //preparing search functionality
-        val query = savedInstanceState?.getString(LAST_SEARCH_QUERY) ?: DEFAULT_QUERY
-        search(query)
-        initSearch(query)
+        setupTitleInputListeners()
 
 
         // observing navigation state and navigating to detail page
-        viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, {
             if ( null != it) {
                 this.findNavController().navigate(
                     DiscoverRecipesFragmentDirections.actionDiscoverRecipesFragmentToDiscoverRecipeDetailFragment(it))
                 viewModel.displayRecipeDetailsComplete()
             }
+        })
+
+        //observing title search query and enabling search accordingly
+        viewModel.currentTitleSearchQuery.observe(viewLifecycleOwner, {
+            Timber.i("currentTitleSearchQuery CHANGE observed, triggers search: $it")
+                it?.let {
+                    binding.titleInputET.setText(it)
+                    searchByTitle(it)
+                }
         })
 
         // enable Retry connection method
@@ -74,42 +87,34 @@ class DiscoverRecipesFragment : Fragment() {
     }
 
 
-    // to avoid  re-loading with state change
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        Timber.i("onSaveInstanceState initiated")
-        outState.putString(LAST_SEARCH_QUERY, binding.searchRecipe.text.trim().toString())
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
 
         setHasOptionsMenu(true)
 
-        setupItemDecoration()
+        addListDividerDecoration()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.top_nav_menu, menu)
-
-        //setup clicks on icons in toolbar
-        val searchIcon = menu.findItem(R.id.search_menu_item)
-        searchIcon.actionView.setOnClickListener {
-            menu.performIdentifierAction(
-                searchIcon.itemId,
-                0
-            )
-        }
+        inflater.inflate(R.menu.top_nav_menu_discover, menu)
+        toolbar.overflowIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_search)
     }
 
+    @InternalCoroutinesApi
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        Timber.i("onOptionsItemSelected")
         when (item.itemId) {
             R.id.search_menu_item -> {
-                Timber.i("search selected")
-                hideShowSearchBar()
+                Timber.i("search by title selected")
+
+                hideShowSearchByTitleBar()
+            }
+            R.id.search_by_ingredient_menu_item -> {
+                Timber.i("search by ingredient selected")
+
+                this.findNavController().navigate(
+                    DiscoverRecipesFragmentDirections.actionDiscoverRecipesFragmentToDiscoverRecipesIngredientFragment())
             }
         }
         return super.onOptionsItemSelected(item)
@@ -136,49 +141,46 @@ class DiscoverRecipesFragment : Fragment() {
     }
 
     // to start search job + update adapter
-    private fun search(searchQuery: String) {
+    private fun searchByTitle(searchQuery: String) {
         searchJob?.cancel()
         Timber.i("search method initiated $searchQuery")
         searchJob = viewLifecycleOwner.lifecycleScope.launch {
             Timber.i("search job started")
-            viewModel.searchExternalRecipes(searchQuery).collectLatest {
+            viewModel.searchExternalRecipesByTitle(searchQuery).collectLatest {
                 Timber.i("paging data returned : $it")
                 adapter.submitData(it)
+
             }
             Timber.i("search job finished")
         }
     }
 
 
-    private fun updateRecipeListFromInput() {
-        Timber.i("updateRecipeListFromInput() initiated")
-        binding.searchRecipe.text.trim().let {
-            if (it.isNotEmpty()) {
-                Timber.i("updateRecipeListFromInput() : ${binding.searchRecipe.text} is searched")
-                if (it.isNotEmpty()) {
-                    search(it.toString())
-                }
+    private fun addInputToTitleSearchQueryString() {
+        Timber.i("addInputToTitleSearchQueryString() initiated, previous search q was: ${viewModel.currentTitleSearchQuery.value}")
+        binding.titleInputET.text.trim().let {
+            if (it.isNotEmpty() && viewModel.currentTitleSearchQuery.value != it.toString())  {
+                viewModel.updateTitleSearchQuery(it.toString())
+                Timber.i("text added to vm: ${viewModel.currentTitleSearchQuery.value}")
             }
         }
     }
 
     // triggering search by setting up listeners
     @InternalCoroutinesApi
-    private fun initSearch(query: String) {
-        binding.searchRecipe.setText(query)
-        Timber.i("initSearch initiated, query - $query")
+    private fun setupTitleInputListeners() {
 
-        binding.searchRecipe.setOnEditorActionListener { _, actionId, _ ->
+        binding.titleInputET.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_GO) {
-                updateRecipeListFromInput()
+                addInputToTitleSearchQueryString()
                 true
             } else {
                 false
             }
         }
-        binding.searchRecipe.setOnKeyListener { _, keyCode, event ->
+        binding.titleInputET.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                updateRecipeListFromInput()
+                addInputToTitleSearchQueryString()
                 true
             } else {
                 false
@@ -196,20 +198,27 @@ class DiscoverRecipesFragment : Fragment() {
         }
     }
 
-    //    adding spacing decorator for equal spacing between grid items
-    private fun setupItemDecoration() {
-        val spacingInPixels = resources.getDimensionPixelSize(R.dimen.recipe_card_grid_layout_margin)
-        gridItemDecoration = SpacingItemDecorator(3, spacingInPixels)
-        binding.discoverListRecyclerview.addItemDecoration(gridItemDecoration)
+
+    private fun addListDividerDecoration() {
+        //adding list divider decorations
+        val heightInPixels = resources.getDimensionPixelSize(R.dimen.list_item_divider_height)
+        binding.discoverListRecyclerview.addItemDecoration(
+            DividerItemDecoration(
+                R.color.Text,
+                heightInPixels
+            )
+        )
     }
 
-    private fun hideShowSearchBar() {
-        binding.discoverSearchInput.visibility = if (discover_search_input.visibility == View.GONE) View.VISIBLE else View.GONE
+    private fun hideShowSearchByTitleBar() {
+        binding.discoverSearchInputTitle.visibility = if (discover_search_input_title.visibility == View.GONE) View.VISIBLE else View.GONE
     }
 
-    companion object {
-        private const val LAST_SEARCH_QUERY: String = "last_search_query"
-        private const val DEFAULT_QUERY = ""
+
+    //if no items, empty state text is shown
+    private fun checkForEmptyState() {
+        binding.emptyState.visibility = if (adapter.itemCount == 0) View.VISIBLE else View.INVISIBLE
     }
+
 
 }

@@ -1,30 +1,26 @@
 package vaida.dryzaite.foodmood.ui.recipePage
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.repository.RecipeRepository
+import javax.inject.Inject
 
-class RecipeViewModel (keyId: String, application: Application): AndroidViewModel(application) {
+class RecipeViewModel @Inject constructor(private val repository: RecipeRepository): ViewModel() {
 
-    private val repository: RecipeRepository = Injection.provideRecipeRepository(application)
+    private val _recipe = MutableLiveData<RecipeEntry>()
+    val recipe: LiveData<RecipeEntry>
+        get() = _recipe
 
-    private val _detailRecipe: LiveData<RecipeEntry>
 
-    init {
-        _detailRecipe = repository.getRecipeWithId(keyId)
+    //grab passed arguments from Fragment to VM
+    fun setRecipe(recipe: RecipeEntry?) {
+        if (_recipe.value != recipe) {
+            _recipe.value = recipe
+        }
     }
 
-    fun getDetailRecipe() = _detailRecipe
-
-    //for use of UI
-    val recipeDetail = getDetailRecipe()
 
     //updating database with status of favorites
     fun updateRecipe(recipeEntry: RecipeEntry) = viewModelScope.launch(Dispatchers.IO) {
@@ -37,9 +33,11 @@ class RecipeViewModel (keyId: String, application: Application): AndroidViewMode
     val navigateToUrl: LiveData<String?>
         get() = _navigateToUrl
 
+
     fun onClickUrl() {
-        _navigateToUrl.value = recipeDetail.value?.recipe
+        _navigateToUrl.value = _recipe.value?.recipe
     }
+
 
     fun onButtonClicked() {
         _navigateToUrl.value = null

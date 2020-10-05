@@ -29,11 +29,10 @@ class DiscoverRecipesAdapter (private val onClickListener: OnClickListener)
         }
     }
 
-     companion object {
+    companion object {
          private val diffUtil = object : DiffUtil.ItemCallback<ExternalRecipe>() {
              override fun areItemsTheSame(oldItem: ExternalRecipe, newItem: ExternalRecipe): Boolean =
                  oldItem == newItem
-
              override fun areContentsTheSame(oldItem: ExternalRecipe, newItem: ExternalRecipe): Boolean =
                  oldItem.href == newItem.href
          }

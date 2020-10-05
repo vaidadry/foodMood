@@ -9,9 +9,7 @@
         <item name="android:textColor">@color/Text</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
-
     </style>
-
 
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="android:windowFullscreen">true</item>
@@ -39,6 +37,15 @@
     <style name="FavoriteCheckboxActionBar" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="android:button">@drawable/ic_favorite_selector_30dp</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="SimpleTextViewTitle" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/dosis_regular</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">@dimen/generate_random_meal_text_size</item>
+        <item name="android:textColor">@color/Text</item>
     </style>
 
     <style name="MealSelectionRadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
@@ -103,12 +110,25 @@
 
 
     <style name="TextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <item name="android:layout_width">0dp</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:textAlignment">viewStart</item>
+    <item name="android:textColorHint">@color/Text</item>
+    <item name="hintTextColor">@color/Text</item>
+    <item name="boxStrokeColor">@color/colorSecondaryDark</item>
+    <item name="boxStrokeWidth">@dimen/small_button_stroke_width</item>
+    <item name="android:theme">@style/colorCursor</item>
+</style>
+
+    <style name="TextInputLayoutStyleSearch" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/quarter_padding</item>
+        <item name="android:layout_marginEnd">@dimen/quarter_padding</item>
         <item name="android:textAlignment">viewStart</item>
         <item name="android:textColorHint">@color/Text</item>
         <item name="hintTextColor">@color/Text</item>
-        <item name="boxStrokeColor">@color/colorSecondaryDark</item>
+        <item name="boxStrokeColor">@color/selected_highlight</item>
         <item name="boxStrokeWidth">@dimen/small_button_stroke_width</item>
         <item name="android:theme">@style/colorCursor</item>
     </style>
@@ -137,6 +157,13 @@
 
     <style name="SolidButton" parent="ColorfulButton">
         <item name="android:background">@drawable/rounded_button_solid</item>
+    </style>
+
+    <style name="SearchLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+
+
     </style>
 
 </resources>

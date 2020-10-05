@@ -10,11 +10,9 @@ import retrofit2.await
 import vaida.dryzaite.foodmood.model.RemoteKeys
 import vaida.dryzaite.foodmood.network.ExternalRecipe
 import vaida.dryzaite.foodmood.network.RecipeApiService
+import vaida.dryzaite.foodmood.utilities.API_STARTING_PAGE_INDEX
 import java.io.IOException
 import java.io.InvalidObjectException
-
-
-private const val API_STARTING_PAGE_INDEX = 1
 
 @OptIn(ExperimentalPagingApi::class)
 class ExternalRecipesRemoteMediator(

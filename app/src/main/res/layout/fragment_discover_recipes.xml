@@ -18,35 +18,41 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/ToolBar"
-            app:layout_constraintBottom_toTopOf="@id/discover_search_input"
+            app:layout_constraintBottom_toTopOf="@id/search_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:menu="@menu/top_nav_menu"
-            app:title="@string/discover"/>
+            app:menu="@menu/top_nav_menu_discover"
+            app:title="@string/discover" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/discover_search_input"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/search_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_marginStart="@dimen/quarter_padding"
-            android:layout_marginEnd="@dimen/quarter_padding"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:layout_constraintBottom_toTopOf="@id/container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintBottom_toTopOf="@id/container">
-            <EditText
-                android:id="@+id/search_recipe"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/search"
-                android:imeOptions="actionSearch"
-                android:inputType="textNoSuggestions"
-                android:selectAllOnFocus="true"
-                android:autofillHints="Search" />
-        </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/discover_search_input_title"
+                style="@style/TextInputLayoutStyleSearch"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/title_input_ET"
+                    style="@style/TextInputStyle"
+                    android:autofillHints="Search"
+                    android:hint="@string/search_by_title"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:selectAllOnFocus="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/container"
@@ -55,7 +61,7 @@
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_bottom_nav"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/discover_search_input">
+            app:layout_constraintTop_toBottomOf="@id/search_container">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/discover_list_recyclerview"
@@ -93,7 +99,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/empty_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/dosis_extralight"
+                android:text="@string/no_recipes_available"
+                android:textSize="@dimen/list_item_text_size"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/horizontal_guideline_bottom_nav"

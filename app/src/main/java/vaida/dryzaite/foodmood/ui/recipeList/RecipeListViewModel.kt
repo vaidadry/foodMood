@@ -1,28 +1,19 @@
 package vaida.dryzaite.foodmood.ui.recipeList
 
-
-import android.app.Application
+import android.content.res.Resources
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import vaida.dryzaite.foodmood.app.Injection
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.repository.RecipeRepository
 import vaida.dryzaite.foodmood.utilities.convertStringMealTypeToNumeric
+import javax.inject.Inject
 
-// ViewModel for recipeList fragment interacts with data from the repository
-class RecipeListViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository: RecipeRepository = Injection.provideRecipeRepository(application)
-
-   private val _recipeList = MutableLiveData<List<RecipeEntry>>()
-    val recipeList : LiveData<List<RecipeEntry>>
-            get() = _recipeList
-
+class RecipeListViewModel @Inject constructor(private val repository: RecipeRepository) : ViewModel() {
 
     //defining navigation state
-    private val _navigateToRecipeDetail = MutableLiveData<String>()
-    val navigateToRecipeDetail
+    private val _navigateToRecipeDetail = MutableLiveData<RecipeEntry>()
+    val navigateToRecipeDetail : LiveData<RecipeEntry>
         get() = _navigateToRecipeDetail
 
 
@@ -52,6 +43,7 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     private fun getAllRecipesLiveData() = repository.getAllRecipes()
+    val allRecipes = repository.getAllRecipes()
 
 
     private fun deleteRecipe(recipeEntry: RecipeEntry) = viewModelScope.launch(Dispatchers.IO) {
@@ -68,8 +60,8 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
 
 
     // handling navigation
-    fun onRecipeClicked(id: String) {
-        _navigateToRecipeDetail.value = id
+    fun onRecipeClicked(recipeEntry: RecipeEntry) {
+        _navigateToRecipeDetail.value = recipeEntry
     }
 
 
@@ -111,11 +103,11 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
 
 
     // handling filtering
-    fun onMealSelected(titleOrNull: String){
+    fun onMealSelected(titleOrNull: String, resources: Resources){
         _mealSelection.value =
             when (titleOrNull) {
                 "null" -> null
-                else -> convertStringMealTypeToNumeric(titleOrNull, getApplication<Application>().resources)
+                else -> convertStringMealTypeToNumeric(titleOrNull, resources)
             }
     }
 

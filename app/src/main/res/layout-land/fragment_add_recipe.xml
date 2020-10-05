@@ -32,13 +32,8 @@
 
         <TextView
             android:id="@+id/add_recipe_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/dosis_regular"
-            android:gravity="center_horizontal"
-            android:textColor="@color/TextToolbarsButtons"
+            style="@style/SimpleTextViewTitle"
             android:text="@string/add_recipe"
-            android:textSize="@dimen/generate_random_meal_text_size"
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_top"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

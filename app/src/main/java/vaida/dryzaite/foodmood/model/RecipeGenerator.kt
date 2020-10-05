@@ -1,9 +1,11 @@
 package vaida.dryzaite.foodmood.model
 
+import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class  RecipeGenerator {
+class RecipeGenerator @Inject constructor() {
 
     fun generateRecipe(title: String, veggie: Boolean = false, fish: Boolean = false, meal: Int, recipe: String, ingredients: String = ""): RecipeEntry {
         val id = UUID.randomUUID().toString()
@@ -12,9 +14,8 @@ class  RecipeGenerator {
         return RecipeEntry(id, date, title, veggie, fish, meal, recipe, favorites, ingredients)
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun logDateTime(): String {
-        val formattedDate = SimpleDateFormat("yyyy-MM-dd").format(Date())
-        val formattedTime = SimpleDateFormat("HH:mm").format(Date())
-        return "$formattedDate $formattedTime"
+        return SimpleDateFormat("yyyy-MM-dd HH:mm").format(Date())
     }
 }

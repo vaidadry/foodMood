@@ -7,8 +7,7 @@ import timber.log.Timber
 import vaida.dryzaite.foodmood.network.ExternalRecipe
 import vaida.dryzaite.foodmood.network.RecipeApiService
 import java.io.IOException
-
-private const val API_STARTING_PAGE_INDEX = 1
+import vaida.dryzaite.foodmood.utilities.API_STARTING_PAGE_INDEX
 
 //PagingSource implementation defines the source of data and how to retrieve data from that source
 class ApiRecipesPagingSource(
@@ -20,7 +19,6 @@ class ApiRecipesPagingSource(
     // keeps track of page to be requested
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ExternalRecipe> {
         val page = params.key ?: API_STARTING_PAGE_INDEX
-
         return try {
             val response = service.getRecipesAsync(query, page)
             val recipes = response.await().results
@@ -36,4 +34,5 @@ class ApiRecipesPagingSource(
             return LoadResult.Error(exception)
         }
     }
+
 }

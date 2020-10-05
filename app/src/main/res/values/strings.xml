@@ -44,6 +44,10 @@
     <string name="categories_menu_item">Categories</string>
     <string name="content_description_meal_card_image">content description meal card image</string>
     <string name="search">Search</string>
+    <string name="by_title">By title</string>
+    <string name="by_ingredient">By Ingredient</string>
+    <string name="search_by_ingredient">Search by ingredient</string>
+    <string name="search_by_title">Search by title</string>
     <string name="content_description_search">content_description_search</string>
     <string name="share_recipe">share recipe</string>
     <string name="share_message">Heyy! Lets make %1$s for %2$s today! Here\'s what I have in mind: %3$s </string>

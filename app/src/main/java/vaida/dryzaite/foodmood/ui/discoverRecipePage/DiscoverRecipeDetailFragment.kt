@@ -1,44 +1,43 @@
 package vaida.dryzaite.foodmood.ui.discoverRecipePage
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import kotlinx.android.synthetic.main.fragment_discover_recipe_detail.*
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentDiscoverRecipeDetailBinding
-import vaida.dryzaite.foodmood.ui.recipePage.DiscoverRecipeDetailViewModelFactory
+import vaida.dryzaite.foodmood.ui.main.MainActivity
+import javax.inject.Inject
 
 
 class DiscoverRecipeDetailFragment : Fragment(), Toolbar.OnMenuItemClickListener {
 
-    private lateinit var viewModel: DiscoverRecipeDetailViewModel
+    @Inject lateinit var viewModel: DiscoverRecipeDetailViewModel
     private lateinit var binding: FragmentDiscoverRecipeDetailBinding
-    private lateinit var viewModelFactory: DiscoverRecipeDetailViewModelFactory
+
+    private val args by navArgs<DiscoverRecipeDetailFragmentArgs>()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as MainActivity).mainComponent.inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentDiscoverRecipeDetailBinding.inflate(inflater, container, false)
-
-        val application = requireNotNull(this.activity).application
-
-        binding.lifecycleOwner = viewLifecycleOwner
-
-        val externalRecipe =
-            DiscoverRecipeDetailFragmentArgs.fromBundle(requireArguments()).selectedRecipe
-
-        viewModelFactory = DiscoverRecipeDetailViewModelFactory(externalRecipe, application)
-
-        viewModel =
-            ViewModelProvider(this, viewModelFactory).get(DiscoverRecipeDetailViewModel::class.java)
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_discover_recipe_detail, container, false)
+        binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        viewModel.setRecipe(args.selectedRecipe)
 
         return binding.root
     }
@@ -79,8 +78,6 @@ class DiscoverRecipeDetailFragment : Fragment(), Toolbar.OnMenuItemClickListener
     }
 
 
-
-
 //    intent for sharing a recipe via other apps - "hardcoded text- as we dont have meal info"
     private fun getShareIntent(): Intent {
         val recipe = viewModel.selectedRecipe.value!!
@@ -100,9 +97,6 @@ class DiscoverRecipeDetailFragment : Fragment(), Toolbar.OnMenuItemClickListener
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         view?.context?.startActivity(intent)
     }
-
-
-
 
 
 }
