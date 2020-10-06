@@ -16,7 +16,9 @@ import vaida.dryzaite.foodmood.utilities.NETWORK_PAGE_SIZE
 import javax.inject.Inject
 
 //Repository integrated with coroutines to send work off main thread
-class RecipeDatabaseRepository @Inject constructor(private val recipeDao: RecipeDao, private val service: RecipeApiService) : RecipeRepository {
+class RecipeDatabaseRepository @Inject constructor(
+    private val recipeDao: RecipeDao, private val service: RecipeApiService
+) : RecipeRepository {
 
     private val allRecipes: LiveData<List<RecipeEntry>> = recipeDao.getAllRecipes()
 

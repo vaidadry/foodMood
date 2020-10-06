@@ -1,24 +1,17 @@
 package vaida.dryzaite.foodmood.ui.discoverRecipes
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
-import com.google.android.flexbox.FlexboxLayout
-import com.google.android.material.chip.Chip
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_discover_recipes.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -36,18 +29,14 @@ import vaida.dryzaite.foodmood.utilities.DividerItemDecoration
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-class DiscoverRecipesFragment : Fragment() {
+@AndroidEntryPoint
+class DiscoverRecipesFragment @Inject constructor(
+    val adapter: DiscoverRecipesAdapter
+) : Fragment() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var adapter: DiscoverRecipesAdapter
     private lateinit var binding: FragmentDiscoverRecipesBinding
-    private val viewModel: DiscoverRecipesViewModel by viewModels { viewModelFactory }
+    private val viewModel: DiscoverRecipesViewModel by viewModels()
     private var searchJob: Job? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (activity as MainActivity).mainComponent.inject(this)
-    }
 
     @InternalCoroutinesApi
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -122,9 +111,9 @@ class DiscoverRecipesFragment : Fragment() {
 
     private fun initAdapter() {
         // set onClick listener to enable clicks on item
-        adapter = DiscoverRecipesAdapter(DiscoverRecipesAdapter.OnClickListener {
+        adapter.setItemClickedListener {
             viewModel.displayRecipeDetails(it)
-        })
+        }
 
         //adding loadState adapter
         binding.discoverListRecyclerview.adapter = adapter.withLoadStateFooter(

@@ -1,6 +1,5 @@
 package vaida.dryzaite.foodmood.ui.favoritesPage
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,35 +9,23 @@ import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import timber.log.Timber
+import dagger.hilt.android.AndroidEntryPoint
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentFavoritesBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.ui.main.MainActivity
-import vaida.dryzaite.foodmood.ui.recipeList.RecipeListFragmentDirections
 import vaida.dryzaite.foodmood.utilities.BUNDLE_KEY
 import vaida.dryzaite.foodmood.utilities.REQUEST_KEY
-import javax.inject.Inject
 
-
-class FavoritesFragment : Fragment(), FavoritesAdapter.FavoritesAdapterListener {
-
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var binding: FragmentFavoritesBinding
+@AndroidEntryPoint
+class FavoritesFragment: Fragment(), FavoritesAdapter.FavoritesAdapterListener {
     private lateinit var adapter: FavoritesAdapter
+    private lateinit var binding: FragmentFavoritesBinding
     private lateinit var gridItemDecoration: RecyclerView.ItemDecoration
 
-    private val viewModel: FavoritesViewModel by viewModels { viewModelFactory }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (activity as MainActivity).mainComponent.inject(this)
-    }
+    private val viewModel: FavoritesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

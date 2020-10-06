@@ -1,19 +1,19 @@
 package vaida.dryzaite.foodmood.ui.recipeList
 
 import android.content.res.Resources
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.repository.RecipeRepository
 import vaida.dryzaite.foodmood.utilities.convertStringMealTypeToNumeric
-import javax.inject.Inject
 
-class RecipeListViewModel @Inject constructor(private val repository: RecipeRepository) : ViewModel() {
+class RecipeListViewModel @ViewModelInject constructor(private val repository: RecipeRepository) : ViewModel() {
 
     //defining navigation state
-    private val _navigateToRecipeDetail = MutableLiveData<RecipeEntry>()
-    val navigateToRecipeDetail : LiveData<RecipeEntry>
+    private val _navigateToRecipeDetail = MutableLiveData<RecipeEntry?>()
+    val navigateToRecipeDetail : LiveData<RecipeEntry?>
         get() = _navigateToRecipeDetail
 
 

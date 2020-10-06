@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_discover_recipes.*
 import vaida.dryzaite.foodmood.FoodmoodApplication
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.ActivitySplashBinding
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
@@ -18,14 +20,12 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        (application as FoodmoodApplication).appComponent.inject(this)
-
         setTheme(R.style.AppTheme)
         window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         actionBar?.hide()
 
         super.onCreate(savedInstanceState)
-        // Inflate with View binding to optimize space, as no databinding used
+        // Inflate with View binding to optimize space, as no data binding used
         binding = ActivitySplashBinding.inflate(layoutInflater, container, false)
         setContentView(binding.root)
 

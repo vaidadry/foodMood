@@ -1,5 +1,6 @@
 package vaida.dryzaite.foodmood.ui.recipePage
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -7,10 +8,10 @@ import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.repository.RecipeRepository
 import javax.inject.Inject
 
-class RecipeViewModel @Inject constructor(private val repository: RecipeRepository): ViewModel() {
+class RecipeViewModel @ViewModelInject constructor(private val repository: RecipeRepository): ViewModel() {
 
-    private val _recipe = MutableLiveData<RecipeEntry>()
-    val recipe: LiveData<RecipeEntry>
+    private val _recipe = MutableLiveData<RecipeEntry?>()
+    val recipe: LiveData<RecipeEntry?>
         get() = _recipe
 
 

@@ -1,14 +1,15 @@
 package vaida.dryzaite.foodmood.ui.favoritesPage
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.repository.RecipeRepository
-import javax.inject.Inject
 
-class FavoritesViewModel @Inject constructor(private val repository: RecipeRepository) : ViewModel() {
+class FavoritesViewModel @ViewModelInject constructor(
+    private val repository: RecipeRepository
+) : ViewModel() {
 
     fun getFavorites() = repository.getFavorites()
 

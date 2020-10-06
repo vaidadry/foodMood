@@ -1,6 +1,5 @@
 package vaida.dryzaite.foodmood.ui.addRecipe
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,26 +9,19 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentAddRecipeBinding
-import vaida.dryzaite.foodmood.ui.main.MainActivity
 import vaida.dryzaite.foodmood.utilities.isValidUrl
-import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class AddRecipeFragment : Fragment(){
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var binding: FragmentAddRecipeBinding
 
-    private val viewModel: AddRecipeViewModel by viewModels { viewModelFactory }
+    private val viewModel: AddRecipeViewModel by viewModels()
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (activity as MainActivity).mainComponent.inject(this)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_recipe, container, false)
@@ -70,7 +62,6 @@ class AddRecipeFragment : Fragment(){
                 viewModel.mealTypeSelectionCompleted()
             }
         })
-
     }
 
 }

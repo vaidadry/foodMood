@@ -1,16 +1,18 @@
 package vaida.dryzaite.foodmood.ui.discoverRecipePage
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import vaida.dryzaite.foodmood.network.ExternalRecipe
 import javax.inject.Inject
 
-class DiscoverRecipeDetailViewModel @Inject constructor(): ViewModel() {
+class DiscoverRecipeDetailViewModel @ViewModelInject constructor()
+    : ViewModel() {
 
     //val to hold data on clicked item
-    private val _selectedRecipe = MutableLiveData<ExternalRecipe>()
-    val selectedRecipe: LiveData<ExternalRecipe>
+    private val _selectedRecipe = MutableLiveData<ExternalRecipe?>()
+    val selectedRecipe: LiveData<ExternalRecipe?>
         get() = _selectedRecipe
 
     //grab passed arguments from Fragment to VM

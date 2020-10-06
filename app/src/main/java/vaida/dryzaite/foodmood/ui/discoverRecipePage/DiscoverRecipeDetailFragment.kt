@@ -8,27 +8,24 @@ import android.view.*
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_discover_recipe_detail.*
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentDiscoverRecipeDetailBinding
 import vaida.dryzaite.foodmood.ui.main.MainActivity
 import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class DiscoverRecipeDetailFragment : Fragment(), Toolbar.OnMenuItemClickListener {
 
-    @Inject lateinit var viewModel: DiscoverRecipeDetailViewModel
+    private val viewModel: DiscoverRecipeDetailViewModel by viewModels()
     private lateinit var binding: FragmentDiscoverRecipeDetailBinding
 
     private val args by navArgs<DiscoverRecipeDetailFragmentArgs>()
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (activity as MainActivity).mainComponent.inject(this)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

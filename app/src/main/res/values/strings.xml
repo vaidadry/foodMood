@@ -6,7 +6,6 @@
     <string name="random_button">generate!</string>
     <string name="gradient_background">gradientBackground</string>
     <string name="show_me_how_button">show me how</string>
-    <string name="check_again_button">check again</string>
     <string name="recipe_book_tab_title">Recipe book</string>
     <string name="suggestion_for_meal_text">suggestion for \n %s:</string>
     <string name="suggestion">%s</string>
@@ -16,42 +15,21 @@
     <string name="add_recipe">Add recipe</string>
     <string name="title">Title</string>
     <string name="url">URL</string>
-    <string name="meal_selection">Choose a meal</string>
     <string name="veggie_checkbox">go for veggies</string>
     <string name="fish_craving_checkbox">fish craving</string>
-    <string name="no_recipe_available_toast">No recipes in the collection, please add</string>
-    <string-array name="meals">
-        <item>Select meal</item>
-        <item>Breakfast</item>
-        <item>Brunch</item>
-        <item>Lunch</item>
-        <item>Dinner</item>
-        <item>Sweets</item>
-    </string-array>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="splash_logo_content_description">splashLogo</string>
-    <string name="background_dark">content_description_background_dark</string>
-    <string name="please_select_meal_error">Please select a meal</string>
     <string name="saved_successfully">Recipe saved successfully</string>
     <string name="error_saving_recipe_not_filled">Please fill required fields</string>
     <string name="error_showing_recipe">Add some recipes, first</string>
-    <string name="error_opening_recipe">Can\'t open the url</string>
     <string name="no_recipes_available">No recipes available.</string>
     <string name="Favorites">Favorites</string>
-    <string name="grid_view_menu_item">Grid View</string>
-    <string name="list_view_menu_item">List View</string>
-    <string name="categories_menu_item">Categories</string>
-    <string name="content_description_meal_card_image">content description meal card image</string>
-    <string name="search">Search</string>
     <string name="by_title">By title</string>
     <string name="by_ingredient">By Ingredient</string>
     <string name="search_by_ingredient">Search by ingredient</string>
     <string name="search_by_title">Search by title</string>
-    <string name="content_description_search">content_description_search</string>
     <string name="share_recipe">share recipe</string>
     <string name="share_message">Heyy! Lets make %1$s for %2$s today! Here\'s what I have in mind: %3$s </string>
-    <string name="nom_nom">Nom Nom</string>
     <string name="discover">Discover</string>
     <string name="discover_bottom_nav_text">Discover</string>
     <string name="incorrect_url">Incorrect url, take a look</string>
@@ -62,9 +40,6 @@
     <string name="sweets">Sweets</string>
     <string name="general_meal_image_of_detail_page">General meal image of detail page</string>
     <string name="recipe_image_content_description">recipe image content description</string>
-    <string name="external_recipe_image">external recipe image</string>
-    <string name="loading_animation">loading animation</string>
-    <string name="network_data_status_image">network data status image</string>
     <string name="add_to_recipe_book">Add to Recipe Book</string>
     <string name="load_error_message">Ooups! Please check Internet connection</string>
     <string name="retry">Retry</string>
