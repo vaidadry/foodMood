@@ -1,6 +1,5 @@
 package vaida.dryzaite.foodmood.ui.recipeList
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.activity.OnBackPressedCallback
@@ -9,30 +8,28 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentRecipeListBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.ui.main.MainActivity
 import vaida.dryzaite.foodmood.utilities.BUNDLE_KEY
 import vaida.dryzaite.foodmood.utilities.DividerItemDecoration
 import vaida.dryzaite.foodmood.utilities.ItemTouchHelperCallback
 import vaida.dryzaite.foodmood.utilities.REQUEST_KEY
-import javax.inject.Inject
 
+@AndroidEntryPoint
 class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListener {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var binding: FragmentRecipeListBinding
     private lateinit var adapter: RecipeListAdapter
 
-    private val viewModel: RecipeListViewModel by viewModels { viewModelFactory }
+    private val viewModel: RecipeListViewModel by viewModels()
 
 
     //handling back button clicks not to return to add-form
@@ -43,11 +40,6 @@ class RecipeListFragment : Fragment(), RecipeListAdapter.RecipeListAdapterListen
                 findNavController().navigate(RecipeListFragmentDirections.actionRecipeListFragmentToHomeFragment2())
             }
         })
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (activity as MainActivity).mainComponent.inject(this)
     }
 
 

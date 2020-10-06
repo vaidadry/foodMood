@@ -2,33 +2,30 @@ package vaida.dryzaite.foodmood.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.Observer
+import androidx.activity.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import kotlinx.android.synthetic.main.activity_main.*
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_discover_recipes.*
 import kotlinx.android.synthetic.main.fragment_recipe_list.toolbar
-import vaida.dryzaite.foodmood.FoodmoodApplication
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.ActivityMainBinding
-import vaida.dryzaite.foodmood.di.MainComponent
+import vaida.dryzaite.foodmood.ui.MainActivityFragmentFactory
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    @Inject lateinit var viewModel: MainViewModel
+    @Inject lateinit var fragmentFactory: MainActivityFragmentFactory
+
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
-    lateinit var mainComponent: MainComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        mainComponent = (application as FoodmoodApplication).appComponent.mainComponent().create()
-        mainComponent.inject(this)
-
         super.onCreate(savedInstanceState)
+        supportFragmentManager.fragmentFactory = fragmentFactory
 
-        // Inflate with View binding to optimize space, as no databinding used
+        // Inflate with View binding to optimize space, as no data binding used
         binding = ActivityMainBinding.inflate(layoutInflater, container, false)
         setSupportActionBar(toolbar)
 

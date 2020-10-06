@@ -13,11 +13,12 @@ import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FavoritesCardItemBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.utilities.ItemSelectedListener
+import javax.inject.Inject
 
 class FavoritesAdapter(
     private val clickListener: FavoritesOnClickListener,
     private val listener: FavoritesAdapterListener)
-    : RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder>(){
+    : RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder>() {
 
 
     var scrollDirection = ScrollDirection.DOWN
@@ -51,8 +52,8 @@ class FavoritesAdapter(
         set(value) = differ.submitList(value)
 
 
-
-    inner class FavoritesViewHolder(val binding: FavoritesCardItemBinding) : RecyclerView.ViewHolder(binding.root),
+    inner class FavoritesViewHolder(val binding: FavoritesCardItemBinding) :
+        RecyclerView.ViewHolder(binding.root),
         ItemSelectedListener {
 
         // binding data to list item layout
@@ -79,7 +80,12 @@ class FavoritesAdapter(
 
         // adding on and off background colors on dragged item
         override fun onItemSelected() {
-            itemView.recipe_card_container.setBackgroundColor(ContextCompat.getColor(itemView.context, R.color.colorPrimaryDark))
+            itemView.recipe_card_container.setBackgroundColor(
+                ContextCompat.getColor(
+                    itemView.context,
+                    R.color.colorPrimaryDark
+                )
+            )
         }
 
         override fun onItemCleared() {
@@ -89,8 +95,9 @@ class FavoritesAdapter(
         //adding animation based on scroll direction
         private fun animateView(viewToAnimate: View) {
             if (viewToAnimate.animation == null) {
-                val animId = if (scrollDirection == ScrollDirection.DOWN) R.anim.slide_from_bottom else R.anim.slide_from_top
-                val animation = AnimationUtils.loadAnimation(viewToAnimate.context, animId )
+                val animId =
+                    if (scrollDirection == ScrollDirection.DOWN) R.anim.slide_from_bottom else R.anim.slide_from_top
+                val animation = AnimationUtils.loadAnimation(viewToAnimate.context, animId)
                 viewToAnimate.animation = animation
             }
         }
@@ -101,16 +108,16 @@ class FavoritesAdapter(
     enum class ScrollDirection {
         UP, DOWN
     }
+
     interface FavoritesAdapterListener {
         fun addFavorites(recipe: RecipeEntry)
         fun removeFavorites(recipe: RecipeEntry)
     }
 }
-
-//defining click listeners to respond to clicks on RW
-open class FavoritesOnClickListener(val clickListener: (recipe: RecipeEntry) -> Unit) {
-    fun onClick(recipe: RecipeEntry) = clickListener(recipe)
-}
+    //defining click listeners to respond to clicks on RW
+    open class FavoritesOnClickListener @Inject constructor (val clickListener: (recipe: RecipeEntry) -> Unit) {
+        fun onClick(recipe: RecipeEntry) = clickListener(recipe)
+    }
 
 
 

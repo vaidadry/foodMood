@@ -1,6 +1,7 @@
 package vaida.dryzaite.foodmood.ui.addRecipe
 
 import androidx.databinding.ObservableField
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -9,9 +10,8 @@ import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.model.RecipeGenerator
 import vaida.dryzaite.foodmood.repository.RecipeRepository
 import vaida.dryzaite.foodmood.utilities.isValidUrl
-import javax.inject.Inject
 
-class AddRecipeViewModel2 @Inject constructor(
+class AddRecipeViewModel2 @ViewModelInject constructor(
     private val generator: RecipeGenerator,
     private val repository: RecipeRepository) : ViewModel() {
 
@@ -24,7 +24,7 @@ class AddRecipeViewModel2 @Inject constructor(
     }
 
     //defining RecipeEntry  parameters
-    val title = ObservableField<String>("")
+    val title = ObservableField<String?>("")
     var veggie = ObservableField<Boolean>(false)
     var fish = ObservableField<Boolean>(false)
     var meal = ObservableField<Int>(0)

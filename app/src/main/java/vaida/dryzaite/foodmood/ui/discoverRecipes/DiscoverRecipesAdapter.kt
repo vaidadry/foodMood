@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import vaida.dryzaite.foodmood.databinding.GridListItemBinding
 import vaida.dryzaite.foodmood.network.ExternalRecipe
+import javax.inject.Inject
 
 // PagingDataAdapter used to implement Paging Lib in RecyclerView
-class DiscoverRecipesAdapter (private val onClickListener: OnClickListener)
+class DiscoverRecipesAdapter @Inject constructor()
     : PagingDataAdapter <ExternalRecipe, DiscoverRecipesAdapter.DiscoverRecipesViewHolder>(
     diffUtil) {
 
@@ -22,9 +23,13 @@ class DiscoverRecipesAdapter (private val onClickListener: OnClickListener)
     override fun onBindViewHolder(holder: DiscoverRecipesViewHolder, position: Int) {
         val externalRecipe = getItem(position)
         if (externalRecipe != null) {
+
             holder.itemView.setOnClickListener {
-                onClickListener.onClick(externalRecipe)
+                onItemClickListener?.let {
+                    it(externalRecipe)
+                }
             }
+
             holder.bind(externalRecipe)
         }
     }
@@ -47,8 +52,10 @@ class DiscoverRecipesAdapter (private val onClickListener: OnClickListener)
         }
     }
 
-     //click listener to react on clicks on RV items
-     class OnClickListener(val clickListener: (externalRecipe:ExternalRecipe) -> Unit) {
-         fun onClick(externalRecipe: ExternalRecipe) = clickListener(externalRecipe)
-     }
+    //click listener
+    private var onItemClickListener: ((ExternalRecipe) -> Unit)? = null
+
+    fun setItemClickedListener(listener: (ExternalRecipe) -> Unit) {
+        onItemClickListener = listener
+    }
 }

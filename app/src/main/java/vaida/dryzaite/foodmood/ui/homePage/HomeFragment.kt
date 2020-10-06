@@ -1,6 +1,5 @@
 package vaida.dryzaite.foodmood.ui.homePage
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,26 +9,18 @@ import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentHome2Binding
-import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.ui.addRecipe.AddRecipeViewModel2
-import vaida.dryzaite.foodmood.ui.main.MainActivity
-import vaida.dryzaite.foodmood.ui.recipeList.RecipeListFragmentDirections
-import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var binding: FragmentHome2Binding
 
-    private val viewModel: HomeViewModel by viewModels { viewModelFactory }
+    private val viewModel: HomeViewModel by viewModels()
 
 //    handling back button clicks not to return to recipe list
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,11 +30,6 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(HomeFragmentDirections.actionHomeFragment2Self())
             }
         })
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (activity as MainActivity).mainComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -1,5 +1,6 @@
 package vaida.dryzaite.foodmood.ui.discoverRecipes
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,10 +12,9 @@ import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import vaida.dryzaite.foodmood.network.ExternalRecipe
 import vaida.dryzaite.foodmood.repository.RecipeRepository
-import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-class DiscoverRecipesIngredientViewModel @Inject constructor (
+class DiscoverRecipesIngredientViewModel @ViewModelInject constructor (
     private val repository: RecipeRepository
 ) : ViewModel() {
 
@@ -39,8 +39,8 @@ class DiscoverRecipesIngredientViewModel @Inject constructor (
 
 
     //val to trigger navigation to detail page and related methods
-    private val _navigateToSelectedRecipe = MutableLiveData<ExternalRecipe>()
-    val navigateToSelectedRecipe: LiveData<ExternalRecipe>
+    private val _navigateToSelectedRecipe = MutableLiveData<ExternalRecipe?>()
+    val navigateToSelectedRecipe: LiveData<ExternalRecipe?>
         get() = _navigateToSelectedRecipe
 
 

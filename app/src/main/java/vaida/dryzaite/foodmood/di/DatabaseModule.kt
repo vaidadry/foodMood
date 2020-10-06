@@ -1,22 +1,32 @@
 package vaida.dryzaite.foodmood.di
 
 import android.content.Context
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
-import vaida.dryzaite.foodmood.FoodmoodApplication
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.scopes.ActivityScoped
 import vaida.dryzaite.foodmood.database.RecipeDao
 import vaida.dryzaite.foodmood.database.RecipeDatabase
-import javax.inject.Singleton
+import vaida.dryzaite.foodmood.utilities.DATABASE_NAME
 
+@InstallIn(ActivityComponent::class)
 @Module
-class DatabaseModule {
-    @Singleton
+object DatabaseModule {
+    @ActivityScoped
     @Provides
-    fun provideDatabase(appContext: Context): RecipeDatabase {
-        return RecipeDatabase.getInstance(appContext)
-    }
+    fun provideRecipeDatabase(@ActivityContext appContext: Context): RecipeDatabase =
+        Room.databaseBuilder(
+            appContext,
+            RecipeDatabase::class.java,
+            DATABASE_NAME)
+            .fallbackToDestructiveMigration()
+            .build()
 
-    @Singleton
+
+    @ActivityScoped
     @Provides
     fun provideRecipeDao(database: RecipeDatabase): RecipeDao {
         return database.recipeDao()

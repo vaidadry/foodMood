@@ -13,26 +13,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.android.AndroidEntryPoint
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentAddRecipe2Binding
 import vaida.dryzaite.foodmood.ui.main.MainActivity
 import vaida.dryzaite.foodmood.utilities.isValidUrl
 import javax.inject.Inject
-
+@AndroidEntryPoint
 class AddRecipeFragment2 : Fragment(){
 
-    @Inject lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var binding: FragmentAddRecipe2Binding
 
     private val args by navArgs<AddRecipeFragment2Args>()
-    private val viewModel: AddRecipeViewModel2 by viewModels { viewModelFactory }
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        (activity as MainActivity).mainComponent.inject(this)
-    }
-
+    private val viewModel: AddRecipeViewModel2 by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_recipe_2, container, false)
