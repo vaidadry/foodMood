@@ -6,7 +6,7 @@ Besides, the discover option allows to browse external recipes and save them to 
 
 ### Features v.1
 * add and store recipes (validation, categorization, search)
-* browse external recipe DB by title and add to local Recipe Book
+* browse external recipe DB by title and ingredients and add to local Recipe Book
 * random recipe generator based on user preferances
 * linking to URLs and sharing with friends via other apps
 * favorite button, 
@@ -28,5 +28,6 @@ Written in Kotlin, based on latest recommendations by Google.
 * DataBinding
 * Paging library
 * Transformations
-* Dagger2
+* Dagger2 // Hilt (different branches)
+
  
