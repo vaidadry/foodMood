@@ -11,32 +11,22 @@ import vaida.dryzaite.foodmood.utilities.convertStringMealTypeToNumeric
 
 class RecipeListViewModel @ViewModelInject constructor(private val repository: RecipeRepository) : ViewModel() {
 
-    //defining navigation state
-    private val _navigateToRecipeDetail = MutableLiveData<RecipeEntry?>()
-    val navigateToRecipeDetail : LiveData<RecipeEntry?>
-        get() = _navigateToRecipeDetail
-
-
-    // storing meal selection filter value
-    private val _mealSelection = MutableLiveData<Int?>()
-    val mealSelection: LiveData<Int?>
-        get() = _mealSelection
-
-
-    //storing action of clicking FAB
-    private val _navigateToAddRecipeFragment = MutableLiveData<Boolean?>()
-    val navigateToAddRecipeFragment: LiveData<Boolean?>
-        get() = _navigateToAddRecipeFragment
-
-
-    // storing favorite button state
-    private val _favoriteStatusChange = MutableLiveData<Boolean?>()
-    val favoriteStatusChange: LiveData<Boolean?>
-        get() = _favoriteStatusChange
-
-
     private lateinit var _recipe: RecipeEntry
 
+    // navigation state
+    private val _navigateToRecipeDetail = MutableLiveData<RecipeEntry?>()
+    val navigateToRecipeDetail : LiveData<RecipeEntry?> = _navigateToRecipeDetail
+
+    private val _mealSelection = MutableLiveData<Int?>()
+    val mealSelection: LiveData<Int?> = _mealSelection
+
+    // action of FAB click
+    private val _navigateToAddRecipeFragment = MutableLiveData<Boolean?>()
+    val navigateToAddRecipeFragment: LiveData<Boolean?> = _navigateToAddRecipeFragment
+
+    // favorite button state
+    private val _favoriteStatusChange = MutableLiveData<Boolean?>()
+    val favoriteStatusChange: LiveData<Boolean?> = _favoriteStatusChange
 
     init {
         _mealSelection.value = null
@@ -50,44 +40,36 @@ class RecipeListViewModel @ViewModelInject constructor(private val repository: R
         repository.deleteRecipe(recipeEntry)
     }
 
-    //updating database with changed status of favorites
+    // favorites update
     private fun updateRecipe(recipeEntry: RecipeEntry) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateRecipe(recipeEntry)
     }
 
-
     fun onDeleteRecipe(recipeEntry: RecipeEntry) = deleteRecipe(recipeEntry)
 
-
-    // handling navigation
     fun onRecipeClicked(recipeEntry: RecipeEntry) {
         _navigateToRecipeDetail.value = recipeEntry
     }
-
 
     fun onRecipeDetailNavigated() {
         _navigateToRecipeDetail.value = null
     }
 
-
     fun onFabClick() {
         _navigateToAddRecipeFragment.value = true
     }
-
 
     fun onFabClicked() {
         _navigateToAddRecipeFragment.value = null
     }
 
-
-    //handling favorite button clicks
+    // favorite button clicks
     fun removeFavorites(recipeEntry: RecipeEntry) {
         _recipe = recipeEntry
         _recipe.isFavorite = false
         updateRecipe(_recipe)
         _favoriteStatusChange.value = true
     }
-
 
     fun addFavorites(recipeEntry: RecipeEntry) {
         _recipe = recipeEntry
@@ -96,21 +78,9 @@ class RecipeListViewModel @ViewModelInject constructor(private val repository: R
         _favoriteStatusChange.value = true
     }
 
-
     fun onFavoriteClickCompleted() {
         _favoriteStatusChange.value = null
     }
-
-
-    // handling filtering
-    fun onMealSelected(titleOrNull: String, resources: Resources){
-        _mealSelection.value =
-            when (titleOrNull) {
-                "null" -> null
-                else -> convertStringMealTypeToNumeric(titleOrNull, resources)
-            }
-    }
-
 
     fun initFilter(): LiveData<List<RecipeEntry>> =
         Transformations.switchMap(_mealSelection) {meal ->
@@ -120,6 +90,14 @@ class RecipeListViewModel @ViewModelInject constructor(private val repository: R
             getAllRecipesLiveData()}
         }
 
+    // filtering
+    fun onMealSelected(titleOrNull: String, resources: Resources){
+        _mealSelection.value =
+            when (titleOrNull) {
+                "null" -> null
+                else -> convertStringMealTypeToNumeric(titleOrNull, resources)
+            }
+    }
 }
 
 

@@ -15,24 +15,27 @@ class AddRecipeViewModel @ViewModelInject constructor(
     private val generator: RecipeGenerator,
     private val repository: RecipeRepository) : ViewModel() {
 
-
     private val newRecipe = MutableLiveData<RecipeEntry?>()
+    lateinit var entry: RecipeEntry
 
-    private fun insertRecipe(recipeEntry: RecipeEntry) = viewModelScope.launch(Dispatchers.IO) {
-        repository.insertRecipe(recipeEntry)
-    }
-
-    //defining RecipeEntry  parameters
-    var title = ObservableField<String>()
+    var title = ObservableField<String?>()
     var veggie = ObservableField<Boolean>()
     var fish = ObservableField<Boolean>()
     var meal = ObservableField<Int>()
     var recipe = ObservableField<String>()
     var ingredients = ObservableField<String>()
 
+    // meal selected state
+    private val _onMealSelected = MutableLiveData<Boolean?>()
+    val onMealSelected: LiveData<Boolean?> = _onMealSelected
 
-    lateinit var entry: RecipeEntry
+    // save state
+    private val _onSaveLiveData = MutableLiveData<Boolean?>()
+    val onSaveLiveData: LiveData<Boolean?> = _onSaveLiveData
 
+    private fun insertRecipe(recipeEntry: RecipeEntry) = viewModelScope.launch(Dispatchers.IO) {
+        repository.insertRecipe(recipeEntry)
+    }
 
     private fun updateEntry() {
         entry = generator.generateRecipe(
@@ -46,12 +49,6 @@ class AddRecipeViewModel @ViewModelInject constructor(
         newRecipe.value = entry
     }
 
-    //parameter to observe state when meal is selected
-    private val _onMealSelected = MutableLiveData<Boolean?>()
-        val onMealSelected: LiveData<Boolean?>
-        get() = _onMealSelected
-
-
     fun onSetMealType(mealSelection: Int) {
         this.meal.set(mealSelection)
         _onMealSelected.value = true
@@ -61,8 +58,7 @@ class AddRecipeViewModel @ViewModelInject constructor(
         _onMealSelected.value = null
     }
 
-
-    // form validation - valid url and non empty fields
+    // form validation - url and empty fields
     fun canSaveRecipe(): Boolean {
         val title = this.title.get()
         val recipe = this.recipe.get()
@@ -77,14 +73,6 @@ class AddRecipeViewModel @ViewModelInject constructor(
         return false
     }
 
-    //adding custom property with getter, for dataBinding for state
-    private val _onSaveLiveData = MutableLiveData<Boolean?>()
-    val onSaveLiveData: LiveData<Boolean?>
-        get() = _onSaveLiveData
-
-
-    //method's added with data binding, updates with user input, gets validation,
-    // if passes -  is inserted to DB off main thread with coroutines
     fun saveNewRecipe() {
         updateEntry()
         return if (canSaveRecipe()) {
@@ -99,7 +87,6 @@ class AddRecipeViewModel @ViewModelInject constructor(
     fun onSaveLiveDataCompleted() {
         _onSaveLiveData.value = null
     }
-
 
 }
 

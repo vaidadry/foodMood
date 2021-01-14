@@ -14,23 +14,17 @@ import vaida.dryzaite.foodmood.network.ExternalRecipe
 class DiscoverRecipesViewModel @ViewModelInject constructor (
     private val repository: RecipeRepository) : ViewModel() {
 
-    //to store TITLE search RESULT: recipeList
     private var currentTitleSearchResult: Flow<PagingData<ExternalRecipe>>? = null
 
-    //to store title search QUERY
-    private val _currentTitleSearchQuery = MutableLiveData<String>("")
+    private val _currentTitleSearchQuery = MutableLiveData("")
     val currentTitleSearchQuery: LiveData<String> = _currentTitleSearchQuery
 
     fun updateTitleSearchQuery(searchQuery: String) {
         _currentTitleSearchQuery.value = searchQuery
     }
 
-    //val to trigger navigation to detail page and related methods
     private val _navigateToSelectedRecipe = MutableLiveData<ExternalRecipe?>()
-    val navigateToSelectedRecipe: LiveData<ExternalRecipe?>
-        get() = _navigateToSelectedRecipe
-
-
+    val navigateToSelectedRecipe: LiveData<ExternalRecipe?> = _navigateToSelectedRecipe
 
     fun displayRecipeDetails(externalRecipe: ExternalRecipe) {
         _navigateToSelectedRecipe.value = externalRecipe
@@ -39,7 +33,6 @@ class DiscoverRecipesViewModel @ViewModelInject constructor (
     fun displayRecipeDetailsComplete() {
         _navigateToSelectedRecipe.value = null
     }
-
 
     // method checks if query old or new, if old - uses cache, if new - makes network call
     //p.s. using old query does not refresh data somehow, can use cache
@@ -62,9 +55,8 @@ class DiscoverRecipesViewModel @ViewModelInject constructor (
             repository.searchExternalRecipes(searchQuery)
                 .cachedIn(viewModelScope)
         currentTitleSearchResult = newResult
-        Timber.i("current result: ${currentTitleSearchResult} new search result: $newResult")
+        Timber.i("current result: $currentTitleSearchResult new search result: $newResult")
         return newResult
 
     }
-
 }

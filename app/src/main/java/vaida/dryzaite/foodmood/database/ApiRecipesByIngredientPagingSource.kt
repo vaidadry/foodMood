@@ -9,7 +9,6 @@ import vaida.dryzaite.foodmood.network.RecipeApiService
 import vaida.dryzaite.foodmood.utilities.API_STARTING_PAGE_INDEX
 import java.io.IOException
 
-
 class ApiRecipesByIngredientPagingSource(
     private val service: RecipeApiService,
     private val query: String? = ""

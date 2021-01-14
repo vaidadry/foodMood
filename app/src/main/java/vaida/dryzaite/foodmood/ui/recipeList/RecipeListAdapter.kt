@@ -12,13 +12,12 @@ import vaida.dryzaite.foodmood.databinding.ListItemRecipeViewHolderBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.utilities.ItemSelectedListener
 import vaida.dryzaite.foodmood.utilities.ItemTouchHelperListener
-import java.util.*
+import java.util.Collections
 
 class RecipeListAdapter(
     private val listener: RecipeListAdapterListener,
     private val clickListener: RecipeListOnClickListener)
     : RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder>(), ItemTouchHelperListener{
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeListViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -31,7 +30,6 @@ class RecipeListAdapter(
     override fun onBindViewHolder(holder: RecipeListViewHolder, position: Int) {
         holder.bind(recipes[position], clickListener)
     }
-
 
     override fun onItemDismiss(viewHolder: RecyclerView.ViewHolder, position: Int) {
         listener.deleteRecipeAtPosition(recipes[position])
@@ -68,12 +66,9 @@ class RecipeListAdapter(
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
-
-
     inner class RecipeListViewHolder(val binding: ListItemRecipeViewHolderBinding) : RecyclerView.ViewHolder(binding.root),
         ItemSelectedListener {
 
-        // binding data to list item layout
         fun bind(recipe: RecipeEntry, clickListener: RecipeListOnClickListener) {
             binding.dataclassRecipeEntry = recipe
             binding.clickListener = clickListener
@@ -109,7 +104,6 @@ class RecipeListAdapter(
         fun removeFavorites(recipe: RecipeEntry)
     }
 }
-
 
 //defining click listeners to respond to clicks on RW
 open class RecipeListOnClickListener(val clickListener: (recipe: RecipeEntry) -> Unit) {

@@ -6,39 +6,32 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.repository.RecipeRepository
-import javax.inject.Inject
 
 class RecipeViewModel @ViewModelInject constructor(private val repository: RecipeRepository): ViewModel() {
 
     private val _recipe = MutableLiveData<RecipeEntry?>()
-    val recipe: LiveData<RecipeEntry?>
-        get() = _recipe
+    val recipe: LiveData<RecipeEntry?> = _recipe
 
+    private val _navigateToUrl = MutableLiveData<String?>()
+    val navigateToUrl: LiveData<String?> = _navigateToUrl
 
-    //grab passed arguments from Fragment to VM
+    // args from Fragment
     fun setRecipe(recipe: RecipeEntry?) {
-        if (_recipe.value != recipe) {
-            _recipe.value = recipe
+        recipe?.let {
+            if (_recipe.value != recipe) {
+                _recipe.value = recipe
+            }
         }
     }
 
-
-    //updating database with status of favorites
+    // favorites update
     fun updateRecipe(recipeEntry: RecipeEntry) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateRecipe(recipeEntry)
     }
 
-
-    // manage clicks on url link
-    private val _navigateToUrl = MutableLiveData<String?>()
-    val navigateToUrl: LiveData<String?>
-        get() = _navigateToUrl
-
-
     fun onClickUrl() {
         _navigateToUrl.value = _recipe.value?.recipe
     }
-
 
     fun onButtonClicked() {
         _navigateToUrl.value = null

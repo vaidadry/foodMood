@@ -1,46 +1,33 @@
 package vaida.dryzaite.foodmood.ui.addRecipe
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentAddRecipeBinding
+import vaida.dryzaite.foodmood.ui.BaseFragment
+import vaida.dryzaite.foodmood.ui.NavigationSettings
 import vaida.dryzaite.foodmood.utilities.isValidUrl
 
 @AndroidEntryPoint
-class AddRecipeFragment : Fragment(){
+class AddRecipeFragment : BaseFragment<AddRecipeViewModel, FragmentAddRecipeBinding>(){
+    override val navigationSettings: NavigationSettings? = null
+    override val layoutId: Int = R.layout.fragment_add_recipe
 
-    private lateinit var binding: FragmentAddRecipeBinding
-
-    private val viewModel: AddRecipeViewModel by viewModels()
-
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_recipe, container, false)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-
-        observeMealTypeSelected()
-        observeOnAddRecipe()
-
-        return binding.root
+    override fun getViewModelClass(): Class<AddRecipeViewModel> {
+        return AddRecipeViewModel::class.java
     }
 
+    override fun setupUI() {
+        setupObservers()
+    }
 
-    //    since no click listener to save item, the observer send Success/error toast
-    private fun observeOnAddRecipe() {
-        viewModel.onSaveLiveData.observe(viewLifecycleOwner, Observer { saved ->
+    private fun setupObservers() {
+        // informs if changes saved
+        viewModel.onSaveLiveData.observe(viewLifecycleOwner, { saved ->
             saved?.let {
                 if (saved) {
-                    Toast.makeText(context, getString(R.string.saved_successfully), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.saved_successfully), Toast.LENGTH_SHORT).show() // TODO- change to snackbars
                     findNavController().navigate(R.id.action_addRecipeFragment_to_recipeListFragment)
                 } else {
                     if (!viewModel.recipe.get()?.isValidUrl()!!) {
@@ -52,16 +39,11 @@ class AddRecipeFragment : Fragment(){
                 viewModel.onSaveLiveDataCompleted()
             }
         })
-    }
 
-
-    //observer that as item clicked changes the background of item
-    private fun observeMealTypeSelected() {
-        viewModel.onMealSelected.observe(viewLifecycleOwner, Observer {
+        viewModel.onMealSelected.observe(viewLifecycleOwner, {
             if (it == true) {
                 viewModel.mealTypeSelectionCompleted()
             }
         })
     }
-
 }

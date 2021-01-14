@@ -42,7 +42,7 @@
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toTopOf="parent"
-                app:mealTypeIcon="@{viewModel.recipe}"
+                app:imageUrl="@{viewModel.selectedRecipe.thumbnail}"
                 tools:srcCompat="@drawable/ic_3" />
 
             <TextView
@@ -51,28 +51,15 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:fontFamily="@font/dosis_bold"
-                android:text="@{viewModel.recipe.title}"
                 android:textSize="@dimen/generate_random_meal_text_size"
-                android:maxLines="3"
+                android:maxLines="2"
                 app:layout_constraintBottom_toTopOf="@id/detail_url"
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toBottomOf="@id/detail_image"
+                android:text="@{viewModel.selectedRecipe.title}"
                 tools:text="@string/title" />
 
-            <TextView
-                android:id="@+id/detail_meal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:fontFamily="@font/dosis_bold"
-                android:textSize="@dimen/list_item_text_size"
-                app:layout_constraintBottom_toTopOf="@+id/ingredients"
-                app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
-                app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-                app:layout_constraintTop_toBottomOf="@id/detail_title"
-                app:mealTypeText="@{viewModel.recipe}"
-                tools:text="meal" />
 
             <TextView
                 android:id="@+id/ingredients"
@@ -86,8 +73,8 @@
                 app:layout_constraintBottom_toTopOf="@+id/detail_url"
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-                app:layout_constraintTop_toBottomOf="@id/detail_meal"
-                android:text="@{viewModel.recipe.ingredients}"
+                app:layout_constraintTop_toBottomOf="@id/detail_title"
+                android:text="@{viewModel.selectedRecipe.ingredients}"
                 tools:text="ingredients" />
 
 
@@ -97,11 +84,20 @@
                 app:layout_constraintBottom_toBottomOf="@id/horizontal_guideline_bottom_nav"
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-                app:layout_constraintTop_toBottomOf="@id/detail_meal"
+                app:layout_constraintTop_toBottomOf="@id/detail_title"
                 android:text="@string/show_me_how_button"
-                android:onClick="@{() -> viewModel.onClickUrl()}"/>
+                android:onClick="@{() -> viewModel.onClickUrl()}" />
 
-
+            <Button
+                android:id="@+id/button_add_to_database"
+                style="@style/ColorfulButton"
+                app:layout_constraintBottom_toBottomOf="@id/horizontal_guideline_bottom_nav"
+                app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
+                app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
+                app:layout_constraintTop_toBottomOf="@id/detail_url"
+                android:text="@string/add_to_recipe_book"
+                android:onClick="@{() -> viewModel.onClickAddFragment()}"
+                />
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/horizontal_guideline_bottom_nav"
                 android:layout_width="wrap_content"

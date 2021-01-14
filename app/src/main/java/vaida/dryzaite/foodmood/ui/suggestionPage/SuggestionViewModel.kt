@@ -9,14 +9,17 @@ import vaida.dryzaite.foodmood.model.RecipeEntry
 class SuggestionViewModel @ViewModelInject constructor(): ViewModel() {
 
     private val _randomRecipe = MutableLiveData<RecipeEntry?>()
-    val randomRecipe: LiveData<RecipeEntry?>
-        get() = _randomRecipe
+    val randomRecipe: LiveData<RecipeEntry?> = _randomRecipe
 
     private val _navigateToUrl = MutableLiveData<String?>()
-    val navigateToUrl: LiveData<String?>
-    get() = _navigateToUrl
-
-
+    val navigateToUrl: LiveData<String?> = _navigateToUrl
+    
+    fun setRecipe(recipe: RecipeEntry?) {
+        if (_randomRecipe.value != recipe) {
+            _randomRecipe.value = recipe
+        }
+    }
+    
     fun onButtonClick(url: String?) {
         _navigateToUrl.value = url
     }
@@ -24,12 +27,4 @@ class SuggestionViewModel @ViewModelInject constructor(): ViewModel() {
     fun onButtonClicked() {
         _navigateToUrl.value = null
     }
-
-    //grab passed arguments from Home Fragment to VM
-    fun setRecipe(recipe: RecipeEntry?) {
-        if (_randomRecipe.value != recipe) {
-            _randomRecipe.value = recipe
-        }
-    }
-
 }

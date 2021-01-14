@@ -1,14 +1,10 @@
 package vaida.dryzaite.foodmood.ui.favoritesPage
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -16,16 +12,26 @@ import dagger.hilt.android.AndroidEntryPoint
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentFavoritesBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
+import vaida.dryzaite.foodmood.ui.BaseFragment
+import vaida.dryzaite.foodmood.ui.NavigationSettings
 import vaida.dryzaite.foodmood.utilities.BUNDLE_KEY
 import vaida.dryzaite.foodmood.utilities.REQUEST_KEY
 
 @AndroidEntryPoint
-class FavoritesFragment: Fragment(), FavoritesAdapter.FavoritesAdapterListener {
+class FavoritesFragment: BaseFragment<FavoritesViewModel, FragmentFavoritesBinding>(), FavoritesAdapter.FavoritesAdapterListener {
     private lateinit var adapter: FavoritesAdapter
-    private lateinit var binding: FragmentFavoritesBinding
     private lateinit var gridItemDecoration: RecyclerView.ItemDecoration
 
-    private val viewModel: FavoritesViewModel by viewModels()
+    override val navigationSettings: NavigationSettings? = null
+    override val layoutId: Int = R.layout.fragment_favorites
+
+    override fun getViewModelClass(): Class<FavoritesViewModel> {
+        return FavoritesViewModel::class.java
+    }
+
+    override fun setupUI() {
+        setupObservers()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,26 +42,16 @@ class FavoritesFragment: Fragment(), FavoritesAdapter.FavoritesAdapterListener {
         })
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        // Inflate with View binding to optimize space, as no data binding used
-        binding = FragmentFavoritesBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupAdapter()
         setupRecyclerView()
-
         setupItemDecoration()
         setupScrollListener()
+    }
 
-        //updating Live data observer with ViewModel data
+    private fun setupObservers() {
         viewModel.getFavorites().observe(viewLifecycleOwner, { recipes ->
             recipes?.let {
                 adapter.favRecipes = it
@@ -63,7 +59,6 @@ class FavoritesFragment: Fragment(), FavoritesAdapter.FavoritesAdapterListener {
             checkForEmptyState()
         })
 
-        //set up observer to react on item taps and enable navigation
         viewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, { keyId->
             keyId?.let {
                 this.findNavController().navigate(
@@ -72,11 +67,10 @@ class FavoritesFragment: Fragment(), FavoritesAdapter.FavoritesAdapterListener {
             }
         })
 
-        // observer to react to favorite button click state
+        // button click state
         viewModel.favoriteStatusChange.observe(viewLifecycleOwner, {
             if (it == true) {
-
-                 // send info to RecipeList fragment about changed data
+                // send info to RecipeList fragment about changed data
                 setFragmentResult(REQUEST_KEY, bundleOf(BUNDLE_KEY to viewModel.favoriteStatusChange.value))
 
                 viewModel.onFavoriteClickCompleted()
@@ -84,7 +78,7 @@ class FavoritesFragment: Fragment(), FavoritesAdapter.FavoritesAdapterListener {
         })
     }
 
-    //adding scroll listener for smooth animation
+    // for smooth animation
     private fun setupScrollListener() {
         binding.favoritesRecyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -98,7 +92,6 @@ class FavoritesFragment: Fragment(), FavoritesAdapter.FavoritesAdapterListener {
         })
     }
 
-
     private fun setupAdapter() {
         adapter = FavoritesAdapter(FavoritesOnClickListener { id ->
             viewModel.onRecipeClicked(id)
@@ -106,18 +99,15 @@ class FavoritesFragment: Fragment(), FavoritesAdapter.FavoritesAdapterListener {
     }
 
     private fun setupRecyclerView() {
-        //setting up a Recyclerview
         val layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         binding.favoritesRecyclerview.layoutManager = layoutManager
         binding.favoritesRecyclerview.adapter = adapter
     }
 
-    //if no items, empty state text is shown
     private fun checkForEmptyState() {
         binding.emptyState.visibility = if (adapter.itemCount == 0) View.VISIBLE else View.INVISIBLE
     }
 
-//    adding spacing decorator for equal spacing between grid items
     private fun setupItemDecoration() {
         val spacingInPixels = resources.getDimensionPixelSize(R.dimen.recipe_card_grid_layout_margin)
         gridItemDecoration = SpacingItemDecorator(3, spacingInPixels)
@@ -131,6 +121,4 @@ class FavoritesFragment: Fragment(), FavoritesAdapter.FavoritesAdapterListener {
     override fun removeFavorites(recipe: RecipeEntry) {
         viewModel.removeFavorites(recipe)
     }
-
-
 }

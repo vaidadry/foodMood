@@ -62,14 +62,6 @@
             app:layout_constraintVertical_chainStyle="spread"
             android:onClick="@{() -> viewModel.onButtonClick(viewModel.randomRecipe.recipe ?? args.recipeEntry.recipe)}"/>
 
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/vertical_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
-
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/horizontal_guideline_top2"
             android:layout_width="wrap_content"
@@ -83,13 +75,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.25" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontal_guideline_middle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/horizontal_guideline_bottom"

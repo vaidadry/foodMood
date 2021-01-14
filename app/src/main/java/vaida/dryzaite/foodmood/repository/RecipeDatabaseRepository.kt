@@ -22,26 +22,21 @@ class RecipeDatabaseRepository @Inject constructor(
 
     private val allRecipes: LiveData<List<RecipeEntry>> = recipeDao.getAllRecipes()
 
-
     //    When we get the recipes, we are already returning LiveData in Dao.
 //    So we don’t need to get the data from background thread.
     override fun getAllRecipes(): LiveData<List<RecipeEntry>> = allRecipes
-
 
     override suspend fun insertRecipe(recipe: RecipeEntry) {
         recipeDao.insertRecipe(recipe)
     }
 
-
     override suspend fun deleteRecipe(recipe: RecipeEntry) {
         recipeDao.deleteRecipe(recipe)
     }
 
-
     override suspend fun updateRecipe(recipe: RecipeEntry) {
         recipeDao.updateRecipe(recipe)
     }
-
 
     override fun getRecipeWithId(key: String): LiveData<RecipeEntry> {
         return recipeDao.getRecipeWithId(key)
@@ -91,13 +86,11 @@ class RecipeDatabaseRepository @Inject constructor(
 
         Timber.i("dbQuery made: $dbQuery")
 
-
         val pagingSourceFactory =  { ApiRecipesByIngredientPagingSource(service, dbQuery)}
 
         //TO FETCH DB + NETWORK (BUGS in API currently- reloading multiple times, crashing etc, so im using only network above)
 //        val pagingSourceFactory =  { database.externalRecipesDao().getExternalRecipes(dbQuery) }
         //also excluding REMOTE MEDIATOR bellow, coz it blocks loading states and disable footer
-
 
         return Pager(
             config = PagingConfig(
@@ -113,5 +106,4 @@ class RecipeDatabaseRepository @Inject constructor(
             pagingSourceFactory = pagingSourceFactory
         ).flow
     }
-
 }

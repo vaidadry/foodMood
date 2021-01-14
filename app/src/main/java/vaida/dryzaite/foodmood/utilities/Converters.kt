@@ -3,7 +3,6 @@ package vaida.dryzaite.foodmood.utilities
 import android.content.res.Resources
 import vaida.dryzaite.foodmood.R
 
-
 // as DB uses Integers to divide items into categories, here is the conversion to Strings
 fun convertNumericMealTypeToString(mealSelection: Int, resources: Resources): String {
 

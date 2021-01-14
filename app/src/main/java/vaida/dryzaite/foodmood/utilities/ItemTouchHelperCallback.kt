@@ -40,5 +40,4 @@ class ItemTouchHelperCallback(private val listener: ItemTouchHelperListener) : I
             viewHolder.onItemCleared()
         }
     }
-
 }

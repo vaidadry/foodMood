@@ -2,13 +2,9 @@ package vaida.dryzaite.foodmood.ui.recipePage
 
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
-import android.view.*
+import android.view.MenuItem
 import android.widget.CheckBox
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,26 +13,32 @@ import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentRecipeDetailBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
+import vaida.dryzaite.foodmood.model.RecipeGenerator
+import vaida.dryzaite.foodmood.ui.BaseFragment
+import vaida.dryzaite.foodmood.ui.NavigationSettings
 import vaida.dryzaite.foodmood.utilities.convertNumericMealTypeToString
 
 @AndroidEntryPoint
-class RecipeFragment : Fragment(), Toolbar.OnMenuItemClickListener {
+class RecipeFragment constructor(private val generator: RecipeGenerator) : BaseFragment<RecipeViewModel, FragmentRecipeDetailBinding>(), Toolbar.OnMenuItemClickListener {
 
-    private lateinit var binding: FragmentRecipeDetailBinding
-
+    override val navigationSettings: NavigationSettings? = null
+    override val layoutId: Int = R.layout.fragment_recipe_detail
     private val args by navArgs<RecipeFragmentArgs>()
-    private val viewModel: RecipeViewModel by viewModels()
 
+    override fun getViewModelClass(): Class<RecipeViewModel> {
+        return RecipeViewModel::class.java
+    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_recipe_detail, container, false)
-
-        viewModel.setRecipe(args.recipeEntry)
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-
-        return binding.root
-        }
+    override fun setupUI() {
+        val recipeEntry = generator.generateRecipe(
+            title = args.recipeEntry.title,
+            meal = 0,
+            recipe = args.recipeEntry.href,
+            ingredients = args.recipeEntry.ingredients
+        )
+        viewModel.setRecipe(recipeEntry) // todo sulyginti Api duomenis i Recipe
+        setupObservers()
+    }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         return  when (item?.itemId) {
@@ -48,22 +50,17 @@ class RecipeFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        // inflate the toolbar menu with the heart, set up  observer, handling fav button toggle
+    private fun setupObservers() {
         toolbar_item.setOnMenuItemClickListener(this)
         val favoriteMenuItem = toolbar_item.menu.findItem(R.id.favorite_item_selector)
         val checkbox = favoriteMenuItem.actionView as CheckBox
-
-        //observer handling fav button clicks
-        viewModel.recipe.observe(viewLifecycleOwner, Observer {
+        // fav button clicks
+        viewModel.recipe.observe(viewLifecycleOwner, {
             if (it != null) {
                 setupFavoriteToggle(checkbox, it)
             }
         })
 
-        //observer handling clicks on URL field
         viewModel.navigateToUrl.observe(viewLifecycleOwner, Observer {
             it?.let {
                 redirectToRecipeUrl(it)
@@ -72,8 +69,6 @@ class RecipeFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         })
     }
 
-
-//    intent for sharing a recipe via other apps
     private fun getShareIntent(): Intent {
         val recipe = viewModel.recipe.value!!
         val shareIntent = Intent(Intent.ACTION_SEND)
@@ -86,8 +81,6 @@ class RecipeFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         startActivity(getShareIntent())
     }
 
-
-    //enable Favorite button
     private fun setupFavoriteToggle(checkBox: CheckBox, recipe: RecipeEntry) {
         checkBox.isChecked = recipe.isFavorite
         Timber.i("live data  get by id $recipe")
@@ -99,8 +92,6 @@ class RecipeFragment : Fragment(), Toolbar.OnMenuItemClickListener {
         checkBox.isChecked = recipe.isFavorite
     }
 
-
-    //linking to URL
     private fun redirectToRecipeUrl(url: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         view?.context?.startActivity(intent)

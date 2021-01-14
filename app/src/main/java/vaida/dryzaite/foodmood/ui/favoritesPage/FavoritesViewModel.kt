@@ -11,35 +11,30 @@ class FavoritesViewModel @ViewModelInject constructor(
     private val repository: RecipeRepository
 ) : ViewModel() {
 
+    private lateinit var _recipe: RecipeEntry
+
+    // navigation state
+    private val _navigateToRecipeDetail = MutableLiveData<RecipeEntry?>()
+    val navigateToRecipeDetail= _navigateToRecipeDetail
+
+    private val _favoriteStatusChange = MutableLiveData<Boolean?>()
+    val favoriteStatusChange: LiveData<Boolean?> = _favoriteStatusChange
+
     fun getFavorites() = repository.getFavorites()
 
-    //updating database with changed status of favorites
+    //updates database with changed favorites
     private fun updateRecipe(recipeEntry: RecipeEntry) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateRecipe(recipeEntry)
     }
-
-    //defining navigation state
-    private val _navigateToRecipeDetail = MutableLiveData<RecipeEntry?>()
-    val navigateToRecipeDetail
-        get() = _navigateToRecipeDetail
-
 
     fun onRecipeClicked(recipe: RecipeEntry) {
         _navigateToRecipeDetail.value = recipe
     }
 
-    ///and method to stop navigating
+    // stops navigating
     fun onRecipeDetailNavigated() {
         _navigateToRecipeDetail.value = null
     }
-
-    //handling Favorite data updates in DB
-
-    private val _favoriteStatusChange = MutableLiveData<Boolean?>()
-    val favoriteStatusChange: LiveData<Boolean?>
-        get() = _favoriteStatusChange
-
-    private lateinit var _recipe: RecipeEntry
 
     fun removeFavorites(recipe: RecipeEntry) {
         _recipe = recipe
@@ -58,5 +53,4 @@ class FavoritesViewModel @ViewModelInject constructor(
     fun onFavoriteClickCompleted() {
         _favoriteStatusChange.value = null
     }
-
 }

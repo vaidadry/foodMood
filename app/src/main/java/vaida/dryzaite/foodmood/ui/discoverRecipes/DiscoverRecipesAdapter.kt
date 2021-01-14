@@ -19,7 +19,6 @@ class DiscoverRecipesAdapter @Inject constructor()
             LayoutInflater.from(parent.context)))
     }
 
-    // adding private listener to react on clicks
     override fun onBindViewHolder(holder: DiscoverRecipesViewHolder, position: Int) {
         val externalRecipe = getItem(position)
         if (externalRecipe != null) {
@@ -45,14 +44,12 @@ class DiscoverRecipesAdapter @Inject constructor()
 
     class DiscoverRecipesViewHolder(private var binding: GridListItemBinding): RecyclerView.ViewHolder(binding.root) {
 
-        //binding via DataBinding Lib
         fun bind(externalRecipe: ExternalRecipe?) {
                 binding.externalRecipe = externalRecipe
                 binding.executePendingBindings()
         }
     }
 
-    //click listener
     private var onItemClickListener: ((ExternalRecipe) -> Unit)? = null
 
     fun setItemClickedListener(listener: (ExternalRecipe) -> Unit) {

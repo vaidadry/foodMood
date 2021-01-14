@@ -17,13 +17,15 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            style="@style/ToolBar"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
             app:layout_constraintBottom_toTopOf="@id/chips"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/top_nav_menu"
-            app:title="@string/recipe_book_tab_title"/>
+            app:title="@string/recipe_book_tab_title"
+            />
 
         <HorizontalScrollView
             android:id="@+id/chips"

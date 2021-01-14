@@ -20,7 +20,6 @@ class FavoritesAdapter(
     private val listener: FavoritesAdapterListener)
     : RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder>() {
 
-
     var scrollDirection = ScrollDirection.DOWN
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoritesViewHolder {
@@ -51,7 +50,6 @@ class FavoritesAdapter(
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
-
     inner class FavoritesViewHolder(val binding: FavoritesCardItemBinding) :
         RecyclerView.ViewHolder(binding.root),
         ItemSelectedListener {
@@ -76,7 +74,6 @@ class FavoritesAdapter(
             animateView(itemView)
             binding.executePendingBindings()
         }
-
 
         // adding on and off background colors on dragged item
         override fun onItemSelected() {
@@ -103,8 +100,7 @@ class FavoritesAdapter(
         }
     }
 
-
-    // to track scroll direction - for scroll animation
+    // to track scroll direction
     enum class ScrollDirection {
         UP, DOWN
     }
@@ -114,7 +110,7 @@ class FavoritesAdapter(
         fun removeFavorites(recipe: RecipeEntry)
     }
 }
-    //defining click listeners to respond to clicks on RW
+    // to respond to clicks on RW
     open class FavoritesOnClickListener @Inject constructor (val clickListener: (recipe: RecipeEntry) -> Unit) {
         fun onClick(recipe: RecipeEntry) = clickListener(recipe)
     }

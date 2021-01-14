@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.network.ExternalRecipe
 
-
 //REPOSITORY is mediator between database and viewModel
 interface RecipeRepository {
     suspend fun insertRecipe(recipe: RecipeEntry)

@@ -61,7 +61,6 @@ fun ImageView.setMealTypeIcon(recipe: RecipeEntry?) {
     }
 }
 
-
 // to use Glide to show images from url
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
@@ -69,6 +68,7 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
         val imgUri = imgUrl.toUri().buildUpon().scheme("http").build()
         Glide.with(imgView.context)
             .load(imgUri)
+            .centerCrop()
             .apply(RequestOptions()
                 .placeholder(R.drawable.loading_animation)
                 .error(R.drawable.ic_food))

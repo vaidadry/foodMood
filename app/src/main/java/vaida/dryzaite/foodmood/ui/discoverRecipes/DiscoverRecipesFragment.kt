@@ -6,8 +6,6 @@ import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
@@ -24,7 +22,8 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentDiscoverRecipesBinding
-import vaida.dryzaite.foodmood.ui.main.MainActivity
+import vaida.dryzaite.foodmood.ui.BaseFragment
+import vaida.dryzaite.foodmood.ui.NavigationSettings
 import vaida.dryzaite.foodmood.utilities.DividerItemDecoration
 import javax.inject.Inject
 
@@ -32,49 +31,23 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class DiscoverRecipesFragment @Inject constructor(
     val adapter: DiscoverRecipesAdapter
-) : Fragment() {
+) : BaseFragment<DiscoverRecipesViewModel, FragmentDiscoverRecipesBinding>() {
 
-    private lateinit var binding: FragmentDiscoverRecipesBinding
-    private val viewModel: DiscoverRecipesViewModel by viewModels()
+    override val navigationSettings: NavigationSettings? = null
+    override val layoutId: Int = R.layout.fragment_discover_recipes
     private var searchJob: Job? = null
 
-    @InternalCoroutinesApi
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        // Inflate the layout for this fragment. View binding to optimize space, as no data binding used
-        binding = FragmentDiscoverRecipesBinding.inflate(inflater, container, false)
-
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-
-        initAdapter()
-        setupTitleInputListeners()
-
-
-        // observing navigation state and navigating to detail page
-        viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, {
-            if ( null != it) {
-                this.findNavController().navigate(
-                    DiscoverRecipesFragmentDirections.actionDiscoverRecipesFragmentToDiscoverRecipeDetailFragment(it))
-                viewModel.displayRecipeDetailsComplete()
-            }
-        })
-
-        //observing title search query and enabling search accordingly
-        viewModel.currentTitleSearchQuery.observe(viewLifecycleOwner, {
-            Timber.i("currentTitleSearchQuery CHANGE observed, triggers search: $it")
-                it?.let {
-                    binding.titleInputET.setText(it)
-                    searchByTitle(it)
-                }
-        })
-
-        // enable Retry connection method
-        binding.retryButton.setOnClickListener { adapter.retry() }
-
-        return binding.root
+    override fun getViewModelClass(): Class<DiscoverRecipesViewModel> {
+        return DiscoverRecipesViewModel::class.java
     }
 
+    @InternalCoroutinesApi
+    override fun setupUI() {
+        initAdapter()
+        setupTitleInputListeners()
+        setupObservers()
+        binding.retryButton.setOnClickListener { adapter.retry() }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -109,8 +82,25 @@ class DiscoverRecipesFragment @Inject constructor(
         return super.onOptionsItemSelected(item)
     }
 
+    private fun setupObservers() {
+        viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, {
+            if ( null != it) {
+                this.findNavController().navigate(
+                    DiscoverRecipesFragmentDirections.actionDiscoverRecipesFragmentToDiscoverRecipeDetailFragment(it))
+                viewModel.displayRecipeDetailsComplete()
+            }
+        })
+
+        viewModel.currentTitleSearchQuery.observe(viewLifecycleOwner, {
+            Timber.i("currentTitleSearchQuery CHANGE observed, triggers search: $it")
+            it?.let {
+                binding.titleInputET.setText(it)
+                searchByTitle(it)
+            }
+        })
+    }
+
     private fun initAdapter() {
-        // set onClick listener to enable clicks on item
         adapter.setItemClickedListener {
             viewModel.displayRecipeDetails(it)
         }
@@ -144,7 +134,6 @@ class DiscoverRecipesFragment @Inject constructor(
         }
     }
 
-
     private fun addInputToTitleSearchQueryString() {
         Timber.i("addInputToTitleSearchQueryString() initiated, previous search q was: ${viewModel.currentTitleSearchQuery.value}")
         binding.titleInputET.text.trim().let {
@@ -155,7 +144,6 @@ class DiscoverRecipesFragment @Inject constructor(
         }
     }
 
-    // triggering search by setting up listeners
     @InternalCoroutinesApi
     private fun setupTitleInputListeners() {
 
@@ -176,7 +164,7 @@ class DiscoverRecipesFragment @Inject constructor(
             }
         }
 
-//        // Scroll to top when the list is refreshed from network.
+        // Scroll to top when the list is refreshed from network.
         lifecycleScope.launch {
             adapter.loadStateFlow
                 // Only emit when REFRESH LoadState for RemoteMediator changes.
@@ -186,7 +174,6 @@ class DiscoverRecipesFragment @Inject constructor(
                 .collect { binding.discoverListRecyclerview.scrollToPosition(0) }
         }
     }
-
 
     private fun addListDividerDecoration() {
         //adding list divider decorations
@@ -203,11 +190,8 @@ class DiscoverRecipesFragment @Inject constructor(
         binding.discoverSearchInputTitle.visibility = if (discover_search_input_title.visibility == View.GONE) View.VISIBLE else View.GONE
     }
 
-
-    //if no items, empty state text is shown
+    // TODO - set up
     private fun checkForEmptyState() {
         binding.emptyState.visibility = if (adapter.itemCount == 0) View.VISIBLE else View.INVISIBLE
     }
-
-
 }

@@ -4,7 +4,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-// recyclerview subclass of spacing decorator, which will equalize spacing between items
+// recyclerview subclass of spacing decorator, to equalize spacing
 class SpacingItemDecorator (private val spanCount: Int, private val spacing: Int): RecyclerView.ItemDecoration() {
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
@@ -30,5 +30,4 @@ class SpacingItemDecorator (private val spanCount: Int, private val spacing: Int
             outRect.right = spacing
         }
     }
-
 }

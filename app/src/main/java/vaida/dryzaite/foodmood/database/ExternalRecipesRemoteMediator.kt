@@ -21,7 +21,6 @@ class ExternalRecipesRemoteMediator(
     private val recipeDatabase: RecipeDatabase
 ): RemoteMediator<Int, ExternalRecipe>() {
 
-
     override suspend fun load(loadType: LoadType, state: PagingState<Int, ExternalRecipe>
     ): MediatorResult {
         val page = when (loadType) {
@@ -33,10 +32,7 @@ class ExternalRecipesRemoteMediator(
                 val remoteKeys = getRemoteKeyForFirstItem(state)
                     ?: return MediatorResult.Error(InvalidObjectException("Remote key and the prevKey should not be null"))
                 // If the previous key is null, then we can't request more data
-                val prevKey = remoteKeys.prevKey
-                if (prevKey == null) {
-                    return MediatorResult.Success(endOfPaginationReached = true)
-                }
+                val prevKey = remoteKeys.prevKey ?: return MediatorResult.Success(endOfPaginationReached = true)
                 remoteKeys.prevKey
             }
             LoadType.APPEND -> {
