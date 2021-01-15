@@ -9,6 +9,8 @@ import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -82,7 +84,7 @@ class DiscoverRecipesFragment @Inject constructor(
                 Timber.i("search by ingredient selected")
 
                 this.findNavController().navigate(
-                    DiscoverRecipesFragmentDirections.actionDiscoverRecipesFragmentToDiscoverRecipesIngredientFragment())
+                    DiscoverRecipesFragmentDirections.actionDiscoverRecipesFragmentToDiscoverRecipesIngredientFragment(null))
             }
         }
         return super.onOptionsItemSelected(item)
@@ -90,7 +92,7 @@ class DiscoverRecipesFragment @Inject constructor(
 
     private fun setupObservers() {
         viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, {
-            if ( null != it) {
+            it?.let {
                 val recipeEntry = generator.generateRecipe(
                     title = it.title,
                     meal = 0,
@@ -200,11 +202,11 @@ class DiscoverRecipesFragment @Inject constructor(
     }
 
     private fun hideShowSearchByTitleBar() {
-        binding.discoverSearchInputTitle.visibility = if (discover_search_input_title.visibility == View.GONE) View.VISIBLE else View.GONE
+        binding.discoverSearchInputTitle.isVisible = binding.discoverSearchInputTitle.isGone
     }
 
     // TODO - set up
     private fun checkForEmptyState() {
-        binding.emptyState.visibility = if (adapter.itemCount == 0) View.VISIBLE else View.INVISIBLE
+        binding.emptyState.isInvisible = adapter.itemCount > 0
     }
 }

@@ -54,7 +54,8 @@
             app:popEnterAnim="@anim/slide_up_anim" />
         <argument
             android:name="selectedRecipe"
-            app:argType="vaida.dryzaite.foodmood.model.RecipeEntry" />
+            app:argType="vaida.dryzaite.foodmood.model.RecipeEntry"
+            app:nullable="true"/>
     </fragment>
     <fragment
         android:id="@+id/suggestion_fragment"
@@ -89,7 +90,8 @@
         tools:layout="@layout/fragment_discover_recipes">
         <argument
             android:name="selectedRecipe"
-            app:argType="vaida.dryzaite.foodmood.model.RecipeEntry" />
+            app:argType="vaida.dryzaite.foodmood.model.RecipeEntry"
+            app:nullable="true"/>
         <action
             android:id="@+id/action_discover_recipes_fragment_to_recipeFragment"
             app:destination="@id/recipe_fragment" />
@@ -114,11 +116,15 @@
         android:name="vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesIngredientFragment"
         android:label="DiscoverRecipesIngredientFragment"
         tools:layout="@layout/fragment_discover_recipes_ingredient">
+        <argument
+            android:name="selectedRecipe"
+            app:argType="vaida.dryzaite.foodmood.model.RecipeEntry"
+            app:nullable="true"/>
         <action
             android:id="@+id/action_discoverRecipesIngredientFragment_to_discover_recipes_fragment"
             app:destination="@id/discover_recipes_fragment" />
         <action
-            android:id="@+id/action_discoverRecipesIngredientFragment_to_recipe_fragment2"
+            android:id="@+id/action_discoverRecipesIngredientFragment_to_recipe_fragment"
             app:destination="@id/recipe_fragment" />
     </fragment>
 </navigation>

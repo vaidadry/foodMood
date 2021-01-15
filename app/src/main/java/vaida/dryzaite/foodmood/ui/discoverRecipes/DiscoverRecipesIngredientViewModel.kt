@@ -18,10 +18,7 @@ class DiscoverRecipesIngredientViewModel @ViewModelInject constructor (
     private val repository: RecipeRepository
 ) : ViewModel() {
 
-    //to store ingredient search QUERY
     private var currentIngredientListQueryValue: List<String>? = null
-
-    //to store INGREDIENT search RESULT: recipeList
     private var currentIngredientSearchResult: Flow<PagingData<ExternalRecipe>>? = null
 
     private val _ingredientsListHelper = ArrayList<String>()
@@ -37,11 +34,8 @@ class DiscoverRecipesIngredientViewModel @ViewModelInject constructor (
         _ingredientsList.value = _ingredientsListHelper
     }
 
-
-    //val to trigger navigation to detail page and related methods
     private val _navigateToSelectedRecipe = MutableLiveData<ExternalRecipe?>()
-    val navigateToSelectedRecipe: LiveData<ExternalRecipe?>
-        get() = _navigateToSelectedRecipe
+    val navigateToSelectedRecipe: LiveData<ExternalRecipe?> = _navigateToSelectedRecipe
 
 
     fun displayRecipeDetails(externalRecipe: ExternalRecipe) {
@@ -73,5 +67,4 @@ class DiscoverRecipesIngredientViewModel @ViewModelInject constructor (
         Timber.i("new search result: $newResult")
         return newResult
     }
-
 }

@@ -8,6 +8,8 @@ import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -18,7 +20,6 @@ import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_discover_recipes.toolbar
-import kotlinx.android.synthetic.main.fragment_discover_recipes_ingredient.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -29,64 +30,39 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
+import vaida.dryzaite.foodmood.databinding.FragmentDiscoverRecipesBinding
 import vaida.dryzaite.foodmood.databinding.FragmentDiscoverRecipesIngredientBinding
+import vaida.dryzaite.foodmood.model.RecipeGenerator
+import vaida.dryzaite.foodmood.ui.BaseFragment
+import vaida.dryzaite.foodmood.ui.NavigationSettings
 import vaida.dryzaite.foodmood.utilities.DividerItemDecoration
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class DiscoverRecipesIngredientFragment @Inject constructor(
-    val adapter: DiscoverRecipesAdapter
-): Fragment() {
+    val adapter: DiscoverRecipesAdapter,
+    private val generator: RecipeGenerator
+): BaseFragment<DiscoverRecipesIngredientViewModel, FragmentDiscoverRecipesIngredientBinding>(){
 
-    private lateinit var binding: FragmentDiscoverRecipesIngredientBinding
-    private val viewModel: DiscoverRecipesIngredientViewModel by viewModels()
+    override val navigationSettings: NavigationSettings? = null
+    override val layoutId: Int = R.layout.fragment_discover_recipes_ingredient
+
     private var searchJob: Job? = null
 
-
+    override fun getViewModelClass(): Class<DiscoverRecipesIngredientViewModel> {
+        return DiscoverRecipesIngredientViewModel::class.java
+    }
 
     @InternalCoroutinesApi
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        // Inflate the layout for this fragment. View binding to optimize space, as no data binding used
-        binding = FragmentDiscoverRecipesIngredientBinding.inflate(inflater, container, false)
-
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-
+    override fun setupUI() {
         initAdapter()
         setupIngredientsInputListeners()
-
-        // observing navigation state and navigating to detail page
-        viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, {
-            if ( null != it) {
-//                this.findNavController().navigate(
-//                    DiscoverRecipesIngredientFragmentDirections.actionDiscoverRecipesIngredientFragmentToRecipeFragment(it))
-                viewModel.displayRecipeDetailsComplete()
-            }
-        })
-
-//        observing ingredients list and creating chips accordingly
-        viewModel.ingredientsList.observe(viewLifecycleOwner, object : Observer<List<String>> {
-            override fun onChanged(data: List<String>?) {
-                data ?: return
-
-                val chipGroup = binding.ingredientsGroupFL
-                chipGroup.removeAllViews()
-
-                for (chip in data) {
-                    addNewChip(chip, chipGroup)
-                }
-                searchByIngredients(data)
-            }
-        })
+        setupObservers()
 
         // enable Retry connection method
         binding.retryButton.setOnClickListener { adapter.retry() }
-
-        return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -108,15 +84,48 @@ class DiscoverRecipesIngredientFragment @Inject constructor(
         when (item.itemId) {
             R.id.search_menu_item -> {
                 Timber.i("search by title selected")
-//                this.findNavController().navigate(DiscoverRecipesIngredientFragmentDirections.actionDiscoverRecipesIngredientFragmentToDiscoverRecipesFragment())
+                this.findNavController().navigate(
+                    DiscoverRecipesIngredientFragmentDirections.actionDiscoverRecipesIngredientFragmentToDiscoverRecipesFragment(null))
             }
             R.id.search_by_ingredient_menu_item -> {
                 Timber.i("search by ingredient selected")
-
                 hideShowSearchByIngredientBar()
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun setupObservers() {
+        viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, {
+            it?.let {
+                val recipeEntry = generator.generateRecipe(
+                    title = it.title,
+                    meal = 0,
+                    href = it.href,
+                    ingredients = it.ingredients,
+                    thumbnail = it.thumbnail
+                )
+                this.findNavController().navigate(
+                    DiscoverRecipesIngredientFragmentDirections.actionDiscoverRecipesIngredientFragmentToRecipeFragment(recipeEntry))
+                viewModel.displayRecipeDetailsComplete()
+            }
+        })
+
+        //  observes ingredients list and creates chips accordingly
+        viewModel.ingredientsList.observe(viewLifecycleOwner, object : Observer<List<String>> {
+            override fun onChanged(data: List<String>?) {
+                data ?: return
+
+                val chipGroup = binding.ingredientsGroupFL
+                chipGroup.removeAllViews()
+
+                for (chip in data) {
+                    addNewChip(chip, chipGroup)
+                }
+                searchByIngredients(data)
+            }
+        })
+
     }
 
     private fun initAdapter() {
@@ -154,7 +163,7 @@ class DiscoverRecipesIngredientFragment @Inject constructor(
 
 
     private fun hideShowSearchByIngredientBar() {
-        binding.ingredientSearchLayout.visibility = if (ingredient_search_layout.visibility == View.GONE) View.VISIBLE else View.GONE
+        binding.ingredientSearchLayout.isVisible = binding.ingredientSearchLayout.isGone
     }
 
 
@@ -246,8 +255,6 @@ class DiscoverRecipesIngredientFragment @Inject constructor(
 
     //if no items, empty state text is shown
     private fun checkForEmptyState() {
-        binding.emptyState.visibility = if (adapter.itemCount == 0) View.VISIBLE else View.INVISIBLE
+        binding.emptyState.isInvisible = adapter.itemCount > 0
     }
-
-
-    }
+}

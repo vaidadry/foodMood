@@ -2,6 +2,7 @@ package vaida.dryzaite.foodmood.ui.addRecipe
 
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentAddRecipeBinding
@@ -13,12 +14,17 @@ import vaida.dryzaite.foodmood.utilities.isValidUrl
 class AddRecipeFragment : BaseFragment<AddRecipeViewModel, FragmentAddRecipeBinding>(){
     override val navigationSettings: NavigationSettings? = null
     override val layoutId: Int = R.layout.fragment_add_recipe
+    private val args by navArgs<AddRecipeFragmentArgs>()
 
     override fun getViewModelClass(): Class<AddRecipeViewModel> {
         return AddRecipeViewModel::class.java
     }
 
     override fun setupUI() {
+        viewModel.title.set(args.selectedRecipe?.title ?: "")
+        viewModel.href.set(args.selectedRecipe?.href ?: "")
+        viewModel.ingredients.set(args.selectedRecipe?.ingredients ?: "")
+        viewModel.thumbnail.set(args.selectedRecipe?.thumbnail)
         setupObservers()
     }
 

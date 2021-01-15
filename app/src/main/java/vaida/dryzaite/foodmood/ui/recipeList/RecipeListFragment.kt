@@ -119,8 +119,7 @@ class RecipeListFragment : BaseFragment<RecipeListViewModel, FragmentRecipeListB
     private fun setupNavigation() {
         viewModel.navigateToAddRecipeFragment.observe(viewLifecycleOwner, {
             if (it == true) {
-                this.findNavController()
-                    .navigate(R.id.action_recipeListFragment_to_addRecipeFragment)
+                this.findNavController().navigate(RecipeListFragmentDirections.actionRecipeListFragmentToAddRecipeFragment(null))
                 viewModel.onFabClicked()
             }
         })

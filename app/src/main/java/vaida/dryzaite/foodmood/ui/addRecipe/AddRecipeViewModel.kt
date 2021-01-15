@@ -24,6 +24,7 @@ class AddRecipeViewModel @ViewModelInject constructor(
     var meal = ObservableField<Int>()
     var href = ObservableField<String>()
     var ingredients = ObservableField<String>()
+    var thumbnail = ObservableField<String?>()
 
     // meal selected state
     private val _onMealSelected = MutableLiveData<Boolean?>()
@@ -45,6 +46,7 @@ class AddRecipeViewModel @ViewModelInject constructor(
             meal.get() ?: 0,
             href.get() ?: "",
             ingredients.get() ?: "",
+            thumbnail.get()
         )
         newRecipe.value = entry
     }
