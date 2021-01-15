@@ -30,7 +30,7 @@ class AddRecipeFragment : BaseFragment<AddRecipeViewModel, FragmentAddRecipeBind
                     Toast.makeText(context, getString(R.string.saved_successfully), Toast.LENGTH_SHORT).show() // TODO- change to snackbars
                     findNavController().navigate(R.id.action_addRecipeFragment_to_recipeListFragment)
                 } else {
-                    if (!viewModel.recipe.get()?.isValidUrl()!!) {
+                    if (!viewModel.href.get()?.isValidUrl()!!) {
                         Toast.makeText(context, getString(R.string.incorrect_url), Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(context, getString(R.string.error_saving_recipe_not_filled), Toast.LENGTH_SHORT).show()

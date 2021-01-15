@@ -69,7 +69,7 @@
                 android:id="@+id/url_input"
                 style="@style/TextInputStyle"
                 android:hint="@string/url"
-                android:text="@={viewModel.recipe}"
+                android:text="@={viewModel.href}"
                 android:inputType="textUri" />
         </com.google.android.material.textfield.TextInputLayout>
 

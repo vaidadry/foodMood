@@ -1,7 +1,11 @@
 package vaida.dryzaite.foodmood.ui.discoverRecipes
 
 import android.os.Bundle
-import android.view.*
+import android.view.View
+import android.view.Menu
+import android.view.MenuItem
+import android.view.MenuInflater
+import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -22,6 +26,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentDiscoverRecipesBinding
+import vaida.dryzaite.foodmood.model.RecipeGenerator
 import vaida.dryzaite.foodmood.ui.BaseFragment
 import vaida.dryzaite.foodmood.ui.NavigationSettings
 import vaida.dryzaite.foodmood.utilities.DividerItemDecoration
@@ -30,7 +35,8 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class DiscoverRecipesFragment @Inject constructor(
-    val adapter: DiscoverRecipesAdapter
+    val adapter: DiscoverRecipesAdapter,
+    private val generator: RecipeGenerator
 ) : BaseFragment<DiscoverRecipesViewModel, FragmentDiscoverRecipesBinding>() {
 
     override val navigationSettings: NavigationSettings? = null
@@ -85,8 +91,15 @@ class DiscoverRecipesFragment @Inject constructor(
     private fun setupObservers() {
         viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, {
             if ( null != it) {
+                val recipeEntry = generator.generateRecipe(
+                    title = it.title,
+                    meal = 0,
+                    href = it.href,
+                    ingredients = it.ingredients,
+                    thumbnail = it.thumbnail
+                )
                 this.findNavController().navigate(
-                    DiscoverRecipesFragmentDirections.actionDiscoverRecipesFragmentToDiscoverRecipeDetailFragment(it))
+                    DiscoverRecipesFragmentDirections.actionDiscoverRecipesFragmentToRecipeFragment(recipeEntry))
                 viewModel.displayRecipeDetailsComplete()
             }
         })

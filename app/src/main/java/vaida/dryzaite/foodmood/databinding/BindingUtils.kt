@@ -11,8 +11,7 @@ import com.google.android.material.chip.Chip
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.utilities.convertNumericMealTypeToString
-
-import java.util.*
+import java.util.Locale
 
 //Binding adapters to format DB data to UI
 // also to format data from API
@@ -56,23 +55,37 @@ fun ImageView.setMealTypeIcon(recipe: RecipeEntry?) {
             2 -> R.drawable.ic_2
             3 -> R.drawable.ic_3
             4 -> R.drawable.ic_4
-            else -> R.drawable.ic_5
+            5 -> R.drawable.ic_5
+            else -> R.drawable.ic_food
         })
     }
 }
 
 // to use Glide to show images from url
-@BindingAdapter("imageUrl")
-fun bindImage(imgView: ImageView, imgUrl: String?) {
+@BindingAdapter("externalImage")
+fun ImageView.bindImageThumbnail(imgUrl: String?) {
     imgUrl?.let {
         val imgUri = imgUrl.toUri().buildUpon().scheme("http").build()
-        Glide.with(imgView.context)
+        Glide.with(this)
             .load(imgUri)
             .centerCrop()
             .apply(RequestOptions()
                 .placeholder(R.drawable.loading_animation)
                 .error(R.drawable.ic_food))
-            .into(imgView)
+            .into(this)
+    }
+}
+
+// shows thumbnail or meal type placeholder
+@BindingAdapter("imageUrl")
+fun ImageView.bindImage(recipe: RecipeEntry?) {
+    recipe?.let {
+        if (it.thumbnail.isNullOrBlank()) {
+            this.setMealTypeIcon(it)
+        } else {
+            val image = it.thumbnail ?: "placeholder"
+            this.bindImageThumbnail(image)
+        }
     }
 }
 

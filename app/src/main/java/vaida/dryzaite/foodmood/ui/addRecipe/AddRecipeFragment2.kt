@@ -24,7 +24,7 @@ class AddRecipeFragment2 : Fragment(){
 
     private lateinit var binding: FragmentAddRecipe2Binding
 
-    private val args by navArgs<AddRecipeFragment2Args>()
+//    private val args by navArgs<AddRecipeFragment2Args>()
     private val viewModel: AddRecipeViewModel2 by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -32,9 +32,9 @@ class AddRecipeFragment2 : Fragment(){
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        viewModel.title.set(args.selectedRecipe.title)
-        viewModel.recipe.set(args.selectedRecipe.href)
-        viewModel.ingredients.set(args.selectedRecipe.ingredients)
+//        viewModel.title.set(args.selectedRecipe.title)
+//        viewModel.recipe.set(args.selectedRecipe.href)
+//        viewModel.ingredients.set(args.selectedRecipe.ingredients)
 
         observeMealTypeSelected()
         observeOnAddRecipe()
@@ -49,7 +49,7 @@ class AddRecipeFragment2 : Fragment(){
             saved?.let {
                 if (saved) {
                     Toast.makeText(context, getString(R.string.saved_successfully), Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_addRecipeFragment2_to_recipeListFragment)
+//                    findNavController().navigate(R.id.action_addRecipeFragment2_to_recipeListFragment)
                 } else {
                     if (!viewModel.recipe.get()?.isValidUrl()!!) {
                         Toast.makeText(context, getString(R.string.incorrect_url), Toast.LENGTH_SHORT).show()

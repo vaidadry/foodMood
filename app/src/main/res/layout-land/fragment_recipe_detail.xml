@@ -16,7 +16,7 @@
         tools:context=".ui.recipePage.DiscoverRecipeDetailFragment">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_item"
+            android:id="@+id/toolbar_recipe"
             style="@style/ToolBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_item">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_recipe">
 
             <ImageView
                 android:id="@+id/detail_image"
@@ -42,7 +42,7 @@
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toTopOf="parent"
-                app:mealTypeIcon="@{viewModel.recipe}"
+                app:imageUrl="@{viewModel.recipe}"
                 tools:srcCompat="@drawable/ic_3" />
 
             <TextView
@@ -98,13 +98,24 @@
                 android:id="@+id/detail_url"
                 style="@style/ColorfulButton"
                 app:layout_constraintBottom_toBottomOf="@id/horizontal_guideline_bottom_nav"
-                app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
+                app:layout_constraintEnd_toStartOf="@id/button_add_to_database"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toBottomOf="@id/detail_image"
+                app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
                 android:text="@string/show_me_how_button"
                 android:onClick="@{() -> viewModel.onClickUrl()}"/>
 
-
+            <Button
+                android:id="@+id/button_add_to_database"
+                style="@style/ColorfulButton"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/horizontal_guideline_bottom_nav"
+                app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
+                app:layout_constraintStart_toEndOf="@id/detail_url"
+                app:layout_constraintTop_toBottomOf="@id/detail_image"
+                android:text="@string/add_to_recipe_book"
+                android:onClick="@{() -> viewModel.onClickAddFragment()}"
+                />
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/horizontal_guideline_bottom_nav"
                 android:layout_width="wrap_content"

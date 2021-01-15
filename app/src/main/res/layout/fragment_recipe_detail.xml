@@ -16,7 +16,7 @@
         tools:context=".ui.recipePage.DiscoverRecipeDetailFragment">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_item"
+            android:id="@+id/toolbar_recipe"
             style="@style/ToolBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_item">
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_recipe">
 
             <ImageView
                 android:id="@+id/detail_image"
@@ -42,7 +42,7 @@
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toTopOf="parent"
-                app:imageUrl="@{viewModel.selectedRecipe.thumbnail}"
+                app:imageUrl="@{viewModel.recipe}"
                 tools:srcCompat="@drawable/ic_3" />
 
             <TextView
@@ -57,9 +57,22 @@
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toBottomOf="@id/detail_image"
-                android:text="@{viewModel.selectedRecipe.title}"
+                android:text="@{viewModel.recipe.title}"
                 tools:text="@string/title" />
 
+            <TextView
+                android:id="@+id/detail_meal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/dosis_bold"
+                android:textAlignment="center"
+                android:textSize="@dimen/list_item_text_size"
+                app:layout_constraintBottom_toTopOf="@+id/ingredients"
+                app:layout_constraintEnd_toStartOf="@+id/vertical_guideline_right"
+                app:layout_constraintStart_toStartOf="@+id/vertical_guideline_left"
+                app:layout_constraintTop_toBottomOf="@id/detail_title"
+                app:mealTypeText="@{viewModel.recipe}"
+                tools:text="meal" />
 
             <TextView
                 android:id="@+id/ingredients"
@@ -74,14 +87,14 @@
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toBottomOf="@id/detail_title"
-                android:text="@{viewModel.selectedRecipe.ingredients}"
+                android:text="@{viewModel.recipe.ingredients}"
                 tools:text="ingredients" />
 
 
             <Button
                 android:id="@+id/detail_url"
                 style="@style/ColorfulButton"
-                app:layout_constraintBottom_toBottomOf="@id/horizontal_guideline_bottom_nav"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
                 app:layout_constraintTop_toBottomOf="@id/detail_title"
@@ -91,13 +104,14 @@
             <Button
                 android:id="@+id/button_add_to_database"
                 style="@style/ColorfulButton"
-                app:layout_constraintBottom_toBottomOf="@id/horizontal_guideline_bottom_nav"
+                android:visibility="gone"
+                android:onClick="@{() -> viewModel.onClickAddFragment()}"
+                android:text="@string/add_to_recipe_book"
+                android:layout_margin="@dimen/half_padding"
                 app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
                 app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-                app:layout_constraintTop_toBottomOf="@id/detail_url"
-                android:text="@string/add_to_recipe_book"
-                android:onClick="@{() -> viewModel.onClickAddFragment()}"
-                />
+                app:layout_constraintTop_toBottomOf="@id/detail_url" />
+
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/horizontal_guideline_bottom_nav"
                 android:layout_width="wrap_content"

@@ -5,21 +5,21 @@ import android.net.Uri
 import android.view.MenuItem
 import android.widget.CheckBox
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.Observer
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_recipe_detail.*
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentRecipeDetailBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
-import vaida.dryzaite.foodmood.model.RecipeGenerator
 import vaida.dryzaite.foodmood.ui.BaseFragment
 import vaida.dryzaite.foodmood.ui.NavigationSettings
 import vaida.dryzaite.foodmood.utilities.convertNumericMealTypeToString
 
 @AndroidEntryPoint
-class RecipeFragment constructor(private val generator: RecipeGenerator) : BaseFragment<RecipeViewModel, FragmentRecipeDetailBinding>(), Toolbar.OnMenuItemClickListener {
+class RecipeFragment: BaseFragment<RecipeViewModel, FragmentRecipeDetailBinding>(), Toolbar.OnMenuItemClickListener {
 
     override val navigationSettings: NavigationSettings? = null
     override val layoutId: Int = R.layout.fragment_recipe_detail
@@ -30,14 +30,8 @@ class RecipeFragment constructor(private val generator: RecipeGenerator) : BaseF
     }
 
     override fun setupUI() {
-        val recipeEntry = generator.generateRecipe(
-            title = args.recipeEntry.title,
-            meal = 0,
-            recipe = args.recipeEntry.href,
-            ingredients = args.recipeEntry.ingredients
-        )
-        viewModel.setRecipe(recipeEntry) // todo sulyginti Api duomenis i Recipe
         setupObservers()
+        viewModel.setRecipe(args.recipeEntry)
     }
 
     override fun onMenuItemClick(item: MenuItem?): Boolean {
@@ -51,8 +45,9 @@ class RecipeFragment constructor(private val generator: RecipeGenerator) : BaseF
     }
 
     private fun setupObservers() {
-        toolbar_item.setOnMenuItemClickListener(this)
-        val favoriteMenuItem = toolbar_item.menu.findItem(R.id.favorite_item_selector)
+
+        binding.toolbarRecipe.setOnMenuItemClickListener(this)
+        val favoriteMenuItem = binding.toolbarRecipe.menu.findItem(R.id.favorite_item_selector)
         val checkbox = favoriteMenuItem.actionView as CheckBox
         // fav button clicks
         viewModel.recipe.observe(viewLifecycleOwner, {
@@ -61,10 +56,25 @@ class RecipeFragment constructor(private val generator: RecipeGenerator) : BaseF
             }
         })
 
-        viewModel.navigateToUrl.observe(viewLifecycleOwner, Observer {
+        viewModel.notInDatabase.observe(viewLifecycleOwner, {
+            binding.buttonAddToDatabase.isVisible = it ?: false
+            binding.detailMeal.isGone = it ?: false
+        })
+
+        viewModel.navigateToUrl.observe(viewLifecycleOwner, {
             it?.let {
                 redirectToRecipeUrl(it)
                 viewModel.onButtonClicked()
+            }
+        })
+
+        //observer to navigate to Add recipe fragment, passing info via Safe Args
+        viewModel.navigateToAddRecipe.observe(viewLifecycleOwner, {
+            if (it != null) {
+                this.findNavController().navigate(
+                    RecipeFragmentDirections.actionRecipeFragmentToAddRecipeFragment(it)
+                )
+                viewModel.onClickAddFragmentComplete()
             }
         })
     }
@@ -73,7 +83,7 @@ class RecipeFragment constructor(private val generator: RecipeGenerator) : BaseF
         val recipe = viewModel.recipe.value!!
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.setType("text/plain").putExtra(Intent.EXTRA_TEXT,
-            getString(R.string.share_message, recipe.title, convertNumericMealTypeToString(recipe.meal, resources), recipe.recipe))
+            getString(R.string.share_message, recipe.title, convertNumericMealTypeToString(recipe.meal, resources), recipe.href))
         return shareIntent
     }
 

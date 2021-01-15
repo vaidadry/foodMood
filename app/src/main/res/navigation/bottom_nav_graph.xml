@@ -52,6 +52,9 @@
             app:destination="@id/recipe_list_fragment"
             app:exitAnim="@anim/slide_down_anim"
             app:popEnterAnim="@anim/slide_up_anim" />
+        <argument
+            android:name="selectedRecipe"
+            app:argType="vaida.dryzaite.foodmood.model.RecipeEntry" />
     </fragment>
     <fragment
         android:id="@+id/suggestion_fragment"
@@ -75,15 +78,21 @@
         tools:layout="@layout/fragment_recipe_detail" >
         <argument android:name="recipeEntry"
             app:argType="vaida.dryzaite.foodmood.model.RecipeEntry" />
+        <action
+            android:id="@+id/action_recipe_fragment_to_add_recipe_fragment"
+            app:destination="@id/add_recipe_fragment" />
     </fragment>
     <fragment
         android:id="@+id/discover_recipes_fragment"
         android:name="vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesFragment"
         android:label="DiscoverRecipesFragment"
         tools:layout="@layout/fragment_discover_recipes">
+        <argument
+            android:name="selectedRecipe"
+            app:argType="vaida.dryzaite.foodmood.model.RecipeEntry" />
         <action
-            android:id="@+id/action_discover_recipes_fragment_to_discoverRecipeDetailFragment"
-            app:destination="@id/discoverRecipeDetailFragment" />
+            android:id="@+id/action_discover_recipes_fragment_to_recipeFragment"
+            app:destination="@id/recipe_fragment" />
         <action
             android:id="@+id/action_discover_recipes_fragment_to_discoverRecipesIngredientFragment"
             app:destination="@id/discoverRecipesIngredientFragment" />
@@ -101,44 +110,15 @@
             app:destination="@id/recipe_list_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/discoverRecipeDetailFragment"
-        android:name="vaida.dryzaite.foodmood.ui.discoverRecipePage.DiscoverRecipeDetailFragment"
-        android:label="DiscoverRecipeDetailFragment"
-        tools:layout="@layout/fragment_discover_recipe_detail">
-        <argument
-            android:name="selectedRecipe"
-            app:argType="vaida.dryzaite.foodmood.network.ExternalRecipe"/>
-        <action
-            android:id="@+id/action_discoverRecipeDetailFragment_to_addRecipeFragment2"
-            app:destination="@id/addRecipeFragment2" />
-    </fragment>
-    <fragment
-        android:id="@+id/addRecipeFragment2"
-        android:name="vaida.dryzaite.foodmood.ui.addRecipe.AddRecipeFragment2"
-        android:label="AddRecipeFragment2"
-        tools:layout="@layout/fragment_add_recipe_2">
-    <argument
-        android:name="selectedRecipe"
-        app:argType="vaida.dryzaite.foodmood.network.ExternalRecipe"/>
-        <action
-            android:id="@+id/action_addRecipeFragment2_to_recipeListFragment"
-            app:destination="@id/recipe_list_fragment"
-            app:exitAnim="@anim/slide_down_anim"
-            app:popEnterAnim="@anim/slide_up_anim" />
-    </fragment>
-    <fragment
         android:id="@+id/discoverRecipesIngredientFragment"
         android:name="vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesIngredientFragment"
         android:label="DiscoverRecipesIngredientFragment"
         tools:layout="@layout/fragment_discover_recipes_ingredient">
         <action
-            android:id="@+id/action_discoverRecipesIngredientFragment_to_discoverRecipeDetailFragment"
-            app:destination="@id/discoverRecipeDetailFragment" />
-        <action
-            android:id="@+id/action_discoverRecipesIngredientFragment_to_discoverRecipeDetailFragment2"
-            app:destination="@id/discoverRecipeDetailFragment" />
-        <action
             android:id="@+id/action_discoverRecipesIngredientFragment_to_discover_recipes_fragment"
             app:destination="@id/discover_recipes_fragment" />
+        <action
+            android:id="@+id/action_discoverRecipesIngredientFragment_to_recipe_fragment2"
+            app:destination="@id/recipe_fragment" />
     </fragment>
 </navigation>

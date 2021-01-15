@@ -60,8 +60,8 @@ class DiscoverRecipesIngredientFragment @Inject constructor(
         // observing navigation state and navigating to detail page
         viewModel.navigateToSelectedRecipe.observe(viewLifecycleOwner, {
             if ( null != it) {
-                this.findNavController().navigate(
-                    DiscoverRecipesIngredientFragmentDirections.actionDiscoverRecipesIngredientFragmentToDiscoverRecipeDetailFragment(it))
+//                this.findNavController().navigate(
+//                    DiscoverRecipesIngredientFragmentDirections.actionDiscoverRecipesIngredientFragmentToRecipeFragment(it))
                 viewModel.displayRecipeDetailsComplete()
             }
         })
@@ -108,7 +108,7 @@ class DiscoverRecipesIngredientFragment @Inject constructor(
         when (item.itemId) {
             R.id.search_menu_item -> {
                 Timber.i("search by title selected")
-                this.findNavController().navigate(DiscoverRecipesIngredientFragmentDirections.actionDiscoverRecipesIngredientFragmentToDiscoverRecipesFragment())
+//                this.findNavController().navigate(DiscoverRecipesIngredientFragmentDirections.actionDiscoverRecipesIngredientFragmentToDiscoverRecipesFragment())
             }
             R.id.search_by_ingredient_menu_item -> {
                 Timber.i("search by ingredient selected")

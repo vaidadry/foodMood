@@ -22,7 +22,7 @@
         android:layout_width="@dimen/splash_icon_size"
         android:layout_height="@dimen/splash_icon_size"
         android:contentDescription="@string/splash_logo_content_description"
-        android:src="@drawable/ic_food"
+        android:src="@drawable/ic_food_launcher"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_top" />

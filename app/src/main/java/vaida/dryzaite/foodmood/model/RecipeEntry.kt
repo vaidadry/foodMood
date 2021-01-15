@@ -6,8 +6,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
-import java.util.*
-
+import java.util.UUID
 
 // creating entity with db table info, setting primary key to ID, which is Unique
 @Parcelize
@@ -26,9 +25,11 @@ data class RecipeEntry(
     @ColumnInfo (name = "type_meal")
     val meal: Int,
     @ColumnInfo (name = "recipe_url")
-    val recipe: String,
+    val href: String,
     @ColumnInfo (name = "is_favorite")
     var isFavorite: Boolean = false,
     @ColumnInfo (name = "ingredients")
-    var ingredients: String = ""
+    var ingredients: String = "",
+    @ColumnInfo (name = "thumbnail")
+    var thumbnail: String? = null
 ) : Parcelable

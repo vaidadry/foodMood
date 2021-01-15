@@ -41,9 +41,8 @@
                 android:contentDescription="@string/recipe_image_content_description"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:imageUrl="@{externalRecipe.thumbnail}"
-                tools:srcCompat="@drawable/ic_3"
-                tools:src="@drawable/ic_3" />
+                app:externalImage="@{externalRecipe.thumbnail}"
+                app:srcCompat="@drawable/ic_3" />
 
 
             <TextView

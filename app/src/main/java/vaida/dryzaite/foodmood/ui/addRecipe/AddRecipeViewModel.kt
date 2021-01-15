@@ -22,7 +22,7 @@ class AddRecipeViewModel @ViewModelInject constructor(
     var veggie = ObservableField<Boolean>()
     var fish = ObservableField<Boolean>()
     var meal = ObservableField<Int>()
-    var recipe = ObservableField<String>()
+    var href = ObservableField<String>()
     var ingredients = ObservableField<String>()
 
     // meal selected state
@@ -43,8 +43,8 @@ class AddRecipeViewModel @ViewModelInject constructor(
             veggie.get() ?: false,
             fish.get() ?: false,
             meal.get() ?: 0,
-            recipe.get() ?: "",
-            ingredients.get() ?: ""
+            href.get() ?: "",
+            ingredients.get() ?: "",
         )
         newRecipe.value = entry
     }
@@ -61,7 +61,7 @@ class AddRecipeViewModel @ViewModelInject constructor(
     // form validation - url and empty fields
     fun canSaveRecipe(): Boolean {
         val title = this.title.get()
-        val recipe = this.recipe.get()
+        val recipe = this.href.get()
         title?.let {
             if (recipe != null) {
                 if (!recipe.isValidUrl()) {
@@ -87,6 +87,5 @@ class AddRecipeViewModel @ViewModelInject constructor(
     fun onSaveLiveDataCompleted() {
         _onSaveLiveData.value = null
     }
-
 }
 
