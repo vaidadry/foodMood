@@ -12,7 +12,7 @@
         android:id="@+id/splash_logo_background"
         android:layout_width="@dimen/splash_icon_size"
         android:layout_height="@dimen/splash_icon_size"
-        android:contentDescription="@string/splash_logo_content_description"
+        android:contentDescription="@null"
         android:src="@drawable/ic_launcher_background_round"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,7 @@
     <ImageView
         android:layout_width="@dimen/splash_icon_size"
         android:layout_height="@dimen/splash_icon_size"
-        android:contentDescription="@string/splash_logo_content_description"
+        android:contentDescription="@null"
         android:src="@drawable/ic_food_launcher"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

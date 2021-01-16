@@ -1,8 +1,8 @@
 package vaida.dryzaite.foodmood.ui.addRecipe
 
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentAddRecipeBinding
@@ -33,13 +33,13 @@ class AddRecipeFragment : BaseFragment<AddRecipeViewModel, FragmentAddRecipeBind
         viewModel.onSaveLiveData.observe(viewLifecycleOwner, { saved ->
             saved?.let {
                 if (saved) {
-                    Toast.makeText(context, getString(R.string.saved_successfully), Toast.LENGTH_SHORT).show() // TODO- change to snackbars
+                    Snackbar.make(binding.addRecipeFragment, getString(R.string.addRecipe_saveSuccess), Snackbar.LENGTH_SHORT).show()
                     findNavController().navigate(R.id.action_addRecipeFragment_to_recipeListFragment)
                 } else {
                     if (!viewModel.href.get()?.isValidUrl()!!) {
-                        Toast.makeText(context, getString(R.string.incorrect_url), Toast.LENGTH_SHORT).show()
+                        Snackbar.make(binding.addRecipeFragment, getString(R.string.addRecipe_error_incorrectUrl), Snackbar.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(context, getString(R.string.error_saving_recipe_not_filled), Toast.LENGTH_SHORT).show()
+                        Snackbar.make(binding.addRecipeFragment, getString(R.string.addRecipe_error_fieldsNotFilled), Snackbar.LENGTH_SHORT).show()
                     }
                 }
                 viewModel.onSaveLiveDataCompleted()

@@ -21,7 +21,7 @@
             android:id="@+id/gradient_background"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:contentDescription="@string/gradient_background"
+            android:contentDescription="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
             app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
             app:layout_constraintTop_toTopOf="@id/horizontal_guideline_top"
-            tools:text="@string/suggestion_for_meal_text"
+            tools:text="@string/suggestion.mealPlaceholder"
             app:mealTypeFormatted="@{viewModel.randomRecipe ?? args.recipeEntry}" />
 
         <TextView
@@ -49,12 +49,12 @@
             app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/suggestion"/>
+            tools:text="@string/suggestion.titlePlaceholder"/>
 
         <Button
             android:id="@+id/show_me_how_button"
             style="@style/SolidButton"
-            android:text="@string/show_me_how_button"
+            android:text="@string/suggestions.showHow"
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_bottom_nav"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

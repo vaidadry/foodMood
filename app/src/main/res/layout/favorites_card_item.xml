@@ -41,7 +41,7 @@
                 android:layout_width="@dimen/card_image_size"
                 android:layout_height="@dimen/card_image_size"
                 android:layout_gravity="center"
-                android:contentDescription="@string/recipe_image_content_description"
+                android:contentDescription="@string/recipePage.mealImage"
                 android:padding="@dimen/normal_padding"
                 app:layout_constraintBottom_toTopOf="@id/titleHolder"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +57,7 @@
                 android:layout_height="@dimen/favorite_icon_size"
                 android:layout_margin="@dimen/quarter_padding"
                 android:checked="@{dataclassRecipeEntry.favorite}"
-                android:contentDescription="@string/content_description_favorite"
+                android:contentDescription="@string/button.Favorite"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:saveEnabled="false"/>
@@ -93,7 +93,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="@string/title" />
+                    tools:text="@string/addRecipe.hint.title" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

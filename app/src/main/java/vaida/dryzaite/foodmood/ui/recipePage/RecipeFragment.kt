@@ -107,7 +107,7 @@ class RecipeFragment: BaseFragment<RecipeViewModel, FragmentRecipeDetailBinding>
         val recipe = viewModel.recipe.value!!
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.setType("text/plain").putExtra(Intent.EXTRA_TEXT,
-            getString(R.string.share_message, recipe.title, convertNumericMealTypeToString(recipe.meal, resources), recipe.href))
+            getString(R.string.recipePage_shareMessage, recipe.title, convertNumericMealTypeToString(recipe.meal, resources), recipe.href))
         return shareIntent
     }
 

@@ -19,7 +19,7 @@
         <TextView
             android:id="@+id/generate_random_meal_text"
             style="@style/SimpleTextViewTitle"
-            android:text="@string/grab_idea_textView"
+            android:text="@string/home.grabIdea"
             app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_top" />
@@ -119,7 +119,7 @@
             app:layout_constraintEnd_toStartOf="@id/vertical_guideline"
             app:layout_constraintTop_toBottomOf="@id/lunch_text"
             app:layout_constraintBottom_toTopOf="@id/random_button"
-            android:text="@string/fish_craving_checkbox"
+            android:text="@string/addRecipe.fishCheckbox"
             android:checked="@={viewModel.fish}" />
 
         <CheckBox
@@ -128,14 +128,14 @@
             app:layout_constraintStart_toEndOf="@id/vertical_guideline"
             app:layout_constraintTop_toBottomOf="@id/lunch_text"
             app:layout_constraintBottom_toTopOf="@id/random_button"
-            android:text="@string/veggie_checkbox"
+            android:text="@string/addRecipe.veggieCheckbox"
             android:checked="@={viewModel.veggie}" />
 
 
         <Button
             android:id="@+id/random_button"
             style="@style/ColorfulButton"
-            android:text="@string/random_button"
+            android:text="@string/home.generateButton"
             app:layout_constraintTop_toBottomOf="@id/veggie_checkbox"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -95,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/dosis_extralight"
-            android:text="@string/no_recipes_available"
+            android:text="@string/recipeList.emptyList"
             android:textSize="@dimen/list_item_text_size"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"

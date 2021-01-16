@@ -19,7 +19,7 @@
             android:id="@+id/detail_image"
             android:layout_width="@dimen/detail_recipe_image_size"
             android:layout_height="@dimen/detail_recipe_image_size"
-            android:contentDescription="@string/general_meal_image_of_detail_page"
+            android:contentDescription="@string/recipePage.mealImage"
             app:layout_constraintBottom_toTopOf="@id/detail_url"
             app:layout_constraintEnd_toStartOf="@id/vertical_guideline"
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
@@ -41,7 +41,7 @@
             app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
             app:layout_constraintStart_toStartOf="@id/vertical_guideline"
             app:layout_constraintTop_toTopOf="@id/detail_image"
-            tools:text="@string/title" />
+            tools:text="@string/addRecipe.hint.title" />
 
         <TextView
             android:id="@+id/detail_meal"
@@ -80,7 +80,7 @@
             android:id="@+id/detail_url"
             style="@style/ColorfulButton"
             android:onClick="@{() -> viewModel.onClickUrl()}"
-            android:text="@string/show_me_how_button"
+            android:text="@string/suggestions.showHow"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/vertical_guideline_right"
             app:layout_constraintEnd_toStartOf="@id/button_add_to_database"
@@ -95,7 +95,7 @@
             app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
             app:layout_constraintStart_toEndOf="@id/detail_url"
             app:layout_constraintTop_toBottomOf="@id/detail_image"
-            android:text="@string/add_to_recipe_book"
+            android:text="@string/recipePage.addToRecipeBook"
             android:onClick="@{() -> viewModel.onClickAddFragment()}" />
 
         <androidx.constraintlayout.widget.Guideline

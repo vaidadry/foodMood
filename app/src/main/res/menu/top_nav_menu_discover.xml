@@ -4,10 +4,10 @@
 
     <item
         android:id="@+id/search_menu_item"
-        android:title="@string/by_title"
+        android:title="@string/discover.byTitle"
         app:showAsAction="never"/>
     <item
         android:id="@+id/search_by_ingredient_menu_item"
-        android:title="@string/by_ingredient"
+        android:title="@string/discover.byIngredient"
         app:showAsAction="never"/>
 </menu>

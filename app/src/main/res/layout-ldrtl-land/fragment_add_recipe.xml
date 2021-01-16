@@ -19,7 +19,7 @@
             android:id="@+id/gradient_background"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:contentDescription="@string/gradient_background"
+            android:contentDescription="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -31,7 +31,7 @@
         <TextView
             android:id="@+id/add_recipe_text_view"
             style="@style/SimpleTextViewTitle"
-            android:text="@string/add_recipe"
+            android:text="@string/addRecipe.addRecipe"
             app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_top"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -48,7 +48,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/title_input"
                 style="@style/TextInputStyle"
-                android:hint="@string/title"
+                android:hint="@string/addRecipe.hint.title"
                 android:inputType="text"
                 android:text="@={viewModel.title}" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -65,7 +65,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/url_input"
                 style="@style/TextInputStyle"
-                android:hint="@string/url"
+                android:hint="@string/addRecipe.hint.url"
                 android:text="@={viewModel.href}"
                 android:inputType="textUri" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -165,7 +165,7 @@
         app:layout_constraintStart_toStartOf="@id/vertical_guideline"
         app:layout_constraintTop_toBottomOf="@id/lunch_text"
         app:layout_constraintBottom_toTopOf="@id/submit_recipe_btn"
-        android:text="@string/fish_craving_checkbox"
+        android:text="@string/addRecipe.fishCheckbox"
         android:checked="@={viewModel.fish}" />
 
     <CheckBox
@@ -175,13 +175,13 @@
         app:layout_constraintStart_toEndOf="@id/fish_checkbox"
         app:layout_constraintTop_toBottomOf="@id/lunch_text"
         app:layout_constraintBottom_toTopOf="@id/submit_recipe_btn"
-        android:text="@string/veggie_checkbox"
+        android:text="@string/addRecipe.veggieCheckbox"
         android:checked="@={viewModel.veggie}" />
 
         <Button
             android:id="@+id/submit_recipe_btn"
             style="@style/SolidButton"
-            android:text="@string/submit"
+            android:text="@string/addNew.submitButton"
             android:onClick="@{() -> viewModel.saveNewRecipe()}"
             app:layout_constraintTop_toBottomOf="@id/url_input_layout"
             app:layout_constraintBottom_toBottomOf="parent"

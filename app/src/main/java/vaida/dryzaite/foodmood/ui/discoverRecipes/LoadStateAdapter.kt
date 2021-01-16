@@ -32,7 +32,7 @@ class RecipeLoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<R
         fun bind(loadState: LoadState) {
             if (loadState is LoadState.Error) {
                 Timber.e( "Error: ${loadState.error.localizedMessage}")
-                binding.errorMsg.setText(R.string.load_error_message)
+                binding.errorMsg.setText(R.string.error_checkInternet)
             }
             binding.progressBarFooter.isVisible = loadState is LoadState.Loading
             binding.retryButtonFooter.isVisible = loadState !is LoadState.Loading

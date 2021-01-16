@@ -54,7 +54,7 @@
                     android:id="@+id/ingredients_input_ET"
                     style="@style/TextInputStyle"
                     android:autofillHints="Search"
-                    android:hint="@string/search_by_ingredient"
+                    android:hint="@string/discover.hint.byIngredient"
                     android:imeOptions="actionSearch"
                     android:inputType="text"/>
 
@@ -99,7 +99,7 @@
                 android:background="@drawable/rounded_button_small"
                 android:clickable="true"
                 android:fontFamily="@font/robotomono_bold"
-                android:text="@string/retry"
+                android:text="@string/button.retry"
                 android:textColor="@color/TextToolbarsButtons"
                 android:textSize="@dimen/small_button_text_size"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -112,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/dosis_extralight"
-                android:text="@string/no_recipes_available"
+                android:text="@string/recipeList.emptyList"
                 android:textSize="@dimen/list_item_text_size"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"

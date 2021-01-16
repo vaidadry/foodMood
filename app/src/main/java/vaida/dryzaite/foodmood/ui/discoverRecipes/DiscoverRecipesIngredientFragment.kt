@@ -5,13 +5,10 @@ import android.view.*
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.inputmethod.EditorInfo
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -45,7 +42,7 @@ class DiscoverRecipesIngredientFragment @Inject constructor(
 ): BaseFragment<DiscoverRecipesIngredientViewModel, FragmentDiscoverRecipesIngredientBinding>(){
 
     override val navigationSettings: NavigationSettings? by lazy {
-        NavigationSettings(requireContext().getString(R.string.discover))
+        NavigationSettings(requireContext().getString(R.string.bottomNav_discover))
     }
     override val layoutId: Int = R.layout.fragment_discover_recipes_ingredient
 

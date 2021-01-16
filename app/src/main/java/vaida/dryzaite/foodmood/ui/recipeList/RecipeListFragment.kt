@@ -2,7 +2,6 @@ package vaida.dryzaite.foodmood.ui.recipeList
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isInvisible
 import androidx.fragment.app.setFragmentResultListener
@@ -23,7 +22,7 @@ import vaida.dryzaite.foodmood.utilities.*
 @AndroidEntryPoint
 class RecipeListFragment : BaseFragment<RecipeListViewModel, FragmentRecipeListBinding>(), RecipeListAdapter.RecipeListAdapterListener {
     override val navigationSettings: NavigationSettings? by lazy {
-        NavigationSettings(requireContext().getString(R.string.recipe_book_tab_title))
+        NavigationSettings(requireContext().getString(R.string.bottomNav_recipeBook))
     }
     override val layoutId: Int = R.layout.fragment_recipe_list
     private lateinit var adapter: RecipeListAdapter

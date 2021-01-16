@@ -38,7 +38,7 @@ class DiscoverRecipesFragment @Inject constructor(
 ) : BaseFragment<DiscoverRecipesViewModel, FragmentDiscoverRecipesBinding>() {
 
     override val navigationSettings: NavigationSettings? by lazy {
-        NavigationSettings(requireContext().getString(R.string.discover))
+        NavigationSettings(requireContext().getString(R.string.bottomNav_discover))
     }
     override val layoutId: Int = R.layout.fragment_discover_recipes
     private var searchJob: Job? = null

@@ -3,14 +3,14 @@
     <item
         android:id="@+id/home_fragment_2"
         android:icon="@drawable/ic_icon_idea"
-        android:title="@string/home_nav_button_text" />
+        android:title="@string/bottomNav.home" />
 
     <item
         android:id="@+id/recipe_list_fragment"
         android:icon="@drawable/ic_icon_collection"
-        android:title="@string/all_recipes_nav_button_text" />
+        android:title="@string/bottomNav.recipeBook" />
     <item
         android:id="@+id/discover_recipes_fragment"
         android:icon="@drawable/ic_discover"
-        android:title="@string/discover_bottom_nav_text"/>
+        android:title="@string/bottomNav.discover"/>
 </menu>

@@ -1,9 +1,9 @@
 package vaida.dryzaite.foodmood.ui.homePage
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentHome2Binding
@@ -49,7 +49,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHome2Binding>() {
                     viewModel.doneNavigating()
                 }
                 false -> {
-                    Toast.makeText(context, getString(R.string.error_showing_recipe), Toast.LENGTH_SHORT).show()
+                    Snackbar.make(binding.homeFragment2, getString(R.string.home_error_noRecipes), Snackbar.LENGTH_SHORT).show()
                     viewModel.doneNavigating()
                 }
             }

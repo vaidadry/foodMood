@@ -32,5 +32,5 @@
         android:fontFamily="@font/robotomono_bold"
         android:textSize="@dimen/small_button_text_size"
         android:textColor="@color/TextToolbarsButtons"
-        android:text="@string/retry"/>
+        android:text="@string/button.retry"/>
 </LinearLayout>
