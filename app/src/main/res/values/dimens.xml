@@ -30,5 +30,4 @@
     <dimen name="recipe_card_grid_layout_margin">3dp</dimen>
     <dimen name="meal_selection_icons_layout_margin">3dp</dimen>
     <dimen name="detail_recipe_image_size">150dp</dimen>
-
 </resources>

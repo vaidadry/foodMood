@@ -22,7 +22,6 @@
         app:cardElevation="@dimen/cardview_default_elevation"
         tools:ignore="PrivateResource">
 
-
         <!-- Used for ripple effect on touch-->
         <LinearLayout
             android:id="@+id/cardRipple"
@@ -35,7 +34,7 @@
             android:id="@+id/recipe_card_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <ImageView
                 android:id="@+id/favorite_image"

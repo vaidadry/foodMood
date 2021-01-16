@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
         android:id="@+id/favorite_menu_item"
-        android:title="@string/Favorites"
-        app:actionLayout="@layout/view_favorites"
-        app:showAsAction="ifRoom" />
-
+        android:title="@string/favorites"
+        android:icon="@drawable/ic_heart_empty_black_boarder_30dp"
+        app:showAsAction="always" />
 </menu>

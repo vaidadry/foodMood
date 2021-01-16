@@ -11,8 +11,7 @@ import vaida.dryzaite.foodmood.repository.RecipeRepository
 
 class HomeViewModel @ViewModelInject constructor(private val repository: RecipeRepository): ViewModel() {
 
-    private val _meal = MutableLiveData<Int?>()
-    val meal : LiveData<Int?> = _meal
+    private val _meal = MutableLiveData<Int >()
 
     var veggie = ObservableField(false)
     var fish = ObservableField(false)
@@ -37,7 +36,7 @@ class HomeViewModel @ViewModelInject constructor(private val repository: RecipeR
     }
 
     //handing meal radio selection
-    fun onSetMealType(mealSelection: Int) {
+    fun onSetMealType(mealSelection: Int = 0) {
         _meal.value = mealSelection
     }
 
@@ -69,5 +68,6 @@ class HomeViewModel @ViewModelInject constructor(private val repository: RecipeR
     }
     fun doneNavigating() {
         _navigateToSuggestionPage.value = null
+        _randomRecipe.value = null
     }
 }

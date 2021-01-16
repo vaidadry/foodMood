@@ -2,14 +2,15 @@ package vaida.dryzaite.foodmood.ui.recipePage
 
 import android.content.Intent
 import android.net.Uri
-import android.view.MenuItem
+import android.os.Bundle
+import android.view.View
 import android.widget.CheckBox
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.toolbar.*
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentRecipeDetailBinding
@@ -19,36 +20,58 @@ import vaida.dryzaite.foodmood.ui.NavigationSettings
 import vaida.dryzaite.foodmood.utilities.convertNumericMealTypeToString
 
 @AndroidEntryPoint
-class RecipeFragment: BaseFragment<RecipeViewModel, FragmentRecipeDetailBinding>(), Toolbar.OnMenuItemClickListener {
+class RecipeFragment: BaseFragment<RecipeViewModel, FragmentRecipeDetailBinding>() { //, Toolbar.OnMenuItemClickListener
 
-    override val navigationSettings: NavigationSettings? = null
+    override val navigationSettings: NavigationSettings? by lazy {
+        NavigationSettings(args.recipeEntry.title)
+    }
     override val layoutId: Int = R.layout.fragment_recipe_detail
     private val args by navArgs<RecipeFragmentArgs>()
+    private  val checkbox: CheckBox by lazy {
+        getCheckboxValue()
+    }
 
     override fun getViewModelClass(): Class<RecipeViewModel> {
         return RecipeViewModel::class.java
     }
 
     override fun setupUI() {
-        setupObservers()
         viewModel.setRecipe(args.recipeEntry)
+        setupObservers()
     }
 
-    override fun onMenuItemClick(item: MenuItem?): Boolean {
-        return  when (item?.itemId) {
-            R.id.menu_share_item -> {
-                shareRecipe()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupToolbar()
+    }
+
+    private fun setupToolbar() {
+        toolbar.apply {
+            inflateMenu(R.menu.top_nav_menu_item)
+            setOnMenuItemClickListener {
+                when(it.itemId) {
+                    R.id.menu_share_item -> {
+                        shareRecipe()
+                    }
+                    R.id.favorite_item_selector -> {
+                        val checkbox = it.actionView as CheckBox
+                        viewModel.recipe.observe(viewLifecycleOwner, { recipe ->
+                            if (recipe != null) {
+                                setupFavoriteToggle(checkbox, recipe)
+                            }
+                        })
+                    }
+                }
                 true
             }
-            else -> false
         }
+    }
+    private fun getCheckboxValue(): CheckBox {
+        val favoriteMenuItem = toolbar.menu.findItem(R.id.favorite_item_selector)
+        return favoriteMenuItem.actionView as CheckBox
     }
 
     private fun setupObservers() {
-
-        binding.toolbarRecipe.setOnMenuItemClickListener(this)
-        val favoriteMenuItem = binding.toolbarRecipe.menu.findItem(R.id.favorite_item_selector)
-        val checkbox = favoriteMenuItem.actionView as CheckBox
         // fav button clicks
         viewModel.recipe.observe(viewLifecycleOwner, {
             if (it != null) {
@@ -57,6 +80,7 @@ class RecipeFragment: BaseFragment<RecipeViewModel, FragmentRecipeDetailBinding>
         })
 
         viewModel.notInDatabase.observe(viewLifecycleOwner, {
+            checkbox.isGone = it ?: false
             binding.buttonAddToDatabase.isVisible = it ?: false
             binding.detailMeal.isGone = it ?: false
         })

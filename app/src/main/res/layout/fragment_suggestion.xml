@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary" >
 
         <ImageView
             android:id="@+id/gradient_background"
@@ -37,8 +37,7 @@
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
             app:layout_constraintTop_toTopOf="@id/horizontal_guideline_top"
             tools:text="@string/suggestion_for_meal_text"
-            app:mealTypeFormatted="@{viewModel.randomRecipe ?? args.recipeEntry}"
-            />
+            app:mealTypeFormatted="@{viewModel.randomRecipe ?? args.recipeEntry}" />
 
         <TextView
             android:id="@+id/suggestion_text_view"
@@ -60,7 +59,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_bottom"
             app:layout_constraintVertical_chainStyle="spread"
-            android:onClick="@{() -> viewModel.onButtonClick(viewModel.randomRecipe.href ?? args.recipeEntry.href)}"/>
+            android:onClick="@{() -> viewModel.onButtonClick(viewModel.randomRecipe.href ?? args.recipeEntry.href)}" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/horizontal_guideline_top2"

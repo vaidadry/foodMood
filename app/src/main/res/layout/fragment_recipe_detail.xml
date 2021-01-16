@@ -15,152 +15,109 @@
         android:layout_height="match_parent"
         tools:context=".ui.recipePage.DiscoverRecipeDetailFragment">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_recipe"
-            style="@style/ToolBar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+        <ImageView
+            android:id="@+id/detail_image"
+            android:layout_width="@dimen/detail_recipe_image_size"
+            android:layout_height="@dimen/detail_recipe_image_size"
+            android:contentDescription="@string/general_meal_image_of_detail_page"
+            app:layout_constraintBottom_toBottomOf="@id/horizontal_guideline_middle"
+            app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
             app:layout_constraintTop_toTopOf="parent"
-            app:menu="@menu/top_nav_menu_item"
-            app:title="@{viewModel.recipe.title}"
-            tools:title="@string/title" />
+            app:imageUrl="@{viewModel.recipe}"
+            tools:srcCompat="@drawable/ic_3" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+        <TextView
+            android:id="@+id/detail_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:fontFamily="@font/dosis_bold"
+            android:textSize="@dimen/generate_random_meal_text_size"
+            android:maxLines="2"
+            app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_middle"
+            app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_middle"
+            android:text="@{viewModel.recipe.title}"
+            tools:text="@string/title" />
+
+        <TextView
+            android:id="@+id/detail_meal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/dosis_bold"
+            android:textAlignment="center"
+            android:padding="@dimen/quarter_padding"
+            android:textSize="@dimen/list_item_text_size"
+            app:layout_constraintEnd_toStartOf="@+id/vertical_guideline_right"
+            app:layout_constraintStart_toStartOf="@+id/vertical_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/detail_title"
+            app:mealTypeText="@{viewModel.recipe}"
+            tools:text="meal" />
+
+        <TextView
+            android:id="@+id/ingredients"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:fontFamily="@font/dosis_regular"
+            android:textSize="@dimen/list_item_text_size"
+            android:textColor="@color/colorSecondaryDark"
+            android:maxLines="3"
+            android:padding="@dimen/half_padding"
+            app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
+            app:layout_constraintTop_toBottomOf="@id/detail_meal"
+            android:text="@{viewModel.recipe.ingredients}"
+            tools:text="ingredients" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_recipe">
-
-            <ImageView
-                android:id="@+id/detail_image"
-                android:layout_width="@dimen/detail_recipe_image_size"
-                android:layout_height="@dimen/detail_recipe_image_size"
-                android:contentDescription="@string/general_meal_image_of_detail_page"
-                app:layout_constraintBottom_toTopOf="@id/detail_title"
-                app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
-                app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-                app:layout_constraintTop_toTopOf="parent"
-                app:imageUrl="@{viewModel.recipe}"
-                tools:srcCompat="@drawable/ic_3" />
-
-            <TextView
-                android:id="@+id/detail_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:fontFamily="@font/dosis_bold"
-                android:textSize="@dimen/generate_random_meal_text_size"
-                android:maxLines="2"
-                app:layout_constraintBottom_toTopOf="@id/detail_url"
-                app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
-                app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-                app:layout_constraintTop_toBottomOf="@id/detail_image"
-                android:text="@{viewModel.recipe.title}"
-                tools:text="@string/title" />
-
-            <TextView
-                android:id="@+id/detail_meal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/dosis_bold"
-                android:textAlignment="center"
-                android:textSize="@dimen/list_item_text_size"
-                app:layout_constraintBottom_toTopOf="@+id/ingredients"
-                app:layout_constraintEnd_toStartOf="@+id/vertical_guideline_right"
-                app:layout_constraintStart_toStartOf="@+id/vertical_guideline_left"
-                app:layout_constraintTop_toBottomOf="@id/detail_title"
-                app:mealTypeText="@{viewModel.recipe}"
-                tools:text="meal" />
-
-            <TextView
-                android:id="@+id/ingredients"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:fontFamily="@font/dosis_regular"
-                android:textSize="@dimen/list_item_text_size"
-                android:textColor="@color/colorSecondaryDark"
-                android:maxLines="3"
-                app:layout_constraintBottom_toTopOf="@+id/detail_url"
-                app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
-                app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-                app:layout_constraintTop_toBottomOf="@id/detail_title"
-                android:text="@{viewModel.recipe.ingredients}"
-                tools:text="ingredients" />
-
-
+            app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
+            app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
+            app:layout_constraintTop_toBottomOf="@+id/ingredients">
             <Button
                 android:id="@+id/detail_url"
                 style="@style/ColorfulButton"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
-                app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-                app:layout_constraintTop_toBottomOf="@id/detail_title"
+                android:onClick="@{() -> viewModel.onClickUrl()}"
                 android:text="@string/show_me_how_button"
-                android:onClick="@{() -> viewModel.onClickUrl()}" />
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/quarter_padding"/>
 
             <Button
                 android:id="@+id/button_add_to_database"
                 style="@style/ColorfulButton"
-                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/quarter_padding"
                 android:onClick="@{() -> viewModel.onClickAddFragment()}"
                 android:text="@string/add_to_recipe_book"
-                android:layout_margin="@dimen/half_padding"
-                app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
-                app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
-                app:layout_constraintTop_toBottomOf="@id/detail_url" />
+                android:visibility="gone" />
+        </LinearLayout>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/horizontal_guideline_bottom_nav"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.93" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/vertical_guideline_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.1" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/horizontal_guideline_bottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.75" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/vertical_guideline_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.9" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/vertical_guideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/horizontal_guideline_top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.25" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/horizontal_guideline_middle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.5" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/vertical_guideline_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.1" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/vertical_guideline_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.9" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/horizontal_guideline_middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.5" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

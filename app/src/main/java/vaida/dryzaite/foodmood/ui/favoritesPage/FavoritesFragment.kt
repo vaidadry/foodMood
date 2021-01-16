@@ -19,11 +19,13 @@ import vaida.dryzaite.foodmood.utilities.REQUEST_KEY
 
 @AndroidEntryPoint
 class FavoritesFragment: BaseFragment<FavoritesViewModel, FragmentFavoritesBinding>(), FavoritesAdapter.FavoritesAdapterListener {
+    override val navigationSettings: NavigationSettings? by lazy {
+        NavigationSettings(requireContext().getString(R.string.favorites))
+    }
+    override val layoutId: Int = R.layout.fragment_favorites
+
     private lateinit var adapter: FavoritesAdapter
     private lateinit var gridItemDecoration: RecyclerView.ItemDecoration
-
-    override val navigationSettings: NavigationSettings? = null
-    override val layoutId: Int = R.layout.fragment_favorites
 
     override fun getViewModelClass(): Class<FavoritesViewModel> {
         return FavoritesViewModel::class.java

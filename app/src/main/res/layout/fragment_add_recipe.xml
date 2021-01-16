@@ -3,12 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--    adding data binding for Add recipe form - for cleaner code-->
     <data>
         <variable
             name="viewModel"
             type="vaida.dryzaite.foodmood.ui.addRecipe.AddRecipeViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -181,11 +179,10 @@
             android:id="@+id/submit_recipe_btn"
             style="@style/SolidButton"
             android:text="@string/submit"
-            android:onClick="@{() -> viewModel.saveNewRecipe()}"
-            app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_bottom"
-            app:layout_constraintBottom_toTopOf="@id/horizontal_guideline_bottom_nav"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/horizontal_guideline_bottom" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/vertical_guideline"
@@ -207,13 +204,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.25" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/horizontal_guideline_middle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/horizontal_guideline_bottom"

@@ -18,7 +18,7 @@ class MainActivityFragmentFactory @Inject constructor(
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
         return when(className) {
             DiscoverRecipesFragment::class.java.name -> DiscoverRecipesFragment(discoverRecipesAdapter, generator)
-            DiscoverRecipesIngredientFragment::class.java.name -> DiscoverRecipesIngredientFragment(discoverRecipesAdapter,generator)
+            DiscoverRecipesIngredientFragment::class.java.name -> DiscoverRecipesIngredientFragment(discoverRecipesAdapter, generator)
             else -> super.instantiate(classLoader, className)
         }
     }

@@ -2,12 +2,8 @@ package vaida.dryzaite.foodmood.ui.discoverRecipes
 
 import android.os.Bundle
 import android.view.View
-import android.view.Menu
-import android.view.MenuItem
-import android.view.MenuInflater
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
 import androidx.core.view.isInvisible
@@ -16,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_discover_recipes.*
+import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -41,7 +37,9 @@ class DiscoverRecipesFragment @Inject constructor(
     private val generator: RecipeGenerator
 ) : BaseFragment<DiscoverRecipesViewModel, FragmentDiscoverRecipesBinding>() {
 
-    override val navigationSettings: NavigationSettings? = null
+    override val navigationSettings: NavigationSettings? by lazy {
+        NavigationSettings(requireContext().getString(R.string.discover))
+    }
     override val layoutId: Int = R.layout.fragment_discover_recipes
     private var searchJob: Job? = null
 
@@ -52,6 +50,7 @@ class DiscoverRecipesFragment @Inject constructor(
     @InternalCoroutinesApi
     override fun setupUI() {
         initAdapter()
+        addListDividerDecoration()
         setupTitleInputListeners()
         setupObservers()
         binding.retryButton.setOnClickListener { adapter.retry() }
@@ -59,35 +58,31 @@ class DiscoverRecipesFragment @Inject constructor(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-
-        setHasOptionsMenu(true)
-
-        addListDividerDecoration()
+        setupToolbar()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.top_nav_menu_discover, menu)
-        toolbar.overflowIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_search)
-    }
+    private fun setupToolbar() {
+        toolbar.apply {
+            overflowIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_search)
 
-    @InternalCoroutinesApi
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.search_menu_item -> {
-                Timber.i("search by title selected")
+            inflateMenu(R.menu.top_nav_menu_discover)
+            setOnMenuItemClickListener {
+                when(it.itemId) {
+                    R.id.search_menu_item -> {
+                        Timber.i("search by title selected")
 
-                hideShowSearchByTitleBar()
-            }
-            R.id.search_by_ingredient_menu_item -> {
-                Timber.i("search by ingredient selected")
+                        hideShowSearchByTitleBar()
+                    }
+                    R.id.search_by_ingredient_menu_item -> {
+                        Timber.i("search by ingredient selected")
 
-                this.findNavController().navigate(
-                    DiscoverRecipesFragmentDirections.actionDiscoverRecipesFragmentToDiscoverRecipesIngredientFragment(null))
+                        this@DiscoverRecipesFragment.findNavController().navigate(
+                            DiscoverRecipesFragmentDirections.actionDiscoverRecipesFragmentToDiscoverRecipesIngredientFragment(null))
+                    }
+                }
+                true
             }
         }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun setupObservers() {
@@ -209,4 +204,5 @@ class DiscoverRecipesFragment @Inject constructor(
     private fun checkForEmptyState() {
         binding.emptyState.isInvisible = adapter.itemCount > 0
     }
+
 }

@@ -1,4 +1,4 @@
-<CheckBox xmlns:tools="http://schemas.android.com/tools"
+<CheckBox
     style="@style/FavoriteCheckboxActionBar"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

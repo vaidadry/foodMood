@@ -2,11 +2,8 @@ package vaida.dryzaite.foodmood.ui.recipeList
 
 import android.os.Bundle
 import android.view.View
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.Menu
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
@@ -15,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
+import kotlinx.android.synthetic.main.toolbar.*
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.FragmentRecipeListBinding
 import vaida.dryzaite.foodmood.model.RecipeEntry
@@ -24,7 +22,9 @@ import vaida.dryzaite.foodmood.utilities.*
 
 @AndroidEntryPoint
 class RecipeListFragment : BaseFragment<RecipeListViewModel, FragmentRecipeListBinding>(), RecipeListAdapter.RecipeListAdapterListener {
-    override val navigationSettings: NavigationSettings? = null
+    override val navigationSettings: NavigationSettings? by lazy {
+        NavigationSettings(requireContext().getString(R.string.recipe_book_tab_title))
+    }
     override val layoutId: Int = R.layout.fragment_recipe_list
     private lateinit var adapter: RecipeListAdapter
 
@@ -48,37 +48,25 @@ class RecipeListFragment : BaseFragment<RecipeListViewModel, FragmentRecipeListB
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        setHasOptionsMenu(true)
-
+        setupToolbar()
         setupNavigation()
         setupAdapter()
         setupRecyclerView()
         setupItemTouchHelper()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.top_nav_menu, menu)
-
-        // clicks on icons in toolbar
-        val favoriteIcon = menu.findItem(R.id.favorite_menu_item)
-        favoriteIcon.actionView.setOnClickListener {
-            menu.performIdentifierAction(
-                favoriteIcon.itemId,
-                0
-            )
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.favorite_menu_item -> {
-                navigateToFavoritesPage()
+    private fun setupToolbar() {
+        toolbar.apply {
+            inflateMenu(R.menu.top_nav_menu)
+            setOnMenuItemClickListener {
+                when(it.itemId) {
+                    R.id.favorite_menu_item -> {
+                        navigateToFavoritesPage()
+                    }
+                }
+                true
             }
         }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun deleteRecipeAtPosition(recipe: RecipeEntry) {

@@ -10,5 +10,4 @@
         android:id="@+id/search_by_ingredient_menu_item"
         android:title="@string/by_ingredient"
         app:showAsAction="never"/>
-
 </menu>

@@ -19,7 +19,7 @@ import androidx.paging.LoadState
 import com.google.android.flexbox.FlexboxLayout
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_discover_recipes.toolbar
+import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -30,7 +30,6 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import vaida.dryzaite.foodmood.R
-import vaida.dryzaite.foodmood.databinding.FragmentDiscoverRecipesBinding
 import vaida.dryzaite.foodmood.databinding.FragmentDiscoverRecipesIngredientBinding
 import vaida.dryzaite.foodmood.model.RecipeGenerator
 import vaida.dryzaite.foodmood.ui.BaseFragment
@@ -45,7 +44,9 @@ class DiscoverRecipesIngredientFragment @Inject constructor(
     private val generator: RecipeGenerator
 ): BaseFragment<DiscoverRecipesIngredientViewModel, FragmentDiscoverRecipesIngredientBinding>(){
 
-    override val navigationSettings: NavigationSettings? = null
+    override val navigationSettings: NavigationSettings? by lazy {
+        NavigationSettings(requireContext().getString(R.string.discover))
+    }
     override val layoutId: Int = R.layout.fragment_discover_recipes_ingredient
 
     private var searchJob: Job? = null
@@ -57,42 +58,38 @@ class DiscoverRecipesIngredientFragment @Inject constructor(
     @InternalCoroutinesApi
     override fun setupUI() {
         initAdapter()
+        addListDividerDecoration()
         setupIngredientsInputListeners()
         setupObservers()
-
         // enable Retry connection method
         binding.retryButton.setOnClickListener { adapter.retry() }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-
-        setHasOptionsMenu(true)
-
-        addListDividerDecoration()
+        setupToolbar()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.top_nav_menu_discover, menu)
-        toolbar.overflowIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_search)
-    }
+    private fun setupToolbar() {
+        toolbar.apply {
+            overflowIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_search)
 
-    @InternalCoroutinesApi
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.search_menu_item -> {
-                Timber.i("search by title selected")
-                this.findNavController().navigate(
-                    DiscoverRecipesIngredientFragmentDirections.actionDiscoverRecipesIngredientFragmentToDiscoverRecipesFragment(null))
-            }
-            R.id.search_by_ingredient_menu_item -> {
-                Timber.i("search by ingredient selected")
-                hideShowSearchByIngredientBar()
+            inflateMenu(R.menu.top_nav_menu_discover)
+            setOnMenuItemClickListener {
+                when(it.itemId) {
+                    R.id.search_menu_item -> {
+                        Timber.i("search by title selected")
+                        this@DiscoverRecipesIngredientFragment.findNavController().navigate(
+                            DiscoverRecipesIngredientFragmentDirections.actionDiscoverRecipesIngredientFragmentToDiscoverRecipesFragment(null))
+                    }
+                    R.id.search_by_ingredient_menu_item -> {
+                        Timber.i("search by ingredient selected")
+                        hideShowSearchByIngredientBar()
+                    }
+                }
+                true
             }
         }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun setupObservers() {

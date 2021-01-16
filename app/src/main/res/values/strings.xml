@@ -17,13 +17,12 @@
     <string name="url">URL</string>
     <string name="veggie_checkbox">go for veggies</string>
     <string name="fish_craving_checkbox">fish craving</string>
-
     <string name="splash_logo_content_description">splashLogo</string>
     <string name="saved_successfully">Recipe saved successfully</string>
     <string name="error_saving_recipe_not_filled">Please fill required fields</string>
     <string name="error_showing_recipe">Add some recipes, first</string>
     <string name="no_recipes_available">No recipes available.</string>
-    <string name="Favorites">Favorites</string>
+    <string name="favorites">Favorites</string>
     <string name="by_title">By title</string>
     <string name="by_ingredient">By Ingredient</string>
     <string name="search_by_ingredient">Search by ingredient</string>
@@ -43,6 +42,4 @@
     <string name="add_to_recipe_book">Add to Recipe Book</string>
     <string name="load_error_message">Ooups! Please check Internet connection</string>
     <string name="retry">Retry</string>
-
-
 </resources>

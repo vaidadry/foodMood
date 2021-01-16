@@ -9,7 +9,6 @@ import android.os.Looper
 import android.view.View
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_discover_recipes.*
-import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.ActivitySplashBinding
 import vaida.dryzaite.foodmood.utilities.SPLASH_TIME_OUT
 
@@ -20,13 +19,12 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        setTheme(R.style.AppTheme)
+        // todo:  do full screen style
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.setDecorFitsSystemWindows(false)
         } else {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
         }
-        actionBar?.hide()
 
         super.onCreate(savedInstanceState)
         // Inflate with View binding to optimize space, as no data binding used
