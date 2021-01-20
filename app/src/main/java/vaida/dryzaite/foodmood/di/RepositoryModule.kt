@@ -1,5 +1,6 @@
 package vaida.dryzaite.foodmood.di
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +19,7 @@ object RepositoryModule {
     @Provides
     fun provideRepository(
         dao: RecipeDao,
-        service: RecipeApiService
-    ) = RecipeDatabaseRepository(dao, service) as RecipeRepository
+        service: RecipeApiService,
+        firebaseCrashlytics: FirebaseCrashlytics
+    ) = RecipeDatabaseRepository(dao, service, firebaseCrashlytics) as RecipeRepository
 }

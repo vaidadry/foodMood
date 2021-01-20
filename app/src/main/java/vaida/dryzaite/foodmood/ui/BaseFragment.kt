@@ -9,10 +9,12 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.android.synthetic.main.toolbar.view.*
 import vaida.dryzaite.foodmood.BR
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.utilities.setStatusBar
+import javax.inject.Inject
 
 abstract class BaseFragment<VM : ViewModel, T : ViewDataBinding> : Fragment() {
     abstract val navigationSettings: NavigationSettings?
@@ -20,6 +22,7 @@ abstract class BaseFragment<VM : ViewModel, T : ViewDataBinding> : Fragment() {
 
     lateinit var binding: T
     lateinit var viewModel: VM
+    @Inject lateinit var firebaseCrashlytics: FirebaseCrashlytics
     private lateinit var mainView: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

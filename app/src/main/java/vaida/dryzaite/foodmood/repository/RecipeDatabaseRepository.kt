@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import vaida.dryzaite.foodmood.database.ApiRecipesByIngredientPagingSource
@@ -18,7 +19,8 @@ import javax.inject.Inject
 // Repository integrated with coroutines to send work off main thread
 class RecipeDatabaseRepository @Inject constructor(
     private val recipeDao: RecipeDao,
-    private val service: RecipeApiService
+    private val service: RecipeApiService,
+    private val firebaseCrashlytics: FirebaseCrashlytics
 ) : RecipeRepository {
 
     private val allRecipes: LiveData<List<RecipeEntry>> = recipeDao.getAllRecipes()
@@ -57,7 +59,7 @@ class RecipeDatabaseRepository @Inject constructor(
         // appending '%' so we can allow other characters to be before and after the query string
         Timber.i("dbQuery made: $searchQuery")
 
-        val pagingSourceFactory = { ApiRecipesPagingSource(service, searchQuery) }
+        val pagingSourceFactory = { ApiRecipesPagingSource(service, searchQuery, firebaseCrashlytics) }
 
         // TO FETCH DB + NETWORK (BUGS in API currently- reloading multiple times, crashing etc, so im using only network above)
         // val pagingSourceFactory =  { database.externalRecipesDao().getExternalRecipes(dbQuery) }
@@ -85,7 +87,7 @@ class RecipeDatabaseRepository @Inject constructor(
 
         Timber.i("dbQuery made: $dbQuery")
 
-        val pagingSourceFactory = { ApiRecipesByIngredientPagingSource(service, dbQuery) }
+        val pagingSourceFactory = { ApiRecipesByIngredientPagingSource(service, dbQuery, firebaseCrashlytics) }
         // TO FETCH DB + NETWORK (BUGS in API currently- reloading multiple times, crashing etc, so im using only network above)
         // val pagingSourceFactory =  { database.externalRecipesDao().getExternalRecipes(dbQuery) }
         // also excluding REMOTE MEDIATOR bellow, coz it blocks loading states and disable footer
