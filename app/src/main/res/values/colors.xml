@@ -7,8 +7,8 @@
     <color name="Text">#0A0A03</color>
 
 <!--    additional colors - for dark mode compatibility-->
-    <color name="TextToolbarsButtons">#0A0A03</color>
+    <color name="TextToolbarsButtons">@color/Text</color>
     <color name="gradientStart">#FFC66D</color>
-    <color name="gradientCenter">#FDEE56</color>
+    <color name="gradientCenter">@color/colorAccent</color>
     <color name="gradientEnd">#C8FD58</color>
 </resources>

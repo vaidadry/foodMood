@@ -91,7 +91,7 @@ class RecipeDatabaseTest {
             veggie = true,
             fish = false,
             meal = 3,
-            recipe = "www.example.com",
+            href = "www.example.com",
             isFavorite = false,
             ingredients = "")
         recipeDao.insertRecipe(recipe)

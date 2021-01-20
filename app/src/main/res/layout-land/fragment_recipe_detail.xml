@@ -76,7 +76,7 @@
             tools:text="ingredients" />
 
 
-        <Button
+        <android.widget.Button
             android:id="@+id/detail_url"
             style="@style/ColorfulButton"
             android:onClick="@{() -> viewModel.onClickUrl()}"
@@ -87,7 +87,7 @@
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
             app:layout_constraintTop_toBottomOf="@id/detail_image" />
 
-        <Button
+        <android.widget.Button
             android:id="@+id/button_add_to_database"
             style="@style/ColorfulButton"
             android:visibility="gone"

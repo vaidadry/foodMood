@@ -8,8 +8,6 @@
         android:topLeftRadius="@dimen/button_corner_radius"
         android:topRightRadius="@dimen/button_corner_radius" />
 
-<!--    <solid android:color="@color/colorAccent"/>-->
-
     <gradient android:startColor="@color/gradientStart"
         android:centerColor="@color/gradientCenter"
         android:endColor="@color/gradientEnd"

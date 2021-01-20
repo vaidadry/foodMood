@@ -91,7 +91,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
+            <android.widget.Button
                 android:id="@+id/retry_button"
                 android:layout_width="@dimen/small_button_width"
                 android:layout_height="@dimen/small_button_height"

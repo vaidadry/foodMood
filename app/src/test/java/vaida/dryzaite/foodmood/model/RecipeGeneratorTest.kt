@@ -38,7 +38,7 @@ class RecipeGeneratorTest {
         assertThat(expectedRecipe.title).isEqualTo(generatedRecipe.title)
         assertThat(expectedRecipe.veggie).isEqualTo(generatedRecipe.veggie)
         assertThat(expectedRecipe.fish).isEqualTo(generatedRecipe.fish)
-        assertThat(expectedRecipe.recipe).isEqualTo(generatedRecipe.recipe)
+        assertThat(expectedRecipe.href).isEqualTo(generatedRecipe.href)
         assertThat(expectedRecipe.isFavorite).isEqualTo(generatedRecipe.isFavorite)
         assertThat(expectedRecipe.ingredients).isEqualTo(generatedRecipe.ingredients)
     }
