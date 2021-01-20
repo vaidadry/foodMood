@@ -38,7 +38,6 @@ fun <T> LiveData<T>.getOrAwaitValueAndroidTest(
         if (!latch.await(time, timeUnit)) {
             throw TimeoutException("LiveData value was never set.")
         }
-
     } finally {
         this.removeObserver(observer)
     }

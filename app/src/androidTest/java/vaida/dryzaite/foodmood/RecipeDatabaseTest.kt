@@ -18,7 +18,6 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import javax.inject.Inject
 
-
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 @SmallTest
@@ -48,7 +47,6 @@ class RecipeDatabaseTest {
         db.close()
     }
 
-
     @Test
     fun insertRecipe() = runBlockingTest {
         val recipe = recipe1
@@ -60,7 +58,7 @@ class RecipeDatabaseTest {
     }
 
     @Test
-    fun insertAndGetAllRecipes() = runBlockingTest{
+    fun insertAndGetAllRecipes() = runBlockingTest {
         val recipe1 = recipe1
         recipeDao.insertRecipe(recipe1)
 
@@ -72,7 +70,7 @@ class RecipeDatabaseTest {
     }
 
     @Test
-    fun getAndUpdateRecipeByKey() = runBlockingTest{
+    fun getAndUpdateRecipeByKey() = runBlockingTest {
         val recipe = recipe1
         recipeDao.insertRecipe(recipe)
         val latestRecipe = recipeDao.getRecipeWithId("0de39rd2-4adr-4fb4-982c-7030d474c576").getOrAwaitValueAndroidTest()
@@ -84,7 +82,7 @@ class RecipeDatabaseTest {
     }
 
     @Test
-    fun deleteRecipe() = runBlockingTest{
+    fun deleteRecipe() = runBlockingTest {
         val recipe = RecipeEntry(id = "0de39rd2-4adr-4fb4-982c-7030d474c576",
             date = "2020-06-09  15:53",
             title = "kebabas",

@@ -10,7 +10,7 @@ import vaida.dryzaite.foodmood.ui.BaseFragment
 import vaida.dryzaite.foodmood.ui.NavigationSettings
 
 @AndroidEntryPoint
-class SuggestionFragment : BaseFragment<SuggestionViewModel, FragmentSuggestionBinding>(){
+class SuggestionFragment : BaseFragment<SuggestionViewModel, FragmentSuggestionBinding>() {
     override val navigationSettings: NavigationSettings? = null
     override val layoutId: Int = R.layout.fragment_suggestion
     private val args by navArgs<SuggestionFragmentArgs>()
@@ -27,7 +27,7 @@ class SuggestionFragment : BaseFragment<SuggestionViewModel, FragmentSuggestionB
     }
 
     private fun setupObservers() {
-        //observe button click
+        // observe button click
         viewModel.navigateToUrl.observe(viewLifecycleOwner, {
             it?.let {
                 redirectToRecipeUrl(it)

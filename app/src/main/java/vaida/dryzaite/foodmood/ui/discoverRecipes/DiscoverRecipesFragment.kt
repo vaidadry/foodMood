@@ -67,15 +67,11 @@ class DiscoverRecipesFragment @Inject constructor(
 
             inflateMenu(R.menu.top_nav_menu_discover)
             setOnMenuItemClickListener {
-                when(it.itemId) {
+                when (it.itemId) {
                     R.id.search_menu_item -> {
-                        Timber.i("search by title selected")
-
                         hideShowSearchByTitleBar()
                     }
                     R.id.search_by_ingredient_menu_item -> {
-                        Timber.i("search by ingredient selected")
-
                         this@DiscoverRecipesFragment.findNavController().navigate(
                             DiscoverRecipesFragmentDirections.actionDiscoverRecipesFragmentToDiscoverRecipesIngredientFragment(null))
                     }
@@ -115,7 +111,7 @@ class DiscoverRecipesFragment @Inject constructor(
             viewModel.displayRecipeDetails(it)
         }
 
-        //adding loadState adapter
+        // adding loadState adapter
         binding.discoverListRecyclerview.adapter = adapter.withLoadStateFooter(
             footer = RecipeLoadStateAdapter { adapter.retry() }
         )
@@ -138,7 +134,7 @@ class DiscoverRecipesFragment @Inject constructor(
             viewModel.searchExternalRecipesByTitle(searchQuery).collectLatest {
                 Timber.i("paging data returned : $it")
                 adapter.submitData(it)
-
+                checkForEmptyState()
             }
             Timber.i("search job finished")
         }
@@ -147,7 +143,7 @@ class DiscoverRecipesFragment @Inject constructor(
     private fun addInputToTitleSearchQueryString() {
         Timber.i("addInputToTitleSearchQueryString() initiated, previous search q was: ${viewModel.currentTitleSearchQuery.value}")
         binding.titleInputET.text.trim().let {
-            if (it.isNotEmpty() && viewModel.currentTitleSearchQuery.value != it.toString())  {
+            if (it.isNotEmpty() && viewModel.currentTitleSearchQuery.value != it.toString()) {
                 viewModel.updateTitleSearchQuery(it.toString())
                 Timber.i("text added to vm: ${viewModel.currentTitleSearchQuery.value}")
             }
@@ -186,7 +182,6 @@ class DiscoverRecipesFragment @Inject constructor(
     }
 
     private fun addListDividerDecoration() {
-        //adding list divider decorations
         val heightInPixels = resources.getDimensionPixelSize(R.dimen.list_item_divider_height)
         binding.discoverListRecyclerview.addItemDecoration(
             DividerItemDecoration(
@@ -204,5 +199,4 @@ class DiscoverRecipesFragment @Inject constructor(
     private fun checkForEmptyState() {
         binding.emptyState.isInvisible = adapter.itemCount > 0
     }
-
 }

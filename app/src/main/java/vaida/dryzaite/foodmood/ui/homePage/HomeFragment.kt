@@ -33,7 +33,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHome2Binding>() {
     }
 
     private fun setupObservers() {
-        //observing filtering
+        // observing filtering
         viewModel.filteredRecipes.observe(viewLifecycleOwner, {})
 
         navigateToSuggestionPage()

@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.repository.RecipeRepository
 
-class RecipeViewModel @ViewModelInject constructor(private val repository: RecipeRepository): ViewModel() {
+class RecipeViewModel @ViewModelInject constructor(private val repository: RecipeRepository) : ViewModel() {
 
     private val _recipe = MutableLiveData<RecipeEntry?>()
     val recipe: LiveData<RecipeEntry?> = _recipe
@@ -44,11 +44,11 @@ class RecipeViewModel @ViewModelInject constructor(private val repository: Recip
         _navigateToUrl.value = null
     }
 
-    fun onClickAddFragment(){
+    fun onClickAddFragment() {
         _navigateToAddFragment.value = _recipe.value
     }
 
-    fun onClickAddFragmentComplete(){
+    fun onClickAddFragmentComplete() {
         _navigateToAddFragment.value = null
     }
 
@@ -57,7 +57,7 @@ class RecipeViewModel @ViewModelInject constructor(private val repository: Recip
             _notInDatabase.postValue(true)
         } else {
             val example = repository.getAllRecipes().value
-            _notInDatabase.postValue(example?.filter { it.id == id}?.size == 0)
+            _notInDatabase.postValue(example?.filter { it.id == id }?.size == 0)
         }
     }
 }

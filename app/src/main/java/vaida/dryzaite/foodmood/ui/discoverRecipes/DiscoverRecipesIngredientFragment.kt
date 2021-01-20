@@ -39,7 +39,7 @@ import javax.inject.Inject
 class DiscoverRecipesIngredientFragment @Inject constructor(
     val adapter: DiscoverRecipesAdapter,
     private val generator: RecipeGenerator
-): BaseFragment<DiscoverRecipesIngredientViewModel, FragmentDiscoverRecipesIngredientBinding>(){
+) : BaseFragment<DiscoverRecipesIngredientViewModel, FragmentDiscoverRecipesIngredientBinding>() {
 
     override val navigationSettings: NavigationSettings? by lazy {
         NavigationSettings(requireContext().getString(R.string.bottomNav_discover))
@@ -73,7 +73,7 @@ class DiscoverRecipesIngredientFragment @Inject constructor(
 
             inflateMenu(R.menu.top_nav_menu_discover)
             setOnMenuItemClickListener {
-                when(it.itemId) {
+                when (it.itemId) {
                     R.id.search_menu_item -> {
                         Timber.i("search by title selected")
                         this@DiscoverRecipesIngredientFragment.findNavController().navigate(
@@ -119,7 +119,6 @@ class DiscoverRecipesIngredientFragment @Inject constructor(
                 searchByIngredients(data)
             }
         })
-
     }
 
     private fun initAdapter() {
@@ -127,9 +126,7 @@ class DiscoverRecipesIngredientFragment @Inject constructor(
         adapter.setItemClickedListener {
             viewModel.displayRecipeDetails(it)
         }
-
-
-        //adding loadState adapter
+        // adding loadState adapter
         binding.discoverListRecyclerview.adapter = adapter.withLoadStateFooter(
             footer = RecipeLoadStateAdapter { adapter.retry() }
         )
@@ -143,9 +140,8 @@ class DiscoverRecipesIngredientFragment @Inject constructor(
         }
     }
 
-
     private fun addListDividerDecoration() {
-        //adding list divider decorations
+        // adding list divider decorations
         val heightInPixels = resources.getDimensionPixelSize(R.dimen.list_item_divider_height)
         binding.discoverListRecyclerview.addItemDecoration(
             DividerItemDecoration(
@@ -155,11 +151,9 @@ class DiscoverRecipesIngredientFragment @Inject constructor(
         )
     }
 
-
     private fun hideShowSearchByIngredientBar() {
         binding.ingredientSearchLayout.isVisible = binding.ingredientSearchLayout.isGone
     }
-
 
     // setting up text input listeners
     @InternalCoroutinesApi
@@ -192,7 +186,7 @@ class DiscoverRecipesIngredientFragment @Inject constructor(
         }
     }
 
-    private fun addInputToIngredientsList()  {
+    private fun addInputToIngredientsList() {
         Timber.i("addInputToIngredientsList() initiated")
         binding.ingredientsInputET.text.trim().let {
             if (it.isNotEmpty() && !viewModel.ingredientsList.value?.contains(it)!!) {
@@ -218,7 +212,7 @@ class DiscoverRecipesIngredientFragment @Inject constructor(
     }
 
     private fun removeChip(chip: View, chipGroup: FlexboxLayout) {
-        val anim = AlphaAnimation(1f,0f)
+        val anim = AlphaAnimation(1f, 0f)
         anim.duration = 250
         anim.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationRepeat(animation: Animation?) {}
@@ -242,12 +236,10 @@ class DiscoverRecipesIngredientFragment @Inject constructor(
             viewModel.searchExternalRecipesByIngredient(queryList).collectLatest {
                 Timber.i("paging data returned : $it")
                 adapter.submitData(it)
-
             }
         }
     }
-
-    //if no items, empty state text is shown
+    // if no items, empty state text is shown
     private fun checkForEmptyState() {
         binding.emptyState.isInvisible = adapter.itemCount > 0
     }

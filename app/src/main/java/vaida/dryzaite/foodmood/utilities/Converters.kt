@@ -30,5 +30,3 @@ fun convertStringMealTypeToNumeric(mealSelection: String, resources: Resources):
     }
     return mealString
 }
-
-

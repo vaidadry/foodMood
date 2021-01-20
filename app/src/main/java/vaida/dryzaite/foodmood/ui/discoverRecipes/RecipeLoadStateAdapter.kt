@@ -10,7 +10,7 @@ import timber.log.Timber
 import vaida.dryzaite.foodmood.R
 import vaida.dryzaite.foodmood.databinding.LoadStateItemBinding
 
-//adapter for Load State
+// adapter for Load State
 class RecipeLoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<RecipeLoadStateAdapter.LoadStateViewHolder>() {
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) {
         holder.bind(loadState)
@@ -31,7 +31,7 @@ class RecipeLoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<R
 
         fun bind(loadState: LoadState) {
             if (loadState is LoadState.Error) {
-                Timber.e( "Error: ${loadState.error.localizedMessage}")
+                Timber.e("Error: ${loadState.error.localizedMessage}")
                 binding.errorMsg.setText(R.string.error_checkInternet)
             }
             binding.progressBarFooter.isVisible = loadState is LoadState.Loading

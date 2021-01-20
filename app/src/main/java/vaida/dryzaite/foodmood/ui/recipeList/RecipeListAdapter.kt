@@ -16,8 +16,8 @@ import java.util.Collections
 
 class RecipeListAdapter(
     private val listener: RecipeListAdapterListener,
-    private val clickListener: RecipeListOnClickListener)
-    : RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder>(), ItemTouchHelperListener{
+    private val clickListener: RecipeListOnClickListener
+) : RecyclerView.Adapter<RecipeListAdapter.RecipeListViewHolder>(), ItemTouchHelperListener {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeListViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -105,10 +105,7 @@ class RecipeListAdapter(
     }
 }
 
-//defining click listeners to respond to clicks on RW
+// defining click listeners to respond to clicks on RW
 open class RecipeListOnClickListener(val clickListener: (recipe: RecipeEntry) -> Unit) {
     fun onClick(recipe: RecipeEntry) = clickListener(recipe)
 }
-
-
-

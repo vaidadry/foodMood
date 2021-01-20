@@ -29,14 +29,13 @@ class DiscoverRecipesIngredientViewModel @ViewModelInject constructor (
         _ingredientsListHelper.add(ingredient)
         _ingredientsList.value = _ingredientsListHelper
     }
-    fun removeIngredientFromSearchList (ingredient: String){
+    fun removeIngredientFromSearchList(ingredient: String) {
         _ingredientsListHelper.remove(ingredient)
         _ingredientsList.value = _ingredientsListHelper
     }
 
     private val _navigateToSelectedRecipe = MutableLiveData<ExternalRecipe?>()
     val navigateToSelectedRecipe: LiveData<ExternalRecipe?> = _navigateToSelectedRecipe
-
 
     fun displayRecipeDetails(externalRecipe: ExternalRecipe) {
         _navigateToSelectedRecipe.value = externalRecipe
@@ -46,9 +45,8 @@ class DiscoverRecipesIngredientViewModel @ViewModelInject constructor (
         _navigateToSelectedRecipe.value = null
     }
 
-
     // method checks if query old or new, if old - uses cache, if new - makes network call
-    fun searchExternalRecipesByIngredient(queryList: List<String>) : Flow<PagingData<ExternalRecipe>> {
+    fun searchExternalRecipesByIngredient(queryList: List<String>): Flow<PagingData<ExternalRecipe>> {
         Timber.i("launching search of queryList: $queryList")
 //        val lastResult = currentIngredientSearchResult
 //        Timber.i("lastResult: $lastResult")

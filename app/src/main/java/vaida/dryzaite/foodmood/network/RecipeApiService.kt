@@ -9,14 +9,11 @@ interface RecipeApiService {
     fun getRecipesAsync(
         @Query("q") searchQuery: String? = "",
         @Query("p") page: Int = 1
-    ) : Call<Response>
+    ): Call<Response>
 
     @GET("api")
     fun getRecipesByIngredientAsync(
         @Query("i") searchQuery: String? = "",
         @Query("p") page: Int = 1
-    ) : Call<Response>
+    ): Call<Response>
 }
-
-
-

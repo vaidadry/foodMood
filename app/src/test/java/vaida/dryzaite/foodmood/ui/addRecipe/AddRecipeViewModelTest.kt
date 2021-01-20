@@ -17,9 +17,9 @@ import vaida.dryzaite.foodmood.repository.RecipeRepository
 import vaida.dryzaite.foodmood.utilities.isValidUrl
 import vaida.dryzaite.foodmood.utilities.recipe1
 
-//view model and live data test with a mock-up
-//we need to add a test rule that swaps out the background thread executor normally used
-//with a synchronous thread executor
+// view model and live data test with a mock-up
+// we need to add a test rule that swaps out the background thread executor normally used
+// with a synchronous thread executor
 
 @RunWith(JUnit4::class)
 class AddRecipeViewModelTest {
@@ -29,29 +29,25 @@ class AddRecipeViewModelTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
-    //using MAIN coroutine rule for before/after
+    // using MAIN coroutine rule for before/after
     @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
-
-    //adding property for the mock creature generator for the viewmodel
-
+    // adding property for the mock creature generator for the viewmodel
     private val mockGenerator = mock(RecipeGenerator::class.java)
 
-    //add mock repository and update setup method - no need if Injection is used
+    // add mock repository and update setup method - no need if Injection is used
     private val repository = mock(RecipeRepository::class.java)
 
-
-    //add a setup method annotated and in it we init the mocks and set up the view model to be tested
+    // add a setup method annotated and in it we init the mocks and set up the view model to be tested
     @Before
     fun setup() {
         viewModel = AddRecipeViewModel(mockGenerator, repository)
     }
 
-
-    //adding test for setting up the recipe being generated in the view model
-    //first - arrange expected value as STUB,
+    // adding test for setting up the recipe being generated in the view model
+    // first - arrange expected value as STUB,
     @Test
     fun saveNewRecipe_updatesData_verifiedAndInserted() {
 
@@ -71,15 +67,12 @@ class AddRecipeViewModelTest {
             viewModel.href.get() ?: "",
             viewModel.ingredients.get() ?: ""
         )
-
-
         assertThat(stubRecipe.title).isEqualTo(entry.title)
         viewModel.saveNewRecipe()
         assertThat(stubRecipe.title).isEqualTo(viewModel.entry.title)
     }
 
-
-    //now fails coz of URL validator, or canSaveRecipe()
+    // now fails coz of URL validator, or canSaveRecipe()
     @Test
     fun canSaveRecipe_AllFilledCorrectly_Success() {
 
@@ -92,7 +85,6 @@ class AddRecipeViewModelTest {
         val canSaveRecipe = viewModel.canSaveRecipe()
         assertThat(canSaveRecipe).isTrue()
     }
-
 
     @Test
     fun canSaveRecipe_BlankTitle_Fail() {
@@ -143,6 +135,4 @@ class AddRecipeViewModelTest {
         val isValidUrl = url.isValidUrl()
         assertThat(isValidUrl).isFalse()
     }
-
-
 }

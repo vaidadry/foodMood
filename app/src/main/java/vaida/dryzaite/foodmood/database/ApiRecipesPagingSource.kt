@@ -9,13 +9,13 @@ import vaida.dryzaite.foodmood.network.RecipeApiService
 import java.io.IOException
 import vaida.dryzaite.foodmood.utilities.API_STARTING_PAGE_INDEX
 
-//PagingSource implementation defines the source of data and how to retrieve data from that source
+// PagingSource implementation defines the source of data and how to retrieve data from that source
 class ApiRecipesPagingSource(
     private val service: RecipeApiService,
     private val query: String? = ""
 ) : PagingSource<Int, ExternalRecipe>() {
 
-    //load func triggers async load, avoids multiple requests same time, in-memory cache,
+    // load func triggers async load, avoids multiple requests same time, in-memory cache,
     // keeps track of page to be requested
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ExternalRecipe> {
         val page = params.key ?: API_STARTING_PAGE_INDEX
@@ -26,7 +26,7 @@ class ApiRecipesPagingSource(
             LoadResult.Page(
                 data = recipes,
                 prevKey = if (page == API_STARTING_PAGE_INDEX) null else page - 1,
-                nextKey = if(recipes.isEmpty()) null else page + 1
+                nextKey = if (recipes.isEmpty()) null else page + 1
             )
         } catch (exception: IOException) {
             return LoadResult.Error(exception)
@@ -34,5 +34,4 @@ class ApiRecipesPagingSource(
             return LoadResult.Error(exception)
         }
     }
-
 }

@@ -179,6 +179,7 @@
             android:id="@+id/submit_recipe_btn"
             style="@style/SolidButton"
             android:text="@string/addNew.submitButton"
+            android:onClick="@{() -> viewModel.saveNewRecipe()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

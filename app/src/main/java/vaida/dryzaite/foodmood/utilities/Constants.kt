@@ -6,5 +6,3 @@ const val BUNDLE_KEY = "bundleKey"
 const val API_STARTING_PAGE_INDEX = 1
 const val BASE_URL = "http://www.recipepuppy.com"
 const val NETWORK_PAGE_SIZE = 10
-const val SPLASH_TIME_OUT: Long =  500
-

@@ -12,7 +12,8 @@ import vaida.dryzaite.foodmood.network.ExternalRecipe
 
 @ExperimentalCoroutinesApi
 class DiscoverRecipesViewModel @ViewModelInject constructor (
-    private val repository: RecipeRepository) : ViewModel() {
+    private val repository: RecipeRepository
+) : ViewModel() {
 
     private var currentTitleSearchResult: Flow<PagingData<ExternalRecipe>>? = null
 
@@ -35,8 +36,8 @@ class DiscoverRecipesViewModel @ViewModelInject constructor (
     }
 
     // method checks if query old or new, if old - uses cache, if new - makes network call
-    //p.s. using old query does not refresh data somehow, can use cache
-    fun searchExternalRecipesByTitle(searchQuery: String) : Flow<PagingData<ExternalRecipe>> {
+    // p.s. using old query does not refresh data somehow, can use cache
+    fun searchExternalRecipesByTitle(searchQuery: String): Flow<PagingData<ExternalRecipe>> {
         Timber.i("launching searchExternalRecipesByTitle() searchQuery: $searchQuery")
 
 //        val previousResult = currentTitleSearchResult
@@ -57,6 +58,5 @@ class DiscoverRecipesViewModel @ViewModelInject constructor (
         currentTitleSearchResult = newResult
         Timber.i("current result: $currentTitleSearchResult new search result: $newResult")
         return newResult
-
     }
 }

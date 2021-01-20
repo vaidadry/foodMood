@@ -10,26 +10,26 @@ import java.util.UUID
 
 // creating entity with db table info, setting primary key to ID, which is Unique
 @Parcelize
-@Entity(tableName = "recipe_table" )
+@Entity(tableName = "recipe_table")
 data class RecipeEntry(
     @PrimaryKey @NonNull
     var id: String = UUID.randomUUID().toString(),
     @ColumnInfo(name = "date")
     val date: String,
-    @ColumnInfo (name = "title")
+    @ColumnInfo(name = "title")
     val title: String,
-    @ColumnInfo (name = "type_veggie")
+    @ColumnInfo(name = "type_veggie")
     val veggie: Boolean,
-    @ColumnInfo (name = "type_fish")
+    @ColumnInfo(name = "type_fish")
     val fish: Boolean,
-    @ColumnInfo (name = "type_meal")
+    @ColumnInfo(name = "type_meal")
     val meal: Int,
-    @ColumnInfo (name = "recipe_url")
+    @ColumnInfo(name = "recipe_url")
     val href: String,
-    @ColumnInfo (name = "is_favorite")
+    @ColumnInfo(name = "is_favorite")
     var isFavorite: Boolean = false,
-    @ColumnInfo (name = "ingredients")
+    @ColumnInfo(name = "ingredients")
     var ingredients: String = "",
-    @ColumnInfo (name = "thumbnail")
+    @ColumnInfo(name = "thumbnail")
     var thumbnail: String? = null
 ) : Parcelable

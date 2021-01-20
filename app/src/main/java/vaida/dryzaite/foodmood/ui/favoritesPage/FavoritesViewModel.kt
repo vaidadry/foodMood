@@ -15,14 +15,14 @@ class FavoritesViewModel @ViewModelInject constructor(
 
     // navigation state
     private val _navigateToRecipeDetail = MutableLiveData<RecipeEntry?>()
-    val navigateToRecipeDetail= _navigateToRecipeDetail
+    val navigateToRecipeDetail = _navigateToRecipeDetail
 
     private val _favoriteStatusChange = MutableLiveData<Boolean?>()
     val favoriteStatusChange: LiveData<Boolean?> = _favoriteStatusChange
 
     fun getFavorites() = repository.getFavorites()
 
-    //updates database with changed favorites
+    // updates database with changed favorites
     private fun updateRecipe(recipeEntry: RecipeEntry) = viewModelScope.launch(Dispatchers.IO) {
         repository.updateRecipe(recipeEntry)
     }

@@ -9,14 +9,14 @@ import androidx.lifecycle.Transformations
 import vaida.dryzaite.foodmood.model.RecipeEntry
 import vaida.dryzaite.foodmood.repository.RecipeRepository
 
-class HomeViewModel @ViewModelInject constructor(private val repository: RecipeRepository): ViewModel() {
+class HomeViewModel @ViewModelInject constructor(private val repository: RecipeRepository) : ViewModel() {
 
     private val _meal = MutableLiveData<Int >()
 
     var veggie = ObservableField(false)
     var fish = ObservableField(false)
 
-    //property to hold filtered items and by checkbox selections filtered Items
+    // property to hold filtered items and by checkbox selections filtered Items
     val filteredRecipes: LiveData<List<RecipeEntry>>
     private var filteredRecipes2: List<RecipeEntry>? = ArrayList()
 
@@ -35,13 +35,13 @@ class HomeViewModel @ViewModelInject constructor(private val repository: RecipeR
         }
     }
 
-    //handing meal radio selection
+    // handing meal radio selection
     fun onSetMealType(mealSelection: Int = 0) {
         _meal.value = mealSelection
     }
 
     private fun getRandomRecipe(): RecipeEntry? {
-       filterByCheckboxSelections()
+        filterByCheckboxSelections()
 
         if (!filteredRecipes2.isNullOrEmpty()) {
             _randomRecipe.value = filteredRecipes2!!.random()
@@ -54,8 +54,10 @@ class HomeViewModel @ViewModelInject constructor(private val repository: RecipeR
     // checkbox filtering: if nothing selected, means that items under selections will be excluded !!
     // (not included as ALL)
     private fun filterByCheckboxSelections() {
-        if (!filteredRecipes.value.isNullOrEmpty()) {
-            filteredRecipes2 = filteredRecipes.value?.filter { it.fish == fish.get() && it.veggie == veggie.get() }
+        filteredRecipes2 = if (!filteredRecipes.value.isNullOrEmpty()) {
+            filteredRecipes.value?.filter { it.fish == fish.get() && it.veggie == veggie.get() }
+        } else {
+            null
         }
     }
 

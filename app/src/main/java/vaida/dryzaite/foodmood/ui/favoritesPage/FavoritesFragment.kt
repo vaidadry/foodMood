@@ -18,7 +18,7 @@ import vaida.dryzaite.foodmood.utilities.BUNDLE_KEY
 import vaida.dryzaite.foodmood.utilities.REQUEST_KEY
 
 @AndroidEntryPoint
-class FavoritesFragment: BaseFragment<FavoritesViewModel, FragmentFavoritesBinding>(), FavoritesAdapter.FavoritesAdapterListener {
+class FavoritesFragment : BaseFragment<FavoritesViewModel, FragmentFavoritesBinding>(), FavoritesAdapter.FavoritesAdapterListener {
     override val navigationSettings: NavigationSettings? by lazy {
         NavigationSettings(requireContext().getString(R.string.favorites_favorites))
     }
@@ -61,7 +61,7 @@ class FavoritesFragment: BaseFragment<FavoritesViewModel, FragmentFavoritesBindi
             checkForEmptyState()
         })
 
-        viewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, { keyId->
+        viewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, { keyId ->
             keyId?.let {
                 this.findNavController().navigate(
                     FavoritesFragmentDirections.actionFavoritesFragmentToRecipeFragment(keyId))

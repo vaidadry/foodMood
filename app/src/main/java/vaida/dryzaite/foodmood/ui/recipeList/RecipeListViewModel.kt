@@ -15,7 +15,7 @@ class RecipeListViewModel @ViewModelInject constructor(private val repository: R
 
     // navigation state
     private val _navigateToRecipeDetail = MutableLiveData<RecipeEntry?>()
-    val navigateToRecipeDetail : LiveData<RecipeEntry?> = _navigateToRecipeDetail
+    val navigateToRecipeDetail: LiveData<RecipeEntry?> = _navigateToRecipeDetail
 
     private val _mealSelection = MutableLiveData<Int?>()
     val mealSelection: LiveData<Int?> = _mealSelection
@@ -34,7 +34,6 @@ class RecipeListViewModel @ViewModelInject constructor(private val repository: R
 
     private fun getAllRecipesLiveData() = repository.getAllRecipes()
     val allRecipes = repository.getAllRecipes()
-
 
     private fun deleteRecipe(recipeEntry: RecipeEntry) = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteRecipe(recipeEntry)
@@ -83,15 +82,16 @@ class RecipeListViewModel @ViewModelInject constructor(private val repository: R
     }
 
     fun initFilter(): LiveData<List<RecipeEntry>> =
-        Transformations.switchMap(_mealSelection) {meal ->
+        Transformations.switchMap(_mealSelection) { meal ->
             if (meal != null) {
                 repository.getFilteredRecipes(meal)
             } else {
-            getAllRecipesLiveData()}
+            getAllRecipesLiveData()
+            }
         }
 
     // filtering
-    fun onMealSelected(titleOrNull: String, resources: Resources){
+    fun onMealSelected(titleOrNull: String, resources: Resources) {
         _mealSelection.value =
             when (titleOrNull) {
                 "null" -> null
@@ -99,7 +99,3 @@ class RecipeListViewModel @ViewModelInject constructor(private val repository: R
             }
     }
 }
-
-
-
-

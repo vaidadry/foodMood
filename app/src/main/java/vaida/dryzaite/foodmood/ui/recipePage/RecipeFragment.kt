@@ -20,14 +20,14 @@ import vaida.dryzaite.foodmood.ui.NavigationSettings
 import vaida.dryzaite.foodmood.utilities.convertNumericMealTypeToString
 
 @AndroidEntryPoint
-class RecipeFragment: BaseFragment<RecipeViewModel, FragmentRecipeDetailBinding>() { //, Toolbar.OnMenuItemClickListener
+class RecipeFragment : BaseFragment<RecipeViewModel, FragmentRecipeDetailBinding>() {
 
     override val navigationSettings: NavigationSettings? by lazy {
         NavigationSettings(args.recipeEntry.title)
     }
     override val layoutId: Int = R.layout.fragment_recipe_detail
     private val args by navArgs<RecipeFragmentArgs>()
-    private  val checkbox: CheckBox by lazy {
+    private val checkbox: CheckBox by lazy {
         getCheckboxValue()
     }
 
@@ -49,7 +49,7 @@ class RecipeFragment: BaseFragment<RecipeViewModel, FragmentRecipeDetailBinding>
         toolbar.apply {
             inflateMenu(R.menu.top_nav_menu_item)
             setOnMenuItemClickListener {
-                when(it.itemId) {
+                when (it.itemId) {
                     R.id.menu_share_item -> {
                         shareRecipe()
                     }
@@ -92,7 +92,7 @@ class RecipeFragment: BaseFragment<RecipeViewModel, FragmentRecipeDetailBinding>
             }
         })
 
-        //observer to navigate to Add recipe fragment, passing info via Safe Args
+        // observer to navigate to Add recipe fragment, passing info via Safe Args
         viewModel.navigateToAddRecipe.observe(viewLifecycleOwner, {
             if (it != null) {
                 this.findNavController().navigate(

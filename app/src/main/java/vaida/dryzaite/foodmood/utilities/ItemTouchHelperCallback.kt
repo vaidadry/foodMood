@@ -3,8 +3,8 @@ package vaida.dryzaite.foodmood.utilities
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-//class to enable drag to rearrange and swipe to delete
-//created interface implements callback class
+// class to enable drag to rearrange and swipe to delete
+// created interface implements callback class
 
 class ItemTouchHelperCallback(private val listener: ItemTouchHelperListener) : ItemTouchHelper.Callback() {
 
@@ -24,7 +24,7 @@ class ItemTouchHelperCallback(private val listener: ItemTouchHelperListener) : I
         listener.onItemDismiss(viewHolder, viewHolder.adapterPosition)
     }
 
-    //next 2 methods - for highlighting item on recyclerview (implementing interface)
+    // next 2 methods - for highlighting item on recyclerview (implementing interface)
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
             if (viewHolder is ItemSelectedListener) {
