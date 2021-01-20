@@ -9,7 +9,7 @@ val recipe1 = RecipeEntry(
     veggie = true,
     fish = false,
     meal = 1,
-    recipe = "https://www.example1.com",
+    href = "https://www.example1.com",
     isFavorite = false,
     ingredients = "")
 
@@ -20,7 +20,7 @@ val recipe2 = RecipeEntry(
     veggie = false,
     fish = true,
     meal = 2,
-    recipe = "https://www.example2.com",
+    href = "https://www.example2.com",
     isFavorite = true,
     ingredients = "")
 
@@ -31,7 +31,7 @@ val recipe3 = RecipeEntry(
     veggie = false,
     fish = true,
     meal = 2,
-    recipe = "https://www.example3.com",
+    href = "https://www.example3.com",
     isFavorite = true,
     ingredients = "")
 
@@ -42,7 +42,7 @@ val recipe4 = RecipeEntry(
     veggie = false,
     fish = true,
     meal = 2,
-    recipe = "https://www.example4.com",
+    href = "https://www.example4.com",
     isFavorite = true,
     ingredients = "")
 
@@ -53,6 +53,6 @@ val recipe5 = RecipeEntry(
     veggie = true,
     fish = true,
     meal = 2,
-    recipe = "https://www.example5.com",
+    href = "https://www.example5.com",
     isFavorite = true,
     ingredients = "")

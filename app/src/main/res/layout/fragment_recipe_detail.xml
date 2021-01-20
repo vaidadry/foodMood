@@ -80,7 +80,7 @@
             app:layout_constraintEnd_toStartOf="@id/vertical_guideline_right"
             app:layout_constraintStart_toStartOf="@id/vertical_guideline_left"
             app:layout_constraintTop_toBottomOf="@+id/ingredients">
-            <Button
+            <android.widget.Button
                 android:id="@+id/detail_url"
                 style="@style/ColorfulButton"
                 android:onClick="@{() -> viewModel.onClickUrl()}"
@@ -88,7 +88,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/quarter_padding"/>
 
-            <Button
+            <android.widget.Button
                 android:id="@+id/button_add_to_database"
                 style="@style/ColorfulButton"
                 android:layout_gravity="center"

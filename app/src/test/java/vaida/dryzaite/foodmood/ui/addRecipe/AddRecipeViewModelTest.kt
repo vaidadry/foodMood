@@ -61,14 +61,14 @@ class AddRecipeViewModelTest {
         viewModel.veggie.set(false)
         viewModel.fish.set(false)
         viewModel.meal.set(1)
-        viewModel.recipe.set("https://www.example1.com")
+        viewModel.href.set("https://www.example1.com")
 
         val entry: RecipeEntry = mockGenerator.generateRecipe(
             viewModel.title.get() ?: "",
             viewModel.veggie.get() ?: false,
             viewModel.fish.get() ?: false,
             viewModel.meal.get() ?: 0,
-            viewModel.recipe.get() ?: "",
+            viewModel.href.get() ?: "",
             viewModel.ingredients.get() ?: ""
         )
 
@@ -84,7 +84,7 @@ class AddRecipeViewModelTest {
     fun canSaveRecipe_AllFilledCorrectly_Success() {
 
         viewModel.title.set("title1")
-        viewModel.recipe.set("https://example.com")
+        viewModel.href.set("https://example.com")
         viewModel.fish.set(false)
         viewModel.veggie.set(false)
         viewModel.meal.set(1)
@@ -97,7 +97,7 @@ class AddRecipeViewModelTest {
     @Test
     fun canSaveRecipe_BlankTitle_Fail() {
         viewModel.title.set("")
-        viewModel.recipe.set("https://example.com")
+        viewModel.href.set("https://example.com")
         viewModel.fish.set(false)
         viewModel.veggie.set(false)
         viewModel.meal.set(1)
@@ -109,7 +109,7 @@ class AddRecipeViewModelTest {
     @Test
     fun canSaveRecipe_BlankUrl_Fail() {
         viewModel.title.set("title1")
-        viewModel.recipe.set("")
+        viewModel.href.set("")
         viewModel.fish.set(false)
         viewModel.veggie.set(false)
         viewModel.meal.set(1)
@@ -121,7 +121,7 @@ class AddRecipeViewModelTest {
     @Test
     fun canSaveRecipe_BlankMeal_Fail() {
         viewModel.title.set("test")
-        viewModel.recipe.set("https://example.com")
+        viewModel.href.set("https://example.com")
         viewModel.fish.set(false)
         viewModel.veggie.set(false)
         viewModel.meal.set(0)
@@ -132,14 +132,14 @@ class AddRecipeViewModelTest {
 
     @Test
     fun validateUrl_CorrectUrl_Success() {
-        val url = viewModel.recipe.set("https://example.com").toString()
+        val url = viewModel.href.set("https://example.com").toString()
         val isValidUrl = url.isValidUrl()
         assertThat(isValidUrl).isTrue()
     }
 
     @Test
     fun validateUrl_IncorrectUrl_Fail() {
-        val url = viewModel.recipe.set("example.com").toString()
+        val url = viewModel.href.set("example.com").toString()
         val isValidUrl = url.isValidUrl()
         assertThat(isValidUrl).isFalse()
     }

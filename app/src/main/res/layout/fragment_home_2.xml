@@ -131,7 +131,7 @@
             android:checked="@={viewModel.veggie}" />
 
 
-        <Button
+        <android.widget.Button
             android:id="@+id/random_button"
             style="@style/ColorfulButton"
             android:text="@string/home.generateButton"
