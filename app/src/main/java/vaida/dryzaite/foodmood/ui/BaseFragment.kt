@@ -19,7 +19,7 @@ abstract class BaseFragment<VM : ViewModel, T : ViewDataBinding> : Fragment() {
     abstract val layoutId: Int
 
     lateinit var binding: T
-    lateinit var viewModel : VM
+    lateinit var viewModel: VM
     private lateinit var mainView: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -30,7 +30,6 @@ abstract class BaseFragment<VM : ViewModel, T : ViewDataBinding> : Fragment() {
             mainView = binding.root
 
             requireActivity().window.setStatusBar(requireContext())
-
         } else {
             val baseFragment = inflater.inflate(R.layout.toolbar, container, false) as ViewGroup
             binding = DataBindingUtil.inflate(inflater, layoutId, baseFragment, false)
@@ -52,6 +51,6 @@ abstract class BaseFragment<VM : ViewModel, T : ViewDataBinding> : Fragment() {
         return mainView
     }
 
-    abstract fun getViewModelClass() : Class<VM>
+    abstract fun getViewModelClass(): Class<VM>
     abstract fun setupUI()
 }

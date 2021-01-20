@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class MainViewModel @ViewModelInject constructor(): ViewModel() {
+class MainViewModel @ViewModelInject constructor() : ViewModel() {
 
     private val _bottomNavigationVisibility = MutableLiveData<Int>()
 

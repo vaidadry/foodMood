@@ -11,7 +11,7 @@ import vaida.dryzaite.foodmood.ui.NavigationSettings
 import vaida.dryzaite.foodmood.utilities.isValidUrl
 
 @AndroidEntryPoint
-class AddRecipeFragment : BaseFragment<AddRecipeViewModel, FragmentAddRecipeBinding>(){
+class AddRecipeFragment : BaseFragment<AddRecipeViewModel, FragmentAddRecipeBinding>() {
     override val navigationSettings: NavigationSettings? = null
     override val layoutId: Int = R.layout.fragment_add_recipe
     private val args by navArgs<AddRecipeFragmentArgs>()

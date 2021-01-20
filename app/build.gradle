@@ -6,6 +6,7 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'dagger.hilt.android.plugin'
+apply from: "../ktlint.gradle"
 
 android {
     compileSdkVersion 30
@@ -38,7 +39,6 @@ android {
         freeCompilerArgs += ["-Xopt-in=kotlin.RequiresOptIn"]
     }
 
-    //for retrofit to work without crashing (firebase)
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -49,12 +49,6 @@ android {
         includeAndroidResources = true
         returnDefaultValues = true
     }
-    //helps to avoid non-recognizable classes error (?)
-    packagingOptions {
-        exclude 'META-INF/AL2.0'
-        exclude 'META-INF/LGPL2.1'
-    }
-
 }
 
 dependencies {
@@ -91,7 +85,7 @@ dependencies {
     kapt "androidx.room:room-compiler:${rootProject.room_version}"
     implementation "androidx.room:room-ktx:$rootProject.room_version"
 
-    //Crashlytics FIREBASE- commented out due constant errors
+    //Crashlytics FIREBASE
     implementation 'com.google.firebase:firebase-crashlytics:17.3.0'
     implementation 'com.google.firebase:firebase-analytics-ktx:18.0.0'
 
@@ -113,13 +107,8 @@ dependencies {
     implementation "com.squareup.moshi:moshi:$rootProject.moshi_version"
     implementation "com.squareup.moshi:moshi-kotlin:$rootProject.moshi_version"
 
-//    //glide - for images
+    //glide - for images
     implementation "com.github.bumptech.glide:glide:$rootProject.glide_version"
-
-//    dagger
-    implementation "com.google.dagger:dagger:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-
 
     //Dagger - Hilt
     implementation "com.google.dagger:hilt-android:2.28-alpha"

@@ -19,10 +19,9 @@ class ExternalRecipesRemoteMediator(
     private val query: String,
     private val service: RecipeApiService,
     private val recipeDatabase: RecipeDatabase
-): RemoteMediator<Int, ExternalRecipe>() {
+) : RemoteMediator<Int, ExternalRecipe>() {
 
-    override suspend fun load(loadType: LoadType, state: PagingState<Int, ExternalRecipe>
-    ): MediatorResult {
+    override suspend fun load(loadType: LoadType, state: PagingState<Int, ExternalRecipe>): MediatorResult {
         val page = when (loadType) {
             LoadType.REFRESH -> {
                 val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)

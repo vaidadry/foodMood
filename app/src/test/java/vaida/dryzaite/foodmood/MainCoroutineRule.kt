@@ -1,4 +1,4 @@
-package vaida.dryzaite.foodmood
+ package vaida.dryzaite.foodmood
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -9,11 +9,11 @@ import kotlinx.coroutines.test.setMain
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
-//JUNIT rule - coroutine class is generic class for Before/After functions
+// JUNIT rule - coroutine class is generic class for Before/After functions
 // to be re-used for each test
 
 @ExperimentalCoroutinesApi
-class MainCoroutineRule(val dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()):
+class MainCoroutineRule(val dispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()) :
     TestWatcher(),
     TestCoroutineScope by TestCoroutineScope(dispatcher) {
     override fun starting(description: Description?) {

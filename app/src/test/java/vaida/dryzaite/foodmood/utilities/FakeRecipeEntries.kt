@@ -2,7 +2,6 @@ package vaida.dryzaite.foodmood.utilities
 
 import vaida.dryzaite.foodmood.model.RecipeEntry
 
-
 val recipe1 = RecipeEntry(
     id = "0de39ad2-4ad0-4fb4-982c-7030d474c576",
     date = "2020-06-08  15:53",

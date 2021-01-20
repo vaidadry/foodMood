@@ -13,7 +13,8 @@ import vaida.dryzaite.foodmood.utilities.isValidUrl
 
 class AddRecipeViewModel @ViewModelInject constructor(
     private val generator: RecipeGenerator,
-    private val repository: RecipeRepository) : ViewModel() {
+    private val repository: RecipeRepository
+) : ViewModel() {
 
     private val newRecipe = MutableLiveData<RecipeEntry?>()
     lateinit var entry: RecipeEntry
@@ -90,4 +91,3 @@ class AddRecipeViewModel @ViewModelInject constructor(
         _onSaveLiveData.value = null
     }
 }
-

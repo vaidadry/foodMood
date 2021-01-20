@@ -7,9 +7,8 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
-//universal boilerplate code to observe Live data forever,
+// universal boilerplate code to observe Live data forever,
 // as in unit tests there are no fragments or activities
-
 
 @VisibleForTesting(otherwise = VisibleForTesting.NONE)
 fun <T> LiveData<T>.getOrAwaitValue(
@@ -35,7 +34,6 @@ fun <T> LiveData<T>.getOrAwaitValue(
         if (!latch.await(time, timeUnit)) {
             throw TimeoutException("LiveData value was never set.")
         }
-
     } finally {
         this.removeObserver(observer)
     }

@@ -25,7 +25,6 @@ object DatabaseModule {
             .fallbackToDestructiveMigration()
             .build()
 
-
     @ActivityScoped
     @Provides
     fun provideRecipeDao(database: RecipeDatabase): RecipeDao {

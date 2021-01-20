@@ -10,9 +10,7 @@ import vaida.dryzaite.foodmood.network.ExternalRecipe
 import javax.inject.Inject
 
 // PagingDataAdapter used to implement Paging Lib in RecyclerView
-class DiscoverRecipesAdapter @Inject constructor()
-    : PagingDataAdapter <ExternalRecipe, DiscoverRecipesAdapter.DiscoverRecipesViewHolder>(
-    diffUtil) {
+class DiscoverRecipesAdapter @Inject constructor() : PagingDataAdapter <ExternalRecipe, DiscoverRecipesAdapter.DiscoverRecipesViewHolder>(diffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiscoverRecipesViewHolder {
         return DiscoverRecipesViewHolder(GridListItemBinding.inflate(
@@ -34,15 +32,15 @@ class DiscoverRecipesAdapter @Inject constructor()
     }
 
     companion object {
-         private val diffUtil = object : DiffUtil.ItemCallback<ExternalRecipe>() {
-             override fun areItemsTheSame(oldItem: ExternalRecipe, newItem: ExternalRecipe): Boolean =
-                 oldItem == newItem
-             override fun areContentsTheSame(oldItem: ExternalRecipe, newItem: ExternalRecipe): Boolean =
-                 oldItem.href == newItem.href
-         }
-     }
+        private val diffUtil = object : DiffUtil.ItemCallback<ExternalRecipe>() {
+            override fun areItemsTheSame(oldItem: ExternalRecipe, newItem: ExternalRecipe): Boolean =
+                oldItem == newItem
+            override fun areContentsTheSame(oldItem: ExternalRecipe, newItem: ExternalRecipe): Boolean =
+                oldItem.href == newItem.href
+        }
+    }
 
-    class DiscoverRecipesViewHolder(private var binding: GridListItemBinding): RecyclerView.ViewHolder(binding.root) {
+    class DiscoverRecipesViewHolder(private var binding: GridListItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(externalRecipe: ExternalRecipe?) {
                 binding.externalRecipe = externalRecipe

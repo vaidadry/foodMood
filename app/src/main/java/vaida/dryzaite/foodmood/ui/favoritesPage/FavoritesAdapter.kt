@@ -17,8 +17,8 @@ import javax.inject.Inject
 
 class FavoritesAdapter(
     private val clickListener: FavoritesOnClickListener,
-    private val listener: FavoritesAdapterListener)
-    : RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder>() {
+    private val listener: FavoritesAdapterListener
+) : RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder>() {
 
     var scrollDirection = ScrollDirection.DOWN
 
@@ -89,7 +89,7 @@ class FavoritesAdapter(
             itemView.recipe_card_container.setBackgroundColor(0)
         }
 
-        //adding animation based on scroll direction
+        // adding animation based on scroll direction
         private fun animateView(viewToAnimate: View) {
             if (viewToAnimate.animation == null) {
                 val animId =
@@ -114,6 +114,3 @@ class FavoritesAdapter(
     open class FavoritesOnClickListener @Inject constructor (val clickListener: (recipe: RecipeEntry) -> Unit) {
         fun onClick(recipe: RecipeEntry) = clickListener(recipe)
     }
-
-
-
