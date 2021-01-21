@@ -40,9 +40,6 @@
     <style name="AppTheme.NavBarFont" parent="AppTheme.ActionBar">
         <item name="android:fontFamily">@font/dosis_medium</item>
         <item name="android:textSize">13sp</item>
-        <item name="itemTextColor">@drawable/nav_selector</item>
-        <item name="itemIconTint">@drawable/nav_selector</item>
-        <item name="background">@color/colorPrimaryDark</item>
     </style>
 
     <style name="FavoriteCheckbox" parent="Widget.AppCompat.CompoundButton.CheckBox">

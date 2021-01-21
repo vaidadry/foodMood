@@ -22,7 +22,7 @@
     <dimen name="checkbox_text_size">15sp</dimen>
     <dimen name="list_item_height_with_divider">61dp</dimen>
     <dimen name="list_item_divider_height">1dp</dimen>
-    <dimen name="splash_icon_size">100dp</dimen>
+    <dimen name="splash_icon_size">150dp</dimen>
     <dimen name="app_bar_icon">30dp</dimen>
     <dimen name="card_corner_radius">20sp</dimen>
     <dimen name="card_image_size">100dp</dimen>
