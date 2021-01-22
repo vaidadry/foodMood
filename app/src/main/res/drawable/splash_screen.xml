@@ -2,8 +2,8 @@
 <layer-list
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/full_background" android:gravity="fill"/>
-    <item android:drawable="@drawable/ic_launcher_background_round"
-        android:gravity="center"/>
-    <item android:drawable="@drawable/ic_food_launcher"
+    <item android:drawable="@drawable/logo"
+        android:height="@dimen/splash_icon_size"
+        android:width="@dimen/splash_icon_size"
         android:gravity="center"/>
 </layer-list>

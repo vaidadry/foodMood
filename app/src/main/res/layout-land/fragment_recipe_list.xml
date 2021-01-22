@@ -81,6 +81,7 @@
                 android:layout_margin="@dimen/normal_padding"
                 android:backgroundTint="@color/colorAccent"
                 android:clickable="true"
+                app:borderWidth="0dp"
                 android:layout_gravity="bottom|end"
                 app:layout_anchor="@id/recipe_list_recyclerview"
                 app:layout_anchorGravity="bottom|right|end"

@@ -26,6 +26,9 @@
                 <data android:scheme="https" />
                 <data android:scheme="http" />
             </intent-filter>
+            <meta-data
+                android:name="firebase_crashlytics_collection_enabled"
+                android:value="${crashlyticsCollectionEnabled}"/>
         </activity>
     </application>
 

@@ -5,6 +5,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import retrofit2.HttpException
 import retrofit2.await
 import vaida.dryzaite.foodmood.model.RemoteKeys
@@ -18,7 +19,8 @@ import java.io.InvalidObjectException
 class ExternalRecipesRemoteMediator(
     private val query: String,
     private val service: RecipeApiService,
-    private val recipeDatabase: RecipeDatabase
+    private val recipeDatabase: RecipeDatabase,
+    private val firebaseCrashlytics: FirebaseCrashlytics
 ) : RemoteMediator<Int, ExternalRecipe>() {
 
     override suspend fun load(loadType: LoadType, state: PagingState<Int, ExternalRecipe>): MediatorResult {
@@ -64,8 +66,10 @@ class ExternalRecipesRemoteMediator(
             }
             return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
         } catch (exception: IOException) {
+            firebaseCrashlytics.recordException(exception)
             return MediatorResult.Error(exception)
         } catch (exception: HttpException) {
+            firebaseCrashlytics.recordException(exception)
             return MediatorResult.Error(exception)
         }
     }

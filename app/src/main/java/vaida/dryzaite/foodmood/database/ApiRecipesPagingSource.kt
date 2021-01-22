@@ -1,6 +1,7 @@
 package vaida.dryzaite.foodmood.database
 
 import androidx.paging.PagingSource
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import retrofit2.HttpException
 import retrofit2.await
 import timber.log.Timber
@@ -12,7 +13,8 @@ import vaida.dryzaite.foodmood.utilities.API_STARTING_PAGE_INDEX
 // PagingSource implementation defines the source of data and how to retrieve data from that source
 class ApiRecipesPagingSource(
     private val service: RecipeApiService,
-    private val query: String? = ""
+    private val query: String? = "",
+    private val firebaseCrashlytics: FirebaseCrashlytics
 ) : PagingSource<Int, ExternalRecipe>() {
 
     // load func triggers async load, avoids multiple requests same time, in-memory cache,
@@ -29,8 +31,10 @@ class ApiRecipesPagingSource(
                 nextKey = if (recipes.isEmpty()) null else page + 1
             )
         } catch (exception: IOException) {
+            firebaseCrashlytics.recordException(exception)
             return LoadResult.Error(exception)
         } catch (exception: HttpException) {
+            firebaseCrashlytics.recordException(exception)
             return LoadResult.Error(exception)
         }
     }
