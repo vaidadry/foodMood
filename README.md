@@ -1,4 +1,4 @@
-![Logo_small](https://user-images.githubusercontent.com/52376789/90369822-0fda9480-e075-11ea-8c88-20f9de9d4046.png)
+<img src="https://user-images.githubusercontent.com/52376789/106130412-f97b4d80-6169-11eb-9ee6-feeb67ffea26.jpg" width=150>
 
 **foodMood** is a random meal generator, based on user preferences. 
 All you need to do - add fav recipes to virtual recipe book and when needed the app provide a suggestion that you will love. 
@@ -21,7 +21,7 @@ Besides, the discover option allows to browse external recipes and save them to 
 * Dependency injection
 
 
-<img src="https://user-images.githubusercontent.com/52376789/90375840-2afdd200-e07e-11ea-9c86-69551449938f.jpg" width=150>    <img src="https://user-images.githubusercontent.com/52376789/90377266-72855d80-e080-11ea-9bf7-f717b523731e.jpg" width=150>   <img src="https://user-images.githubusercontent.com/52376789/90377013-086cb880-e080-11ea-8b8e-30fee7c8cddc.jpg" width=150>   <img src="https://user-images.githubusercontent.com/52376789/90377070-1d494c00-e080-11ea-90d0-c8ef2960093d.jpg" width=150>   <img src="https://user-images.githubusercontent.com/52376789/90377551-cbed8c80-e080-11ea-87ed-ab200d7ca506.jpg" width=150>   <img src="https://user-images.githubusercontent.com/52376789/90376575-5af9a500-e07f-11ea-9de6-a5f4db19b16a.jpg" width=150>
+<img src="https://user-images.githubusercontent.com/52376789/106130122-abfee080-6169-11eb-9eca-e6da46c0277d.png" width=150>   <img src="https://user-images.githubusercontent.com/52376789/106130117-ab664a00-6169-11eb-9951-1072c82ecfe2.png" width=150>   <img src="https://user-images.githubusercontent.com/52376789/106130114-aacdb380-6169-11eb-9dc9-535d607bf57b.png" width=150>   <img src="https://user-images.githubusercontent.com/52376789/106130111-aa351d00-6169-11eb-8c84-ba95320b51e6.png" width=150>   <img src="https://user-images.githubusercontent.com/52376789/106130104-a73a2c80-6169-11eb-8493-196f7940dd7e.png" width=150>   
 
 ### Technologies :rocket:
 Written in Kotlin, based on latest recommendations by Google.
