@@ -38,16 +38,14 @@ class MainActivity : AppCompatActivity() {
         // to ignore reloading on already open fragment
         binding.bottomNav.setOnNavigationItemReselectedListener {}
 
-        viewModel.bottomNavigationVisibility.observe(this, { navVisibility ->
+        viewModel.bottomNavigationVisibility.observe(this) { navVisibility ->
             binding.bottomNav.visibility = navVisibility
-        })
+        }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.home_fragment_2 -> viewModel.showBottomNav()
                 R.id.recipe_list_fragment -> viewModel.showBottomNav()
-                R.id.discover_recipes_fragment -> viewModel.showBottomNav()
-                R.id.discoverRecipesIngredientFragment -> viewModel.showBottomNav()
                 else -> viewModel.hideBottomNav()
             }
         }

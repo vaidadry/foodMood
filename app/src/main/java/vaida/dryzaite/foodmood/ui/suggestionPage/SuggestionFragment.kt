@@ -22,18 +22,17 @@ class SuggestionFragment : BaseFragment<SuggestionViewModel, FragmentSuggestionB
     override fun setupUI() {
         viewModel.setRecipe(args.recipeEntry)
         binding.args = args
-
         setupObservers()
     }
 
     private fun setupObservers() {
         // observe button click
-        viewModel.navigateToUrl.observe(viewLifecycleOwner, {
+        viewModel.navigateToUrl.observe(viewLifecycleOwner) {
             it?.let {
                 redirectToRecipeUrl(it)
                 viewModel.onButtonClicked()
             }
-        })
+        }
     }
 
     private fun redirectToRecipeUrl(url: String) {

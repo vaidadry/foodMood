@@ -17,7 +17,7 @@ class AddRecipeViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     private val newRecipe = MutableLiveData<RecipeEntry?>()
-    lateinit var entry: RecipeEntry
+    private lateinit var entry: RecipeEntry
 
     var title = ObservableField<String?>()
     var veggie = ObservableField<Boolean>()
@@ -62,7 +62,7 @@ class AddRecipeViewModel @ViewModelInject constructor(
     }
 
     // form validation - url and empty fields
-    fun canSaveRecipe(): Boolean {
+    private fun canSaveRecipe(): Boolean {
         val title = this.title.get()
         val recipe = this.href.get()
         title?.let {

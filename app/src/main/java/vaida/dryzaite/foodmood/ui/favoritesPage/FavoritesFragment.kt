@@ -54,30 +54,34 @@ class FavoritesFragment : BaseFragment<FavoritesViewModel, FragmentFavoritesBind
     }
 
     private fun setupObservers() {
-        viewModel.getFavorites().observe(viewLifecycleOwner, { recipes ->
+        viewModel.getFavorites().observe(viewLifecycleOwner) { recipes ->
             recipes?.let {
                 adapter.favRecipes = it
             }
             checkForEmptyState()
-        })
+        }
 
-        viewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, { keyId ->
+        viewModel.navigateToRecipeDetail.observe(viewLifecycleOwner) { keyId ->
             keyId?.let {
                 this.findNavController().navigate(
-                    FavoritesFragmentDirections.actionFavoritesFragmentToRecipeFragment(keyId))
+                    FavoritesFragmentDirections.actionFavoritesFragmentToRecipeFragment(keyId)
+                )
                 viewModel.onRecipeDetailNavigated()
             }
-        })
+        }
 
         // button click state
-        viewModel.favoriteStatusChange.observe(viewLifecycleOwner, {
+        viewModel.favoriteStatusChange.observe(viewLifecycleOwner) {
             if (it == true) {
                 // send info to RecipeList fragment about changed data
-                setFragmentResult(REQUEST_KEY, bundleOf(BUNDLE_KEY to viewModel.favoriteStatusChange.value))
+                setFragmentResult(
+                    REQUEST_KEY,
+                    bundleOf(BUNDLE_KEY to viewModel.favoriteStatusChange.value)
+                )
 
                 viewModel.onFavoriteClickCompleted()
             }
-        })
+        }
     }
 
     // for smooth animation

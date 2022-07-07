@@ -106,7 +106,7 @@ class RecipeListFragment : BaseFragment<RecipeListViewModel, FragmentRecipeListB
     }
 
     private fun setupNavigation() {
-        viewModel.navigateToAddRecipeFragment.observe(viewLifecycleOwner, {
+        viewModel.navigateToAddRecipeFragment.observe(viewLifecycleOwner) {
             if (it == true) {
                 this.findNavController().navigate(
                     RecipeListFragmentDirections.actionRecipeListFragmentToAddRecipeFragment(
@@ -115,7 +115,7 @@ class RecipeListFragment : BaseFragment<RecipeListViewModel, FragmentRecipeListB
                 )
                 viewModel.onFabClicked()
             }
-        })
+        }
     }
 
     private fun setupObservers() {
@@ -128,37 +128,37 @@ class RecipeListFragment : BaseFragment<RecipeListViewModel, FragmentRecipeListB
         setFragmentResultListener(REQUEST_KEY) { _, bundle ->
             val result = bundle.getBoolean(BUNDLE_KEY)
             if (result) {
-                viewModel.allRecipes.observe(viewLifecycleOwner, { recipes ->
+                viewModel.allRecipes.observe(viewLifecycleOwner) { recipes ->
                     recipes?.let {
                         adapter.recipes = it
                     }
-                })
+                }
             }
         }
 
         // filtering applied
-        viewModel.initFilter().observe(viewLifecycleOwner, { recipes ->
+        viewModel.initFilter().observe(viewLifecycleOwner) { recipes ->
             recipes?.let {
                 checkForEmptyState(it)
                 adapter.recipes = it
             }
-        })
+        }
 
-        viewModel.navigateToRecipeDetail.observe(viewLifecycleOwner, { keyId ->
+        viewModel.navigateToRecipeDetail.observe(viewLifecycleOwner) { keyId ->
             keyId?.let {
                 this.findNavController().navigate(
                     RecipeListFragmentDirections.actionRecipeListFragmentToRecipeFragment(keyId)
                 )
                 viewModel.onRecipeDetailNavigated()
             }
-        })
+        }
 
         // fav button state
-        viewModel.favoriteStatusChange.observe(viewLifecycleOwner, {
+        viewModel.favoriteStatusChange.observe(viewLifecycleOwner) {
             if (it == true) {
                 viewModel.onFavoriteClickCompleted()
             }
-        })
+        }
     }
 
     // drag&drop move

@@ -40,7 +40,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHome2Binding>() {
     }
 
     private fun navigateToSuggestionPage() {
-        viewModel.navigateToSuggestionPage.observe(viewLifecycleOwner, {
+        viewModel.navigateToSuggestionPage.observe(viewLifecycleOwner) {
             when (it) {
                 true -> {
                     this.findNavController().navigate(
@@ -49,10 +49,14 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHome2Binding>() {
                     viewModel.doneNavigating()
                 }
                 false -> {
-                    Snackbar.make(binding.homeFragment2, getString(R.string.home_error_noRecipes), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(
+                        binding.homeFragment2,
+                        getString(R.string.home_error_noRecipes),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                     viewModel.doneNavigating()
                 }
             }
-        })
+        }
     }
 }

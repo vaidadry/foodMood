@@ -55,11 +55,11 @@ class RecipeFragment : BaseFragment<RecipeViewModel, FragmentRecipeDetailBinding
                     }
                     R.id.favorite_item_selector -> {
                         val checkbox = it.actionView as CheckBox
-                        viewModel.recipe.observe(viewLifecycleOwner, { recipe ->
+                        viewModel.recipe.observe(viewLifecycleOwner) { recipe ->
                             if (recipe != null) {
                                 setupFavoriteToggle(checkbox, recipe)
                             }
-                        })
+                        }
                     }
                 }
                 true
@@ -73,34 +73,34 @@ class RecipeFragment : BaseFragment<RecipeViewModel, FragmentRecipeDetailBinding
 
     private fun setupObservers() {
         // fav button clicks
-        viewModel.recipe.observe(viewLifecycleOwner, {
+        viewModel.recipe.observe(viewLifecycleOwner) {
             if (it != null) {
                 setupFavoriteToggle(checkbox, it)
             }
-        })
+        }
 
-        viewModel.notInDatabase.observe(viewLifecycleOwner, {
+        viewModel.notInDatabase.observe(viewLifecycleOwner) {
             checkbox.isGone = it ?: false
             binding.buttonAddToDatabase.isVisible = it ?: false
             binding.detailMeal.isGone = it ?: false
-        })
+        }
 
-        viewModel.navigateToUrl.observe(viewLifecycleOwner, {
+        viewModel.navigateToUrl.observe(viewLifecycleOwner) {
             it?.let {
                 redirectToRecipeUrl(it)
                 viewModel.onButtonClicked()
             }
-        })
+        }
 
         // observer to navigate to Add recipe fragment, passing info via Safe Args
-        viewModel.navigateToAddRecipe.observe(viewLifecycleOwner, {
+        viewModel.navigateToAddRecipe.observe(viewLifecycleOwner) {
             if (it != null) {
                 this.findNavController().navigate(
                     RecipeFragmentDirections.actionRecipeFragmentToAddRecipeFragment(it)
                 )
                 viewModel.onClickAddFragmentComplete()
             }
-        })
+        }
     }
 
     private fun getShareIntent(): Intent {

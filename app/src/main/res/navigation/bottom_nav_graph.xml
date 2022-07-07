@@ -84,22 +84,6 @@
             app:destination="@id/add_recipe_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/discover_recipes_fragment"
-        android:name="vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesFragment"
-        android:label="DiscoverRecipesFragment"
-        tools:layout="@layout/fragment_discover_recipes">
-        <argument
-            android:name="selectedRecipe"
-            app:argType="vaida.dryzaite.foodmood.model.RecipeEntry"
-            app:nullable="true"/>
-        <action
-            android:id="@+id/action_discover_recipes_fragment_to_recipeFragment"
-            app:destination="@id/recipe_fragment" />
-        <action
-            android:id="@+id/action_discover_recipes_fragment_to_discoverRecipesIngredientFragment"
-            app:destination="@id/discoverRecipesIngredientFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/favoritesFragment"
         android:name="vaida.dryzaite.foodmood.ui.favoritesPage.FavoritesFragment"
         android:label="FavoritesFragment"
@@ -110,21 +94,5 @@
         <action
             android:id="@+id/action_favoritesFragment_to_recipe_list_fragment"
             app:destination="@id/recipe_list_fragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/discoverRecipesIngredientFragment"
-        android:name="vaida.dryzaite.foodmood.ui.discoverRecipes.DiscoverRecipesIngredientFragment"
-        android:label="DiscoverRecipesIngredientFragment"
-        tools:layout="@layout/fragment_discover_recipes_ingredient">
-        <argument
-            android:name="selectedRecipe"
-            app:argType="vaida.dryzaite.foodmood.model.RecipeEntry"
-            app:nullable="true"/>
-        <action
-            android:id="@+id/action_discoverRecipesIngredientFragment_to_discover_recipes_fragment"
-            app:destination="@id/discover_recipes_fragment" />
-        <action
-            android:id="@+id/action_discoverRecipesIngredientFragment_to_recipe_fragment"
-            app:destination="@id/recipe_fragment" />
     </fragment>
 </navigation>

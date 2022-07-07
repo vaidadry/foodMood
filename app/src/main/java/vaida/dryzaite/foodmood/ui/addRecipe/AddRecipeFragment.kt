@@ -30,26 +30,38 @@ class AddRecipeFragment : BaseFragment<AddRecipeViewModel, FragmentAddRecipeBind
 
     private fun setupObservers() {
         // informs if changes saved
-        viewModel.onSaveLiveData.observe(viewLifecycleOwner, { saved ->
+        viewModel.onSaveLiveData.observe(viewLifecycleOwner) { saved ->
             saved?.let {
                 if (saved) {
-                    Snackbar.make(binding.addRecipeFragment, getString(R.string.addRecipe_saveSuccess), Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(
+                        binding.addRecipeFragment,
+                        getString(R.string.addRecipe_saveSuccess),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
                     findNavController().navigate(R.id.action_addRecipeFragment_to_recipeListFragment)
                 } else {
                     if (!viewModel.href.get()?.isValidUrl()!!) {
-                        Snackbar.make(binding.addRecipeFragment, getString(R.string.addRecipe_error_incorrectUrl), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            binding.addRecipeFragment,
+                            getString(R.string.addRecipe_error_incorrectUrl),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                     } else {
-                        Snackbar.make(binding.addRecipeFragment, getString(R.string.addRecipe_error_fieldsNotFilled), Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            binding.addRecipeFragment,
+                            getString(R.string.addRecipe_error_fieldsNotFilled),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                     }
                 }
                 viewModel.onSaveLiveDataCompleted()
             }
-        })
+        }
 
-        viewModel.onMealSelected.observe(viewLifecycleOwner, {
+        viewModel.onMealSelected.observe(viewLifecycleOwner) {
             if (it == true) {
                 viewModel.mealTypeSelectionCompleted()
             }
-        })
+        }
     }
 }

@@ -18,7 +18,6 @@ class RecipeListViewModel @ViewModelInject constructor(private val repository: R
     val navigateToRecipeDetail: LiveData<RecipeEntry?> = _navigateToRecipeDetail
 
     private val _mealSelection = MutableLiveData<Int?>()
-    val mealSelection: LiveData<Int?> = _mealSelection
 
     // action of FAB click
     private val _navigateToAddRecipeFragment = MutableLiveData<Boolean?>()
